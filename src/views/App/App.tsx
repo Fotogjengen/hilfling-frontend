@@ -30,14 +30,14 @@ const App: FC<{}> = ({ auth }: any) => {
   //   // -----API Example done-----
 
   const login = async () => {
-    auth.login("/");
+    auth.login('/');
   };
   const logout = async () => {
-    auth.logout("/");
+    auth.logout('/');
   };
 
   return (
-    <div className={styles.contentContainer}>
+    <div data-testid="mainContainer" className={styles.contentContainer}>
       <div className={styles.leftSide}>
         <div className="slideshow">
           <Carousel></Carousel>

@@ -4,6 +4,7 @@ import App from "./views/App/App";
 import About from "./views/About/About";
 import MyProfile from "./views/MyProfile/MyProfile";
 import { Security, ImplicitCallback, SecureRoute } from "@okta/okta-react";
+import { ErrorBoundary } from "./utils/error/ErrorBoundary";
 
 const config = {
   issuer: "https://dev-812828.okta.com/oauth2/default",
@@ -15,6 +16,22 @@ const config = {
 const Routes = () => {
   return (
     <Router>
+      {/* <Security {...config}> */}
+      <Route exact path="/" component={App} />
+      <Route exact path="/about" component={About} />
+      <Route exact path="/myprofile" component={MyProfile} />
+      <Route
+        exact
+        path="/myprofile/settings"
+        render={() => (
+          <ErrorBoundary>
+            <MyProfileSetting></MyProfileSetting>
+          </ErrorBoundary>
+        )}
+      />
+
+      {/* <Route path="/implicit/callback" component={ImplicitCallback} /> */}
+      {/* </Security> */}
       <Security {...config}>
         <Route exact path="/" component={App} />
         <Route exact path="/about" component={About} />

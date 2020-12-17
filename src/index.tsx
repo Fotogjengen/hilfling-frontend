@@ -8,10 +8,11 @@ import Routes from "./Routes";
 import Header from "./components/Header/Header";
 import { Footer } from "hilfling-gui/lib";
 import guistyles from "hilfling-gui/lib/styles/utilities.module.css";
+import { ErrorBoundary } from "./utils/error/ErrorBoundary";
 
 const store = configureStore();
 
-const Root = () => (
+export const Root = () => (
   <Provider store={store}>
     <div>
       <div className={guistyles.container}>

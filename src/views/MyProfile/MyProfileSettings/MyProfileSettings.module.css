@@ -1,0 +1,43 @@
+.profileImage {
+  height: 400px;
+  width: 400px;
+}
+.titleContainer {
+  width: 100%;
+}
+.settingsContainer {
+  display: flex;
+}
+.nameAndTagContainer {
+  margin-left: 4rem;
+}
+
+.profileImageContainer {
+  margin: 0 auto;
+  display: flex;
+  height: 400px;
+  width: 400px;
+  margin-top: 2rem;
+}
+.profileName {
+  font-size: 4.5rem;
+  font-style: normal;
+  font-weight: normal;
+  margin-bottom: 0;
+}
+
+.settingsContainer {
+  margin-left: 4rem;
+  margin-right: 4rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.profileCard {
+  margin-top: 50px;
+}
+
+.settingsContainer h2 {
+  margin: 0;
+  padding-top: 1rem;
+}
