@@ -164,9 +164,7 @@ const ShowMotive: FC = () => {
   useEffect(() => {
     try {
       void axios.get(`http://localhost:8080/photos/`).then((res) => {
-        console.log(res.data);
         setPhotoResponse(res.data);
-        //console.log(photoResponse[imageIndex].photoId.id);
       });
     } catch (e) {
       console.log(e);
