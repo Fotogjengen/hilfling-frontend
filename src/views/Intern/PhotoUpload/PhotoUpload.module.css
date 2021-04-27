@@ -1,0 +1,30 @@
+.rootFormControl {
+  min-width: 100%;
+}
+
+.noStyleUl {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0 0;
+}
+
+.fileList {
+  margin: 0;
+  padding: 0;
+}
+
+.dropzone {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border-width: 2px;
+  border-radius: 2px;
+  border-color: #bcbcbc;
+  border-style: dashed;
+  color: #3c3c3c;
+  outline: none;
+  transition: border 0.24s ease-in-out;
+  cursor: pointer;
+}

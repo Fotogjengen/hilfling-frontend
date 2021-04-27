@@ -22,6 +22,10 @@ const HeaderComponent: FC = () => {
         <Link component={GuiHeaderLink} to="/login">
           LOGG INN
         </Link>
+
+        <Link component={GuiHeaderLink} to="/intern/upload">
+          LAST OPP
+        </Link>
         {/* {authenticated ? (
           <GuiHeaderLink onClick={logout}>LOGG UT</GuiHeaderLink>
         ) : (
