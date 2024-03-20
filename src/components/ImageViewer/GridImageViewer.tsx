@@ -36,15 +36,13 @@ const ShowMotive: FC<Props> = ({ photos }) => {
   return (
     <>
       <div className={styles.backgroundFlex}>
-        <div className={styles.filterAndImages}>
+        
           <div className={styles.flex}>
             {imageItems}
             {/*TODO: remove filling elements, this is a temp fix! This fix ensures that the first image in a row always is at the far left. FInd a better method for doing this  */}
-            <div className={styles.fillingEmptySpaceChilds} />
-            <div className={styles.fillingEmptySpaceChilds} />
-            <div className={styles.fillingEmptySpaceChilds} />
+            
           </div>
-        </div>
+       
       </div>
     </>
   );

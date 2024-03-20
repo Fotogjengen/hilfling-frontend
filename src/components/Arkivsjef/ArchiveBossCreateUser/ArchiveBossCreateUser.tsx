@@ -19,11 +19,6 @@ const ArchiveBossCreateUser = () => {
   const createUser = async () => {
 
     const displayName = `${givenName} ${surname}`
-    
-    console.log("JAJAJA");
-    console.log("Display Name:", displayName);
-
-
 
     const apiUrl = "https://graph.microsoft.com/v1.0/users";
     const newUser = {

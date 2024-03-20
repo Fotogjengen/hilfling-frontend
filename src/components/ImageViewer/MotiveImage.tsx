@@ -21,7 +21,7 @@ const MotiveImage: FC<Props> = ({
   return (
     <>
       <div className={styles.motiveImage} onClick={() => updateIndex(index)}>
-        <img src={image} height="200px" width="300px" />
+        <img src={image} width="250px" />
         <div className={styles.imageContainer}>
           <p className={styles.imageTitle}>{title}</p>
           <p className={styles.imageTitle}>31.08.21</p>
