@@ -1,6 +1,6 @@
 .container {
-    padding: 0.5rem;
-    width: 40%;
+    padding: 2rem;
+    width: 70%;
     left: 50%;
     top: 50%; 
     position: absolute;
@@ -20,25 +20,12 @@
     overflow: auto;
     background-color: rgba(0,0,0,0.4);
     }
- 
-  
-  .input {
-    margin-bottom: 2rem;
-  }
-  
-  .submitButton {
-    width: 50%;
-    
-  }
-  
-  .backButton {
-    margin-top: 0.5rem;
-    text-align: center;
-    color: #007bff; 
-    cursor: pointer;
-    text-decoration: none;
-  }
-  
-  .backButton:hover {
-    text-decoration: underline;
-  }
+
+    .table {
+        border: 1px solid black;
+        
+    }
+
+    .headerCell {
+        background-color: red;
+    }

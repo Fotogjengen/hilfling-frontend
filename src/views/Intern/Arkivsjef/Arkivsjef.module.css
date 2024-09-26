@@ -15,6 +15,12 @@
   flex-grow: 1;
   width: 33%;
 }
+
+.users{
+  display: flex;
+  justify-content: center;
+}
+
 .description {
   padding: 1rem;
   margin-top: 2rem;

@@ -1,0 +1,20 @@
+.container {
+    margin: auto;
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    justify-content: center;   
+}
+
+.form {
+    padding: 10px;
+    margin: auto;
+}
+
+.backButton{
+    margin: auto;
+}
+
+.backButton > *{
+    width: 100px;
+
+}
