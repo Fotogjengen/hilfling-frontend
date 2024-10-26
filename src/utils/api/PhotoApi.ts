@@ -89,6 +89,6 @@ export const PhotoApi = {
 
     // Remove trailing '&' from the queryString
     queryString = queryString.slice(0, -1);
-    return api.get(`/photos/?${queryString}`);
+    return api.get(`/photos?${queryString}`);
   },
 };
