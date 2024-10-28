@@ -83,7 +83,7 @@
     "@typescript-eslint/parser": "5.39.0",
     "eslint-config-prettier": "8.3.0",
     "lint-staged": "12.3.4",
-    "openapi-typescript-codegen": "0.23.0",
+    "openapi-typescript-codegen": "0.29.0",
     "prettier": "2.7.1",
     "react-scripts": "5.0.1",
     "react-test-renderer": "17.0.2"
