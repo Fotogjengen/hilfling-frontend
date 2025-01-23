@@ -21,6 +21,7 @@ import ArchiveBossCreateUser from "./components/Arkivsjef/ArchiveBossCreateUser/
 import { EditPhotoGangBangers } from "./views/Intern/EditPhotoGangBangers/EditPhotoGangBangers";
 import { EditPhotoGangBangersEdit } from "./views/Intern/EditPhotoGangBangers/EditPhotoGangBangersEdit";
 import { AuthenticationContext } from "./contexts/AuthenticationContext";
+import MyProfileRebrand from "./views/MyProfile/MyProfileRebrand";
 
 const AppRoutes: FC = () => {
   const { isAuthenticated, position } = useContext(AuthenticationContext);
@@ -38,7 +39,7 @@ const AppRoutes: FC = () => {
         {isAuthenticated && (
           <>
             <Route path="/intern" element={<InternNav />} />
-            <Route path="/intern/myprofile" element={<MyProfile />} />
+            <Route path="/intern/myprofile" element={<MyProfileRebrand />} />
             <Route path="/intern/sok" element={<InternSearchView />} />
             {position === "FG" && (
               <>
