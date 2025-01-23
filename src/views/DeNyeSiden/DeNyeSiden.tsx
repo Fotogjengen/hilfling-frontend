@@ -1,14 +1,10 @@
 import React from 'react'
-import { Input, TextField, Box } from '@mui/material';
-import AppShortcutIcon from "@mui/icons-material/AppShortcut";
-import ImageSearchIcon from "@mui/icons-material/ImageSearch";
 import { experimentalStyled as styled } from "@mui/material/styles";
 import { Grid, Paper, Typography } from "@mui/material";
-import { Route, Routes, Link } from "react-router-dom";
-import ColorLensIcon from '@mui/icons-material/ColorLens';
+import { Link } from "react-router-dom";
 import InstagramIcon from '@mui/icons-material/Instagram';
 import FacebookIcon from '@mui/icons-material/Facebook';
-import { pink, red, blue, yellow, } from '@mui/material/colors';
+import { pink, blue } from '@mui/material/colors';
 
 
 

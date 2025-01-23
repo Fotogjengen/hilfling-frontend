@@ -13,7 +13,7 @@ import NoEncryptionGmailerrorredIcon from "@mui/icons-material/NoEncryptionGmail
 import SearchIcon from "@mui/icons-material/Search";
 import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 import LoginButton from "../../views/Login/LoginButton";
-import DeNyeSiden from "../../views/DeNyeSiden/DeNyeSiden";
+
 
 const HeaderComponent: FC = () => {
   const { isAuthenticated, position } = useContext(AuthenticationContext);
