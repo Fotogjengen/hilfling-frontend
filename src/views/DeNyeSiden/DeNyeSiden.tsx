@@ -15,12 +15,12 @@ const DeNyeSiden = () => {
   const menuLinks = [
     {
       name: "Random project",
-      to: "/intern/sok",
+      to: "/intern",
       icon: <FacebookIcon  sx={{ color: blue[800] }}style={{ fontSize: IconSize }} />,
     },
     {
       name: "Random project",
-      to: "/intern/sok",
+      to: "/intern",
       icon: <InstagramIcon sx={{ color: pink[500] }} style={{ fontSize: IconSize }} />,
     },
 
