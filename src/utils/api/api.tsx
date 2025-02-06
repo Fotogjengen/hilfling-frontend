@@ -3,7 +3,7 @@
 import axios from "axios";
 
 const API_BASE_URL =
-  process.env.REACT_APP_TEMP_API_PATH || "http://localhost:8000"; //process.env.BASE_URL;
+  process.env.REACT_APP_TEMP_API_PATH || "http://localhost:8000"; //process.env.BASE_URL
 const HEADERS = {
   Accept: "application/json",
   "Content-Type": "application/json",
