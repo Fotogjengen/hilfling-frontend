@@ -14,8 +14,9 @@ import SearchIcon from "@mui/icons-material/Search";
 import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 import LoginButton from "../../views/Login/LoginButton";
 
+
 const HeaderComponent: FC = () => {
-  const { isAuthenticated } = useContext(AuthenticationContext);
+  const { isAuthenticated, position } = useContext(AuthenticationContext);
 
   const replace = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
@@ -45,6 +46,9 @@ const HeaderComponent: FC = () => {
       noAuth: true,
     },
 
+
+
+
     ...(isAuthenticated
       ? [
           {
@@ -53,6 +57,17 @@ const HeaderComponent: FC = () => {
             icon: <AccessibilityNewIcon />,
             noAuth: true,
           },
+          ...(position === "FG" ?
+            [{
+            name: "DeNyeSiden",
+            to: "/intern/DeNyeSiden",
+            icon: <SearchIcon />,
+            noAuth: true,
+        
+            }]
+        
+          :[] )
+ 
         ]
       : []),
     {
@@ -106,8 +121,11 @@ const HeaderComponent: FC = () => {
           <div className={styles.navList}>
             <Link to="/search">BILDER</Link>
             <Link to="/about">OM OSS</Link>
-            {isAuthenticated ? <Link to="/intern/">INTERN</Link> : <></>}
+            {isAuthenticated ? <> <Link to="/intern/">INTERN</Link> 
+              {position == "FG" ? <Link to = "intern/DeNyeSiden"> DeNye </Link> : <></> } </>
+              : <></>}
             <Link to="/search">SØK</Link>
+            
           </div>
           <div className={styles.loggContainer}>
             <LoginButton />

@@ -21,6 +21,7 @@ import ArchiveBossCreateUser from "./components/Arkivsjef/ArchiveBossCreateUser/
 import { EditPhotoGangBangers } from "./views/Intern/EditPhotoGangBangers/EditPhotoGangBangers";
 import { EditPhotoGangBangersEdit } from "./views/Intern/EditPhotoGangBangers/EditPhotoGangBangersEdit";
 import { AuthenticationContext } from "./contexts/AuthenticationContext";
+import DeNyeSiden from "./views/DeNyeSiden/DeNyeSiden";
 
 const AppRoutes: FC = () => {
   const { isAuthenticated, position } = useContext(AuthenticationContext);
@@ -42,6 +43,7 @@ const AppRoutes: FC = () => {
             <Route path="/intern/sok" element={<InternSearchView />} />
             {position === "FG" && (
               <>
+                <Route path="/intern/DeNyeSiden" element={<DeNyeSiden />} />
                 <Route path="/intern/last-opp" element={<PhotoUpload />} />
                 <Route path="/intern/arkivsjef" element={<Arkivsjef />} />
                 <Route
