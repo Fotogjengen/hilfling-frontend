@@ -16,25 +16,23 @@ class PhotoPost {
   photoFileList: File[] = [];
 }
 
-export class PhotoSearch {
-  motive = "";
-  place = "";
-  //TODO when endpoint has security level implemented
-  // securityLevel = "";
-  gang = "";
-  album = "";
-  category = "";
-  tag: string[] = [];
-  isGoodPic = false;
-  isAnalog = false;
-  //YYYY-MM-DD
-  fromDate = "";
-  //YYYY-MM-DD
-  toDate = "";
-  page = "";
-  pageSize = "";
-  [key: string]: string | string[] | boolean;
+export interface PhotoSearch {
+  motive?: string;
+  place?: string;
+  gang?: string;
+  album?: string;
+  category?: string;
+  tag?: string[];
+  isGoodPic?: boolean;
+  isAnalog?: boolean;
+  fromDate?: string;
+  toDate?: string;
+  page?: string;
+  pageSize?: string;
+  securityLevel?: string;
+  [key: string]: string | string[] | boolean | undefined;
 }
+
 
 export const PhotoPostDto = new PhotoPost();
 
@@ -78,7 +76,6 @@ export const PhotoApi = {
         if (
           (typeof value === "string" || typeof value === "boolean") &&
           value !== "" &&
-          value !== false &&
           value !== null &&
           value !== undefined
         ) {
@@ -92,7 +89,6 @@ export const PhotoApi = {
         }
       }
     }
-
     // Remove trailing '&' from the queryString
     queryString = queryString.slice(0, -1);
     return api.get(`/photos?${queryString}`);
