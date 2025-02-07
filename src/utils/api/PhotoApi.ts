@@ -2,20 +2,6 @@ import { api } from "./api";
 import { Photo, PhotoDto } from "../../../generated";
 import { PaginatedResult } from "./types";
 
-class PhotoPost {
-  albumId = "";
-  categoryName = "";
-  eventOwnerName = "";
-  motiveTitle = "";
-  placeName = "";
-  photoGangBangerId = "";
-  securityLevelId = "";
-
-  isGoodPhotoList: boolean[] = [];
-  tagList: string[][] = [];
-  photoFileList: File[] = [];
-}
-
 export interface PhotoSearch {
   motive?: string;
   place?: string;
@@ -32,9 +18,6 @@ export interface PhotoSearch {
   securityLevel?: string;
   [key: string]: string | string[] | boolean | undefined;
 }
-
-
-export const PhotoPostDto = new PhotoPost();
 
 export const PhotoApi = {
   getAll: async function (): Promise<PhotoDto[]> {
