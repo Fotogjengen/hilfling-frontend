@@ -24,7 +24,6 @@ import {
   CategoryDto,
   SecurityLevelDto,
   PhotoTagDto,
-  PhotoDto,
 } from "../../../../generated";
 import { AlbumApi } from "../../../utils/api/AlbumApi";
 import { PlaceApi } from "../../../utils/api/PlaceApi";
@@ -33,7 +32,7 @@ import { MotiveApi } from "../../../utils/api/MotiveApi";
 import { SecurityLevelApi } from "../../../utils/api/SecurityLevelApi";
 import { PhotoTagApi } from "../../../utils/api/PhotoTagApi";
 import { AlertContext, severityEnum } from "../../../contexts/AlertContext";
-import { PhotoApi, PhotoSearch } from "../../../utils/api/PhotoApi";
+import { PhotoSearch } from "../../../utils/api/PhotoApi";
 
 interface ChipData {
   key: number;
