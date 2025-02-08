@@ -10,11 +10,12 @@ const InternSearchView = () => {
   const [photos, setPhotos] = useState<PhotoDto[]>([]);
   const [page, setPage] = useState(0); // State to track the current page
   const pageSize = 10; // State to set the page size
+  const [photoSearch, setPhotoSearch] = useState<PhotoSearch>({
+    pageSize: pageSize.toString()
+  })
 
   useEffect(() => {
-    const photoSearch = new PhotoSearch();
     photoSearch.page = page.toString();
-    photoSearch.pageSize = pageSize.toString();
 
     PhotoApi.search(photoSearch)
       .then((res: any) => {
@@ -36,7 +37,6 @@ const InternSearchView = () => {
   }
 
   const handlePageChange= (newPage: number) => {
-    console.log("User clicked on page:", newPage);
     setPage(newPage-1);
   }
 
