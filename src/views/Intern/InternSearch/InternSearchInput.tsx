@@ -282,6 +282,7 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
               <div className={styles.formTextField}>
                 <DatePicker
                   label={"Dato fra"}
+                  minDate={dateFrom}
                   value={dateFrom}
                   onChange={(newValue) => {
                     setDateFrom(newValue);
@@ -294,6 +295,7 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
               <div className={styles.formTextField}>
                 <DatePicker
                   label={"Dato til"}
+                  maxDate={dateTo}
                   value={dateTo}
                   onChange={(newValue) => setDateTo(newValue)}
                   format="DD/MM/YYYY"
