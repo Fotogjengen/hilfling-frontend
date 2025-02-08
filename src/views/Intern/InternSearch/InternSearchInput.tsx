@@ -65,13 +65,8 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
   const [categories, setCategories] = useState<CategoryDto[]>([]);
   const [securityLevels, setSecurityLevels] = useState<SecurityLevelDto[]>([]);
   const [photoTags, setPhotoTags] = useState<PhotoTagDto[]>([]);
-
-  //variables for suggestions
-  const [motive, setMotive] = useState<string>("");
-  const [album, setAlbum] = useState<string>("");
-  const [category, setCategory] = useState<string>("");
-  const [place, setPlace] = useState<string>("");
-  const [page, setPage] = useState(0);
+  //const [page, setPage] = useState(0); //Tror ikke jeg trenger denne mer da page tas hånd om i InternSearchView
+  //Siden api kallet skjer her tror jeg page også må tas med her, men da må jeg finne en måte å sende det via intersearch view
   const [dateFrom, setDateFrom] = React.useState<Dayjs | null>(
     dayjs("1910-09-30"),
   );
@@ -79,9 +74,19 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
   const [dateTo, setDateTo] = React.useState<Dayjs | null>(dayjs());
   const [isGoodPic, setIsGoodPic] = useState(false);
   const [isAnalog, setIsAnalog] = useState(false);
-  const [, setSecurityLevel] = useState<string>("");
+  const [securityLevel, setSecurityLevel] = useState<string>("");
   const [photoTag, setPhotoTag] = useState("");
   const [photos, setPhotos] = useState<PhotoDto[]>([]);
+
+  //Foreløpig kun for testing
+  const [photoSearch, setPhotoSearch] = useState<PhotoSearch>({
+  })
+
+  //variables for suggestions
+  const [motive, setMotive] = useState<string>("");
+  const [album, setAlbum] = useState<string>("");
+  const [category, setCategory] = useState<string>("");
+  const [place, setPlace] = useState<string>("");
 
   //useRef for managing chip in tag component
   const tagRef = useRef<HTMLInputElement | null>(null);
@@ -183,6 +188,8 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
   const createStateChangeHandler =
     (setState: React.Dispatch<React.SetStateAction<string>>) =>
     (event: React.SyntheticEvent, newValue: string | null) => {
+      console.log("From statechangehandler: ")
+      console.log(newValue)
       setState(newValue || "");
     };
 
@@ -192,60 +199,108 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
   const handleAlbumChange = createStateChangeHandler(setAlbum);
   const handleSecurityLevelChange = createStateChangeHandler(setSecurityLevel);
 
-  const handlePageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // Convert the input value to a number and set 'page'
-    setPage(Number(event.target.value));
-  };
+  // const handlePageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   // Convert the input value to a number and set 'page'
+  //   setPage(Number(event.target.value));
+  // };
 
+
+  useEffect(() => {
+    if (photoSearch.page) { //Kommentar:Troor ikke vi trenger if skjekken 
+      PhotoApi.search(photoSearch)
+        .then((res) => {
+          //console.log(photoSearch);
+          console.log("From useEffect: ");
+          console.log(isGoodPic);
+          //console.log(res.data.currentList);
+          handleSearch(res.data.currentList);
+        })
+        .catch((e) => {
+          setError(e);
+        });
+    }
+  }, [photoSearch]);
   //build queryObject and submit form to get results
   const onSubmitForm = () => {
-    const photoSearch = new PhotoSearch();
-    photoSearch.category = category.toString();
-    photoSearch.isAnalog = isAnalog;
-    photoSearch.isGoodPic = isGoodPic;
-    photoSearch.page = page.toString();
-    //Add when security level is implemented in backend on search function
-    // photoSearch.securityLevel = securityLevel.toString();
-    if (dateFrom?.format("YYYY-MM-DD").toString() != null) {
-      photoSearch.fromDate = dateFrom?.format("YYYY-MM-DD").toString();
-    }
-    if (dateTo?.format("YYYY-MM-DD").toString() != null) {
-      photoSearch.toDate = dateTo?.format("YYYY-MM-DD").toString();
-    }
-    photoSearch.photoTags = photoTags
-      .filter((photoTag) => typeof photoTag.name === "string")
-      .map((photoTag) => photoTag.name)
-      .filter((name) => typeof name === "string") // Filter out any non-string values
-      .map((name) => name as string);
+
+    const filteredMotive = motives.find((item) => item.title === motive.toString());
+    const filteredAlbum = albums.find((item) => item.title === album.toString());
+    const filteredPlace = places.find((item) => item.name === place.toString());
+
+    setPhotoSearch({
+      page: "0",
+      pageSize: "10",
+      category: category,
+      isAnalog: isAnalog,
+      isGoodPic: isGoodPic,
+      securityLevel: securityLevel,
+      
+      fromDate: dateFrom?.format("YYYY-MM-DD") || "",
+      toDate: dateTo?.format("YYYY-MM-DD") || "",
+
+      //photoTags: photoTags.map((photoTag) => photoTag.name).filter((name) => typeof name === "string"),
+      motive: filteredMotive ? filteredMotive.motiveId.id : "", 
+      album: filteredAlbum ? filteredAlbum.albumId.id : "", 
+      place: filteredPlace ? filteredPlace.placeId.id : "",
+      tag: chipData.map((chip) => chip.label)
+    });
+
+
+    // photoSearch.photoTags = photoTags
+    //   .filter((photoTag) => typeof photoTag.name === "string")
+    //   .map((photoTag) => photoTag.name)
+    //   .filter((name) => typeof name === "string") // Filter out any non-string values
+    //   .map((name) => name as string);
     // Map to get the array of names
 
-    const filteredMotive = motives.filter((item) => {
-      return item.title == motive.toString();
-    });
-    const filteredAlbum = albums.filter((item) => {
-      return item.title == album.toString();
-    });
-    const filteredPlace = places.filter((item) => {
-      return item.name == place.toString();
-    });
-    photoSearch.motive =
-      filteredMotive.length > 0 ? filteredMotive[0].motiveId.id : "";
-    photoSearch.album =
-      filteredAlbum.length > 0 ? filteredAlbum[0].albumId.id : "";
-    photoSearch.place =
-      filteredPlace.length > 0 ? filteredPlace[0].placeId.id : "";
 
-    photoSearch.tag = chipData.map((chip) => chip.label);
+    // photoSearch.category = category.toString();
+    // photoSearch.isAnalog = isAnalog;
+    // photoSearch.isGoodPic = isGoodPic;
+    //photoSearch.page = page.toString();
 
-    PhotoApi.search(photoSearch)
-      .then((res: any) => {
-        handleSearch(res.data.currentList);
-        setPhotos(res.data.currentList)
-        console.log(res.data);
-      })
-      .catch((e) => {
-        setError(e);
-      });
+    // Add when security level is implemented in backend on search function
+    // photoSearch.securityLevel = securityLevel.toString();
+    // if (dateFrom?.format("YYYY-MM-DD").toString() != null) {
+    //   photoSearch.fromDate = dateFrom?.format("YYYY-MM-DD").toString();
+    // }
+    // if (dateTo?.format("YYYY-MM-DD").toString() != null) {
+    //   photoSearch.toDate = dateTo?.format("YYYY-MM-DD").toString();
+    // }
+
+    
+
+    // const filteredMotive = motives.filter((item) => {
+    //   return item.title == motive.toString();
+    // });
+
+    // const filteredAlbum = albums.filter((item) => {
+    //   return item.title == album.toString();
+    // });
+
+    // const filteredPlace = places.filter((item) => {
+    //   return item.name == place.toString();
+    // });
+    // photoSearch.motive =
+    //   filteredMotive.length > 0 ? filteredMotive[0].motiveId.id : "";
+    // photoSearch.album =
+    //   filteredAlbum.length > 0 ? filteredAlbum[0].albumId.id : "";
+    // photoSearch.place =
+    //   filteredPlace.length > 0 ? filteredPlace[0].placeId.id : "";
+
+    //photoSearch.tag = chipData.map((chip) => chip.label);
+
+    // PhotoApi.search(photoSearch)
+    //   .then((res: any) => {
+    //     console.log(photoSearch)
+    //     //setPhotos(res.data.currentList)
+    //     console.log(motive)
+    //     console.log(res.data.currentList)
+    //     handleSearch(res.data.currentList)
+    //   })
+    //   .catch((e) => {
+    //     setError(e);
+    //   });
   };
 
   return (
@@ -276,7 +331,7 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
                 )}
               />
             </div>
-            <div className={styles.formTextField}>
+            {/* <div className={styles.formTextField}>
               <TextField
                 type="number"
                 label="Side"
@@ -286,7 +341,7 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
               >
                 Side
               </TextField>
-            </div>
+            </div> */}
 
             <div className={styles.formTextField}>
               <Autocomplete
@@ -416,7 +471,7 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
                       }}
                     />
                   }
-                  label="Vises på forsiden"
+                  label="Høydepunkter"
                 />
                 <FormControlLabel
                   control={
