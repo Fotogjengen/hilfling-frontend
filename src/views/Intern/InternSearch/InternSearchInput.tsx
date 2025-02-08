@@ -41,9 +41,8 @@ interface ChipData {
 }
 
 interface internSearchInputprop {
-  handleSearch: (photos: PhotoDto[]) => void;
+  handleSearch: (photoSearch: PhotoSearch) => void;
 }
-
 
 const useStyles = makeStyles(() => ({
   flexContainer: {
@@ -65,8 +64,6 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
   const [categories, setCategories] = useState<CategoryDto[]>([]);
   const [securityLevels, setSecurityLevels] = useState<SecurityLevelDto[]>([]);
   const [photoTags, setPhotoTags] = useState<PhotoTagDto[]>([]);
-  //const [page, setPage] = useState(0); //Tror ikke jeg trenger denne mer da page tas hånd om i InternSearchView
-  //Siden api kallet skjer her tror jeg page også må tas med her, men da må jeg finne en måte å sende det via intersearch view
   const [dateFrom, setDateFrom] = React.useState<Dayjs | null>(
     dayjs("1910-09-30"),
   );
@@ -76,9 +73,6 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
   const [isAnalog, setIsAnalog] = useState(false);
   const [securityLevel, setSecurityLevel] = useState<string>("");
   const [photoTag, setPhotoTag] = useState("");
-  const [photos, setPhotos] = useState<PhotoDto[]>([]);
-
-  //Foreløpig kun for testing
   const [photoSearch, setPhotoSearch] = useState<PhotoSearch>({
   })
 
@@ -199,28 +193,6 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
   const handleAlbumChange = createStateChangeHandler(setAlbum);
   const handleSecurityLevelChange = createStateChangeHandler(setSecurityLevel);
 
-  // const handlePageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   // Convert the input value to a number and set 'page'
-  //   setPage(Number(event.target.value));
-  // };
-
-
-  useEffect(() => {
-    if (photoSearch.page) { //Kommentar:Troor ikke vi trenger if skjekken 
-      PhotoApi.search(photoSearch)
-        .then((res) => {
-          //console.log(photoSearch);
-          console.log("From useEffect: ");
-          console.log(isGoodPic);
-          //console.log(res.data.currentList);
-          handleSearch(res.data.currentList);
-        })
-        .catch((e) => {
-          setError(e);
-        });
-    }
-  }, [photoSearch]);
-  //build queryObject and submit form to get results
   const onSubmitForm = () => {
 
     const filteredMotive = motives.find((item) => item.title === motive.toString());
@@ -237,71 +209,16 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
       
       fromDate: dateFrom?.format("YYYY-MM-DD") || "",
       toDate: dateTo?.format("YYYY-MM-DD") || "",
-
-      //photoTags: photoTags.map((photoTag) => photoTag.name).filter((name) => typeof name === "string"),
       motive: filteredMotive ? filteredMotive.motiveId.id : "", 
       album: filteredAlbum ? filteredAlbum.albumId.id : "", 
       place: filteredPlace ? filteredPlace.placeId.id : "",
       tag: chipData.map((chip) => chip.label)
     });
-
-
-    // photoSearch.photoTags = photoTags
-    //   .filter((photoTag) => typeof photoTag.name === "string")
-    //   .map((photoTag) => photoTag.name)
-    //   .filter((name) => typeof name === "string") // Filter out any non-string values
-    //   .map((name) => name as string);
-    // Map to get the array of names
-
-
-    // photoSearch.category = category.toString();
-    // photoSearch.isAnalog = isAnalog;
-    // photoSearch.isGoodPic = isGoodPic;
-    //photoSearch.page = page.toString();
-
-    // Add when security level is implemented in backend on search function
-    // photoSearch.securityLevel = securityLevel.toString();
-    // if (dateFrom?.format("YYYY-MM-DD").toString() != null) {
-    //   photoSearch.fromDate = dateFrom?.format("YYYY-MM-DD").toString();
-    // }
-    // if (dateTo?.format("YYYY-MM-DD").toString() != null) {
-    //   photoSearch.toDate = dateTo?.format("YYYY-MM-DD").toString();
-    // }
-
-    
-
-    // const filteredMotive = motives.filter((item) => {
-    //   return item.title == motive.toString();
-    // });
-
-    // const filteredAlbum = albums.filter((item) => {
-    //   return item.title == album.toString();
-    // });
-
-    // const filteredPlace = places.filter((item) => {
-    //   return item.name == place.toString();
-    // });
-    // photoSearch.motive =
-    //   filteredMotive.length > 0 ? filteredMotive[0].motiveId.id : "";
-    // photoSearch.album =
-    //   filteredAlbum.length > 0 ? filteredAlbum[0].albumId.id : "";
-    // photoSearch.place =
-    //   filteredPlace.length > 0 ? filteredPlace[0].placeId.id : "";
-
-    //photoSearch.tag = chipData.map((chip) => chip.label);
-
-    // PhotoApi.search(photoSearch)
-    //   .then((res: any) => {
-    //     console.log(photoSearch)
-    //     //setPhotos(res.data.currentList)
-    //     console.log(motive)
-    //     console.log(res.data.currentList)
-    //     handleSearch(res.data.currentList)
-    //   })
-    //   .catch((e) => {
-    //     setError(e);
-    //   });
   };
+
+  useEffect(() => {
+    handleSearch(photoSearch);
+  }, [photoSearch]);
 
   return (
     <div>

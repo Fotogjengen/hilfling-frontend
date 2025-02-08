@@ -8,36 +8,43 @@ import { PhotoDto } from "../../../../generated";
 
 const InternSearchView = () => {
   const [photos, setPhotos] = useState<PhotoDto[]>([]);
-  const [page, setPage] = useState(0); // State to track the current page
-  const pageSize = 10; // State to set the page size
+  const pageSize = 10; 
   const [photoSearch, setPhotoSearch] = useState<PhotoSearch>({
-    pageSize: pageSize.toString()
-  })
-
+    page: "0",        
+    pageSize: "10",   
+  });
+  
+  // This seems redundant and unessecary, but the api is not triggered when changing page without it
+  // Not sure why, need to come back to this later, but it works:-)
   useEffect(() => {
-    photoSearch.page = page.toString();
+    setPhotoSearch({
+      page: "0",  
+      pageSize: "10",  
+    });
+  }, []);
+
+  // Api that fetches which pictures that is displayed in the CustomTable
+  useEffect(() => {
+    if (!photoSearch.page || !photoSearch.pageSize) return; 
 
     PhotoApi.search(photoSearch)
       .then((res: any) => {
-
-        //if(page === 0){
           setPhotos(res.data.currentList)
-          
-        // } else {
-        //   setPhotos((prevPhotos) => [...prevPhotos, ...res.data.currentList]);
-        // }
       })
       .catch((e) => {
         console.log(e);
       })
-  }, [page]);
+  }, [photoSearch]); 
 
-  const handleSearchPhotos= (photos: PhotoDto[]) => {
-    setPhotos(photos);
+  const handleSearchPhotos= (photoSearch: PhotoSearch) => {
+    setPhotoSearch(photoSearch); 
   }
 
   const handlePageChange= (newPage: number) => {
-    setPage(newPage-1);
+    setPhotoSearch((prevSearch) => ({
+      ...prevSearch,
+      page: (newPage - 1).toString(), 
+    }));
   }
 
   return (
