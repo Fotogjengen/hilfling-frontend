@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { User } from './mockdata';
 
-interface user {
+interface UserInfo {
     name : string ; 
     userName : string;
     adress : string ;
@@ -17,7 +17,7 @@ interface user {
    
 }
 
-const mockUser:user = {  // Mock-user for test purpose
+const mockUser:UserInfo = {  // Mock-user for test purpose
   name : "Hallgeir Kvadsheim",
   userName : "Brukernavn : HallKva",
   adress : "Herman Krags vei 13",
@@ -38,13 +38,31 @@ const webPositions: string[] = [ "Websjef", "Benkmester", "Opplæringsannsvarlig
 
 const MyProfileRebrand = () => {
 
+  const [currentUser, setCurrentUser] = useState<UserInfo | null>(null);
+
   //Make api-call
   //determine if web or fotograf
   //push api-info into + role into "user" variable
- 
+  useEffect (() => {
+    const getUser = () => {
+    
+    const cUser = mockUser;
+    cUser.role = "fotograf";
+    setCurrentUser(cUser);
+
+    };
+
+  getUser();
+    }, []);
+  
 
   return (
-    <div>MyProfileRebrand</div>
+    <>
+
+    <header>{currentUser?.name || "loading ... "}</header>
+
+    </>
+  
   )
 }
 
