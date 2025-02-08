@@ -238,6 +238,12 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
             <div className={styles.formTextField}>
               <Autocomplete
                 disablePortal
+                ListboxProps={{
+                  style: {
+                    maxHeight: 200, 
+                    overflowY: 'auto', 
+                  },
+                }}
                 id="combo-box-demo"
                 options={albums.map((albums) => albums.title)}
                 sx={{ width: boxwidth }}
@@ -262,6 +268,12 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
             <div className={styles.formTextField}>
               <Autocomplete
                 disablePortal
+                ListboxProps={{
+                  style: {
+                    maxHeight: 200, 
+                    overflowY: 'auto', 
+                  },
+                }}
                 id="combo-box-demo"
                 options={motives.map((motive) => motive.title)}
                 sx={{ width: boxwidth }}
@@ -308,6 +320,12 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
               <Autocomplete
                 fullWidth
                 disablePortal
+                ListboxProps={{
+                  style: {
+                    maxHeight: 200, 
+                    overflowY: 'auto', 
+                  },
+                }}
                 id="combo-box-demo"
                 options={categories.map((category) => category.name)}
                 sx={{ width: boxwidth }}
@@ -320,6 +338,12 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
             <div className={styles.formTextField}>
               <Autocomplete
                 disablePortal
+                ListboxProps={{
+                  style: {
+                    maxHeight: 200, 
+                    overflowY: 'auto', 
+                  },
+                }}
                 id="combo-box-demo"
                 options={places.map((place) => place.name)}
                 sx={{ width: boxwidth }}
@@ -407,6 +431,12 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
             <div className={styles.formTextField}>
               <Autocomplete
                 disablePortal
+                ListboxProps={{
+                  style: {
+                    maxHeight: 200, 
+                    overflowY: 'auto', 
+                  },
+                }}
                 id="combo-box-demo"
                 options={securityLevels.map(
                   (securityLevel) => securityLevel.securityLevelType,
