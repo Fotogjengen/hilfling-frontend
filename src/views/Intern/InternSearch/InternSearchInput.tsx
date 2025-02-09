@@ -38,21 +38,9 @@ interface ChipData {
   key: number;
   label: string;
 }
-
 interface internSearchInputprop {
   handleSearch: (photoSearch: PhotoSearch) => void;
 }
-
-const useStyles = makeStyles(() => ({
-  flexContainer: {
-    display: "flex",
-    flexWrap: "wrap", // Enable wrapping elements to the next row
-    justifyContent: "flex-start", // Start from the left
-  },
-  datePickerContainer: {
-    padding: "0.4rem",
-  },
-}));
 
 const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
   const boxwidth = 300;
@@ -86,9 +74,6 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
 
   //for chipdata in tag component
   const [chipData, setChipData] = useState<ChipData[]>([]);
-
-  //styles tag component
-  const classes = useStyles();
 
   //ListItem for tags
   const ListItem = styled("li")(({ theme }) => ({
@@ -352,7 +337,7 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
               />
             </div>
             <div className={styles.formTextField}>
-              <Box className={classes.flexContainer}>
+              <Box>
                 {chipData.map((data) => {
                   return (
                     <ListItem key={data.key}>
