@@ -22,6 +22,7 @@ import { EditPhotoGangBangers } from "./views/Intern/EditPhotoGangBangers/EditPh
 import { EditPhotoGangBangersEdit } from "./views/Intern/EditPhotoGangBangers/EditPhotoGangBangersEdit";
 import { AuthenticationContext } from "./contexts/AuthenticationContext";
 import ArchiveBossEditUser from "./views/Intern/ArchiveBossEditUser/ArchiveBossEditUser";
+import DeNyeSiden from "./views/DeNyeSiden/DeNyeSiden";
 
 const AppRoutes: FC = () => {
   const { isAuthenticated, position } = useContext(AuthenticationContext);
@@ -43,6 +44,7 @@ const AppRoutes: FC = () => {
             <Route path="/intern/sok" element={<InternSearchView />} />
             {position === "FG" && (
               <>
+                <Route path="/intern/DeNyeSiden" element={<DeNyeSiden />} />
                 <Route path="/intern/last-opp" element={<PhotoUpload />} />
                 <Route path="/intern/arkivsjef" element={<Arkivsjef />} />
                 <Route

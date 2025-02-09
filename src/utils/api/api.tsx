@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import axios from "axios";
 
-const API_BASE_URL = "http://localhost:8000"; //process.env.BASE_URL;
+const API_BASE_URL = "http://localhost:8000"; 
 const HEADERS = {
   Accept: "application/json",
   "Content-Type": "application/json",
