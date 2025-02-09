@@ -16,7 +16,6 @@ import { LocalizationProvider, DatePicker, nbNO } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from "dayjs";
 import styles from "./InternSearch.module.css";
 import { styled } from "@mui/material/styles";
-import { makeStyles } from "@mui/styles";
 import {
   MotiveDto,
   PlaceDto,
@@ -42,9 +41,11 @@ interface internSearchInputprop {
   handleSearch: (photoSearch: PhotoSearch) => void;
 }
 
-const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
+const InternSearchInput: React.FC<internSearchInputprop> = ({
+  handleSearch,
+}) => {
   const boxwidth = 300;
-  //variables for API data
+  // Variables for API data
   const [motives, setMotives] = useState<MotiveDto[]>([]);
   const [albums, setAlbums] = useState<AlbumDto[]>([]);
   const [places, setPlaces] = useState<PlaceDto[]>([]);
@@ -60,22 +61,21 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
   const [isAnalog, setIsAnalog] = useState(false);
   const [securityLevel, setSecurityLevel] = useState<string>("");
   const [photoTag, setPhotoTag] = useState("");
-  const [photoSearch, setPhotoSearch] = useState<PhotoSearch>({
-  })
+  const [photoSearch, setPhotoSearch] = useState<PhotoSearch>({});
 
-  //variables for suggestions
+  // Variables for suggestions
   const [motive, setMotive] = useState<string>("");
   const [album, setAlbum] = useState<string>("");
   const [category, setCategory] = useState<string>("");
   const [place, setPlace] = useState<string>("");
 
-  //useRef for managing chip in tag component
+  // useRef for managing chip in tag component
   const tagRef = useRef<HTMLInputElement | null>(null);
 
-  //for chipdata in tag component
+  // For chipdata in tag component
   const [chipData, setChipData] = useState<ChipData[]>([]);
 
-  //ListItem for tags
+  // ListItem for tags
   const ListItem = styled("li")(({ theme }) => ({
     margin: theme.spacing(0.5),
   }));
@@ -90,7 +90,7 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
     setMessage(e);
   };
 
-  //calls to backend to get suggestions for fields
+  // Calls to backend to get suggestions for fields
   useEffect(() => {
     const apiStateMap = [
       { api: AlbumApi.getAll, setter: setAlbums },
@@ -115,7 +115,7 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
     });
   }, []);
 
-  //handles backspace in the tags field
+  // Handles backspace in the tags field
   const handleBackspace = (event: React.KeyboardEvent) => {
     if (
       event.key === "Backspace" &&
@@ -130,7 +130,7 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
     }
   };
 
-  //handles enter in tags field
+  // Handles enter in tags field
   const handleEnterPress = (event: React.KeyboardEvent) => {
     if (
       event.key === "Enter" &&
@@ -166,8 +166,6 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
   const createStateChangeHandler =
     (setState: React.Dispatch<React.SetStateAction<string>>) =>
     (event: React.SyntheticEvent, newValue: string | null) => {
-      console.log("From statechangehandler: ")
-      console.log(newValue)
       setState(newValue || "");
     };
 
@@ -177,10 +175,14 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
   const handleAlbumChange = createStateChangeHandler(setAlbum);
   const handleSecurityLevelChange = createStateChangeHandler(setSecurityLevel);
 
+  // Invoked when user pushes the search button
   const onSubmitForm = () => {
-
-    const filteredMotive = motives.find((item) => item.title === motive.toString());
-    const filteredAlbum = albums.find((item) => item.title === album.toString());
+    const filteredMotive = motives.find(
+      (item) => item.title === motive.toString(),
+    );
+    const filteredAlbum = albums.find(
+      (item) => item.title === album.toString(),
+    );
     const filteredPlace = places.find((item) => item.name === place.toString());
 
     setPhotoSearch({
@@ -190,13 +192,13 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
       isAnalog: isAnalog,
       isGoodPic: isGoodPic,
       securityLevel: securityLevel,
-      
+
       fromDate: dateFrom?.format("YYYY-MM-DD") || "",
       toDate: dateTo?.format("YYYY-MM-DD") || "",
-      motive: filteredMotive ? filteredMotive.motiveId.id : "", 
-      album: filteredAlbum ? filteredAlbum.albumId.id : "", 
+      motive: filteredMotive ? filteredMotive.motiveId.id : "",
+      album: filteredAlbum ? filteredAlbum.albumId.id : "",
       place: filteredPlace ? filteredPlace.placeId.id : "",
-      tag: chipData.map((chip) => chip.label)
+      tag: chipData.map((chip) => chip.label),
     });
   };
 
@@ -225,8 +227,8 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
                 disablePortal
                 ListboxProps={{
                   style: {
-                    maxHeight: 200, 
-                    overflowY: 'auto', 
+                    maxHeight: 200,
+                    overflowY: "auto",
                   },
                 }}
                 id="combo-box-demo"
@@ -238,25 +240,13 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
                 )}
               />
             </div>
-            {/* <div className={styles.formTextField}>
-              <TextField
-                type="number"
-                label="Side"
-                onChange={handlePageChange}
-                sx={{ width: boxwidth }}
-                inputProps={{ min: 1, max: photos.length }} 
-              >
-                Side
-              </TextField>
-            </div> */}
-
             <div className={styles.formTextField}>
               <Autocomplete
                 disablePortal
                 ListboxProps={{
                   style: {
-                    maxHeight: 200, 
-                    overflowY: 'auto', 
+                    maxHeight: 200,
+                    overflowY: "auto",
                   },
                 }}
                 id="combo-box-demo"
@@ -268,7 +258,6 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
                 )}
               />
             </div>
-
             <LocalizationProvider
               dateAdapter={AdapterDayjs}
               adapterLocale={"NO"}
@@ -300,15 +289,14 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
                 />
               </div>
             </LocalizationProvider>
-
             <div className={styles.formTextField}>
               <Autocomplete
                 fullWidth
                 disablePortal
                 ListboxProps={{
                   style: {
-                    maxHeight: 200, 
-                    overflowY: 'auto', 
+                    maxHeight: 200,
+                    overflowY: "auto",
                   },
                 }}
                 id="combo-box-demo"
@@ -325,8 +313,8 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
                 disablePortal
                 ListboxProps={{
                   style: {
-                    maxHeight: 200, 
-                    overflowY: 'auto', 
+                    maxHeight: 200,
+                    overflowY: "auto",
                   },
                 }}
                 id="combo-box-demo"
@@ -360,7 +348,7 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
             <div className={styles.formTextField}>
               <Autocomplete
                 freeSolo
-                options={photoTags.map((tag) => tag.name)} // Assuming tagName is the property containing the tag name
+                options={photoTags.map((tag) => tag.name)} 
                 inputValue={photoTag}
                 onInputChange={(event, newInputValue) => {
                   setPhotoTag(newInputValue);
@@ -418,8 +406,8 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({handleSearch}) => {
                 disablePortal
                 ListboxProps={{
                   style: {
-                    maxHeight: 200, 
-                    overflowY: 'auto', 
+                    maxHeight: 200,
+                    overflowY: "auto",
                   },
                 }}
                 id="combo-box-demo"
