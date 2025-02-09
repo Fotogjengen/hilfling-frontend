@@ -1,0 +1,174 @@
+.admission_semester_text {
+    display: flex; 
+    font-size: 96px;
+    font-style: normal;
+    font-weight: normal;
+    margin-top: 0px;
+    margin-left: 35px;
+}
+
+.admission_semester_header {
+    display: flex; 
+    font-size: 40px;
+    font-style: normal;
+    font-weight: normal;
+    margin-top: 0px;
+    margin-left: 35px;
+    margin : 0px
+}
+
+.admission_semester {
+    display: flex;
+    flex-direction: column;
+    background-color:#BE3144; 
+    height: 272px;
+    width: 577px;
+    border-radius: 5px;
+    padding-left: 20px;
+    margin : 0px;
+    overflow: hidden; 
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.positions_list {
+    display: flex; 
+    flex-direction: column;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: normal;
+    margin-top: 0px;
+    margin-left: 35px;
+    margin : 0px
+}
+
+.positions_header {
+    display: flex; 
+    font-size: 40px;
+    font-style: normal;
+    font-weight: normal;
+    margin-top: 0px;
+    margin-left: 35px;
+    margin : 0px
+}
+
+.positions {
+    display: flex;
+    flex-direction: column;
+    background-color: #872341; 
+    height: 272px;
+    width: 271px;
+    border-radius: 5px;
+    padding-left: 20px;
+    overflow: hidden; 
+    margin-right: 16px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.card_2 {   /* Contains position and admission semester*/
+    display: flex; 
+    flex-direction: column;
+    align-content: center;
+
+    gap: 20px; 
+    margin: 0px;
+    flex-wrap: wrap;
+}
+.personal_information_list{
+    display: flex; 
+    display: flex;
+    flex-direction: column;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: normal;
+    margin: 0;
+    margin-left: 20px; 
+
+}
+
+.personal_information_header {
+    display: flex; 
+    font-size: 40px;
+    font-style: normal;
+    font-weight: normal;
+    margin : 0px;
+    margin-left: 10px;
+
+}
+
+.personal_information {
+    display: flex;
+    flex-direction: column;
+    background-color: #E17564; 
+    height: 225px;
+    width: 577px;
+    border-radius: 5px;
+    /* padding-left: 20px;  */
+    margin : 0px;
+    overflow: hidden; 
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.profile_picture_img {
+    height: 225px;
+    width: 225px;
+    object-fit: cover;
+}
+
+
+.profile_picture {
+    display: flex; 
+    background-color :lightgrey;
+    width: 225px;
+    height: 225px;
+    border-radius: 50%;
+    margin-right: 48px;
+    margin-left: 16px;
+    overflow: hidden; 
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+
+.card_1 {   /* Contains profile picture and personal info*/
+    display: flex; 
+    flex-direction: column;
+    align-content: center;
+    gap: 20px; 
+    margin: 0px;flex-wrap: wrap;
+    flex-wrap: wrap;
+   
+}
+
+.info_card {   /* Contains profile picture and personal info*/
+    display: flex; 
+    flex-direction: row;
+    align-content: flex-start;
+    gap : 20px;
+    flex-wrap: wrap;
+   
+}
+
+
+.name_display {
+    display: flex; 
+    flex-direction: column;
+    font-size: 73px;
+    font-style: normal;
+    font-weight: normal;
+    margin-top: 0px;
+    padding : 0px;
+  }
+
+.role_display {
+    display: flex; 
+    font-size: 20px;
+    font-style: normal;
+    font-weight: normal;
+    margin-top: 0px;
+    margin-left: 35px;
+    
+}
+
+.main_card {
+    display: flex; 
+    flex-direction: column;
+}
