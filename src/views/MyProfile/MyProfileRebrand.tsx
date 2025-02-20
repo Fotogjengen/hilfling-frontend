@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import "./MyProfileRebrand.css"
 import axios from 'axios';
+import { PhotoApi } from "../../utils/api/PhotoApi";
 
 //https:\/\/images.dog.ceo\/breeds\/dane-great\/n02109047_6042.jpg
 
@@ -94,8 +95,14 @@ const MyProfileRebrand = () => {
         const formerPositions = [" "]; //Not supported yet
         const admissionSemester = response.data.semesterStart.value;
             //determine if web or fotograf
-        const role = "Fotograf";
+        let role = "Fotograf";
         // console.log(webPositions.includes(currentUser.currentPosition.toLowerCase()))
+        
+         if (webPositions.includes(currentPosition.toLowerCase()) ){  // settes the correct role
+            role =  "Web";
+    
+          }
+
 
         setCurrentUser({profilePicure, firstName, lastName, userName, adress,zip, city, phoneNumber, samfundetEMail, currentPosition, formerPositions, role, admissionSemester}); 
       })
@@ -105,15 +112,24 @@ const MyProfileRebrand = () => {
         console.error("Error fetching user:", error); 
       });
 
-      if (webPositions.includes(currentUser.currentPosition.toLowerCase()) ){
-        setCurrentUser((previous) => ({...previous, role: "Web"}));
-        
-      }
 
     };
 
   getUser();
-    }, [currentUser]);
+    }, []);
+
+  // useEffect(() => {
+    
+  //   PhotoApi.getById("94540f3c-77b8-4bc5-acc7-4dd7d8cc5bcd")
+  //   .then((res) => console.log(res))
+  //   .catch((err) => {
+  //     console.log(err.message)
+  //   });
+
+
+  // },[]);
+
+
 
   return (
     <>
