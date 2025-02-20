@@ -52,10 +52,14 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
   const [categories, setCategories] = useState<CategoryDto[]>([]);
   const [securityLevels, setSecurityLevels] = useState<SecurityLevelDto[]>([]);
   const [photoTags, setPhotoTags] = useState<PhotoTagDto[]>([]);
+  const [minDate, setMinDate] = React.useState<Dayjs | null>(
+    dayjs("1910-09-30"),
+  );
   const [dateFrom, setDateFrom] = React.useState<Dayjs | null>(
     dayjs("1910-09-30"),
   );
   const [, setDateFromChanged] = useState(false);
+  const [maxDate, setMaxDate] = React.useState<Dayjs | null>(dayjs());
   const [dateTo, setDateTo] = React.useState<Dayjs | null>(dayjs());
   const [isGoodPic, setIsGoodPic] = useState(false);
   const [isAnalog, setIsAnalog] = useState(false);
@@ -268,7 +272,7 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
               <div className={styles.formTextField}>
                 <DatePicker
                   label={"Dato fra"}
-                  minDate={dateFrom}
+                  minDate={minDate}
                   value={dateFrom}
                   onChange={(newValue) => {
                     setDateFrom(newValue);
@@ -281,7 +285,7 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
               <div className={styles.formTextField}>
                 <DatePicker
                   label={"Dato til"}
-                  maxDate={dateTo}
+                  maxDate={maxDate}
                   value={dateTo}
                   onChange={(newValue) => setDateTo(newValue)}
                   format="DD/MM/YYYY"
