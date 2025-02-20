@@ -14,7 +14,9 @@ import { PhotoDto } from "../../../../generated";
 interface Props {
   photos: PhotoDto[];
   handlePageChange: (newPage: number) => void;
-  rowsPerPage: number;
+  page: number;
+  photosCount: number;
+  pageSize: number;
 }
 
 const columns = [
@@ -29,30 +31,24 @@ const columns = [
   { id: "isGoodPicture", label: "Good Picture" },
 ];
 
-//const rowsPerPageOptions = [5, 10, 25];
-
-const CustomTable: FC<Props> = ({ photos, handlePageChange, rowsPerPage}) => {
-  console.log(photos);
-  const [page, setPage] = React.useState(1);
-  //const [rowsPerPage] = React.useState(rowsPerPageOptions[1]);
-
+const CustomTable: FC<Props> = ({ photos, handlePageChange, page, photosCount, pageSize}) => {
+ 
   const handleChangePage = (event: any, newPage: any) => {
     handlePageChange(newPage);
-    setPage(newPage);
   };
   const [isGrid, setIsGrid] = useState(true);
   const handleChange = () => {
     setIsGrid(!isGrid);
   };
  
-  const emptyRows = Math.max(0, rowsPerPage - photos.length); //Usikker på om vi egentlig trenger denne
+  const emptyRows = Math.max(0, 10 - photos.length); //Usikker på om vi egentlig trenger denne
 
   return (
     <Paper>
       <div className={styles.toggleHeader}>
         <div className={styles.pagination}>
           <Pagination
-            count={Math.ceil(1000)}
+            count={Math.ceil(photosCount/pageSize)}
             page={page}
             onChange={handleChangePage}
             color="primary"
@@ -109,8 +105,7 @@ const CustomTable: FC<Props> = ({ photos, handlePageChange, rowsPerPage}) => {
       </TableContainer>
       <div className={styles.pagination2}>
         <Pagination
-          count={Math.ceil(photos.length / rowsPerPage)}
-          // count må fikses på til å dynamisk hente ut fra databasen
+          count={Math.ceil(photosCount/pageSize)}
           page={page}
           onChange={handleChangePage}
           color="primary"
