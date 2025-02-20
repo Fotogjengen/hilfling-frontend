@@ -33,12 +33,13 @@
 .positions_list {
     display: flex; 
     flex-direction: column;
-    font-size: 20px;
+    font-size: 30px;
     font-style: normal;
     font-weight: normal;
     margin-top: 0px;
     margin-left: 35px;
-    margin : 0px
+    margin : 0px;
+
 }
 
 .positions_header {
@@ -48,7 +49,8 @@
     font-weight: normal;
     margin-top: 0px;
     margin-left: 35px;
-    margin : 0px
+    margin : 0px;
+
 }
 
 .positions {
