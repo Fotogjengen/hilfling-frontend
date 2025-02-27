@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import "./MyProfileRebrand.css"
 import axios from 'axios';
 import { PhotoApi } from "../../utils/api/PhotoApi";
+import { PhotoDto } from '../../../generated';
+import { AlertContext, severityEnum } from "../../contexts/AlertContext";
+
 
 //https:\/\/images.dog.ceo\/breeds\/dane-great\/n02109047_6042.jpg
 
@@ -67,9 +70,18 @@ const emptyUser:UserInfo = {
 
 const MyProfileRebrand = () => {
 
+    const { setMessage, setSeverity, setOpen } = useContext(AlertContext);
+  
+    const setError = (e: string) => {
+      setOpen(true);
+      setSeverity(severityEnum.ERROR);
+      setMessage(e);
+    };
+
   const webPositions: string[] = [ "websjef", "benkmester", "opplæringsannsvarlig", "webAdmin", "web"];
 
   const [currentUser, setCurrentUser] = useState<UserInfo>(emptyUser);
+  const [photoObject, setPhotoObject] = useState<string>("");
 
   useEffect (() => {
     const getUser = () => {
@@ -98,7 +110,7 @@ const MyProfileRebrand = () => {
         let role = "Fotograf";
         // console.log(webPositions.includes(currentUser.currentPosition.toLowerCase()))
         
-         if (webPositions.includes(currentPosition.toLowerCase()) ){  // settes the correct role
+         if (webPositions.includes(currentPosition.toLowerCase()) ){  // settes the correct role i
             role =  "Web";
     
           }
@@ -115,20 +127,42 @@ const MyProfileRebrand = () => {
 
     };
 
-  getUser();
+      getUser();
     }, []);
 
-  // useEffect(() => {
+  useEffect(() => {
+
+    const getDisplayPhoto = () => {
+        
+      
+
+      PhotoApi.getById("0f07f0c0-c402-3cf9-9e58-4aca2e9c56f3") //This should be changed to nt be hard code at a later time
+
+      .then((res) => {
+
+       const picture_url = res.largeUrl;
+       setPhotoObject(picture_url);
+
+      })
+
+      .catch( (e) => {
+        setError(e);
+        console.log(e.message)
+      });
+
+
+    }
     
-  //   PhotoApi.getById("94540f3c-77b8-4bc5-acc7-4dd7d8cc5bcd")
-  //   .then((res) => console.log(res))
-  //   .catch((err) => {
-  //     console.log(err.message)
-  //   });
+    // PhotoApi.getById("0f07f0c0-c402-3cf9-9e58-4aca2e9c56f3")
+    // .then((res) => console.log(res))
+    // .catch((err) => {
+    //   console.log(err.message)
+    // });
 
+    getDisplayPhoto();
+  },[]);
 
-  // },[]);
-
+ 
 
 
   return (
@@ -204,6 +238,15 @@ const MyProfileRebrand = () => {
               {currentUser?.admissionSemester || "Loading..."}
             </h2>
           </div>
+        </div>
+
+        <div className = 'card_3'>
+
+          <div className = 'random_picture_img'>
+          <img src="https://foto.samfundet.no/media/alle/web/DIGGE/digge0982.jpg" alt="Profile" height = "517" width = "500" />   {/* This should be changed to the photoobject varible when it is not hard coded anymore */}
+          {/* <p> {photoObject}  </p> */}
+          </div>
+          
         </div>
       </div>
 
