@@ -45,9 +45,11 @@ export const PhotoApi = {
   getAllByMotiveId: async function (id: string): Promise<PhotoDto[]> {
     return api.get(`/photos/motive/${id}`).then((res) => res.data.currentList);
   },
+
   post: async function (photo: Photo): Promise<Photo> {
     return api.post("/photos", photo);
   },
+
   batchUpload: async function (
     photos: FormData,
     onUploadProgress?: (progressEvent: ProgressEvent) => void,
@@ -56,6 +58,12 @@ export const PhotoApi = {
     return api.post("/photos/upload", photos, {
       onUploadProgress,
     });
+  },
+
+  getById: async function (id: string): Promise<PhotoDto>  {
+
+    return api.get(`photos/${id}`).then((res) => res.data)
+
   },
 
   search: async function (
