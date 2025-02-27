@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { CloseSharp, Visibility, VisibilityOff } from "@mui/icons-material";
 
+
 interface Props {
   setLoginForm: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -65,6 +66,7 @@ const Login = ({ setLoginForm }: Props) => {
     </Grid>
   );
 
+  
   return (
     <div className={styles.popup}>
       <div className={styles.popupInner}>
@@ -73,6 +75,7 @@ const Login = ({ setLoginForm }: Props) => {
             <Button
               className={styles.gridItem}
               onClick={() => setActiveForm("power")}
+
             >
               Login PowerBruker
             </Button>
@@ -94,6 +97,7 @@ const Login = ({ setLoginForm }: Props) => {
             </IconButton>
           </Grid>
         </Grid>
+
 
         {activeForm === "husfolk" && renderForm("Login Husfolk", "FG")}
         {activeForm === "power" && renderForm("Login Powerbruker", "PROFILE")}

@@ -21,6 +21,7 @@ import ArchiveBossCreateUser from "./components/Arkivsjef/ArchiveBossCreateUser/
 import { EditPhotoGangBangers } from "./views/Intern/EditPhotoGangBangers/EditPhotoGangBangers";
 import { EditPhotoGangBangersEdit } from "./views/Intern/EditPhotoGangBangers/EditPhotoGangBangersEdit";
 import { AuthenticationContext } from "./contexts/AuthenticationContext";
+import ArchiveBossEditUser from "./views/Intern/ArchiveBossEditUser/ArchiveBossEditUser";
 import DeNyeSiden from "./views/DeNyeSiden/DeNyeSiden";
 
 const AppRoutes: FC = () => {
@@ -46,6 +47,10 @@ const AppRoutes: FC = () => {
                 <Route path="/intern/DeNyeSiden" element={<DeNyeSiden />} />
                 <Route path="/intern/last-opp" element={<PhotoUpload />} />
                 <Route path="/intern/arkivsjef" element={<Arkivsjef />} />
+                <Route
+                  path="/intern/arkivsjef/editUser/:id"
+                  element={<ArchiveBossEditUser />}
+                />
                 <Route
                   path="/intern/arkivsjef/createUser"
                   element={<ArchiveBossCreateUser />}
