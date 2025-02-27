@@ -38,6 +38,11 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
   });
 
   const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(false);
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [emailError, setEmailError] = useState("");
+
+  // Email validation regex pattern
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   useEffect(() => {
     const phoneNumberLength = 8;
@@ -52,6 +57,19 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
         (user.lastName || "")?.toLowerCase().substring(0, 2) || "";
     setUser({ ...user, username: newUsername });
   }, [user.firstName, user.lastName]);
+
+  useEffect(() => {
+    if (!user.email?.value) {
+      setIsEmailValid(false);
+      setEmailError("");
+    } else if (!emailRegex.test(user.email.value)) {
+      setIsEmailValid(false);
+      setEmailError("Ugyldig e-postadresse");
+    } else {
+      setIsEmailValid(true);
+      setEmailError("");
+    }
+  }, [user.email?.value]);
 
   const createUser = () => {
     console.log(user);
@@ -79,8 +97,21 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
   };
 
   const handleCreateUserClick = () => {
-    if (isPhoneNumberValid) {
+    if (isPhoneNumberValid && isEmailValid) {
       createUser();
+    } else {
+      setOpen(true);
+      setSeverity(severityEnum.ERROR);
+
+      let errorMessage = "Kan ikke opprette bruker: ";
+      if (!isPhoneNumberValid) {
+        errorMessage += "Telefonnummer må være 8 siffer. ";
+      }
+      if (!isEmailValid) {
+        errorMessage += "E-postadressen er ugyldig.";
+      }
+
+      setMessage(errorMessage);
     }
   };
 
@@ -135,6 +166,8 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
             className={styles.input}
             required
             value={user?.email?.value}
+            error={user.email?.value !== "" && !isEmailValid}
+            helperText={emailError}
             onChange={(e) =>
               setUser({ ...user, email: { value: e.target.value } })
             }

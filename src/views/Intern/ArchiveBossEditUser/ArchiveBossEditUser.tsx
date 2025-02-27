@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { SamfundetUserApi } from "../../../utils/api/SamfundetUserApi";
 import { SamfundetUser } from "../../../../generated";
@@ -11,12 +11,28 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import styles from "./ArchiveBossEditUser.module.css";
+import { AlertContext, severityEnum } from "../../../contexts/AlertContext";
 
 const ArchiveBossEditUser = () => {
+  const { setMessage, setSeverity, setOpen } = useContext(AlertContext);
   const [user, setUser] = useState<SamfundetUser>({});
   const [isLoading, setIsLoading] = useState(true);
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [emailError, setEmailError] = useState("");
+  const [phoneNumberError, setPhoneNumberError] = useState("");
+  const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(false);
+
+  // Email validation regex pattern
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
   const { id } = useParams();
+
+  useEffect(() => {
+    const phoneNumberLength = 8;
+    setIsPhoneNumberValid(
+      user.phoneNumber?.value?.length === phoneNumberLength,
+    );
+  }, [user.phoneNumber?.value]);
 
   useEffect(() => {
     SamfundetUserApi.getById(id || "")
@@ -30,10 +46,51 @@ const ArchiveBossEditUser = () => {
       });
   }, []);
 
+  useEffect(() => {
+    if (!user.email?.value) {
+      setIsEmailValid(false);
+      setEmailError("");
+    } else if (!emailRegex.test(user.email.value)) {
+      setIsEmailValid(false);
+      setEmailError("Ugyldig e-postadresse");
+    } else {
+      setIsEmailValid(true);
+      setEmailError("");
+    }
+  }, [user.email?.value]);
+
+  useEffect(() => {
+    if (!user.phoneNumber?.value) {
+      setIsPhoneNumberValid(false);
+      setPhoneNumberError("");
+    } else if (user.phoneNumber?.value.length !== 8) {
+      setIsPhoneNumberValid(false);
+      setPhoneNumberError("Telefonnummer må være 8 siffer");
+    } else {
+      setIsPhoneNumberValid(true);
+      setPhoneNumberError("");
+    }
+  }, [user.phoneNumber?.value]);
+
   const handleEditUserClick = () => {
-    SamfundetUserApi.patch(user).catch((err) => {
-      console.log(err);
-    });
+    if (isPhoneNumberValid && isEmailValid) {
+      SamfundetUserApi.patch(user).catch((err) => {
+        console.log(err);
+      });
+    } else {
+      setOpen(true);
+      setSeverity(severityEnum.ERROR);
+
+      let errorMessage = "Kan ikke opprette bruker: ";
+      if (!isPhoneNumberValid) {
+        errorMessage += "Telefonnummer må være 8 siffer. ";
+      }
+      if (!isEmailValid) {
+        errorMessage += "E-postadressen er ugyldig.";
+      }
+
+      setMessage(errorMessage);
+    }
   };
 
   return (
@@ -62,8 +119,10 @@ const ArchiveBossEditUser = () => {
             <TextField
               // className={styles.input}
               required
-              type="number"
               value={user?.phoneNumber?.value}
+              error={user.phoneNumber?.value !== "" && !isEmailValid}
+              helperText={phoneNumberError}
+              type="number"
               onChange={(e) =>
                 setUser({ ...user, phoneNumber: { value: e.target.value } })
               }
@@ -74,6 +133,8 @@ const ArchiveBossEditUser = () => {
               // className={styles.input}
               required
               value={user?.email?.value}
+              error={user.email?.value !== "" && !isEmailValid}
+              helperText={emailError}
               onChange={(e) =>
                 setUser({ ...user, email: { value: e.target.value } })
               }
