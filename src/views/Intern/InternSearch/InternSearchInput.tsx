@@ -33,10 +33,10 @@ import { PhotoTagApi } from "../../../utils/api/PhotoTagApi";
 import { AlertContext, severityEnum } from "../../../contexts/AlertContext";
 import { PhotoSearch } from "../../../utils/api/PhotoApi";
 
-interface ChipData {
-  key: number;
-  label: string;
-}
+// interface ChipData {
+//   key: number;
+//   label: string;
+// }
 interface internSearchInputprop {
   handleSearch: (photoSearch: PhotoSearch) => void;
 }
@@ -73,16 +73,16 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
   const [category, setCategory] = useState<string>("");
   const [place, setPlace] = useState<string>("");
 
-  // useRef for managing chip in tag component
-  const tagRef = useRef<HTMLInputElement | null>(null);
+  // // useRef for managing chip in tag component
+  // const tagRef = useRef<HTMLInputElement | null>(null);
 
-  // For chipdata in tag component
-  const [chipData, setChipData] = useState<ChipData[]>([]);
+  // // For chipdata in tag component
+  // const [chipData, setChipData] = useState<ChipData[]>([]);
 
-  // ListItem for tags
-  const ListItem = styled("li")(({ theme }) => ({
-    margin: theme.spacing(0.5),
-  }));
+  // // ListItem for tags
+  // const ListItem = styled("li")(({ theme }) => ({
+  //   margin: theme.spacing(0.5),
+  // }));
 
   //context for error handling
   const { setMessage, setSeverity, setOpen } = useContext(AlertContext);
@@ -108,9 +108,7 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
     apiStateMap.forEach(({ api, setter }) => {
       api()
         .then((res) => {
-          // Extract the correct type from the API response
           const data = res.data.currentList as any[];
-          // Set the state with the extracted data
           setter(data);
         })
         .catch((e) => {
@@ -119,53 +117,53 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
     });
   }, []);
 
-  // Handles backspace in the tags field
-  const handleBackspace = (event: React.KeyboardEvent) => {
-    if (
-      event.key === "Backspace" &&
-      tagRef.current &&
-      tagRef.current.value === ""
-    ) {
-      // Check if backspace is pressed and the input is empty
-      if (chipData.length > 0) {
-        // If there are tags, remove the last one
-        setChipData((chips) => chips.slice(0, -1));
-      }
-    }
-  };
+  // // Handles backspace in the tags field
+  // const handleBackspace = (event: React.KeyboardEvent) => {
+  //   if (
+  //     event.key === "Backspace" &&
+  //     tagRef.current &&
+  //     tagRef.current.value === ""
+  //   ) {
+  //     // Check if backspace is pressed and the input is empty
+  //     if (chipData.length > 0) {
+  //       // If there are tags, remove the last one
+  //       setChipData((chips) => chips.slice(0, -1));
+  //     }
+  //   }
+  // };
 
-  // Handles enter in tags field
-  const handleEnterPress = (event: React.KeyboardEvent) => {
-    if (
-      event.key === "Enter" &&
-      tagRef.current &&
-      tagRef.current.value.trim() !== ""
-    ) {
-      // Check if Enter key is pressed and the input is not empty
-      const newLabel = tagRef.current.value.trim();
+  // // Handles enter in tags field
+  // const handleEnterPress = (event: React.KeyboardEvent) => {
+  //   if (
+  //     event.key === "Enter" &&
+  //     tagRef.current &&
+  //     tagRef.current.value.trim() !== ""
+  //   ) {
+  //     // Check if Enter key is pressed and the input is not empty
+  //     const newLabel = tagRef.current.value.trim();
 
-      // Create a new chip with a unique key
-      const newChip = {
-        key: Date.now(),
-        label: newLabel,
-      };
+  //     // Create a new chip with a unique key
+  //     const newChip = {
+  //       key: Date.now(),
+  //       label: newLabel,
+  //     };
 
-      // Add the new chip to chipData and clear the input field
-      setChipData((chips) => [...chips, newChip]);
-      tagRef.current.value = "";
-      setPhotoTag("");
+  //     // Add the new chip to chipData and clear the input field
+  //     setChipData((chips) => [...chips, newChip]);
+  //     tagRef.current.value = "";
+  //     setPhotoTag("");
 
-      // Prevent the default behavior of the Enter key (form submission)
-      event.preventDefault();
-    }
-  };
+  //     // Prevent the default behavior of the Enter key (form submission)
+  //     event.preventDefault();
+  //   }
+  // };
 
-  //Handles deleting chip (tag) in tags field
-  const handleDelete = (chipToDelete: ChipData) => {
-    setChipData((chips: any) =>
-      chips.filter((chip: any) => chip.key !== chipToDelete.key),
-    );
-  };
+  // //Handles deleting chip (tag) in tags field
+  // const handleDelete = (chipToDelete: ChipData) => {
+  //   setChipData((chips: any) =>
+  //     chips.filter((chip: any) => chip.key !== chipToDelete.key),
+  //   );
+  // };
 
   const createStateChangeHandler =
     (setState: React.Dispatch<React.SetStateAction<string>>) =>
@@ -202,7 +200,7 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
       motive: filteredMotive ? filteredMotive.motiveId.id : "",
       album: filteredAlbum ? filteredAlbum.albumId.id : "",
       place: filteredPlace ? filteredPlace.placeId.id : "",
-      tag: chipData.map((chip) => chip.label),
+      //tag: chipData.map((chip) => chip.label),
     });
   };
 
@@ -329,6 +327,7 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
               />
             </div>
             <div className={styles.formTextField}>
+              {/* 
               <Box>
                 {chipData.map((data) => {
                   return (
@@ -348,8 +347,10 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
                   );
                 })}
               </Box>
+              */}
             </div>
             <div className={styles.formTextField}>
+              {/* 
               <Autocomplete
                 freeSolo
                 options={photoTags.map((tag) => tag.name)} 
@@ -378,6 +379,7 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
                   />
                 )}
               />
+              */}
             </div>
             <div className={styles.formTextField}>
               <FormGroup>
