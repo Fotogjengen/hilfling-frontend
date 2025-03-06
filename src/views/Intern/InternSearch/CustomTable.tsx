@@ -26,9 +26,9 @@ const columns = [
   { id: "securityLevel", label: "Security Level" },
   { id: "gang", label: "Gang" },
   { id: "categoryDto", label: "Category" },
-  { id: "photoGangBangerDto", label: "Photo Gang Banger" },
-  { id: "photoTags", label: "Photo Tags" },
-  { id: "isGoodPicture", label: "Good Picture" },
+  // { id: "photoGangBangerDto", label: "Photo Gang Banger" },
+  // { id: "photoTags", label: "Photo Tags" },
+  // { id: "isGoodPicture", label: "Good Picture" },
 ];
 
 const CustomTable: FC<Props> = ({ photos, handlePageChange, page, photosCount, pageSize}) => {
@@ -87,8 +87,11 @@ const CustomTable: FC<Props> = ({ photos, handlePageChange, page, photosCount, p
                       {column.id === "categoryDto" && photo.categoryDto.name}
                       {column.id === "photoGangBangerDto" &&
                         photo.photoGangBangerDto.samfundetUser?.firstName}
+
+                      {/* 
                       {column.id === "photoTags" &&
                         photo.photoTags.map((tag) => tag.name).join(", ")}
+                      */}
                       {column.id === "isGoodPicture" &&
                         `${photo.isGoodPicture}`}
                     </TableCell>
