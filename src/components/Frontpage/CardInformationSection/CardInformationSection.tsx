@@ -10,7 +10,7 @@ const CardInformationSection: FC = () => {
           Fotogjengen er en gjeng på Samfundet. Vi har ansvar for å dokumentere
           alt som skjer på huset. Alle bilder vi tar legges ut på denne
           nettsiden. Ønsker du å bruke noen av bildene våre. Venligst krediter
-          med foto: foto.samfundet.no.
+          foto med: foto.samfundet.no.
         </p>
         <p>
           <a
