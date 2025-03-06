@@ -25,6 +25,7 @@ const Form: FC<FormProps> = ({
 }) => {
   const [values, setValues] = useState<FormContext["values"]>(initialValues);
   const [errors, setErrors] = useState<FormContext["errors"]>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const validateFields = () => {
     setErrors(validate(values));
@@ -43,10 +44,25 @@ const Form: FC<FormProps> = ({
     }));
   };
 
-  const _onSubmit = (e: any) => {
+  const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    onSubmit(values);
-    setValues(initialValues);
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
+    onSubmit(values)
+      .then((success) => {
+        // Only reset form if submission is successful
+        if (success) {
+          setValues(initialValues);
+        }
+      })
+      .catch((error) => {
+        console.error("Form submission error:", error);
+        // Optionally handle errors here
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
   };
 
   return (
@@ -61,7 +77,7 @@ const Form: FC<FormProps> = ({
         {children}
         <Grid container spacing={4}>
           <Grid item xs={6}>
-            <SubmitButton onClick={(e) => _onSubmit(e)}>Last opp</SubmitButton>
+            <SubmitButton onClick={handleSubmit}>Last opp</SubmitButton>
           </Grid>
         </Grid>
       </form>
