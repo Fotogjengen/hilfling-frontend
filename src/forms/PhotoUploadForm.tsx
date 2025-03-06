@@ -136,6 +136,7 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
     }
     try {
       setIsLoading(true);
+      setSuccess(false);
       const formData = new FormData();
       formData.append("motiveTitle", values["motive"]);
       formData.append("securityLevelId", values["securityLevel"]);
@@ -163,6 +164,10 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
       const handleUploadProgress = (progressEvent: ProgressEvent) => {
         const percentCompleted = Math.round(
           (progressEvent.loaded * 100) / progressEvent.total,
+        );
+        console.log(`Upload progress: ${percentCompleted}%`);
+        console.log(
+          `Loaded: ${progressEvent.loaded}, Total: ${progressEvent.total}`,
         );
         setProgress(percentCompleted);
       };
@@ -208,6 +213,20 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
       errors.album = "Album er påkrevd";
     }
 
+    // Date validation
+    if (!values.date) {
+      errors.date = "Dato er påkrevd";
+    } else {
+      const selectedDate = new Date(values.date);
+      const today = new Date();
+
+      if (isNaN(selectedDate.getTime())) {
+        errors.date = "Ugyldig dato";
+      } else if (selectedDate > today) {
+        errors.date = "Dato kan ikke være i fremtiden";
+      }
+    }
+
     // Motive validation
     if (!values.motive) {
       errors.motive = "Motiv er påkrevd";
@@ -233,20 +252,6 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
     // EventOwner validation
     if (!values.eventOwner) {
       errors.eventOwner = "Eier er påkrevd";
-    }
-
-    // Date validation
-    if (!values.date) {
-      errors.date = "Dato er påkrevd";
-    } else {
-      const selectedDate = new Date(values.date);
-      const today = new Date();
-
-      if (isNaN(selectedDate.getTime())) {
-        errors.date = "Ugyldig dato";
-      } else if (selectedDate > today) {
-        errors.date = "Dato kan ikke være i fremtiden";
-      }
     }
 
     return errors;

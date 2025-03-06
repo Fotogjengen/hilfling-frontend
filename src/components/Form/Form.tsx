@@ -26,10 +26,12 @@ const Form: FC<FormProps> = ({
   const [values, setValues] = useState<FormContext["values"]>(initialValues);
   const [errors, setErrors] = useState<FormContext["errors"]>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [touched, setTouched] = useState<Record<string, boolean>>({});
 
   const validateFields = () => {
     setErrors(validate(values));
   };
+
   useEffect(() => validateFields(), [values]);
 
   const onChange = (fieldName: string, value: any) => {
@@ -38,6 +40,15 @@ const Form: FC<FormProps> = ({
         "The field that you changed is not registered in the initialValues prop",
       );
     }
+
+    // Mark the field as touched when it changes
+    if (!touched[fieldName]) {
+      setTouched((prev) => ({
+        ...prev,
+        [fieldName]: true,
+      }));
+    }
+
     setValues((formValues) => ({
       ...formValues,
       [fieldName]: value,
@@ -47,6 +58,25 @@ const Form: FC<FormProps> = ({
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (isSubmitting) return;
+
+    // Mark all fields as touched when attempting to submit
+    const allTouched = Object.keys(initialValues).reduce((acc, key) => {
+      acc[key] = true;
+      return acc;
+    }, {} as Record<string, boolean>);
+
+    setTouched(allTouched);
+
+    // Validate one more time before submission
+    const validationErrors = validate(values);
+    setErrors(validationErrors);
+
+    // Check if there are any validation errors
+    if (Object.keys(validationErrors).length > 0) {
+      // Don't proceed with submission if there are errors
+      return;
+    }
+
     setIsSubmitting(true);
 
     onSubmit(values)
@@ -54,6 +84,7 @@ const Form: FC<FormProps> = ({
         // Only reset form if submission is successful
         if (success) {
           setValues(initialValues);
+          setTouched({});
         }
       })
       .catch((error) => {
@@ -70,6 +101,7 @@ const Form: FC<FormProps> = ({
       value={{
         values,
         errors,
+        touched,
         onChange,
       }}
     >
@@ -77,7 +109,12 @@ const Form: FC<FormProps> = ({
         {children}
         <Grid container spacing={4}>
           <Grid item xs={6}>
-            <SubmitButton onClick={handleSubmit}>Last opp</SubmitButton>
+            <SubmitButton
+              onClick={handleSubmit}
+              disabled={isSubmitting || Object.keys(errors).length > 0}
+            >
+              Last opp
+            </SubmitButton>
           </Grid>
         </Grid>
       </form>

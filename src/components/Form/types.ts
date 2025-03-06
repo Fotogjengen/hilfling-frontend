@@ -19,6 +19,7 @@ export type Errors<T extends { [key: string]: any } = {}> = {
 export interface FormContext {
   values: { [fieldName: string]: any };
   errors: { [fieldName: string]: string | undefined };
+  touched?: Record<string, boolean>;
   onChange: (fieldName: string, value: any) => void;
 }
 
