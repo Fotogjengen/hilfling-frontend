@@ -1,4 +1,6 @@
+
 import React, { useState, FC, useEffect, useMemo } from "react";
+
 import { render } from "react-dom";
 import "./index.css";
 import AppRoutes from "./AppRoutes";
@@ -17,6 +19,7 @@ import { AuthenticationContext } from "./contexts/AuthenticationContext";
 import Cookies from "js-cookie";
 import { decryptData, encryptData } from "./utils/encryption/encrypt";
 
+
 const Root: FC = () => {
   // Hooks for the Alert component
   const [open, setOpen] = useState(false);
@@ -25,6 +28,7 @@ const Root: FC = () => {
   const [photos, setPhotos] = useState<PhotoDto[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [photoIndex, setPhotoIndex] = useState(0);
+
 
   // Hooks for Authentication
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -83,6 +87,7 @@ const Root: FC = () => {
     }),
     [isOpen, photoIndex, photos],
   );
+
 
   return (
     <>

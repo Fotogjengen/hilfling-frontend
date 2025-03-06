@@ -1,7 +1,7 @@
 import React, { FC, useContext, useEffect, useState } from "react";
 import styles from "./Arkivsjef.module.css";
 import ArchiveBossAccordion from "../../../components/Arkivsjef/ArchiveBossAccordion/ArchiveBossAccordion";
-import { Grid, Typography } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
 import { AlbumDto, PlaceDto, CategoryDto } from "../../../../generated";
 import { AlbumApi } from "../../../utils/api/AlbumApi";
 import { PlaceApi } from "../../../utils/api/PlaceApi";
@@ -10,13 +10,16 @@ import ArchiveBossElement from "../../../components/Arkivsjef/ArchiveBossElement
 import { ArchiveBossContext } from "../../../contexts/ArchiveBossContext";
 import ArchiveBossAddElements from "../../../components/Arkivsjef/ArchiveBossAddElements/ArchiveBossAddElements";
 import { AlertContext, severityEnum } from "../../../contexts/AlertContext";
-import { Link } from "react-router-dom";
+import ArchiveBossCreateUsers from "../../../components/Arkivsjef/ArchiveBossCreateUser/ArchiveBossCreateUsers";
+import ArchiveBossOverView from "../../../components/Arkivsjef/ArchiveBossOverView/ArchiveBossOverView";
 
 const ArchiveBoss: FC = () => {
   const [albums, setAlbums] = useState<AlbumDto[]>([]);
   const [places, setPlaces] = useState<PlaceDto[]>([]);
   const [update, setUpdate] = useState(false);
   const [categories, setCategories] = useState<CategoryDto[]>([]);
+  const [createUser, setCreateUser] = useState(false);
+  const [overview, setOverview] = useState(false);
 
   const { setMessage, setSeverity, setOpen } = useContext(AlertContext);
 
@@ -60,10 +63,15 @@ const ArchiveBoss: FC = () => {
       >
         <div className={styles.archiveBoss}>
           <h2> Arkivsjef </h2>
-          
-          <Link to="/intern/arkivsjef/createUser"><div className={styles.createUser}>Lag ny bruker</div></Link>
-   
 
+          <div className={styles.users}>
+            <Button onClick={() => setCreateUser(true)}>Lag bruker</Button>
+            {createUser && (
+              <ArchiveBossCreateUsers setCreateUser={setCreateUser} />
+            )}
+            <Button onClick={() => setOverview(true)}>Brukere</Button>
+            {overview && <ArchiveBossOverView setOverview={setOverview} />}
+          </div>
           <div className={styles.description}>
             <Grid
               container
