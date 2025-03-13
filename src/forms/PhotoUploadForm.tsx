@@ -9,7 +9,7 @@ import {
 import LinearProgress from "@mui/material/LinearProgress";
 import DatePicker from "../components/Form/DatePicker";
 import Select from "../components/Form/Select";
-import ChipField from "../components/Form/ChipField";
+// import ChipField from "../components/Form/ChipField";
 import TextField from "../components/Form/TextField";
 import Form from "../components/Form/Form";
 import { Errors, Validate } from "../components/Form/types";
@@ -333,6 +333,7 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
 
               <Grid item xs={12}>
                 <DatePicker name="date" label="Dato" fullWidth />
+                {/* TODO: Add new datepicker, this one is outdated and not working */}
               </Grid>
 
               <Grid item xs={12}>
