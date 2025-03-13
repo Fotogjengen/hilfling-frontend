@@ -1,0 +1,25 @@
+name: get-env-variables
+
+on:
+  push:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Build the project
+        env:
+          ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }} # This makes the secret available
+        run: npm run build
+
+      - name: Get env variables
+        run: echo "Getting env variables"
+
+      - name: Verify ENCRYPTION_KEY is set
+        run: echo "ENCRYPTION_KEY is $ENCRYPTION_KEY"
+        env:
+          ENCRYPTION_KEY: ${{ secrets.ENCRYPTION_KEY }}

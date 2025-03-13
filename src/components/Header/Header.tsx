@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useContext, useState } from "react";
 import styles from "./Header.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { GuiLogo } from "../../gui-components";
@@ -11,24 +11,19 @@ import AccessibilityNewIcon from "@mui/icons-material/AccessibilityNew";
 import LockIcon from "@mui/icons-material/Lock";
 import NoEncryptionGmailerrorredIcon from "@mui/icons-material/NoEncryptionGmailerrorred";
 import SearchIcon from "@mui/icons-material/Search";
-import { useMsal } from "@azure/msal-react";
-import AzureLogin from "../../views/Login/AzureLogin";
+import { AuthenticationContext } from "../../contexts/AuthenticationContext";
+import LoginButton from "../../views/Login/LoginButton";
+
 
 const HeaderComponent: FC = () => {
+  const { isAuthenticated, position } = useContext(AuthenticationContext);
+
   const replace = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const onMenuClick = () => setShowMenu(true);
   const onCloseClick = () => setShowMenu(false);
   const handleResize = () => setShowMenu(false);
   window.addEventListener("resize", handleResize);
-
-  const { instance } = useMsal();
-  const activeAccount = instance.getActiveAccount();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    setIsAuthenticated(!!activeAccount);
-  }, [activeAccount]);
 
   const menuLinks = [
     {
@@ -51,6 +46,9 @@ const HeaderComponent: FC = () => {
       noAuth: true,
     },
 
+
+
+
     ...(isAuthenticated
       ? [
           {
@@ -59,6 +57,17 @@ const HeaderComponent: FC = () => {
             icon: <AccessibilityNewIcon />,
             noAuth: true,
           },
+          ...(position === "FG" ?
+            [{
+            name: "DeNyeSiden",
+            to: "/intern/DeNyeSiden",
+            icon: <SearchIcon />,
+            noAuth: true,
+        
+            }]
+        
+          :[] )
+ 
         ]
       : []),
     {
@@ -112,11 +121,14 @@ const HeaderComponent: FC = () => {
           <div className={styles.navList}>
             <Link to="/search">BILDER</Link>
             <Link to="/about">OM OSS</Link>
-            {isAuthenticated ? <Link to="/intern/">INTERN</Link> : <></>}
+            {isAuthenticated ? <> <Link to="/intern/">INTERN</Link> 
+              {position == "FG" ? <Link to = "intern/DeNyeSiden"> DeNye </Link> : <></> } </>
+              : <></>}
             <Link to="/search">SØK</Link>
+            
           </div>
           <div className={styles.loggContainer}>
-            <AzureLogin />
+            <LoginButton />
           </div>
         </div>
       </nav>

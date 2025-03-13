@@ -6,7 +6,7 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   pull_request_target:
-    branches: [ master ]
+    branches: [master]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -20,10 +20,15 @@ jobs:
         node-version: [15.x]
     steps:
       - uses: actions/checkout@v2
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+
+      # Add this step to update npm to the latest version
+      - name: Update npm to the latest version
+        run: npm install -g npm@latest
 
       - name: Cache Node Modules
         id: node-cache
@@ -31,8 +36,17 @@ jobs:
         with:
           path: node_modules
           key: node-modules-${{ hashFiles('package-lock.json') }}
-      - name: Install dependenceis
-        if: steps.node-cache.outputs.cache-hit != 'true'
-        run: npm ci
-      #- run: npm run build --if-present
+        restore-keys: |
+          node-modules-
+
+      # Install dependencies based on whether package-lock.json exists
+      - name: Install dependencies (npm ci if package-lock.json exists, npm install otherwise)
+        run: |
+          if [ -f package-lock.json ]; then
+            npm ci
+          else
+            npm install
+          fi
+
+      # Run tests
       - run: npm test

@@ -8,12 +8,15 @@ on:
     types: [opened, synchronize, reopened, closed]
     branches:
       - master
+  workflow_dispatch:
 
 jobs:
   build_and_deploy_job:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
     name: Build and Deploy Job
+    env:
+      REACT_APP_TEMP_API_PATH: ${{ secrets.TEMP_API_PATH }}
     steps:
       - uses: actions/checkout@v2
         with:

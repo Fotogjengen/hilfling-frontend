@@ -1,4 +1,6 @@
-import React, { useState, FC } from "react";
+
+import React, { useState, FC, useEffect, useMemo } from "react";
+
 import { render } from "react-dom";
 import "./index.css";
 import AppRoutes from "./AppRoutes";
@@ -13,33 +15,12 @@ import Alert from "./components/Alert/Alert";
 import Lightbox from "react-image-lightbox";
 import { PhotoDto } from "../generated";
 import { createImgUrl } from "./utils/createImgUrl/createImgUrl";
-import { EventType, PublicClientApplication } from "@azure/msal-browser";
-import { MsalProvider } from "@azure/msal-react";
-import { azureConfig } from "./azureconfig";
-import { AuthenticationResult } from "@azure/msal-common";
+import { AuthenticationContext } from "./contexts/AuthenticationContext";
+import Cookies from "js-cookie";
+import { decryptData, encryptData } from "./utils/encryption/encrypt";
+
 
 const Root: FC = () => {
-
-  //Msal should be instanciated outside component tree to prevent it from being re-instanciated on re-renders
-  const msalInstance = new PublicClientApplication(azureConfig);
-  // Default for using the first account if no account is active on page load.
-  if (
-    !msalInstance.getActiveAccount() &&
-    msalInstance.getAllAccounts().length > 0
-  ) {
-    // Set the active account using the first account in the list
-    msalInstance.setActiveAccount(msalInstance.getAllAccounts()[0]);
-  }
-
-  //listen for sign-in event and set active account
-  msalInstance.addEventCallback((event) => {
-    const payload = event.payload as AuthenticationResult;
-    if (event.eventType === EventType.LOGIN_SUCCESS && payload.account) {
-      const account = payload.account;
-      msalInstance.setActiveAccount(account);
-    }
-  });
-
   // Hooks for the Alert component
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
@@ -48,38 +29,80 @@ const Root: FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [photoIndex, setPhotoIndex] = useState(0);
 
+
+  // Hooks for Authentication
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [position, setPosition] = useState("oo"); //Change maybe? verv?
+
+  // Checks if the user is logged in when the page loads
+  useEffect(() => {
+    const data = decryptData(Cookies.get("fgData") || "");
+    if (data !== "") {
+      const parsedData = JSON.parse(data);
+      setIsAuthenticated(parsedData.isAuthenticated);
+      setPosition(parsedData.position);
+    }
+  }, []);
+
+  // Saves authentication status for the user as a cookie when authentication is changed
+  useEffect(() => {
+    const data = {
+      isAuthenticated,
+      position,
+    };
+    Cookies.set("fgData", encryptData(JSON.stringify(data)));
+  }, [isAuthenticated, position]);
+
+  // Memoized context values to avoid unnecessary re-renders
+  const alertContextValue = useMemo(
+    () => ({
+      open,
+      setOpen,
+      setMessage,
+      message,
+      setSeverity,
+      severity,
+    }),
+    [open, message, severity],
+  );
+
+  const authContextValue = useMemo(
+    () => ({
+      isAuthenticated,
+      setIsAuthenticated,
+      position,
+      setPosition,
+    }),
+    [isAuthenticated, position],
+  );
+
+  const imageContextValue = useMemo(
+    () => ({
+      isOpen,
+      setIsOpen,
+      photoIndex,
+      setPhotoIndex,
+      photos,
+      setPhotos,
+    }),
+    [isOpen, photoIndex, photos],
+  );
+
+
   return (
     <>
       <ThemeProvider theme={theme}>
-        <ImageContext.Provider
-          value={{
-            isOpen,
-            setIsOpen,
-            photoIndex,
-            setPhotoIndex,
-            photos,
-            setPhotos,
-          }}
-        >
-          <MsalProvider instance={msalInstance}>
-            <AlertContext.Provider
-              value={{
-                open,
-                setOpen,
-                setMessage,
-                message,
-                setSeverity,
-                severity,
-              }}
-            >
-              {open ? (
+        <ImageContext.Provider value={imageContextValue}>
+          <AuthenticationContext.Provider value={authContextValue}>
+            <AlertContext.Provider value={alertContextValue}>
+              {open && (
                 <Alert
                   open={open}
                   setOpen={setOpen}
                   message={message}
                   severity={severity}
                 />
-              ) : null}
+              )}
               <Box sx={{ m: "2rem" }}>
                 <Router>
                   <HeaderComponent />
@@ -88,7 +111,7 @@ const Root: FC = () => {
               </Box>
               <GuiFooter />
             </AlertContext.Provider>
-          </MsalProvider>
+          </AuthenticationContext.Provider>
 
           {isOpen && (
             <Lightbox

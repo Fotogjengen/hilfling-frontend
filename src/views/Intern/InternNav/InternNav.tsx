@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import ImageSearchIcon from "@mui/icons-material/ImageSearch";
 import InventoryIcon from "@mui/icons-material/Inventory";
@@ -14,8 +14,11 @@ import { Link } from "react-router-dom";
 
 import { experimentalStyled as styled } from "@mui/material/styles";
 import { Grid, Paper, Typography } from "@mui/material";
+import { AuthenticationContext } from "../../../contexts/AuthenticationContext";
 
 const InternNav = () => {
+  const { position } = useContext(AuthenticationContext);
+
   const mainIconSize = 100;
   const otherIconSize = 50;
 
@@ -97,16 +100,37 @@ const InternNav = () => {
         spacing={{ xs: 2, md: 3 }}
         columns={{ xs: 4, sm: 8, md: 12 }}
       >
-        {mainLinks.map((link, index) => (
-          <Grid item xs={2} sm={4} md={4} key={index}>
-            <Link to={link.to}>
-              <MainItem>
-                <Typography>{link.name}</Typography>
-                {link.icon}
-              </MainItem>
-            </Link>
-          </Grid>
-        ))}
+        {position !== "FG" && (
+          <>
+            <Grid item xs={2} sm={4} md={4} key={0}>
+              <Link to={mainLinks[0].to}>
+                <MainItem>
+                  <Typography>{mainLinks[0].name}</Typography>
+                  {mainLinks[0].icon}
+                </MainItem>
+              </Link>
+            </Grid>
+            <Grid item xs={2} sm={4} md={4} key={1}>
+              <Link to={mainLinks[4].to}>
+                <MainItem>
+                  <Typography>{mainLinks[4].name}</Typography>
+                  {mainLinks[4].icon}
+                </MainItem>
+              </Link>
+            </Grid>
+          </>
+        )}
+        {position === "FG" &&
+          mainLinks.map((link, index) => (
+            <Grid item xs={2} sm={4} md={4} key={index}>
+              <Link to={link.to}>
+                <MainItem>
+                  <Typography>{link.name}</Typography>
+                  {link.icon}
+                </MainItem>
+              </Link>
+            </Grid>
+          ))}
       </Grid>
       <br />
       <Typography variant="h5">Andre lenker</Typography>
