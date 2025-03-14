@@ -39,7 +39,7 @@ export const PhotoPostDto = new PhotoPost();
 
 export const PhotoApi = {
   getAll: async function (): Promise<PhotoDto[]> {
-    return api.get("/photos/").then((res) => res.data.currentList);
+    return api.get("/photos").then((res) => res.data.currentList);
   },
 
   getAllByMotiveId: async function (id: string): Promise<PhotoDto[]> {

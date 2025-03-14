@@ -1,53 +1,39 @@
-import React, { FC } from "react";
-import { createStyles, withStyles, WithStyles } from "@mui/styles";
-import { FormFieldProps } from "./types";
+// DatePickerField.tsx
+import React from "react";
+import { DatePicker } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
 import { useForm } from "./Form";
 
-import {
-  LocalizationProvider,
-  MobileDatePicker,
-  MobileDatePickerProps,
-} from "@mui/lab";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
+interface DatePickerFieldProps {
+  name: string;
+  label: string;
+  required?: boolean;
+  fullWidth?: boolean;
+}
 
-const styles = () =>
-  createStyles({
-    helperText: {
-      color: "red",
-    },
-    formControl: {
-      width: "100%",
-    },
-  });
-// let idCount = 0;
-
-const DatePicker: FC<
-  FormFieldProps<MobileDatePickerProps<Date>> &
-    WithStyles<typeof styles> & { fullWidth?: boolean }
-> = ({ name, label, fullWidth = false }) => {
-  const { values, onChange } = useForm();
-  // const id = `DatePicker-${name}-${idCount++}`;
-
-  const handleDateChange = (date: Date | null) => {
-    onChange(name, date);
-  };
+const DatePickerField: React.FC<DatePickerFieldProps> = ({
+  name,
+  label,
+  required = false,
+  fullWidth = false,
+}) => {
+  const { values, errors, touched, onChange } = useForm();
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <MobileDatePicker
-        format="dd/MM/yyyy"
-        label={label}
-        value={values[name]}
-        onChange={handleDateChange}
-        slotProps={{
-          textField: {
-            fullWidth: fullWidth,
-            helperText: "DD / MM / YYYY",
-          },
-        }}
-      />
-    </LocalizationProvider>
+    <DatePicker
+      label={label}
+      value={values[name] ? dayjs(values[name]) : null}
+      onChange={(newValue) => onChange(name, newValue?.toDate())}
+      slotProps={{
+        textField: {
+          fullWidth: fullWidth,
+          required: required,
+          error: !!(errors[name] && touched?.[name]),
+          helperText: (touched?.[name] && errors[name]) || " ",
+        },
+      }}
+    />
   );
 };
 
-export default withStyles(styles)(DatePicker);
+export default DatePickerField;

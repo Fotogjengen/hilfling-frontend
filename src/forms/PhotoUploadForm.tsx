@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import LinearProgress from "@mui/material/LinearProgress";
-import DatePicker from "../components/Form/DatePicker";
+import DatePickerField from "../components/Form/DatePicker";
 import Select from "../components/Form/Select";
 // import ChipField from "../components/Form/ChipField";
 import TextField from "../components/Form/TextField";
@@ -33,6 +33,8 @@ import { PhotoApi } from "../utils/api/PhotoApi";
 import { EventOwnerApi } from "../utils/api/EventOwnerApi";
 import { AlertContext, severityEnum } from "../contexts/AlertContext";
 import { styled } from "@mui/material/styles";
+import { LocalizationProvider, nbNO } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 export interface PhotoUploadFormIV {
   album: string;
@@ -61,6 +63,7 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
   const [eventOwners, setEventOwners] = useState<EventOwnerDto[]>([]); // stores api fetch data from dropdowns
   const [places, setPlaces] = useState<PlaceDto[]>([]); // stores api fetch data from dropdowns
   const [securityLevels, setSecurityLevels] = useState<SecurityLevelDto[]>([]); // stores api fetch data from dropdowns
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false); // Track if a file is being uploaded
   const [progress, setProgress] = useState(0); // Tracks upload progress percentage'
@@ -128,6 +131,8 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
   }, [categories]);
 
   const onSubmit = async (values: Record<string, any>) => {
+    setFormSubmitted(false); // Reset state before submission
+
     if (files.length === 0) {
       setOpen(true);
       setSeverity(severityEnum.ERROR);
@@ -137,6 +142,11 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
     try {
       setIsLoading(true);
       setSuccess(false);
+
+      const formattedDate = values["date"]
+        ? new Date(values["date"]).toISOString().split("T")[0]
+        : "";
+
       const formData = new FormData();
       formData.append("motiveTitle", values["motive"]);
       formData.append("securityLevelId", values["securityLevel"]);
@@ -144,6 +154,7 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
       formData.append("albumId", values["album"]);
       formData.append("categoryName", values["category"]);
       formData.append("eventOwnerName", values["eventOwner"]);
+      formData.append("dateTaken", formattedDate);
       formData.append(
         "photoGangBangerId",
         "6a89444f-25f6-44d9-8a73-94587d72b839",
@@ -192,6 +203,7 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
       //     setIsLoading(false);
       //   });
       setSuccess(true);
+      setFormSubmitted(true); // Indicate successful submission
 
       return true;
     } catch (error) {
@@ -206,6 +218,8 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
   };
 
   const validate: Validate = (values: any): Errors => {
+    if (formSubmitted) return {}; // Skip validation if form was just submitted
+
     const errors: Errors = {};
 
     // Album validation
@@ -332,7 +346,21 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
               </Grid>
 
               <Grid item xs={12}>
-                <DatePicker name="date" label="Dato" fullWidth />
+                <LocalizationProvider
+                  dateAdapter={AdapterDayjs}
+                  adapterLocale={"NO"}
+                  localeText={
+                    nbNO.components.MuiLocalizationProvider.defaultProps
+                      .localeText
+                  }
+                >
+                  <DatePickerField
+                    name="date"
+                    label="Dato"
+                    required
+                    fullWidth
+                  />
+                </LocalizationProvider>
                 {/* TODO: Add new datepicker, this one is outdated and not working */}
               </Grid>
 
