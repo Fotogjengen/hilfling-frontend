@@ -368,7 +368,9 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
                 <TextField name="motive" label="Motiv" fullWidth required />
               </Grid>
 
-              {/* <Grid item xs={12}>
+              {/*
+              For Tags
+              <Grid item xs={12}>
                 <ChipField name="tags" label="Tags" fullWidth />
               </Grid> */}
 
