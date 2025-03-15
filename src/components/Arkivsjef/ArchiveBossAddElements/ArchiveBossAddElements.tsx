@@ -125,7 +125,7 @@ const ArchiveBossAddElements = () => {
 
   return (
     <>
-      <IconButton aria-label="add" onClick={handleClickOpen}>
+      <IconButton aria-label="add" onClick={handleClickOpen} disableRipple = {true}>
         <AddCircle className={styles.svgicon} />
       </IconButton>
       <Typography onClick={handleClickOpen}>Legg til ny</Typography>
