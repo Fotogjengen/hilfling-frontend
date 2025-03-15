@@ -89,7 +89,7 @@ const CustomTable: FC<Props> = ({ photos, handlePageChange, page, photosCount, p
                         photo.photoGangBangerDto.samfundetUser?.firstName}
 
                       {/* 
-                      {column.id === "photoTags" &&
+                      {column.id === "photoTags" && 
                         photo.photoTags.map((tag) => tag.name).join(", ")}
                       */}
                       {column.id === "isGoodPicture" &&
