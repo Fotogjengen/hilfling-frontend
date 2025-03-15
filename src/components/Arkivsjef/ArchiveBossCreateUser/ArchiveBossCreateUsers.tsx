@@ -150,7 +150,7 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
             onChange={(e) => setUser({ ...user, lastName: e.target.value })}
           />
 
-          <FormLabel>Telefonnummer:</FormLabel>
+          <FormLabel> Telefonnummer: </FormLabel>
           <TextField
             className={styles.input}
             required
@@ -161,7 +161,7 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
             }
           />
 
-          <FormLabel>Email:</FormLabel>
+          <FormLabel> Email: </FormLabel>
           <TextField
             className={styles.input}
             required
@@ -180,19 +180,27 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
             value={user?.password}
             onChange={(e) => setUser({ ...user, password: e.target.value })}
           /> */}
+          <div className= {styles.nav_buttons} >
 
-          <Button
-            onClick={handleCreateUserClick}
-            type="button"
-            variant="contained"
-            color="primary"
-            sx={{ marginTop: "5px", margin: "5px auto" }}
-            className={styles.submitButton}
-          >
-            Lag bruker
-          </Button>
+            <Button
+              onClick={handleCreateUserClick}
+              type="button"
+              variant="contained"
+              color="primary"
+              // sx={{ marginTop: "5px", margin: "5px auto" }}
+              className={styles.submitButton}
+            >
+              Lag bruker
+            </Button>
 
-          <Button onClick={() => setCreateUser(false)}>Tilbake</Button>
+            <Button onClick={() => setCreateUser(false)}
+              sx={{ width : "50%"
+                  }}
+              >
+              Tilbake
+              </Button>
+
+          </div>
         </FormControl>
       </Paper>
     </div>
