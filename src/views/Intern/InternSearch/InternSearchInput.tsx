@@ -1,11 +1,8 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Autocomplete,
-  Avatar,
-  Box,
   Button,
   Checkbox,
-  Chip,
   FormControlLabel,
   FormGroup,
   Paper,
@@ -15,7 +12,6 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider, DatePicker, nbNO } from "@mui/x-date-pickers";
 import dayjs, { Dayjs } from "dayjs";
 import styles from "./InternSearch.module.css";
-import { styled } from "@mui/material/styles";
 import {
   MotiveDto,
   PlaceDto,
@@ -51,20 +47,19 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
   const [places, setPlaces] = useState<PlaceDto[]>([]);
   const [categories, setCategories] = useState<CategoryDto[]>([]);
   const [securityLevels, setSecurityLevels] = useState<SecurityLevelDto[]>([]);
-  const [photoTags, setPhotoTags] = useState<PhotoTagDto[]>([]);
-  const [minDate, setMinDate] = React.useState<Dayjs | null>(
+  const [,setPhotoTags] = useState<PhotoTagDto[]>([]);
+  const [minDate] = React.useState<Dayjs | null>(
     dayjs("1910-09-30"),
   );
   const [dateFrom, setDateFrom] = React.useState<Dayjs | null>(
     dayjs("1910-09-30"),
   );
   const [, setDateFromChanged] = useState(false);
-  const [maxDate, setMaxDate] = React.useState<Dayjs | null>(dayjs());
+  const [maxDate] = React.useState<Dayjs | null>(dayjs());
   const [dateTo, setDateTo] = React.useState<Dayjs | null>(dayjs());
   const [isGoodPic, setIsGoodPic] = useState(false);
   const [isAnalog, setIsAnalog] = useState(false);
   const [securityLevel, setSecurityLevel] = useState<string>("");
-  const [photoTag, setPhotoTag] = useState("");
   const [photoSearch, setPhotoSearch] = useState<PhotoSearch>({});
 
   // Variables for suggestions
