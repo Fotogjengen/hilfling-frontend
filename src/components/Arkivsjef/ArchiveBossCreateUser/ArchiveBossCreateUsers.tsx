@@ -38,17 +38,36 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
   });
 
   const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(false);
+  const [phoneNumberError, setPhoneNumberError] = useState("");
+
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [emailError, setEmailError] = useState("");
 
+
   // Email validation regex pattern
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const phoneNumberRegex = /^[1-9]\d{7}$/;
+
+  // useEffect(() => {
+  //   const phoneNumberLength = 8;
+  //   setIsPhoneNumberValid(
+  //     user.phoneNumber?.value?.length === phoneNumberLength,
+  //   );
+  // }, [user.phoneNumber?.value]);
 
   useEffect(() => {
-    const phoneNumberLength = 8;
-    setIsPhoneNumberValid(
-      user.phoneNumber?.value?.length === phoneNumberLength,
-    );
+    if (!user.phoneNumber?.value) {
+      setIsPhoneNumberValid(false);
+      setPhoneNumberError("")
+
+    } else if (!phoneNumberRegex.test(user.phoneNumber.value)) {
+      setIsPhoneNumberValid(false);
+      setPhoneNumberError("Ugyldig telefonnummer");
+    } else {
+      setIsPhoneNumberValid(false);
+      setPhoneNumberError("");
+    }
+
   }, [user.phoneNumber?.value]);
 
   useEffect(() => {
@@ -105,7 +124,7 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
 
       let errorMessage = "Kan ikke opprette bruker: ";
       if (!isPhoneNumberValid) {
-        errorMessage += "Telefonnummer må være 8 siffer. ";
+        errorMessage += "Telefonnummer er ugyldig. ";
       }
       if (!isEmailValid) {
         errorMessage += "E-postadressen er ugyldig.";
@@ -154,8 +173,9 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
           <TextField
             className={styles.input}
             required
-            type="number"
             value={user?.phoneNumber?.value}
+            error={user.phoneNumber?.value !== "" && !isPhoneNumberValid}
+            helperText={phoneNumberError}
             onChange={(e) =>
               setUser({ ...user, phoneNumber: { value: e.target.value } })
             }
