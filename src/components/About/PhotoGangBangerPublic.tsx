@@ -11,7 +11,6 @@ interface Props {
 }
 
 const PhotoGangBangerPublic: FC<Props> = ({
-  
   firstName,
   lastName,
   position,

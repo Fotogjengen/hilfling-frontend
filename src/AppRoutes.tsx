@@ -9,7 +9,6 @@ import NotFound from "./views/NotFound/NotFound";
 import Search from "./views/Search/Search";
 import CsaTester from "./views/CsaTester";
 import Motives from "./views/Intern/Motives/Motives";
-import Login from "./views/Login/AzureLogin";
 import EditMotive from "./views/Intern/EditMotive/EditMotive";
 import InternNav from "./views/Intern/InternNav/InternNav";
 import Expo from "./views/Intern/Expo/Expo";
@@ -17,7 +16,6 @@ import Redirect from "./utils/Redirect/Redirect";
 import MotiveHeader from "./components/ImageViewer/MotiveHeader";
 import InternSearchView from "./views/Intern/InternSearch/InternSearchView";
 import { Box } from "@mui/material";
-import ArchiveBossCreateUser from "./components/Arkivsjef/ArchiveBossCreateUser/ArchiveBossCreateUser";
 import { EditPhotoGangBangers } from "./views/Intern/EditPhotoGangBangers/EditPhotoGangBangers";
 import { EditPhotoGangBangersEdit } from "./views/Intern/EditPhotoGangBangers/EditPhotoGangBangersEdit";
 import { AuthenticationContext } from "./contexts/AuthenticationContext";
@@ -36,7 +34,6 @@ const AppRoutes: FC = () => {
         <Route path="/search" element={<Search />} />
         <Route path="/search/:term" element={<Search />} />
         <Route path="/csa-tester" element={<CsaTester />} />
-        <Route path="/logg-inn" element={<Login />} />
         {isAuthenticated && (
           <>
             <Route path="/intern" element={<InternNav />} />
@@ -50,10 +47,6 @@ const AppRoutes: FC = () => {
                 <Route
                   path="/intern/arkivsjef/editUser/:id"
                   element={<ArchiveBossEditUser />}
-                />
-                <Route
-                  path="/intern/arkivsjef/createUser"
-                  element={<ArchiveBossCreateUser />}
                 />
                 <Route
                   path="/intern/arkivsjef/editPhotoGangBangers"
