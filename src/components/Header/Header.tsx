@@ -28,7 +28,7 @@ const HeaderComponent: FC = () => {
   const menuLinks = [
     {
       name: "Bilder",
-      to: "/search",
+      to: "/photos",
       icon: <ImageIcon />,
       noAuth: true,
     },
@@ -119,7 +119,7 @@ const HeaderComponent: FC = () => {
         </Collapse>
         <div className={styles.navContainer}>
           <div className={styles.navList}>
-            <Link to="/search">BILDER</Link>
+            <Link to="/photos">BILDER</Link>
             <Link to="/about">OM OSS</Link>
             {isAuthenticated ? <> <Link to="/intern/">INTERN</Link> 
               {position == "FG" ? <Link to = "intern/DeNyeSiden"> DeNye </Link> : <></> } </>

@@ -23,6 +23,7 @@ import { EditPhotoGangBangersEdit } from "./views/Intern/EditPhotoGangBangers/Ed
 import { AuthenticationContext } from "./contexts/AuthenticationContext";
 import ArchiveBossEditUser from "./views/Intern/ArchiveBossEditUser/ArchiveBossEditUser";
 import DeNyeSiden from "./views/DeNyeSiden/DeNyeSiden";
+import Photos from "./views/Photos/Photos";
 
 const AppRoutes: FC = () => {
   const { isAuthenticated, position } = useContext(AuthenticationContext);
@@ -34,6 +35,7 @@ const AppRoutes: FC = () => {
         <Route path="/motive/:id" element={<MotiveHeader />} />
         <Route path="/about" element={<About />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/photos" element={<Photos />} />
         <Route path="/search/:term" element={<Search />} />
         <Route path="/csa-tester" element={<CsaTester />} />
         <Route path="/logg-inn" element={<Login />} />
