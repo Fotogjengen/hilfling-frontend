@@ -1,4 +1,4 @@
-import React, { FC, useContext } from "react";
+import React, { useContext } from "react";
 import styles from "./imageStyle.module.css";
 import MotiveImage from "./MotiveImage";
 import "react-image-lightbox/style.css";
@@ -7,11 +7,11 @@ import { createImgUrl } from "../../utils/createImgUrl/createImgUrl";
 import { ImageContext } from "../../contexts/ImageContext";
 import { useSearchContext } from "../../views/Search/SearchProvider";
 
-interface Props {
+interface GridImageViewerProps {
   photos: PhotoDto[];
 }
 
-const ShowMotive: FC<Props> = ({ photos }) => {
+const GridImageViewer = ({ photos } : GridImageViewerProps) => {
   const { setPhotos, setPhotoIndex, setIsOpen } = useContext(ImageContext);
 
   const searchContext = useSearchContext();
@@ -58,4 +58,4 @@ const ShowMotive: FC<Props> = ({ photos }) => {
   );
 };
 
-export default ShowMotive;
+export default GridImageViewer;
