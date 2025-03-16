@@ -59,13 +59,16 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
     if (!user.phoneNumber?.value) {
       setIsPhoneNumberValid(false);
       setPhoneNumberError("")
+      
 
     } else if (!phoneNumberRegex.test(user.phoneNumber.value)) {
       setIsPhoneNumberValid(false);
       setPhoneNumberError("Ugyldig telefonnummer");
+      
     } else {
-      setIsPhoneNumberValid(false);
+      setIsPhoneNumberValid(true);
       setPhoneNumberError("");
+      
     }
 
   }, [user.phoneNumber?.value]);
@@ -134,20 +137,6 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
     }
   };
 
-  //   const sjekk = async () => {
-  //     try {
-  //      const response = await
-  //      SamfundetUserApi.getAll()
-  //        .then((res) => console.log(res.data))
-  //        .catch((err) => console.log(err));
-  //     } catch (error) {
-
-  //     }
-  //   };
-
-  //   const handleSjekk = () => {
-  //     sjekk().catch((e) => console.error(e));
-  //   };
   return (
     <div className={styles.popup}>
       <Paper className={styles.container}>
