@@ -2,44 +2,33 @@ import { api } from "./api";
 import { Photo, PhotoDto } from "../../../generated";
 import { PaginatedResult } from "./types";
 
-class PhotoPost {
-  albumId = "";
-  categoryName = "";
-  eventOwnerName = "";
-  motiveTitle = "";
-  placeName = "";
-  photoGangBangerId = "";
-  securityLevelId = "";
-
-  isGoodPhotoList: boolean[] = [];
-  tagList: string[][] = [];
-  photoFileList: File[] = [];
+export interface PhotoSearch {
+  motive?: string;
+  place?: string;
+  gang?: string;
+  album?: string;
+  category?: string;
+  tag?: string[];
+  isGoodPic?: boolean;
+  isAnalog?: boolean;
+  fromDate?: string;
+  toDate?: string;
+  page?: string;
+  pageSize?: string;
+  securityLevel?: string;
+  [key: string]: string | string[] | boolean | undefined;
 }
-
-export class PhotoSearch {
-  motive = "";
-  place = "";
-  //TODO when endpoint has security level implemented
-  // securityLevel = "";
-  gang = "";
-  album = "";
-  category = "";
-  tag: string[] = [];
-  isGoodPic = false;
-  isAnalog = false;
-  //YYYY-MM-DD
-  fromDate = "";
-  //YYYY-MM-DD
-  toDate = "";
-  page = "";
-  [key: string]: string | string[] | boolean;
-}
-
-export const PhotoPostDto = new PhotoPost();
 
 export const PhotoApi = {
   getAll: async function (): Promise<PhotoDto[]> {
     return api.get("/photos").then((res) => res.data.currentList);
+
+  },
+
+  getPhotoCount: async function (): Promise<Number> {
+    return api.get("/photos/count").then((res) => res.data.PromiseResult).catch((e) => {
+      console.log(e);
+    });
   },
 
   getAllByMotiveId: async function (id: string): Promise<PhotoDto[]> {
@@ -71,7 +60,6 @@ export const PhotoApi = {
         if (
           (typeof value === "string" || typeof value === "boolean") &&
           value !== "" &&
-          value !== false &&
           value !== null &&
           value !== undefined
         ) {
@@ -85,9 +73,8 @@ export const PhotoApi = {
         }
       }
     }
-
     // Remove trailing '&' from the queryString
     queryString = queryString.slice(0, -1);
-    return api.get(`/photos/?${queryString}`);
+    return api.get(`/photos?${queryString}`);
   },
 };
