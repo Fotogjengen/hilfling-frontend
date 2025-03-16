@@ -24,6 +24,7 @@ const ArchiveBossEditUser = () => {
 
   // Email validation regex pattern
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const phoneNumberRegex = /^[1-9]\d{7}$/;
 
   const { id } = useParams();
 
@@ -62,13 +63,16 @@ const ArchiveBossEditUser = () => {
   useEffect(() => {
     if (!user.phoneNumber?.value) {
       setIsPhoneNumberValid(false);
-      setPhoneNumberError("");
-    } else if (user.phoneNumber?.value.length !== 8) {
+      setPhoneNumberError("")
+      
+    } else if (!phoneNumberRegex.test(user.phoneNumber.value)) {
       setIsPhoneNumberValid(false);
-      setPhoneNumberError("Telefonnummer må være 8 siffer");
+      setPhoneNumberError("Ugyldig telefonnummer");
+      
     } else {
       setIsPhoneNumberValid(true);
       setPhoneNumberError("");
+      
     }
   }, [user.phoneNumber?.value]);
 
@@ -83,7 +87,7 @@ const ArchiveBossEditUser = () => {
 
       let errorMessage = "Kan ikke opprette bruker: ";
       if (!isPhoneNumberValid) {
-        errorMessage += "Telefonnummer må være 8 siffer. ";
+        errorMessage += "Telefonnummeret er ugyldig.";
       }
       if (!isEmailValid) {
         errorMessage += "E-postadressen er ugyldig.";
@@ -96,15 +100,30 @@ const ArchiveBossEditUser = () => {
   return (
     <div className={styles.container}>
       {!isLoading ? (
-        <Paper className={styles.form}>
+        <Paper className={styles.form}
+        sx = {{
+          width : "70%"
+        }}
+        >
+          
           {/* <Button>sjekk</Button> */}
-          <FormControl>
+          <FormControl
+            sx = {{
+              display : "flex",
+              width : "100%",
+              justifyContent: "center",
+              alignContent: "center"
+
+                  }}
+          
+          >
             <FormLabel>Fornavn:</FormLabel>
             <TextField
               // className={styles.input}
               required
               value={user?.firstName}
               onChange={(e) => setUser({ ...user, firstName: e.target.value })}
+              
             />
 
             <FormLabel>Etternavn:</FormLabel>
@@ -120,9 +139,8 @@ const ArchiveBossEditUser = () => {
               // className={styles.input}
               required
               value={user?.phoneNumber?.value}
-              error={user.phoneNumber?.value !== "" && !isEmailValid}
+              error={user.phoneNumber?.value !== "" && !isPhoneNumberValid}
               helperText={phoneNumberError}
-              type="number"
               onChange={(e) =>
                 setUser({ ...user, phoneNumber: { value: e.target.value } })
               }
@@ -147,25 +165,38 @@ const ArchiveBossEditUser = () => {
             value={user?.password}
             onChange={(e) => setUser({ ...user, password: e.target.value })}
           /> */}
-
+          <div
+          className= {styles.action_buttons} 
+          >
             <Button
               onClick={handleEditUserClick}
               type="button"
               variant="contained"
               color="primary"
-              sx={{ marginTop: "5px", margin: "5px auto" }}
+              
               // className={styles.submitButton}
             >
               Oppdater bruker
             </Button>
+
+            <Link  
+              className={styles.backButton} 
+              to={"/intern/arkivsjef"}
+            >
+
+              <Button > 
+                Tilbake 
+              </Button>
+
+            </Link>
+
+          </div>
           </FormControl>
         </Paper>
       ) : (
         <h1>Loading...</h1>
       )}
-      <Link className={styles.backButton} to={"/intern/arkivsjef"}>
-        <Button>Tilbake</Button>
-      </Link>
+
     </div>
   );
 };
