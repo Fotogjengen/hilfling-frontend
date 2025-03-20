@@ -72,29 +72,25 @@ const ArchiveBoss: FC = () => {
             <Button onClick={() => setOverview(true)}>Brukere</Button>
             {overview && <ArchiveBossOverView setOverview={setOverview} />}
           </div>
+
           <div className={styles.description}>
             <Grid
               container
               direction="row"
+              display = "flex"
               justifyContent="start"
               alignItems="center"
-              spacing={2}
+              spacing={"2rem"}
+              flexWrap="wrap"
+              padding={"1rem"}
             >
-              <Grid item xs={2} alignContent="center">
-                <Grid
-                  container
-                  direction="column"
-                  justifyContent="start"
-                  alignItems="center"
+             <Grid item xs={12} sm={4} md="auto">
 
-
-                  // className={styles.addNewButton}
-                >
-                  <Grid item xs={12} sm={3}>
-                    <ArchiveBossAddElements />
-                  </Grid>
-                </Grid>
-              </Grid>
+              <ArchiveBossAddElements />
+                    
+            </Grid>
+      
+    
               <Grid item xs={12} sm={9}>
                 <Typography>
                   Denne siden er for fotogjengens Arkivsjef. Her kan du legge

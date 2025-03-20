@@ -134,7 +134,7 @@ const ArchiveBossAddElements = () => {
       alignItems: 'center',
       alignContent:'start',
       justifyContent: "flex-end",
-      padding: '6px 20px',
+      padding: '8px 20px',
       // border: '1px solid black',
       // borderRadius: '8px',
       backgroundColor: '#f3f3f3',
