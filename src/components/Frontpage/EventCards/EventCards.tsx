@@ -2,28 +2,21 @@ import React, { FC } from "react";
 import { Link } from "react-router-dom";
 
 import styles from "./EventCards.module.css";
-import { MotiveDto } from "../../../../generated";
+import { EventCardDto, MotiveDto } from "../../../../generated";
 
 interface Props {
   event: string;
-  motiveResponse: MotiveDto[];
+  eventCardResponse: EventCardDto[];
 }
 
-const EventCards: FC<Props> = ({ event, motiveResponse }) => {
-  const motiveEventResponse = motiveResponse
-    .filter((motiveObject) => {
-      return motiveObject.eventOwnerDto.name === event;
-    })
-    .sort((a, b) => {
-      const dateA = new Date(a.dateCreated);
-      const dateB = new Date(b.dateCreated);
-      return dateB.getTime() - dateA.getTime();
-    });
-
+const EventCards: FC<Props> = ({ event, eventCardResponse }) => {
+  if (!eventCardResponse || eventCardResponse.length === 0) {
+    return <div className={styles.emptyState}>No {event} events found</div>;
+  }
   return (
     <div className={styles.cardsContainer}>
-      {motiveEventResponse.map((motiveObject) => {
-        const id = motiveObject.motiveId.id || "default";
+      {eventCardResponse.map((eventCard) => {
+        const id = eventCard.motiveId || "default";
         return (
           <Link
             className={styles.card}
@@ -32,23 +25,17 @@ const EventCards: FC<Props> = ({ event, motiveResponse }) => {
           >
             <img
               className={styles.cardImg}
-              src="https://www.w3schools.com/css/img_lights.jpg"
+              src={eventCard.frontPageSmallPhotoUrl}
               alt="img"
             />
 
             <div className={styles.cardText}>
-              <div className={styles.cardTextTitle}>{motiveObject.title}</div>
+              <div className={styles.cardTextTitle}>
+                {eventCard.motiveTitle}
+              </div>
               <div>
                 <b>Date:</b>
-                {motiveObject.dateCreated.toString()}
-              </div>
-              <div>
-                <b>Location:</b>
-                {"Blåfjell"}
-              </div>
-              <div>
-                <b>Images:</b>
-                {"367"}
+                {eventCard.date_created?.toString()}
               </div>
             </div>
           </Link>
