@@ -76,21 +76,26 @@ const ArchiveBoss: FC = () => {
             <Grid
               container
               direction="row"
-              justifyContent="center"
+              justifyContent="start"
               alignItems="center"
+              spacing={2}
             >
               <Grid item xs={2} alignContent="center">
                 <Grid
                   container
                   direction="column"
-                  justifyContent="center"
+                  justifyContent="start"
                   alignItems="center"
-                  className={styles.addNewButton}
+
+
+                  // className={styles.addNewButton}
                 >
-                  <ArchiveBossAddElements />
+                  <Grid item xs={12} sm={3}>
+                    <ArchiveBossAddElements />
+                  </Grid>
                 </Grid>
               </Grid>
-              <Grid item xs={10}>
+              <Grid item xs={12} sm={9}>
                 <Typography>
                   Denne siden er for fotogjengens Arkivsjef. Her kan du legge
                   til, slette, eller endre Album, Kategorier, Steder eller

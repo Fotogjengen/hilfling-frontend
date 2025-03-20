@@ -12,6 +12,8 @@ import {
   MenuItem,
   Checkbox,
   Grid,
+  Paper, 
+
 } from "@mui/material";
 import { AddCircle } from "@mui/icons-material";
 import styles from "./ArchiveBossAddElements.module.css";
@@ -22,6 +24,7 @@ import { PlaceApi } from "../../../utils/api/PlaceApi";
 import { AlbumApi } from "../../../utils/api/AlbumApi";
 import { ArchiveBossContext } from "../../../contexts/ArchiveBossContext";
 import { AlertContext, severityEnum } from "../../../contexts/AlertContext";
+import { wrap } from "lodash";
 
 const ArchiveBossAddElements = () => {
   const [openDialog, setOpenDialog] = useState(false);
@@ -125,10 +128,33 @@ const ArchiveBossAddElements = () => {
 
   return (
     <>
-      <IconButton aria-label="add" onClick={handleClickOpen} disableRipple = {true}>
+    <Paper
+    sx = {{
+      display: 'flex',
+      alignItems: 'center',
+      alignContent:'start',
+      justifyContent: "flex-end",
+      padding: '6px 20px',
+      // border: '1px solid black',
+      // borderRadius: '8px',
+      backgroundColor: '#f3f3f3',
+      gap: 0.5,
+      width: 'fit-content',
+      cursor: 'pointer',
+      // boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+      boxShadow: '0 1px 3px white',
+      transition: '0.2s',
+      '&:hover': {
+        boxShadow: '0 2px 6px rgba(0,0,0,0.15)',
+      },
+    }}>
+      <IconButton aria-label="add" onClick={handleClickOpen} disableRipple = {true} sx={{ position: 'relative', top: '1px' }}> 
         <AddCircle className={styles.svgicon} />
       </IconButton>
-      <Typography onClick={handleClickOpen}>Legg til ny</Typography>
+      <Typography onClick={handleClickOpen} sx = {{whiteSpace: 'nowrap'}}>Legg til ny</Typography>
+      </Paper>
+
+
       <Dialog open={openDialog} onClose={handleClose}>
         <Formik
           initialValues={initialValues}
