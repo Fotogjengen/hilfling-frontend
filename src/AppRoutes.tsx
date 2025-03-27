@@ -22,7 +22,7 @@ import { EditPhotoGangBangersEdit } from "./views/Intern/EditPhotoGangBangers/Ed
 import { AuthenticationContext } from "./contexts/AuthenticationContext";
 import ArchiveBossEditUser from "./views/Intern/ArchiveBossEditUser/ArchiveBossEditUser";
 import DeNyeSiden from "./views/DeNyeSiden/DeNyeSiden";
-import ArchiveBossCreateUsers from "./components/Arkivsjef/ArchiveBossCreateUser/ArchiveBossCreateUsers";
+
 
 const AppRoutes: FC = () => {
   const { isAuthenticated, position } = useContext(AuthenticationContext);
