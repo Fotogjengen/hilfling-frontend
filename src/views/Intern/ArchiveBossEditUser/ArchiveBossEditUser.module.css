@@ -11,10 +11,21 @@
 }
 
 .backButton{
-    margin: auto;
+    /* margin: auto; */
+    width: 50%;
+    
 }
 
 .backButton > *{
-    width: 100px;
+    width: 100%
+
+}
+
+.action_buttons {
+    display: flex;
+    flex-direction: row-reverse;
+    margin: 10px;
+    width: 100%;
+    justify-content: center;
 
 }

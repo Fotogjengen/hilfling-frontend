@@ -42,3 +42,9 @@
   .backButton:hover {
     text-decoration: underline;
   }
+
+.nav_buttons {
+  display: flex;
+  flex-direction: row-reverse;
+  margin: 10px;
+}

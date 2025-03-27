@@ -38,17 +38,34 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
   });
 
   const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(false);
+  const [phoneNumberError, setPhoneNumberError] = useState("");
+
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [emailError, setEmailError] = useState("");
 
+
   // Email validation regex pattern
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  const phoneNumberRegex = /^[1-9]\d{7}$/;
+
+
 
   useEffect(() => {
-    const phoneNumberLength = 8;
-    setIsPhoneNumberValid(
-      user.phoneNumber?.value?.length === phoneNumberLength,
-    );
+    if (!user.phoneNumber?.value) {
+      setIsPhoneNumberValid(false);
+      setPhoneNumberError("")
+      
+
+    } else if (!phoneNumberRegex.test(user.phoneNumber.value)) {
+      setIsPhoneNumberValid(false);
+      setPhoneNumberError("Ugyldig telefonnummer");
+      
+    } else {
+      setIsPhoneNumberValid(true);
+      setPhoneNumberError("");
+      
+    }
+
   }, [user.phoneNumber?.value]);
 
   useEffect(() => {
@@ -105,7 +122,7 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
 
       let errorMessage = "Kan ikke opprette bruker: ";
       if (!isPhoneNumberValid) {
-        errorMessage += "Telefonnummer må være 8 siffer. ";
+        errorMessage += "Telefonnummer er ugyldig. ";
       }
       if (!isEmailValid) {
         errorMessage += "E-postadressen er ugyldig.";
@@ -115,20 +132,6 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
     }
   };
 
-  //   const sjekk = async () => {
-  //     try {
-  //      const response = await
-  //      SamfundetUserApi.getAll()
-  //        .then((res) => console.log(res.data))
-  //        .catch((err) => console.log(err));
-  //     } catch (error) {
-
-  //     }
-  //   };
-
-  //   const handleSjekk = () => {
-  //     sjekk().catch((e) => console.error(e));
-  //   };
   return (
     <div className={styles.popup}>
       <Paper className={styles.container}>
@@ -150,18 +153,19 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
             onChange={(e) => setUser({ ...user, lastName: e.target.value })}
           />
 
-          <FormLabel>Telefonnummer:</FormLabel>
+          <FormLabel> Telefonnummer: </FormLabel>
           <TextField
             className={styles.input}
             required
-            type="number"
             value={user?.phoneNumber?.value}
+            error={user.phoneNumber?.value !== "" && !isPhoneNumberValid}
+            helperText={phoneNumberError}
             onChange={(e) =>
               setUser({ ...user, phoneNumber: { value: e.target.value } })
             }
           />
 
-          <FormLabel>Email:</FormLabel>
+          <FormLabel> Email: </FormLabel>
           <TextField
             className={styles.input}
             required
@@ -180,19 +184,27 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
             value={user?.password}
             onChange={(e) => setUser({ ...user, password: e.target.value })}
           /> */}
+          <div className= {styles.nav_buttons} >
 
-          <Button
-            onClick={handleCreateUserClick}
-            type="button"
-            variant="contained"
-            color="primary"
-            sx={{ marginTop: "5px", margin: "5px auto" }}
-            className={styles.submitButton}
-          >
-            Lag bruker
-          </Button>
+            <Button
+              onClick={handleCreateUserClick}
+              type="button"
+              variant="contained"
+              color="primary"
+              // sx={{ marginTop: "5px", margin: "5px auto" }}
+              className={styles.submitButton}
+            >
+              Lag bruker
+            </Button>
 
-          <Button onClick={() => setCreateUser(false)}>Tilbake</Button>
+            <Button onClick={() => setCreateUser(false)}
+              sx={{ width : "50%"
+                  }}
+              >
+              Tilbake
+              </Button>
+
+          </div>
         </FormControl>
       </Paper>
     </div>

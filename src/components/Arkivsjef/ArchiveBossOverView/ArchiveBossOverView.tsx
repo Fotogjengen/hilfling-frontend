@@ -109,7 +109,7 @@ const ArchiveBossOverView = ({ setOverview }: Props) => {
     {
       field: "securityLevel",
       headerName: "Security Level",
-      width: 100,
+      width: 180,
       headerClassName: styles.headerCell,
     },
     {
@@ -138,48 +138,23 @@ const ArchiveBossOverView = ({ setOverview }: Props) => {
                 paginationModel: { page: 0, pageSize: 5 },
               },
             }}
+            
             pageSizeOptions={[5, 10]}
+
           />
         ) : (
           <h3>...Loading</h3>
         )}
-        <Button onClick={() => setOverview(false)}>Tilbake</Button>
+        <div>
+        <Button 
+        onClick={() => setOverview(false)}
+        >
+          Tilbake
+          </Button>
+
+        </div>
       </Paper>
 
-      {/* <Paper className={styles.container}>
-        <Grid container spacing={2}>
-          <Grid item xs={2}>
-            <Typography>Navn</Typography>
-          </Grid>
-          <Grid item xs={3}>
-            <Typography>E-post</Typography>
-          </Grid>
-          <Grid item xs={2}>
-            <Typography>Telefon</Typography>
-          </Grid>
-
-          {!isLoading ? (
-            users?.map((u) => (
-              <Grid container spacing={2} key={u.samfundetUserId?.id}>
-                <Grid item xs={2}>
-                  <Typography>{u.firstName}</Typography>
-                </Grid>
-                <Grid item xs={3}>
-                  <Typography>{u.email?.value}</Typography>
-                </Grid>
-                <Grid item xs={2}>
-                  <Typography>{u.phoneNumber?.value}</Typography>
-                </Grid>
-              </Grid>
-            ))
-          ) : (
-            <Grid item xs={12} key={"loading"}>
-              <Typography>Loading...</Typography>
-            </Grid>
-          )}
-        </Grid>
-        <Button onClick={() => setOverview(false)}>Tilbake</Button>
-      </Paper> */}
     </div>
   );
 };

@@ -22,9 +22,10 @@
 }
 
 .description {
-  padding: 1rem;
-  margin-top: 2rem;
-  background-color: #f3f3f3;
+  /* padding: 1rem;
+  margin-top: 2rem; */
+  /* #f3f3f3 */
+  background-color: white;
   margin-bottom: 2rem;
   color: #000000;
 }

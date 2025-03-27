@@ -72,25 +72,26 @@ const ArchiveBoss: FC = () => {
             <Button onClick={() => setOverview(true)}>Brukere</Button>
             {overview && <ArchiveBossOverView setOverview={setOverview} />}
           </div>
+
           <div className={styles.description}>
             <Grid
               container
               direction="row"
-              justifyContent="center"
+              display = "flex"
+              justifyContent="start"
               alignItems="center"
+              spacing={"2rem"}
+              flexWrap="wrap"
+              padding={"1rem"}
             >
-              <Grid item xs={2} alignContent="center">
-                <Grid
-                  container
-                  direction="column"
-                  justifyContent="center"
-                  alignItems="center"
-                  className={styles.addNewButton}
-                >
-                  <ArchiveBossAddElements />
-                </Grid>
-              </Grid>
-              <Grid item xs={10}>
+             <Grid item xs={12} sm={4} md="auto">
+
+              <ArchiveBossAddElements />
+                    
+            </Grid>
+      
+    
+              <Grid item xs={12} sm={9}>
                 <Typography>
                   Denne siden er for fotogjengens Arkivsjef. Her kan du legge
                   til, slette, eller endre Album, Kategorier, Steder eller
@@ -102,7 +103,7 @@ const ArchiveBoss: FC = () => {
             </Grid>
           </div>
 
-          <ArchiveBossAccordion color="#da7777" name="Album">
+          <ArchiveBossAccordion color="#BE3144" name="Album">
             <Grid container spacing={2}>
               {albums.map((album: AlbumDto, index: number) => (
                 <Grid item key={index} xs={12} sm={4}>
@@ -116,7 +117,7 @@ const ArchiveBoss: FC = () => {
               ))}
             </Grid>
           </ArchiveBossAccordion>
-          <ArchiveBossAccordion color="#f3ee78" name="Sted">
+          <ArchiveBossAccordion color="#8F4650" name="Sted"> {/*#605C5C*/}  {/*#7C3640*/}
             <Grid container spacing={2}>
               {places.map((place: PlaceDto, index: number) => (
                 <Grid item key={index} xs={12} sm={4}>
@@ -130,7 +131,7 @@ const ArchiveBoss: FC = () => {
               ))}
             </Grid>
           </ArchiveBossAccordion>
-          <ArchiveBossAccordion color="#9c77da" name="Kategori">
+          <ArchiveBossAccordion color= "#605C5C" name="Kategori">  {/*#3A3B3C*/}
             <Grid container spacing={2}>
               {categories.map((category: CategoryDto, index: number) => (
                 <Grid item key={index} xs={12} sm={4}>
