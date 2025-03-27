@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import { Link } from "react-router-dom";
 
 import styles from "./EventCards.module.css";
-import { EventCardDto, MotiveDto } from "../../../../generated";
+import { EventCardDto } from "../../../../generated";
 
 interface Props {
   event: string;

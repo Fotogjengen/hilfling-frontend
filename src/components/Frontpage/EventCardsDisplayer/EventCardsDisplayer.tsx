@@ -3,7 +3,7 @@ import React, { FC, SyntheticEvent, useState, useEffect } from "react";
 import { AppBar, Tabs, Tab } from "@mui/material";
 import TabPanel from "../../TabPanel/TabPanel";
 
-import { EventCardDto, MotiveDto } from "../../../../generated";
+import { EventCardDto } from "../../../../generated";
 import EventCards from "../EventCards/EventCards";
 import { EventCardApi } from "../../../utils/api/EventCardApi";
 
