@@ -4,7 +4,7 @@ import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRound
 import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
 
 import { PhotoDto } from "../../../../generated";
-import { PhotoCarouselApi } from "../../../utils/api/PhotoCarouselApi";
+import { PhotoApi } from "../../../utils/api/PhotoApi";
 
 const Carousel: FC = () => {
   const [showArrows, setShowArrows] = useState(false);
@@ -49,7 +49,7 @@ const Carousel: FC = () => {
   }, [currentSlide]);
 
   useEffect(() => {
-    PhotoCarouselApi.getAllCarouselPhotos()
+    PhotoApi.getGoodPhotos()
       .then((res) => {
         setCarouselPhotos(res);
       })
