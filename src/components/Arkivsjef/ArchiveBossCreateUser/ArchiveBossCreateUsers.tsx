@@ -48,12 +48,7 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const phoneNumberRegex = /^[1-9]\d{7}$/;
 
-  // useEffect(() => {
-  //   const phoneNumberLength = 8;
-  //   setIsPhoneNumberValid(
-  //     user.phoneNumber?.value?.length === phoneNumberLength,
-  //   );
-  // }, [user.phoneNumber?.value]);
+
 
   useEffect(() => {
     if (!user.phoneNumber?.value) {

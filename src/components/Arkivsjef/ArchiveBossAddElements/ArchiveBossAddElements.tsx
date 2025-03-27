@@ -135,13 +135,10 @@ const ArchiveBossAddElements = () => {
       alignContent:'start',
       justifyContent: "flex-end",
       padding: '8px 20px',
-      // border: '1px solid black',
-      // borderRadius: '8px',
       backgroundColor: '#f3f3f3',
       gap: 0.5,
       width: 'fit-content',
       cursor: 'pointer',
-      // boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
       boxShadow: '0 1px 3px white',
       transition: '0.2s',
       '&:hover': {
