@@ -2,9 +2,7 @@ import React, { FC } from "react";
 import styles from "./App.module.css";
 import EventCardsDisplayer from "../../components/Frontpage/EventCardsDisplayer/EventCardsDisplayer";
 import CardInformationFotogjengen from "../../components/Frontpage/CardInformationFotogjengen/CardInformationFotogjengen";
-import CardInformationAnmoding from "../../components/Frontpage/CardInformationAnmoding/CardInformationAnmoding";
 import Carousel from "../../components/Frontpage/Carousel/Carousel";
-import { InstagramEmbed } from "react-social-media-embed";
 // import { withAuth } from "@okta/okta-react";
 // import { useAuth } from "../../utils/auth";
 
@@ -22,16 +20,28 @@ const App: FC = (/* { auth } */) => {
       </div>
       <div className={styles.rightSide}>
         <div className={styles.fotogjengen}>
-          <CardInformationFotogjengen />
+          <CardInformationFotogjengen
+            title="Fotogjengen"
+            description="Fotogjengen er en gjeng på Samfundet. Vi har ansvar for å dokumentere
+          alt som skjer på huset. Alle bilder vi tar legges ut på denne
+          nettsiden. Ønsker du å bruke noen av bildene våre. Venligst krediter
+          med foto: foto.samfundet.no."
+            link="/about?tab=0"
+          />
         </div>
         <div className={styles.anmoding}>
-          <CardInformationAnmoding />
+          <CardInformationFotogjengen
+            title="Anmodning"
+            description="Trenger du en fotograf? Fotogjengen kan hjelpe deg!"
+            link="/about?tab=1"
+          />
         </div>
-        <div className={styles.insta}>
-          <InstagramEmbed url="https://www.instagram.com/p/CnxCRELoOaq/?utm_source=ig_web_copy_link" />
-        </div>
-        <div className={styles.insta}>
-          <InstagramEmbed url="https://www.instagram.com/p/CVDmAihsTuj/?utm_source=ig_web_copy_link" />
+        <div className={styles.anmoding}>
+          <CardInformationFotogjengen
+            title="Kredetering"
+            description={`Alle bilder tatt av Fotogjengen skal krediteres med: \nFoto: foto.samfundet.no\nVed manglende kreditering kan det bli krevet kompensasjon. For spørsmål rundt bruk av våre bilder og kreditering, ta kontakt med oss på e-post.`}
+            link="/about?tab=1"
+          />
         </div>
       </div>
     </div>
