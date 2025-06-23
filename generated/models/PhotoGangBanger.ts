@@ -9,7 +9,7 @@ import type { SemesterStart } from "./SemesterStart";
 
 export type PhotoGangBanger = {
   semesterStart?: SemesterStart;
-  relationshipStatus?: string;
+  relationShipStatus?: string;
   isActive?: boolean;
   isPang?: boolean;
   samfundetUser?: SamfundetUser;

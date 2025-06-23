@@ -1,5 +1,6 @@
 import { api } from "./api";
 import {
+  PhotoGangBanger,
   PhotoGangBangerDto,
   PhotoGangBangerPublicDto,
 } from "../../../generated";
@@ -37,9 +38,9 @@ export const PhotoGangBangerApi = {
       .then((res) => res.data)
       .catch((e) => console.log(e));
   },
-  post: async function (user: PhotoGangBangerDto): Promise<PhotoGangBangerDto> {
+  post: async function (user: PhotoGangBanger): Promise<PhotoGangBanger> {
     return api
-      .post("/photo_gang_bangers/", user)
+      .post("/photo_gang_bangers", user)
       .then((res) => res.data)
       .catch((e) => console.log(e));
   },

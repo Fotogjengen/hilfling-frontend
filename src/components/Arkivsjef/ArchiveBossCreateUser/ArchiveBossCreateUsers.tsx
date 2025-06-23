@@ -2,16 +2,18 @@ import {
   Button,
   FormControl,
   FormLabel,
+  MenuItem,
   Paper,
+  Select,
   TextField,
 } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import styles from "./ArchiveBossCreateUser.module.css";
 import { AlertContext, severityEnum } from "../../../contexts/AlertContext";
 import { PhotoGangBangerApi } from "../../../utils/api/PhotoGangBangerApi";
-import { PhotoGangBangerDto } from "../../../../generated/models/PhotoGangBangerDto";
-import { SecurityLevelDto } from "../../../../generated/models/SecurityLevelDto";
-import { relationShipStatus } from "../../../../generated/models/PhotoGangBangerDto";
+import { PhotoGangBanger } from "../../../../generated";
+// import { SecurityLevelDto } from "../../../../generated/models/SecurityLevelDto";
+// import { relationShipStatus } from "../../../../generated/models/PhotoGangBangerDto";
 
 interface Props {
   setCreateUser: React.Dispatch<React.SetStateAction<boolean>>;
@@ -19,21 +21,21 @@ interface Props {
 
 const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
   const { setMessage, setSeverity, setOpen } = useContext(AlertContext);
-  const [user, setUser] = useState<PhotoGangBangerDto>({
-    relationShipStatus: relationShipStatus.SINGLE,
+  const initialUserState: PhotoGangBanger = {
+    relationShipStatus: "single", // remove this in the future
     semesterStart: {
-      value: "",
+      value: "H2018",
     },
     address: "",
     zipCode: "",
     city: "",
     position: {
-      title: "",
+      title: "Gjengsjef",
       email: {
-        value: "",
+        value: "fg-web@samfundet.no",
       },
       positionId: {
-        id: "",
+        id: "bdd0cf5a-c952-41b8-8b83-c071da51f946",
       },
     },
     isActive: true,
@@ -50,14 +52,15 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
       },
       profilePicturePath: "/images/profile/johndoe.png",
       sex: "Male", // remove this in the future
-      securituLevel: {
+      securityLevel: {
         securityLevelId: {
           id: "8214142f-7c08-48ad-9130-fd7ac6b23e51",
         },
-        securityLevelType: SecurityLevelDto.securityLevelType.FG,
+        securityLevelType: "FG",
       },
     },
-  });
+  };
+  const [user, setUser] = useState<PhotoGangBanger>(initialUserState);
 
   const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(false);
   const [phoneNumberError, setPhoneNumberError] = useState("");
@@ -68,6 +71,30 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
   // Email validation regex pattern
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const phoneNumberRegex = /^[1-9]\d{7}$/;
+
+  const availableSemesters = [
+    "V2018",
+    "H2018",
+    "V2019",
+    "H2019",
+    "V2020",
+    "H2020",
+    "V2021",
+    "H2021",
+    "V2022",
+    "H2022",
+    "V2023",
+    "H2023",
+    "V2024",
+    "H2024",
+    "V2025",
+    "H2025",
+  ];
+  // fetch semesters dynamicaly
+
+  useEffect(() => {
+    //fetch postions
+  }, []);
 
   useEffect(() => {
     if (!user.samfundetUser?.phoneNumber?.value) {
@@ -97,17 +124,9 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
 
   const createUser = () => {
     console.log(user);
-
     PhotoGangBangerApi.post(user)
       .then((res) => {
-        setUser({
-          samfundetUser: {
-            firstName: "",
-            lastName: "",
-            phoneNumber: { value: "" },
-            email: { value: "" },
-          },
-        });
+        setUser(initialUserState);
         console.log(res);
         setOpen(true);
         setSeverity(severityEnum.SUCCESS);
@@ -119,28 +138,6 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
         setSeverity(severityEnum.ERROR);
         setMessage(`Det oppsto en feil, bruker ble ikke opprettet`);
       });
-
-    // SamfundetUserApi.post(user)
-    //   .then((res) => {
-    //     setUser({
-    //       firstName: "",
-    //       lastName: "",
-    //       phoneNumber: { value: "" },
-    //       email: { value: "" },
-    //     });
-    //     console.log(res);
-    //     setOpen(true);
-    //     setSeverity(severityEnum.SUCCESS);
-    //     setMessage(`Bruker ble opprettet`);
-    //   })
-    //   .catch((err) => {
-    //     console.error(err);
-    //     setOpen(true);
-    //     setSeverity(severityEnum.ERROR);
-    //     setMessage(`Det oppsto en feil, bruker ble ikke opprettet`);
-    //   });
-    //console.log(response);
-    // Optionally reset the form
   };
 
   const handleCreateUserClick = () => {
@@ -252,6 +249,61 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
               })
             }
           />
+          <FormLabel>Adresse:</FormLabel>
+          <TextField
+            className={styles.input}
+            value={user.address}
+            onChange={(e) =>
+              setUser({
+                ...user,
+                address: e.target.value,
+              })
+            }
+          />
+
+          <FormLabel>Postnummer:</FormLabel>
+          <TextField
+            className={styles.input}
+            value={user.zipCode}
+            onChange={(e) =>
+              setUser({
+                ...user,
+                zipCode: e.target.value,
+              })
+            }
+          />
+
+          <FormLabel>By:</FormLabel>
+          <TextField
+            className={styles.input}
+            value={user.city}
+            onChange={(e) =>
+              setUser({
+                ...user,
+                city: e.target.value,
+              })
+            }
+          />
+
+          <FormLabel>Startsemester:</FormLabel>
+          <Select
+            className={styles.input}
+            value={user.semesterStart?.value}
+            onChange={(e) =>
+              setUser({
+                ...user,
+                semesterStart: {
+                  value: e.target.value,
+                },
+              })
+            }
+          >
+            {availableSemesters.map((semester) => (
+              <MenuItem key={semester} value={semester}>
+                {semester}
+              </MenuItem>
+            ))}
+          </Select>
 
           {/* <FormLabel>Passord:</FormLabel>
           <TextField
