@@ -11,7 +11,8 @@ import React, { useContext, useEffect, useState } from "react";
 import styles from "./ArchiveBossCreateUser.module.css";
 import { AlertContext, severityEnum } from "../../../contexts/AlertContext";
 import { PhotoGangBangerApi } from "../../../utils/api/PhotoGangBangerApi";
-import { PhotoGangBanger } from "../../../../generated";
+import { PhotoGangBanger, PositionDto } from "../../../../generated";
+import { PositionApi } from "../../../utils/api/PositionApi";
 // import { SecurityLevelDto } from "../../../../generated/models/SecurityLevelDto";
 // import { relationShipStatus } from "../../../../generated/models/PhotoGangBangerDto";
 
@@ -67,6 +68,7 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
 
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [emailError, setEmailError] = useState("");
+  const [positions, setPositions] = useState<PositionDto[]>([]);
 
   // Email validation regex pattern
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -93,7 +95,14 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
   // fetch semesters dynamicaly
 
   useEffect(() => {
-    //fetch postions
+    PositionApi.getAll()
+      .then((res) => {
+        setPositions(res.data.currentList);
+        console.log(positions);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   useEffect(() => {
@@ -162,173 +171,189 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
   return (
     <div className={styles.popup}>
       <Paper className={styles.container}>
-        <FormControl>
-          <FormLabel>Brukernavn:</FormLabel>
-          <TextField
-            className={styles.input}
-            required
-            value={user?.samfundetUser?.username}
-            onChange={(e) =>
-              setUser({
-                ...user,
-                samfundetUser: {
-                  ...user.samfundetUser,
-                  username: e.target.value,
-                },
-              })
-            }
-          />
+        <FormLabel>Brukernavn:</FormLabel>
+        <TextField
+          className={styles.input}
+          required
+          value={user?.samfundetUser?.username}
+          onChange={(e) =>
+            setUser({
+              ...user,
+              samfundetUser: {
+                ...user.samfundetUser,
+                username: e.target.value,
+              },
+            })
+          }
+        />
 
-          <FormLabel>Fornavn:</FormLabel>
-          <TextField
-            className={styles.input}
-            required
-            value={user?.samfundetUser?.firstName}
-            onChange={(e) =>
-              setUser({
-                ...user,
-                samfundetUser: {
-                  ...user.samfundetUser,
-                  firstName: e.target.value,
-                },
-              })
-            }
-          />
+        <FormLabel>Fornavn:</FormLabel>
+        <TextField
+          className={styles.input}
+          required
+          value={user?.samfundetUser?.firstName}
+          onChange={(e) =>
+            setUser({
+              ...user,
+              samfundetUser: {
+                ...user.samfundetUser,
+                firstName: e.target.value,
+              },
+            })
+          }
+        />
 
-          <FormLabel>Etternavn:</FormLabel>
-          <TextField
-            className={styles.input}
-            required
-            value={user?.samfundetUser?.lastName}
-            onChange={(e) =>
-              setUser({
-                ...user,
-                samfundetUser: {
-                  ...user.samfundetUser,
-                  lastName: e.target.value,
-                },
-              })
-            }
-          />
+        <FormLabel>Etternavn:</FormLabel>
+        <TextField
+          className={styles.input}
+          required
+          value={user?.samfundetUser?.lastName}
+          onChange={(e) =>
+            setUser({
+              ...user,
+              samfundetUser: {
+                ...user.samfundetUser,
+                lastName: e.target.value,
+              },
+            })
+          }
+        />
 
-          <FormLabel> Telefonnummer: </FormLabel>
-          <TextField
-            className={styles.input}
-            required
-            value={user?.samfundetUser?.phoneNumber?.value}
-            error={
-              user.samfundetUser?.phoneNumber?.value !== "" &&
-              !isPhoneNumberValid
-            }
-            helperText={phoneNumberError}
-            onChange={(e) =>
-              setUser({
-                ...user,
-                samfundetUser: {
-                  ...user.samfundetUser,
-                  phoneNumber: { value: e.target.value },
-                },
-              })
-            }
-          />
+        <FormLabel> Telefonnummer: </FormLabel>
+        <TextField
+          className={styles.input}
+          required
+          value={user?.samfundetUser?.phoneNumber?.value}
+          error={
+            user.samfundetUser?.phoneNumber?.value !== "" && !isPhoneNumberValid
+          }
+          helperText={phoneNumberError}
+          onChange={(e) =>
+            setUser({
+              ...user,
+              samfundetUser: {
+                ...user.samfundetUser,
+                phoneNumber: { value: e.target.value },
+              },
+            })
+          }
+        />
 
-          <FormLabel> Email: </FormLabel>
-          <TextField
-            className={styles.input}
-            required
-            value={user?.samfundetUser?.email?.value}
-            error={user.samfundetUser?.email?.value !== "" && !isEmailValid}
-            helperText={emailError}
-            onChange={(e) =>
-              setUser({
-                ...user,
-                samfundetUser: {
-                  ...user.samfundetUser,
-                  email: { value: e.target.value },
-                },
-              })
-            }
-          />
-          <FormLabel>Adresse:</FormLabel>
-          <TextField
-            className={styles.input}
-            value={user.address}
-            onChange={(e) =>
-              setUser({
-                ...user,
-                address: e.target.value,
-              })
-            }
-          />
+        <FormLabel> Email: </FormLabel>
+        <TextField
+          className={styles.input}
+          required
+          value={user?.samfundetUser?.email?.value}
+          error={user.samfundetUser?.email?.value !== "" && !isEmailValid}
+          helperText={emailError}
+          onChange={(e) =>
+            setUser({
+              ...user,
+              samfundetUser: {
+                ...user.samfundetUser,
+                email: { value: e.target.value },
+              },
+            })
+          }
+        />
+        <FormLabel>Adresse:</FormLabel>
+        <TextField
+          className={styles.input}
+          value={user.address}
+          onChange={(e) =>
+            setUser({
+              ...user,
+              address: e.target.value,
+            })
+          }
+        />
 
-          <FormLabel>Postnummer:</FormLabel>
-          <TextField
-            className={styles.input}
-            value={user.zipCode}
-            onChange={(e) =>
-              setUser({
-                ...user,
-                zipCode: e.target.value,
-              })
-            }
-          />
+        <FormLabel>Postnummer:</FormLabel>
+        <TextField
+          className={styles.input}
+          value={user.zipCode}
+          onChange={(e) =>
+            setUser({
+              ...user,
+              zipCode: e.target.value,
+            })
+          }
+        />
 
-          <FormLabel>By:</FormLabel>
-          <TextField
-            className={styles.input}
-            value={user.city}
-            onChange={(e) =>
-              setUser({
-                ...user,
-                city: e.target.value,
-              })
-            }
-          />
+        <FormLabel>By:</FormLabel>
+        <TextField
+          className={styles.input}
+          value={user.city}
+          onChange={(e) =>
+            setUser({
+              ...user,
+              city: e.target.value,
+            })
+          }
+        />
 
-          <FormLabel>Startsemester:</FormLabel>
-          <Select
-            className={styles.input}
-            value={user.semesterStart?.value}
-            onChange={(e) =>
-              setUser({
-                ...user,
-                semesterStart: {
-                  value: e.target.value,
-                },
-              })
-            }
-          >
-            {availableSemesters.map((semester) => (
-              <MenuItem key={semester} value={semester}>
-                {semester}
-              </MenuItem>
-            ))}
-          </Select>
-
-          {/* <FormLabel>Passord:</FormLabel>
-          <TextField
-            type="password"
-            required
-            value={user?.password}
-            onChange={(e) => setUser({ ...user, password: e.target.value })}
-          /> */}
-          <div className={styles.nav_buttons}>
-            <Button
-              onClick={handleCreateUserClick}
-              type="button"
-              variant="contained"
-              color="primary"
-              // sx={{ marginTop: "5px", margin: "5px auto" }}
-              className={styles.submitButton}
+        <FormLabel>Startsemester:</FormLabel>
+        <Select
+          name="semesterStart"
+          className={styles.input}
+          value={user.semesterStart?.value || ""}
+          onChange={(e) =>
+            setUser({
+              ...user,
+              semesterStart: {
+                value: e.target.value,
+              },
+            })
+          }
+        >
+          {availableSemesters.map((semester) => (
+            <MenuItem key={semester} value={semester}>
+              {semester}
+            </MenuItem>
+          ))}
+        </Select>
+        <FormLabel>Verv:</FormLabel>
+        <Select
+          name="position"
+          className={styles.input}
+          value={
+            positions.length > 0 ? user.position?.positionId?.id || "" : ""
+          }
+          onChange={(e) => {
+            const selectedPosition = positions.find(
+              (pos) => pos.positionId?.id === e.target.value,
+            );
+            setUser({
+              ...user,
+              position: selectedPosition,
+            });
+          }}
+        >
+          {positions.map((position) => (
+            <MenuItem
+              key={position.positionId?.id}
+              value={position.positionId?.id}
             >
-              Lag bruker
-            </Button>
+              {position.title}
+            </MenuItem>
+          ))}
+        </Select>
+        <div className={styles.nav_buttons}>
+          <Button
+            onClick={handleCreateUserClick}
+            type="button"
+            variant="contained"
+            color="primary"
+            // sx={{ marginTop: "5px", margin: "5px auto" }}
+            className={styles.submitButton}
+          >
+            Lag bruker
+          </Button>
 
-            <Button onClick={() => setCreateUser(false)} sx={{ width: "50%" }}>
-              Tilbake
-            </Button>
-          </div>
-        </FormControl>
+          <Button onClick={() => setCreateUser(false)} sx={{ width: "50%" }}>
+            Tilbake
+          </Button>
+        </div>
       </Paper>
     </div>
   );
