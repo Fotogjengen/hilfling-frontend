@@ -39,7 +39,7 @@ export const PhotoGangBangerApi = {
     photoGangBanger: PhotoGangBangerDto,
   ): Promise<PhotoGangBangerDto[]> {
     return api
-      .patch("/photo_gang_bangers/", photoGangBanger)
+      .patch("/photo_gang_bangers", photoGangBanger)
       .then((res) => res.data)
       .catch((e) => console.log(e));
   },

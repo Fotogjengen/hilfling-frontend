@@ -9,7 +9,7 @@ import type { SemesterStart } from "./SemesterStart";
 
 export type PhotoGangBangerDto = {
   photoGangBangerId?: PhotoGangBangerId;
-  relationShipStatus?: relationShipStatus;
+  relationShipStatus?: string;
   semesterStart?: SemesterStart;
   address?: string;
   zipCode?: string;

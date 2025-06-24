@@ -37,8 +37,8 @@ const ArchiveBossOverView = ({ setOverview }: Props) => {
 
   useEffect(() => {
     if (users.length > 0) {
-      const mappedRows = users.map((user, index) => ({
-        id: user.id || `temp-${index}`,
+      const mappedRows = users.map((user) => ({
+        id: user?.photoGangBangerId?.id,
         firstName: user.samfundetUser?.firstName,
         lastName: user.samfundetUser?.lastName,
         username: user.samfundetUser?.username,

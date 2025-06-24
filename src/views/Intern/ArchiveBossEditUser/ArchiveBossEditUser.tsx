@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { SamfundetUserApi } from "../../../utils/api/SamfundetUserApi";
-import { SamfundetUser } from "../../../../generated";
+import { PhotoGangBangerDto } from "../../../../generated";
 import {
   Button,
+  Checkbox,
   FormControl,
+  FormControlLabel,
   FormLabel,
   Paper,
   TextField,
@@ -12,10 +13,11 @@ import {
 import { Link } from "react-router-dom";
 import styles from "./ArchiveBossEditUser.module.css";
 import { AlertContext, severityEnum } from "../../../contexts/AlertContext";
+import { PhotoGangBangerApi } from "../../../utils/api/PhotoGangBangerApi";
 
 const ArchiveBossEditUser = () => {
   const { setMessage, setSeverity, setOpen } = useContext(AlertContext);
-  const [user, setUser] = useState<SamfundetUser>({});
+  const [user, setUser] = useState<PhotoGangBangerDto>({});
   const [isLoading, setIsLoading] = useState(true);
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [emailError, setEmailError] = useState("");
@@ -31,12 +33,12 @@ const ArchiveBossEditUser = () => {
   useEffect(() => {
     const phoneNumberLength = 8;
     setIsPhoneNumberValid(
-      user.phoneNumber?.value?.length === phoneNumberLength,
+      user.samfundetUser?.phoneNumber?.value?.length === phoneNumberLength,
     );
-  }, [user.phoneNumber?.value]);
+  }, [user.samfundetUser?.phoneNumber?.value]);
 
   useEffect(() => {
-    SamfundetUserApi.getById(id || "")
+    PhotoGangBangerApi.getById(id || "")
       .then((res) => {
         setUser(res);
         setIsLoading(false);
@@ -48,39 +50,45 @@ const ArchiveBossEditUser = () => {
   }, []);
 
   useEffect(() => {
-    if (!user.email?.value) {
+    if (!user.samfundetUser?.email?.value) {
       setIsEmailValid(false);
       setEmailError("");
-    } else if (!emailRegex.test(user.email.value)) {
+    } else if (!emailRegex.test(user.samfundetUser?.email.value)) {
       setIsEmailValid(false);
       setEmailError("Ugyldig e-postadresse");
     } else {
       setIsEmailValid(true);
       setEmailError("");
     }
-  }, [user.email?.value]);
+  }, [user.samfundetUser?.email?.value]);
 
   useEffect(() => {
-    if (!user.phoneNumber?.value) {
+    if (!user.samfundetUser?.phoneNumber?.value) {
       setIsPhoneNumberValid(false);
-      setPhoneNumberError("")
-      
-    } else if (!phoneNumberRegex.test(user.phoneNumber.value)) {
+      setPhoneNumberError("");
+    } else if (!phoneNumberRegex.test(user.samfundetUser?.phoneNumber.value)) {
       setIsPhoneNumberValid(false);
       setPhoneNumberError("Ugyldig telefonnummer");
-      
     } else {
       setIsPhoneNumberValid(true);
       setPhoneNumberError("");
-      
     }
-  }, [user.phoneNumber?.value]);
+  }, [user.samfundetUser?.phoneNumber?.value]);
 
   const handleEditUserClick = () => {
     if (isPhoneNumberValid && isEmailValid) {
-      SamfundetUserApi.patch(user).catch((err) => {
-        console.log(err);
-      });
+      PhotoGangBangerApi.patch(user)
+        .then(() => {
+          setOpen(true);
+          setSeverity(severityEnum.SUCCESS);
+          setMessage(`Bruker ble oppdatert`);
+        })
+        .catch((err) => {
+          console.log(err);
+          setOpen(true);
+          setSeverity(severityEnum.ERROR);
+          setMessage(`Det oppsto en feil, bruker ble ikke opdatert`);
+        });
     } else {
       setOpen(true);
       setSeverity(severityEnum.ERROR);
@@ -100,49 +108,71 @@ const ArchiveBossEditUser = () => {
   return (
     <div className={styles.container}>
       {!isLoading ? (
-        <Paper className={styles.form}
-        sx = {{
-          width : "70%"
-        }}
+        <Paper
+          className={styles.form}
+          sx={{
+            width: "70%",
+          }}
         >
-          
           {/* <Button>sjekk</Button> */}
           <FormControl
-            sx = {{
-              display : "flex",
-              width : "100%",
+            sx={{
+              display: "flex",
+              width: "100%",
               justifyContent: "center",
-              alignContent: "center"
-
-                  }}
-          
+              alignContent: "center",
+            }}
           >
             <FormLabel>Fornavn:</FormLabel>
             <TextField
               // className={styles.input}
               required
-              value={user?.firstName}
-              onChange={(e) => setUser({ ...user, firstName: e.target.value })}
-              
+              value={user?.samfundetUser?.firstName}
+              onChange={(e) =>
+                setUser({
+                  ...user,
+                  samfundetUser: {
+                    ...user.samfundetUser,
+                    firstName: e.target.value,
+                  },
+                })
+              }
             />
 
             <FormLabel>Etternavn:</FormLabel>
             <TextField
               // className={styles.input}
               required
-              value={user?.lastName}
-              onChange={(e) => setUser({ ...user, lastName: e.target.value })}
+              value={user?.samfundetUser?.lastName}
+              onChange={(e) =>
+                setUser({
+                  ...user,
+                  samfundetUser: {
+                    ...user.samfundetUser,
+                    lastName: e.target.value,
+                  },
+                })
+              }
             />
 
             <FormLabel>Telefonnummer:</FormLabel>
             <TextField
               // className={styles.input}
               required
-              value={user?.phoneNumber?.value}
-              error={user.phoneNumber?.value !== "" && !isPhoneNumberValid}
+              value={user?.samfundetUser?.phoneNumber?.value}
+              error={
+                user?.samfundetUser?.phoneNumber?.value !== "" &&
+                !isPhoneNumberValid
+              }
               helperText={phoneNumberError}
               onChange={(e) =>
-                setUser({ ...user, phoneNumber: { value: e.target.value } })
+                setUser({
+                  ...user,
+                  samfundetUser: {
+                    ...user.samfundetUser,
+                    phoneNumber: { value: e.target.value },
+                  },
+                })
               }
             />
 
@@ -150,53 +180,71 @@ const ArchiveBossEditUser = () => {
             <TextField
               // className={styles.input}
               required
-              value={user?.email?.value}
-              error={user.email?.value !== "" && !isEmailValid}
+              value={user?.samfundetUser?.email?.value}
+              error={user?.samfundetUser?.email?.value !== "" && !isEmailValid}
               helperText={emailError}
               onChange={(e) =>
-                setUser({ ...user, email: { value: e.target.value } })
+                setUser({
+                  ...user,
+                  samfundetUser: {
+                    ...user.samfundetUser,
+                    email: { value: e.target.value },
+                  },
+                })
               }
             />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={user?.isActive || false}
+                  onChange={(e) =>
+                    setUser({
+                      ...user,
+                      isActive: e.target.checked,
+                    })
+                  }
+                />
+              }
+              label="Aktiv"
+              sx={{ marginTop: 2 }}
+            />
 
-            {/* <FormLabel>Passord:</FormLabel>
-          <TextField
-            type="password"
-            required
-            value={user?.password}
-            onChange={(e) => setUser({ ...user, password: e.target.value })}
-          /> */}
-          <div
-          className= {styles.action_buttons} 
-          >
-            <Button
-              onClick={handleEditUserClick}
-              type="button"
-              variant="contained"
-              color="primary"
-              
-              // className={styles.submitButton}
-            >
-              Oppdater bruker
-            </Button>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={user?.isPang || false}
+                  onChange={(e) =>
+                    setUser({
+                      ...user,
+                      isPang: e.target.checked,
+                    })
+                  }
+                />
+              }
+              label="Er Pang"
+              sx={{ marginTop: 1, marginBottom: 2 }}
+            />
+            <div className={styles.action_buttons}>
+              <Button
+                onClick={handleEditUserClick}
+                type="button"
+                variant="contained"
+                color="primary"
 
-            <Link  
-              className={styles.backButton} 
-              to={"/intern/arkivsjef"}
-            >
-
-              <Button > 
-                Tilbake 
+                // className={styles.submitButton}
+              >
+                Oppdater bruker
               </Button>
 
-            </Link>
-
-          </div>
+              <Link className={styles.backButton} to={"/intern/arkivsjef"}>
+                <Button>Tilbake</Button>
+              </Link>
+            </div>
           </FormControl>
         </Paper>
       ) : (
         <h1>Loading...</h1>
       )}
-
     </div>
   );
 };
