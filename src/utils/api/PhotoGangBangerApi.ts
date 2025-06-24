@@ -4,8 +4,13 @@ import {
   PhotoGangBangerDto,
   PhotoGangBangerPublicDto,
 } from "../../../generated";
+import { PaginatedResult } from "./types";
 
 export const PhotoGangBangerApi = {
+  getAll: async function (): Promise<PaginatedResult<PhotoGangBangerDto>> {
+    return api.get("/photo_gang_bangers");
+  },
+
   getById: async function (id: string): Promise<PhotoGangBangerDto> {
     return api.get(`/photo_gang_bangers/${id}`).then((res) => res.data);
   },

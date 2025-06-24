@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { SamfundetUserApi } from "../../../utils/api/SamfundetUserApi";
-import { SamfundetUser } from "../../../../generated";
+import { PhotoGangBanger } from "../../../../generated";
 import { Button, Paper } from "@mui/material";
 import styles from "./ArchiveBossOverView.module.css";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
+import { PhotoGangBangerApi } from "../../../utils/api/PhotoGangBangerApi";
 
 interface Props {
   setOverview: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,12 +23,12 @@ interface Row {
 }
 
 const ArchiveBossOverView = ({ setOverview }: Props) => {
-  const [users, setUsers] = useState<SamfundetUser[]>([]);
+  const [users, setUsers] = useState<PhotoGangBanger[]>([]);
   const [rows, setRows] = useState<Row[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    SamfundetUserApi.getAll()
+    PhotoGangBangerApi.getAll()
       .then((res) => {
         setUsers(res.data.currentList);
         setIsLoading(false);
@@ -37,23 +37,21 @@ const ArchiveBossOverView = ({ setOverview }: Props) => {
   }, []);
 
   useEffect(() => {
-    console.log(users);
     if (users.length > 0) {
-      const mappedRows = users.map((user) => ({
-        id: user.samfundetUserId?.id || "",
-        samfundetUserId: user.samfundetUserId?.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        username: user.username,
-        phoneNumber: user.phoneNumber?.value,
-        email: user.email?.value,
-        profilePicturePath: user.profilePicturePath,
-        sex: user.sex,
-        securityLevel: user.securityLevel?.securityLevelType,
+      const mappedRows = users.map((user, index) => ({
+        id: user.id || `temp-${index}`,
+        samfundetUserId: user.id,
+        firstName: user.samfundetUser?.firstName,
+        lastName: user.samfundetUser?.lastName,
+        username: user.samfundetUser?.username,
+        phoneNumber: user.samfundetUser?.phoneNumber?.value,
+        email: user.samfundetUser?.email?.value,
+        profilePicturePath: user.samfundetUser?.profilePicturePath,
+        sex: user.samfundetUser?.sex,
+        securityLevel: user.samfundetUser?.securityLevel?.securityLevelType,
       }));
 
       setRows(mappedRows);
-      console.log(rows);
     }
   }, [users]);
 
@@ -138,23 +136,15 @@ const ArchiveBossOverView = ({ setOverview }: Props) => {
                 paginationModel: { page: 0, pageSize: 5 },
               },
             }}
-            
             pageSizeOptions={[5, 10]}
-
           />
         ) : (
           <h3>...Loading</h3>
         )}
         <div>
-        <Button 
-        onClick={() => setOverview(false)}
-        >
-          Tilbake
-          </Button>
-
+          <Button onClick={() => setOverview(false)}>Tilbake</Button>
         </div>
       </Paper>
-
     </div>
   );
 };

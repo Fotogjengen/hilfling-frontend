@@ -1,6 +1,5 @@
 import {
   Button,
-  FormControl,
   FormLabel,
   MenuItem,
   Paper,
@@ -98,7 +97,6 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
     PositionApi.getAll()
       .then((res) => {
         setPositions(res.data.currentList);
-        console.log(positions);
       })
       .catch((err) => {
         console.log(err);
@@ -132,11 +130,9 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
   }, [user.samfundetUser?.email?.value]);
 
   const createUser = () => {
-    console.log(user);
     PhotoGangBangerApi.post(user)
-      .then((res) => {
+      .then(() => {
         setUser(initialUserState);
-        console.log(res);
         setOpen(true);
         setSeverity(severityEnum.SUCCESS);
         setMessage(`Bruker ble opprettet`);
