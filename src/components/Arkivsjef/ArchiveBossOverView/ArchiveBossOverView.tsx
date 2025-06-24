@@ -11,15 +11,14 @@ interface Props {
 }
 
 interface Row {
-  samfundetUserId?: string;
   firstName?: string;
   lastName?: string;
   username?: string;
   phoneNumber?: string;
   email?: string;
   profilePicturePath?: string;
-  sex?: string;
-  securityLevel?: string;
+  active?: boolean;
+  pang?: boolean;
 }
 
 const ArchiveBossOverView = ({ setOverview }: Props) => {
@@ -40,15 +39,13 @@ const ArchiveBossOverView = ({ setOverview }: Props) => {
     if (users.length > 0) {
       const mappedRows = users.map((user, index) => ({
         id: user.id || `temp-${index}`,
-        samfundetUserId: user.id,
         firstName: user.samfundetUser?.firstName,
         lastName: user.samfundetUser?.lastName,
         username: user.samfundetUser?.username,
         phoneNumber: user.samfundetUser?.phoneNumber?.value,
         email: user.samfundetUser?.email?.value,
-        profilePicturePath: user.samfundetUser?.profilePicturePath,
-        sex: user.samfundetUser?.sex,
-        securityLevel: user.samfundetUser?.securityLevel?.securityLevelType,
+        active: user.isActive,
+        pang: user.isPang,
       }));
 
       setRows(mappedRows);
@@ -57,9 +54,9 @@ const ArchiveBossOverView = ({ setOverview }: Props) => {
 
   const columns: GridColDef[] = [
     {
-      field: "samfundetUserId",
-      headerName: "ID",
-      width: 180,
+      field: "username",
+      headerName: "Username",
+      width: 120,
       headerClassName: styles.headerCell,
     },
     {
@@ -71,12 +68,6 @@ const ArchiveBossOverView = ({ setOverview }: Props) => {
     {
       field: "lastName",
       headerName: "Last name",
-      width: 120,
-      headerClassName: styles.headerCell,
-    },
-    {
-      field: "username",
-      headerName: "Username",
       width: 120,
       headerClassName: styles.headerCell,
     },
@@ -105,9 +96,15 @@ const ArchiveBossOverView = ({ setOverview }: Props) => {
     //   headerClassName: styles.headerCell,
     // },
     {
-      field: "securityLevel",
-      headerName: "Security Level",
-      width: 180,
+      field: "active",
+      headerName: "Active",
+      width: 120,
+      headerClassName: styles.headerCell,
+    },
+    {
+      field: "pang",
+      headerName: "Pang",
+      width: 120,
       headerClassName: styles.headerCell,
     },
     {
