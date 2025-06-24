@@ -17,12 +17,9 @@ import Redirect from "./utils/Redirect/Redirect";
 import MotiveHeader from "./components/ImageViewer/MotiveHeader";
 import InternSearchView from "./views/Intern/InternSearch/InternSearchView";
 import { Box } from "@mui/material";
-import { EditPhotoGangBangers } from "./views/Intern/EditPhotoGangBangers/EditPhotoGangBangers";
-import { EditPhotoGangBangersEdit } from "./views/Intern/EditPhotoGangBangers/EditPhotoGangBangersEdit";
 import { AuthenticationContext } from "./contexts/AuthenticationContext";
 import ArchiveBossEditUser from "./views/Intern/ArchiveBossEditUser/ArchiveBossEditUser";
 import DeNyeSiden from "./views/DeNyeSiden/DeNyeSiden";
-
 
 const AppRoutes: FC = () => {
   const { isAuthenticated, position } = useContext(AuthenticationContext);
@@ -50,15 +47,6 @@ const AppRoutes: FC = () => {
                 <Route
                   path="/intern/arkivsjef/editUser/:id"
                   element={<ArchiveBossEditUser />}
-                />
-
-                <Route
-                  path="/intern/arkivsjef/editPhotoGangBangers"
-                  element={<EditPhotoGangBangers />}
-                />
-                <Route
-                  path="/intern/arkivsjef/editPhotoGangBangers/:id"
-                  element={<EditPhotoGangBangersEdit />}
                 />
                 <Route path="/intern/motive" element={<Motives />} />
                 <Route path="/intern/motive/:id" element={<EditMotive />} />
