@@ -1,57 +1,66 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { PhotoDto } from '../../../generated/models/PhotoDto';
 import { PhotoApi } from '../../utils/api/PhotoApi';
 import { createImgUrl } from '../../utils/createImgUrl/createImgUrl';
 import styles from "./Photos.module.css";
-import { debounce } from "lodash"
 
-const Photos = () => {
-  const pageSize = 4;
-  const buffer = 300;
+export const Photos: React.FC = () => {
+  const PAGE_SIZE = 4;
+  const BUFFER_PX = 300;
+
   const [photos, setPhotos] = useState<PhotoDto[]>([]);
   const [page, setPage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [hasMore, setHasMore] = useState(true); // You can use this if your API gives total count
+  const [hasMore, setHasMore] = useState(true);
 
-  // Fetch photos when page changes
+  const loaderRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
-    const fetchPhotos = debounce(async () => {
-      if (!hasMore) return;
-
+    const loadPhotos = async () => {
       setIsLoading(true);
       try {
-        const newPhotos = await PhotoApi.getGoodPhotos(String(page), String(pageSize));
+        const newPhotos = await PhotoApi.getGoodPhotos(
+          String(page),
+          String(PAGE_SIZE)
+        );
         setPhotos((prev) => [...prev, ...newPhotos]);
-
-        // If returned less than pageSize, assume no more to load
-        if (newPhotos.length < pageSize) {
+        if (newPhotos.length < PAGE_SIZE) {
           setHasMore(false);
         }
-      } catch (err) {
-        console.error("Error fetching photos:", err);
+      } catch (error) {
+        console.error("Error fetching photos:", error);
       } finally {
         setIsLoading(false);
       }
-    }, 200);
-    void fetchPhotos();
-  }, [page]);
+    };
 
-  // Scroll listener with debounce
+    if (hasMore) {
+      void loadPhotos();
+    }
+  }, [page, hasMore]);
+
+  // Set up IntersectionObserver on the sentinel div
   useEffect(() => {
-    const handleScroll = () => {
-      const nearBottom =
-        window.innerHeight + document.documentElement.scrollTop + buffer >=
-        document.documentElement.offsetHeight;
+    if (!loaderRef.current) return;
 
-      if (nearBottom && !isLoading && hasMore) {
+    const options = {
+      root: null, // viewport
+      rootMargin: `${BUFFER_PX}px`,
+      threshold: 0.1,
+    };
+
+    const handleObserver: IntersectionObserverCallback = (entries) => {
+      const [entry] = entries;
+      if (entry.isIntersecting && !isLoading && hasMore) {
         setPage((prev) => prev + 1);
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    const observer = new IntersectionObserver(handleObserver, options);
+    observer.observe(loaderRef.current);
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      observer.disconnect();
     };
   }, [isLoading, hasMore]);
 
@@ -59,15 +68,22 @@ const Photos = () => {
     <div>
       <div className={styles.photoContainer}>
         {photos.map((photo) => (
-          <div key={String(photo.photoId)} className={styles.photoItem}>
-            <img src={createImgUrl(photo)} width="500px" />
+          <div key={photo.photoId.id} className={styles.photoItem}>
+            <img
+              src={createImgUrl(photo)}
+              width={500}
+            />
           </div>
         ))}
       </div>
 
-      {isLoading && <p>Loading more photos...</p>}
+      {isLoading && <p>Loading more photos…</p>}
       {!hasMore && <p>No more photos to load.</p>}
+
+      {/* Scroll sentinel */}
+      <div ref={loaderRef} style={{ height: 1 }} />
     </div>
   );
 };
+
 export default Photos;
