@@ -5,7 +5,7 @@ import { createImgUrl } from '../../utils/createImgUrl/createImgUrl';
 import styles from "./Photos.module.css";
 
 export const Photos: React.FC = () => {
-  const PAGE_SIZE = 4;
+  const PAGE_SIZE = 20;
   const BUFFER_PX = 300;
 
   const [photos, setPhotos] = useState<PhotoDto[]>([]);
@@ -39,13 +39,17 @@ export const Photos: React.FC = () => {
     }
   }, [page, hasMore]);
 
-  // Set up IntersectionObserver on the sentinel div
+ 
   useEffect(() => {
+
+    // Make sure the loaderRef is pointing to a real DOM element before proceeding
     if (!loaderRef.current) return;
 
     const options = {
-      root: null, // viewport
+      root: null, 
+      // Pretend the viewport is BUFFER_PX bigger at the bottom. This makes it trigger early, before the user actually hits the bottom
       rootMargin: `${BUFFER_PX}px`,
+      // Trigger the callback when 10% of the target is visible
       threshold: 0.1,
     };
 
@@ -56,6 +60,7 @@ export const Photos: React.FC = () => {
       }
     };
 
+    // The IntersectionObserver watches loaderRef.current, and whenever that div scrolls into view, it triggers the handleObserver function
     const observer = new IntersectionObserver(handleObserver, options);
     observer.observe(loaderRef.current);
 
@@ -71,16 +76,15 @@ export const Photos: React.FC = () => {
           <div key={photo.photoId.id} className={styles.photoItem}>
             <img
               src={createImgUrl(photo)}
-              width={500}
             />
           </div>
         ))}
       </div>
 
-      {isLoading && <p>Loading more photos…</p>}
-      {!hasMore && <p>No more photos to load.</p>}
-
-      {/* Scroll sentinel */}
+      {isLoading && <p>Laster inn flere bilder... 🤓</p>}
+      {!hasMore && <p>Wow, du har lastet inn alle blinkskuddene våre! 📸 </p>}
+      
+      {/* Invisible "sentinel" at the bottom of the page that is essential for infinity loop to work */}
       <div ref={loaderRef} style={{ height: 1 }} />
     </div>
   );
