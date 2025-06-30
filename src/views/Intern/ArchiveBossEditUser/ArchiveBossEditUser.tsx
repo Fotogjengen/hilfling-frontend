@@ -42,7 +42,6 @@ const ArchiveBossEditUser = () => {
       .then((res) => {
         setUser(res);
         setIsLoading(false);
-        console.log(res);
       })
       .catch((err) => {
         console.log(err);

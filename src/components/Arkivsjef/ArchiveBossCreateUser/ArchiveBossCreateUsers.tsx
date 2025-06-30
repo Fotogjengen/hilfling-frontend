@@ -24,7 +24,7 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
   const initialUserState: PhotoGangBanger = {
     relationShipStatus: "single", // remove this in the future
     semesterStart: {
-      value: "H2018",
+      value: "",
     },
     address: "",
     zipCode: "",
@@ -73,25 +73,19 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const phoneNumberRegex = /^[1-9]\d{7}$/;
 
-  const availableSemesters = [
-    "V2018",
-    "H2018",
-    "V2019",
-    "H2019",
-    "V2020",
-    "H2020",
-    "V2021",
-    "H2021",
-    "V2022",
-    "H2022",
-    "V2023",
-    "H2023",
-    "V2024",
-    "H2024",
-    "V2025",
-    "H2025",
-  ];
-  // fetch semesters dynamicaly
+  function generateAvailableSemesters() {
+    const currentYear = new Date().getFullYear();
+    const semesters = [];
+
+    for (let year = currentYear - 1; year <= currentYear + 1; year++) {
+      semesters.push(`V${year}`);
+      semesters.push(`H${year}`);
+    }
+
+    return semesters;
+  }
+
+  const availableSemesters = generateAvailableSemesters();
 
   useEffect(() => {
     PositionApi.getAll()
