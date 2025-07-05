@@ -13,12 +13,6 @@ import { AlertContext, severityEnum } from "../../../contexts/AlertContext";
 import ArchiveBossCreateUsers from "../../../components/Arkivsjef/ArchiveBossCreateUser/ArchiveBossCreateUsers";
 import ArchiveBossOverView from "../../../components/Arkivsjef/ArchiveBossOverView/ArchiveBossOverView";
 
-interface PaginatedData<T> {
-  items: T[];
-  totalCount: number;
-  totalPages: number;
-}
-
 const ArchiveBoss: FC = () => {
   const [albums, setAlbums] = useState<AlbumDto[]>([]);
   const [places, setPlaces] = useState<PlaceDto[]>([]);
@@ -73,39 +67,41 @@ const ArchiveBoss: FC = () => {
       });
   };
 
-  // const fetchPlaces = async (page: number) => {
-  //   setLoading((prev) => ({ ...prev, places: true }));
-  //   try {
-  //     const res = await PlaceApi.getAll({
-  //       page: page - 1,
-  //       pageSize: itemsPerPage,
-  //     });
+  const fetchPlaces = async (page: number) => {
+    setLoading((prev) => ({ ...prev, places: true }));
+    await PlaceApi.getAll({
+      page: page - 1,
+      pageSize: itemsPerPage,
+    })
+      .then((res) => {
+        setPlaces(res.data.currentList);
+        setPlacesTotalPages(res.data.totalPages);
+      })
+      .catch((err) => {
+        setError(err as string);
+      })
+      .finally(() => {
+        setLoading((prev) => ({ ...prev, places: false }));
+      });
+  };
 
-  //     setPlaces(res.data.currentList);
-  //     setPlacesTotalPages(res.data.totalPages);
-  //   } catch (e) {
-  //     setError(e as string);
-  //   } finally {
-  //     setLoading((prev) => ({ ...prev, places: false }));
-  //   }
-  // };
-
-  // const fetchCategories = async (page: number) => {
-  //   setLoading((prev) => ({ ...prev, categories: true }));
-  //   try {
-  //     const res = await CategoryApi.getAll({
-  //       page: page - 1,
-  //       pageSize: itemsPerPage,
-  //     });
-
-  //     setCategories(res.data.currentList);
-  //     setCategoriesTotalPages(res.data.totalPages);
-  //   } catch (e) {
-  //     setError(e as string);
-  //   } finally {
-  //     setLoading((prev) => ({ ...prev, categories: false }));
-  //   }
-  // };
+  const fetchCategories = async (page: number) => {
+    setLoading((prev) => ({ ...prev, categories: true }));
+    await CategoryApi.getAll({
+      page: page - 1,
+      pageSize: itemsPerPage,
+    })
+      .then((res) => {
+        setCategories(res.data.currentList);
+        setCategoriesTotalPages(res.data.totalPages);
+      })
+      .catch((err) => {
+        setError(err as string);
+      })
+      .finally(() => {
+        setLoading((prev) => ({ ...prev, categories: false }));
+      });
+  };
 
   const handleAlbumsPageChange = (
     event: React.ChangeEvent<unknown>,
@@ -120,7 +116,7 @@ const ArchiveBoss: FC = () => {
     value: number,
   ) => {
     setPlacesPage(value);
-    // fetchPlaces(value);
+    void fetchPlaces(value);
   };
 
   const handleCategoriesPageChange = (
@@ -128,43 +124,23 @@ const ArchiveBoss: FC = () => {
     value: number,
   ) => {
     setCategoriesPage(value);
-    // fetchCategories(value);
+    void fetchCategories(value);
   };
 
   useEffect(() => {
     void fetchAlbums(1);
-    // fetchPlaces(1);
-    // fetchCategories(1);
+    void fetchPlaces(1);
+    void fetchCategories(1);
   }, []);
 
   useEffect(() => {
     if (update) {
       void fetchAlbums(albumsPage);
-      // fetchPlaces(placesPage);
-      // fetchCategories(categoriesPage);
+      void fetchPlaces(placesPage);
+      void fetchCategories(categoriesPage);
       setUpdate(false);
     }
   }, [update, albumsPage, placesPage, categoriesPage]);
-
-  // useEffect(() => {
-  //   AlbumApi.getAll({ page: 0, pageSize: 2 })
-  //     .then((res) => {
-  //       setAlbums(res.data.currentList);
-  //     })
-  //     .catch((e) => {
-  //       setError(e);
-  //     });
-  //   PlaceApi.getAll()
-  //     .then((res) => setPlaces(res.data.currentList))
-  //     .catch((e) => {
-  //       setError(e);
-  //     });
-  //   CategoryApi.getAll()
-  //     .then((res) => setCategories(res.data.currentList))
-  //     .catch((e) => {
-  //       setError(e);
-  //     });
-  // }, []);
 
   return (
     <>
@@ -221,7 +197,7 @@ const ArchiveBoss: FC = () => {
 
           <ArchiveBossAccordion color="#BE3144" name="Album">
             {loading.albums ? (
-              <Typography>Laster albums...</Typography>
+              <Typography>Laster album...</Typography>
             ) : (
               <>
                 <Grid container spacing={2}>
@@ -248,36 +224,60 @@ const ArchiveBoss: FC = () => {
             )}
           </ArchiveBossAccordion>
           <ArchiveBossAccordion color="#8F4650" name="Sted">
-            {" "}
-            {/*#605C5C*/} {/*#7C3640*/}
-            <Grid container spacing={2}>
-              {places.map((place: PlaceDto, index: number) => (
-                <Grid item key={index} xs={12} sm={4}>
-                  <ArchiveBossElement
-                    text={place.name}
-                    id={place.placeId.id}
-                    type="place"
-                    key={index}
-                  />
+            {loading.places ? (
+              <Typography>Laster steder...</Typography>
+            ) : (
+              <>
+                <Grid container spacing={2}>
+                  {places.map((place: PlaceDto, index: number) => (
+                    <Grid item key={index} xs={12} sm={4}>
+                      <ArchiveBossElement
+                        text={place.name}
+                        id={place.placeId.id}
+                        type="place"
+                        key={index}
+                      />
+                    </Grid>
+                  ))}
                 </Grid>
-              ))}
-            </Grid>
+                <Box display="flex" justifyContent="center" mt={2}>
+                  <Pagination
+                    count={placesTotalPages}
+                    page={placesPage}
+                    onChange={handlePlacesPageChange}
+                    color="primary"
+                  />
+                </Box>
+              </>
+            )}
           </ArchiveBossAccordion>
           <ArchiveBossAccordion color="#605C5C" name="Kategori">
-            {" "}
-            {/*#3A3B3C*/}
-            <Grid container spacing={2}>
-              {categories.map((category: CategoryDto, index: number) => (
-                <Grid item key={index} xs={12} sm={4}>
-                  <ArchiveBossElement
-                    text={category.name}
-                    id={category.categoryId.id}
-                    type="category"
-                    key={index}
-                  />
+            {loading.categories ? (
+              <Typography>Laster kategorier...</Typography>
+            ) : (
+              <>
+                <Grid container spacing={2}>
+                  {categories.map((category: CategoryDto, index: number) => (
+                    <Grid item key={index} xs={12} sm={4}>
+                      <ArchiveBossElement
+                        text={category.name}
+                        id={category.categoryId.id}
+                        type="category"
+                        key={index}
+                      />
+                    </Grid>
+                  ))}
                 </Grid>
-              ))}
-            </Grid>
+                <Box display="flex" justifyContent="center" mt={2}>
+                  <Pagination
+                    count={categoriesTotalPages}
+                    page={categoriesPage}
+                    onChange={handleCategoriesPageChange}
+                    color="primary"
+                  />
+                </Box>
+              </>
+            )}
           </ArchiveBossAccordion>
         </div>
       </ArchiveBossContext.Provider>
