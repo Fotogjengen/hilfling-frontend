@@ -47,6 +47,10 @@ export const PhotoApi = {
     });
   },
 
+  getGoodPhotos: async function (page?: string, pageSize?:string): Promise<PhotoDto[]> {
+    return api.get("/photos/goodPhotos",{params:{page, pageSize}}).then((res) => res.data.currentList);
+  },
+  
   search: async function (
     photoSearch: PhotoSearch,
   ): Promise<PaginatedResult<PhotoDto>> {

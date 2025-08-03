@@ -1,7 +1,7 @@
 import { PhotoDto } from "../../../generated";
 import React, { useState, useEffect } from "react";
 import { PhotoApi } from "../../utils/api/PhotoApi";
-import ShowMotive from "./GridImageViewer";
+import GridImageViewer from "./GridImageViewer";
 import styles from "./imageStyle.module.css";
 import { useParams } from "react-router-dom";
 
@@ -27,7 +27,7 @@ const MotiveHeader = () => {
         </p>
         <hr className={styles.hr} />
       </div>
-      <ShowMotive photos={photoResponse} />
+      <GridImageViewer photos={photoResponse} />
     </div>
   );
 };
