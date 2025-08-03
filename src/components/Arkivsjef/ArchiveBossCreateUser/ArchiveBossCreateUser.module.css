@@ -2,7 +2,7 @@
     padding: 0.5rem;
     width: 40%;
     left: 50%;
-    top: 50%; 
+    top: 80%; 
     position: absolute;
     transform: translate(-50%, -50%);
     display: flex;

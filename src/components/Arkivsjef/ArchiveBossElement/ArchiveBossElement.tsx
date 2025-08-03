@@ -26,8 +26,15 @@ const ArchiveBossElement: FC<Props> = ({ text, id, type }: Props) => {
 
   const { setMessage, setSeverity, setOpen } = useContext(AlertContext);
 
-  const { albums, setAlbums, places, setPlaces, categories, setCategories } =
-    useContext(ArchiveBossContext);
+  const {
+    albums,
+    setAlbums,
+    places,
+    setPlaces,
+    categories,
+    setCategories,
+    setUpdate,
+  } = useContext(ArchiveBossContext);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -86,6 +93,7 @@ const ArchiveBossElement: FC<Props> = ({ text, id, type }: Props) => {
         .catch((e) => console.log(e));
     }
     setAnchorEl(null);
+    setUpdate(true);
   };
 
   return (

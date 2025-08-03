@@ -1,34 +1,33 @@
 import React, { useEffect, useState } from "react";
-import { SamfundetUserApi } from "../../../utils/api/SamfundetUserApi";
-import { SamfundetUser } from "../../../../generated";
+import { PhotoGangBanger } from "../../../../generated";
 import { Button, Paper } from "@mui/material";
 import styles from "./ArchiveBossOverView.module.css";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
+import { PhotoGangBangerApi } from "../../../utils/api/PhotoGangBangerApi";
 
 interface Props {
   setOverview: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 interface Row {
-  samfundetUserId?: string;
   firstName?: string;
   lastName?: string;
   username?: string;
   phoneNumber?: string;
   email?: string;
   profilePicturePath?: string;
-  sex?: string;
-  securityLevel?: string;
+  active?: boolean;
+  pang?: boolean;
 }
 
 const ArchiveBossOverView = ({ setOverview }: Props) => {
-  const [users, setUsers] = useState<SamfundetUser[]>([]);
+  const [users, setUsers] = useState<PhotoGangBanger[]>([]);
   const [rows, setRows] = useState<Row[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    SamfundetUserApi.getAll()
+    PhotoGangBangerApi.getAll()
       .then((res) => {
         setUsers(res.data.currentList);
         setIsLoading(false);
@@ -37,31 +36,27 @@ const ArchiveBossOverView = ({ setOverview }: Props) => {
   }, []);
 
   useEffect(() => {
-    console.log(users);
     if (users.length > 0) {
       const mappedRows = users.map((user) => ({
-        id: user.samfundetUserId?.id || "",
-        samfundetUserId: user.samfundetUserId?.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        username: user.username,
-        phoneNumber: user.phoneNumber?.value,
-        email: user.email?.value,
-        profilePicturePath: user.profilePicturePath,
-        sex: user.sex,
-        securityLevel: user.securityLevel?.securityLevelType,
+        id: user?.photoGangBangerId?.id,
+        firstName: user.samfundetUser?.firstName,
+        lastName: user.samfundetUser?.lastName,
+        username: user.samfundetUser?.username,
+        phoneNumber: user.samfundetUser?.phoneNumber?.value,
+        email: user.samfundetUser?.email?.value,
+        active: user.isActive,
+        pang: user.isPang,
       }));
 
       setRows(mappedRows);
-      console.log(rows);
     }
   }, [users]);
 
   const columns: GridColDef[] = [
     {
-      field: "samfundetUserId",
-      headerName: "ID",
-      width: 180,
+      field: "username",
+      headerName: "Username",
+      width: 120,
       headerClassName: styles.headerCell,
     },
     {
@@ -73,12 +68,6 @@ const ArchiveBossOverView = ({ setOverview }: Props) => {
     {
       field: "lastName",
       headerName: "Last name",
-      width: 120,
-      headerClassName: styles.headerCell,
-    },
-    {
-      field: "username",
-      headerName: "Username",
       width: 120,
       headerClassName: styles.headerCell,
     },
@@ -107,9 +96,15 @@ const ArchiveBossOverView = ({ setOverview }: Props) => {
     //   headerClassName: styles.headerCell,
     // },
     {
-      field: "securityLevel",
-      headerName: "Security Level",
-      width: 180,
+      field: "active",
+      headerName: "Active",
+      width: 120,
+      headerClassName: styles.headerCell,
+    },
+    {
+      field: "pang",
+      headerName: "Pang",
+      width: 120,
       headerClassName: styles.headerCell,
     },
     {
@@ -138,23 +133,15 @@ const ArchiveBossOverView = ({ setOverview }: Props) => {
                 paginationModel: { page: 0, pageSize: 5 },
               },
             }}
-            
             pageSizeOptions={[5, 10]}
-
           />
         ) : (
           <h3>...Loading</h3>
         )}
         <div>
-        <Button 
-        onClick={() => setOverview(false)}
-        >
-          Tilbake
-          </Button>
-
+          <Button onClick={() => setOverview(false)}>Tilbake</Button>
         </div>
       </Paper>
-
     </div>
   );
 };
