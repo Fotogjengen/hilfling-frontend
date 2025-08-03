@@ -73,6 +73,7 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const phoneNumberRegex = /^[1-9]\d{7}$/;
 
+
   function generateAvailableSemesters() {
     const currentYear = new Date().getFullYear();
     const semesters = [];
@@ -98,6 +99,7 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
   }, []);
 
   useEffect(() => {
+
     if (!user.samfundetUser?.phoneNumber?.value) {
       setIsPhoneNumberValid(false);
       setPhoneNumberError("");
