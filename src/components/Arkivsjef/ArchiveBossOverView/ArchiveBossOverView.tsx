@@ -83,18 +83,6 @@ const ArchiveBossOverView = ({ setOverview }: Props) => {
       width: 180,
       headerClassName: styles.headerCell,
     },
-    // {
-    //   field: "profilePicturePath",
-    //   headerName: "Profile Picture",
-    //   width: 120,
-    //   headerClassName: styles.headerCell,
-    // },
-    // {
-    //   field: "sex",
-    //   headerName: "Sex",
-    //   width: 120,
-    //   headerClassName: styles.headerCell,
-    // },
     {
       field: "active",
       headerName: "Active",
