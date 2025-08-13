@@ -3,16 +3,13 @@ import { IconButton, InputAdornment, MenuItem, TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { SearchSuggestionsApi } from "../../utils/api/searchSuggestionsApi";
 import styles from "./Search.module.css";
-import { useSearchContext } from "../../views/Search/SearchProvider";
-
+import { useSearchContext } from "../../views/Search/SearchContext";
 
 const SearchField: FC = () => {
   const [search, setSearch] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
 
-  const searchContext = useSearchContext();
-  const setSearchQuery = searchContext ? searchContext.setSearchQuery : () => {console.error("Search is context not available"); };
-  
+  const { searchQuery, setSearchQuery } = useSearchContext();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
@@ -43,27 +40,29 @@ const SearchField: FC = () => {
 
   const suggestionBoxes = useMemo(() => {
     return suggestions.map((s, key) => (
-      <MenuItem  className={styles.suggestionBox} value={s} key={key} color="" onClick={() => handleSearch(s)}>
+      <MenuItem
+        className={styles.suggestionBox}
+        value={s}
+        key={key}
+        color=""
+        onClick={() => handleSearch(s)}
+      >
         {s}
       </MenuItem>
     ));
   }, [suggestions]);
 
   const handleSearch = (s: string) => {
-    setSearch(s)
-    setSearchQuery(s)
+    setSearchQuery(s);
+    setSuggestions([]);
     //Send s to a different component
   };
 
   const enterSearch = (event: React.KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === 'Enter') {
-      console.log(search)
-      setSearchQuery(search);
-
+    if (event.key === "Enter") {
+      handleSearch(search);
     }
-  }
-
-
+  };
 
   return (
     <div>
@@ -77,7 +76,7 @@ const SearchField: FC = () => {
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
-              <IconButton onClick={() => setSearchQuery(search)}>
+              <IconButton onClick={() => handleSearch(search)}>
                 <SearchIcon />
               </IconButton>
             </InputAdornment>
