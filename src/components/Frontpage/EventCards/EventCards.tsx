@@ -36,6 +36,8 @@ const EventCards: FC<Props> = ({ event, eventCardResponse }) => {
               <div>
                 <b>Date:</b>
                 {eventCard.date_created?.toString()}
+                <br />
+                <b>{eventCard.eventOwnerName}</b>
               </div>
             </div>
           </Link>

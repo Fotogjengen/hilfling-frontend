@@ -1,6 +1,6 @@
 import { api } from "./api";
-import { EventCardDto } from "../../../generated"; // Assuming EventCardDto is defined in your generated types
-import { PaginatedResult, PaginatedResultData } from "./types";
+import { EventCardDto } from "../../../generated";
+import { PaginatedResultData } from "./types";
 
 export const EventCardApi = {
   getLatestEventCards: async function (
@@ -8,7 +8,7 @@ export const EventCardApi = {
     numberOfEventCards: number,
   ): Promise<EventCardDto[]> {
     return api
-      .get("/eventcards", {
+      .get("/eventcards/latest", {
         params: {
           eventOwnerName,
           numberOfEventCards,
