@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
-import styles from "./Login.module.css";
-import { AuthenticationContext } from "../../contexts/AuthenticationContext";
+import styles from "./LoginPopUp.module.css";
+import { AuthenticationContext } from "../../../contexts/AuthenticationContext";
 import {
   Button,
   FormControl,
@@ -23,7 +23,7 @@ interface Props {
   setLoginForm: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Login = ({ setLoginForm }: Props) => {
+const LoginPopUp = ({ setLoginForm }: Props) => {
   const [activeForm, setActiveForm] = useState<"husfolk" | "power" | null>(
     null,
   );
@@ -103,10 +103,11 @@ const Login = ({ setLoginForm }: Props) => {
         </Grid>
 
         {activeForm === "husfolk" && renderForm("LOGG INN SOM INTERN", "FG")}
-        {activeForm === "power" && renderForm("LOGG INN SOM POWERBRUKER", "PROFILE")}
+        {activeForm === "power" &&
+          renderForm("LOGG INN SOM POWERBRUKER", "PROFILE")}
       </div>
     </div>
   );
 };
 
-export default Login;
+export default LoginPopUp;
