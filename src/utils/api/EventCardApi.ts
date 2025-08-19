@@ -18,28 +18,13 @@ export const EventCardApi = {
       .catch((e) => console.log(e));
   },
 
-  getAllLatestEventCards: async function (
-    page: number,
-    pageSize: number,
-  ): Promise<PaginatedResultData<EventCardDto>> {
-    return api
-      .get("/eventcards/all", {
-        params: {
-          page,
-          pageSize,
-        },
-      })
-      .then((res) => res.data)
-      .catch((e) => console.log(e));
-  },
-
   searchAllEventCards: async function (
     searchString: string,
     page: number,
     pageSize: number,
   ): Promise<PaginatedResultData<EventCardDto>> {
     return api
-      .get("/eventcards/search/global", {
+      .get("/eventcards/search", {
         params: {
           searchString,
           page,
