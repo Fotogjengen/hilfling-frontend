@@ -13,7 +13,12 @@ import {
 } from "@mui/material";
 import { CloseSharp, Visibility, VisibilityOff } from "@mui/icons-material";
 
-
+/*
+We haven’t decided yet whether the "power user" role will be part of the final system. 
+To avoid losing the implementation work already done, we’ve left the supporting logic 
+in place but temporarily disabled its visibility in the user interface. 
+Once the decision about power users is finalized, we can either re-enable the code for power users or remove it entirely.
+*/
 interface Props {
   setLoginForm: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -66,12 +71,11 @@ const Login = ({ setLoginForm }: Props) => {
     </Grid>
   );
 
-  
   return (
     <div className={styles.popup}>
       <div className={styles.popupInner}>
         <Grid container>
-          <Grid item xs={5}>
+          {/* <Grid item xs={5}>
             <Button
               className={styles.gridItem}
               onClick={() => setActiveForm("power")}
@@ -79,13 +83,13 @@ const Login = ({ setLoginForm }: Props) => {
             >
               Login PowerBruker
             </Button>
-          </Grid>
-          <Grid item xs={5}>
+          </Grid> */}
+          <Grid item xs={10}>
             <Button
               className={styles.gridItem}
               onClick={() => setActiveForm("husfolk")}
             >
-              Login Husfolk
+              Logg inn som intern
             </Button>
           </Grid>
           <Grid item xs={2}>
@@ -98,9 +102,8 @@ const Login = ({ setLoginForm }: Props) => {
           </Grid>
         </Grid>
 
-
-        {activeForm === "husfolk" && renderForm("Login Husfolk", "FG")}
-        {activeForm === "power" && renderForm("Login Powerbruker", "PROFILE")}
+        {activeForm === "husfolk" && renderForm("LOGG INN SOM INTERN", "FG")}
+        {activeForm === "power" && renderForm("LOGG INN SOM POWERBRUKER", "PROFILE")}
       </div>
     </div>
   );
