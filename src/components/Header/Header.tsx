@@ -12,8 +12,7 @@ import LockIcon from "@mui/icons-material/Lock";
 import NoEncryptionGmailerrorredIcon from "@mui/icons-material/NoEncryptionGmailerrorred";
 import SearchIcon from "@mui/icons-material/Search";
 import { AuthenticationContext } from "../../contexts/AuthenticationContext";
-import LoginButton from "../../views/Login/LoginButton";
-
+import LoginButton from "../Login/LoginButton/LoginButton";
 
 const HeaderComponent: FC = () => {
   const { isAuthenticated, position } = useContext(AuthenticationContext);
@@ -46,9 +45,6 @@ const HeaderComponent: FC = () => {
       noAuth: true,
     },
 
-
-
-
     ...(isAuthenticated
       ? [
           {
@@ -57,17 +53,16 @@ const HeaderComponent: FC = () => {
             icon: <AccessibilityNewIcon />,
             noAuth: true,
           },
-          ...(position === "FG" ?
-            [{
-            name: "DeNyeSiden",
-            to: "/intern/DeNyeSiden",
-            icon: <SearchIcon />,
-            noAuth: true,
-        
-            }]
-        
-          :[] )
- 
+          ...(position === "FG"
+            ? [
+                {
+                  name: "DeNyeSiden",
+                  to: "/intern/DeNyeSiden",
+                  icon: <SearchIcon />,
+                  noAuth: true,
+                },
+              ]
+            : []),
         ]
       : []),
     {
@@ -121,11 +116,20 @@ const HeaderComponent: FC = () => {
           <div className={styles.navList}>
             <Link to="/photos">BILDER</Link>
             <Link to="/about">OM OSS</Link>
-            {isAuthenticated ? <> <Link to="/intern/">INTERN</Link> 
-              {position == "FG" ? <Link to = "intern/DeNyeSiden"> DeNye </Link> : <></> } </>
-              : <></>}
+            {isAuthenticated ? (
+              <>
+                {" "}
+                <Link to="/intern/">INTERN</Link>
+                {position == "FG" ? (
+                  <Link to="intern/DeNyeSiden"> DeNye </Link>
+                ) : (
+                  <></>
+                )}{" "}
+              </>
+            ) : (
+              <></>
+            )}
             <Link to="/search">SØK</Link>
-            
           </div>
           <div className={styles.loggContainer}>
             <LoginButton />

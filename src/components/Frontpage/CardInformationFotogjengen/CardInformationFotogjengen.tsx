@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 interface Props {
   title: string;
   description: string;
-  link: string;
+  link?: string;
 }
 
 const CardInformationFotogjengen: FC<Props> = ({
@@ -18,11 +18,17 @@ const CardInformationFotogjengen: FC<Props> = ({
       <GuiCard>
         <GuiCardTitle title={title} capitalized={true} />
         <p style={{ whiteSpace: "pre-line" }}>{description}</p>
-        <p>
-          <Link style={{ color: "#ad2f33" }} to={link}>
-            Les mer her.
-          </Link>
-        </p>
+        {link && (
+          <p>
+            <Link
+              style={{ color: "#ad2f33" }}
+              to={link}
+              onClick={() => window.scrollTo(0, 0)}
+            >
+              Les mer her.
+            </Link>
+          </p>
+        )}
       </GuiCard>
     </div>
   );

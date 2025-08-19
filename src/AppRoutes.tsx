@@ -9,7 +9,6 @@ import NotFound from "./views/NotFound/NotFound";
 import Search from "./views/Search/Search";
 import CsaTester from "./views/CsaTester";
 import Motives from "./views/Intern/Motives/Motives";
-import Login from "./views/Login/AzureLogin";
 import EditMotive from "./views/Intern/EditMotive/EditMotive";
 import InternNav from "./views/Intern/InternNav/InternNav";
 import Expo from "./views/Intern/Expo/Expo";
@@ -35,7 +34,6 @@ const AppRoutes: FC = () => {
         <Route path="/photos" element={<Photos />} />
         <Route path="/search/:term" element={<Search />} />
         <Route path="/csa-tester" element={<CsaTester />} />
-        <Route path="/logg-inn" element={<Login />} />
         {isAuthenticated && (
           <>
             <Route path="/intern" element={<InternNav />} />
