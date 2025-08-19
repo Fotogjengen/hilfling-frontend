@@ -1,5 +1,6 @@
 import { api } from "./api";
-import { EventCardDto } from "../../../generated"; // Assuming EventCardDto is defined in your generated types
+import { EventCardDto } from "../../../generated";
+import { PaginatedResultData } from "./types";
 
 export const EventCardApi = {
   getLatestEventCards: async function (
@@ -7,10 +8,27 @@ export const EventCardApi = {
     numberOfEventCards: number,
   ): Promise<EventCardDto[]> {
     return api
-      .get("/eventcards", {
+      .get("/eventcards/latest", {
         params: {
           eventOwnerName,
           numberOfEventCards,
+        },
+      })
+      .then((res) => res.data)
+      .catch((e) => console.log(e));
+  },
+
+  searchAllEventCards: async function (
+    searchString: string,
+    page: number,
+    pageSize: number,
+  ): Promise<PaginatedResultData<EventCardDto>> {
+    return api
+      .get("/eventcards/search", {
+        params: {
+          searchString,
+          page,
+          pageSize,
         },
       })
       .then((res) => res.data)

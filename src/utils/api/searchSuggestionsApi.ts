@@ -1,8 +1,14 @@
 import { api } from "./api";
 
 export const SearchSuggestionsApi = {
-  get: async function (search: string): Promise<string[]> {
-    return api.get("/searchSuggestions/"+search).then(res => res.data);
+  get: async function (term: string): Promise<string[]> {
+    return api
+      .get("/searchSuggestions", {
+        params: {
+          term,
+        },
+      })
+      .then((res) => res.data)
+      .catch((e) => console.log(e));
   },
-
 };

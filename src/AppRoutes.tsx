@@ -6,7 +6,7 @@ import MyProfile from "./views/MyProfile/MyProfile";
 import PhotoUpload from "./views/Intern/PhotoUpload/PhotoUpload";
 import Arkivsjef from "./views/Intern/Arkivsjef/ArchiveBoss";
 import NotFound from "./views/NotFound/NotFound";
-import Search from "./views/Search/Search";
+import Search from "./views/Search/SearchMotive";
 import CsaTester from "./views/CsaTester";
 import Motives from "./views/Intern/Motives/Motives";
 import Login from "./views/Login/AzureLogin";
