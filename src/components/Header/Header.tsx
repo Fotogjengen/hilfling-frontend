@@ -1,4 +1,4 @@
-import React, { FC, useContext, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import styles from "./Header.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import { GuiLogo } from "../../gui-components";
@@ -14,16 +14,16 @@ import SearchIcon from "@mui/icons-material/Search";
 import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 import LoginButton from "../../views/Login/LoginButton";
 
-
 const HeaderComponent: FC = () => {
   const { isAuthenticated, position } = useContext(AuthenticationContext);
+  const navigate = useNavigate();
+  const [showHamburgerMenu, setShowHamburgerMenu] = useState(false);
 
-  const replace = useNavigate();
-  const [showMenu, setShowMenu] = useState(false);
-  const onMenuClick = () => setShowMenu(true);
-  const onCloseClick = () => setShowMenu(false);
-  const handleResize = () => setShowMenu(false);
-  window.addEventListener("resize", handleResize);
+  useEffect(() => {
+    const handleResize = () => setShowHamburgerMenu(false);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const menuLinks = [
     {
@@ -46,28 +46,24 @@ const HeaderComponent: FC = () => {
       noAuth: true,
     },
 
-
-
-
     ...(isAuthenticated
       ? [
           {
-            name: "Intern",
+            name: "FG",
             to: "/intern",
             icon: <AccessibilityNewIcon />,
             noAuth: true,
           },
-          ...(position === "FG" ?
-            [{
-            name: "DeNyeSiden",
-            to: "/intern/DeNyeSiden",
-            icon: <SearchIcon />,
-            noAuth: true,
-        
-            }]
-        
-          :[] )
- 
+          ...(position === "FG"
+            ? [
+                {
+                  name: "DeNyeSiden",
+                  to: "/intern",
+                  icon: <SearchIcon />,
+                  noAuth: true,
+                },
+              ]
+            : []),
         ]
       : []),
     {
@@ -88,25 +84,25 @@ const HeaderComponent: FC = () => {
     <>
       <nav className={styles.nav}>
         <div className={styles.navHead}>
-          <GuiLogo size={50} onClick={() => replace("/")} />
+          <GuiLogo size={50} onClick={() => navigate("/")} />
           <div className={styles.hamburger}>
-            {showMenu ? (
-              <CloseIcon onClick={() => onCloseClick()} fontSize="large" />
+            {showHamburgerMenu ? (
+              <CloseIcon onClick={() => setShowHamburgerMenu(false)} fontSize="large" />
             ) : (
-              <MenuIcon onClick={() => onMenuClick()} fontSize="large" />
+              <MenuIcon onClick={() => setShowHamburgerMenu(true)} fontSize="large" />
             )}
           </div>
         </div>
-        <Collapse in={showMenu} className={styles.navMenuList}>
+        <Collapse in={showHamburgerMenu} className={styles.navMenuList}>
           <>
             {menuLinks.map((link, index) => {
               if (link.noAuth) {
                 return (
                   <Grow
                     key={index}
-                    in={showMenu}
+                    in={showHamburgerMenu}
                     style={{ transformOrigin: "0 0 0" }}
-                    {...(showMenu ? { timeout: index * 500 + 500 } : {})}
+                    {...(showHamburgerMenu ? { timeout: index * 500 + 500 } : {})}
                   >
                     <Link className={styles.menuLink} to={link.to}>
                       {link.name} {link.icon}
@@ -121,11 +117,20 @@ const HeaderComponent: FC = () => {
           <div className={styles.navList}>
             <Link to="/photos">BILDER</Link>
             <Link to="/about">OM OSS</Link>
-            {isAuthenticated ? <> <Link to="/intern/">INTERN</Link> 
-              {position == "FG" ? <Link to = "intern/DeNyeSiden"> DeNye </Link> : <></> } </>
-              : <></>}
+            {isAuthenticated ? (
+              <>
+                {" "}
+                <Link to="/intern/">FG</Link>
+                {position == "FG" ? (
+                  <Link to="intern/DeNyeSiden"> DeNye </Link>
+                ) : (
+                  <></>
+                )}{" "}
+              </>
+            ) : (
+              <></>
+            )}
             <Link to="/search">SØK</Link>
-            
           </div>
           <div className={styles.loggContainer}>
             <LoginButton />
