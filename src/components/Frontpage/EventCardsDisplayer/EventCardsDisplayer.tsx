@@ -49,7 +49,7 @@ const EventCardsDisplayer: FC<Props> = () => {
         setIsUkaLoading(true);
         break;
     }
-    EventCardApi.getLatestEventCards(eventType, 6)
+    EventCardApi.getLatestEventCards(eventType, 3)
       .then((res) => {
         const events = res || [];
 
