@@ -46,24 +46,14 @@ const HeaderComponent: FC = () => {
       noAuth: true,
     },
 
-    ...(isAuthenticated
+    ...(isAuthenticated && position === "FG"
       ? [
           {
             name: "FG",
-            to: "/intern",
+            to: "/fg",
             icon: <AccessibilityNewIcon />,
             noAuth: true,
-          },
-          ...(position === "FG"
-            ? [
-                {
-                  name: "DeNyeSiden",
-                  to: "/intern",
-                  icon: <SearchIcon />,
-                  noAuth: true,
-                },
-              ]
-            : []),
+          }
         ]
       : []),
     {
@@ -87,9 +77,15 @@ const HeaderComponent: FC = () => {
           <GuiLogo size={50} onClick={() => navigate("/")} />
           <div className={styles.hamburger}>
             {showHamburgerMenu ? (
-              <CloseIcon onClick={() => setShowHamburgerMenu(false)} fontSize="large" />
+              <CloseIcon
+                onClick={() => setShowHamburgerMenu(false)}
+                fontSize="large"
+              />
             ) : (
-              <MenuIcon onClick={() => setShowHamburgerMenu(true)} fontSize="large" />
+              <MenuIcon
+                onClick={() => setShowHamburgerMenu(true)}
+                fontSize="large"
+              />
             )}
           </div>
         </div>
@@ -102,7 +98,9 @@ const HeaderComponent: FC = () => {
                     key={index}
                     in={showHamburgerMenu}
                     style={{ transformOrigin: "0 0 0" }}
-                    {...(showHamburgerMenu ? { timeout: index * 500 + 500 } : {})}
+                    {...(showHamburgerMenu
+                      ? { timeout: index * 500 + 500 }
+                      : {})}
                   >
                     <Link className={styles.menuLink} to={link.to}>
                       {link.name} {link.icon}
@@ -117,20 +115,13 @@ const HeaderComponent: FC = () => {
           <div className={styles.navList}>
             <Link to="/photos">BILDER</Link>
             <Link to="/about">OM OSS</Link>
-            {isAuthenticated ? (
-              <>
-                {" "}
-                <Link to="/intern/">FG</Link>
-                {position == "FG" ? (
-                  <Link to="intern/DeNyeSiden"> DeNye </Link>
-                ) : (
-                  <></>
-                )}{" "}
-              </>
-            ) : (
-              <></>
-            )}
             <Link to="/search">SØK</Link>
+            {isAuthenticated && position === "FG" && (
+              <Link to="/fg/search">INTERNSØK</Link>
+            )}
+            {isAuthenticated && position === "FG" && (
+              <Link to="/fg/">FG</Link>
+            )}
           </div>
           <div className={styles.loggContainer}>
             <LoginButton />

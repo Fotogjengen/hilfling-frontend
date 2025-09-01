@@ -38,21 +38,21 @@ const AppRoutes: FC = () => {
         <Route path="/logg-inn" element={<Login />} />
         {isAuthenticated && (
           <>
-            <Route path="/intern" element={<InternNav />} />
-            <Route path="/intern/myprofile" element={<MyProfile />} />
-            <Route path="/intern/sok" element={<InternSearchView />} />
+            <Route path="/fg" element={<InternNav />} />
+            <Route path="/fg/myprofile" element={<MyProfile />} />
+            <Route path="/fg/search" element={<InternSearchView />} />
             {position === "FG" && (
               <>
-                <Route path="/intern/DeNyeSiden" element={<DeNyeSiden />} />
-                <Route path="/intern/last-opp" element={<PhotoUpload />} />
-                <Route path="/intern/arkivsjef" element={<Arkivsjef />} />
+                <Route path="/fg/DeNyeSiden" element={<DeNyeSiden />} />
+                <Route path="/fg/last-opp" element={<PhotoUpload />} />
+                <Route path="/fg/arkivsjef" element={<Arkivsjef />} />
                 <Route
-                  path="/intern/arkivsjef/editUser/:id"
+                  path="/fg/arkivsjef/editUser/:id"
                   element={<ArchiveBossEditUser />}
                 />
-                <Route path="/intern/motive" element={<Motives />} />
-                <Route path="/intern/motive/:id" element={<EditMotive />} />
-                <Route path="/intern/expo" element={<Expo />} />
+                <Route path="/fg/motive" element={<Motives />} />
+                <Route path="/fg/motive/:id" element={<EditMotive />} />
+                <Route path="/fg/expo" element={<Expo />} />
               </>
             )}
           </>
