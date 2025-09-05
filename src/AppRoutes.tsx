@@ -6,10 +6,9 @@ import MyProfile from "./views/MyProfile/MyProfile";
 import PhotoUpload from "./views/Fg/PhotoUpload/PhotoUpload";
 import Arkivsjef from "./views/Fg/Arkivsjef/ArchiveBoss";
 import NotFound from "./views/NotFound/NotFound";
-import Search from "./views/Search/Search";
+import Search from "./views/Search/SearchMotive";
 import CsaTester from "./views/CsaTester";
 import Motives from "./views/Fg/Motives/Motives";
-import Login from "./views/Login/AzureLogin";
 import EditMotive from "./views/Fg/EditMotive/EditMotive";
 import InternNav from "./views/Fg/FgNav/InternNav";
 import Expo from "./views/Fg/Expo/Expo";
@@ -35,7 +34,6 @@ const AppRoutes: FC = () => {
         <Route path="/photos" element={<Photos />} />
         <Route path="/search/:term" element={<Search />} />
         <Route path="/csa-tester" element={<CsaTester />} />
-        <Route path="/logg-inn" element={<Login />} />
         {isAuthenticated && (
           <>
             <Route path="/intern/search" element={<InternSearchView />} />

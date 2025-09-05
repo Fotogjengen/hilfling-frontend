@@ -49,7 +49,7 @@ const EventCardsDisplayer: FC<Props> = () => {
         setIsUkaLoading(true);
         break;
     }
-    EventCardApi.getLatestEventCards(eventType, 6)
+    EventCardApi.getLatestEventCards(eventType, 3)
       .then((res) => {
         const events = res || [];
 
@@ -112,21 +112,33 @@ const EventCardsDisplayer: FC<Props> = () => {
         {isSamfundetLoading ? (
           <div>Loading Samfundet events...</div>
         ) : (
-          <EventCards event={"Samfundet"} eventCardResponse={samfundetEvents} />
+          <EventCards
+            titleSize={1.2}
+            event={"Samfundet"}
+            eventCardResponse={samfundetEvents}
+          />
         )}
       </TabPanel>
       <TabPanel value={value} index={1}>
         {isIsfitLoading ? (
           <div>Loading ISFIT events...</div>
         ) : (
-          <EventCards event={"ISFIT"} eventCardResponse={isfitEvents} />
+          <EventCards
+            titleSize={1.2}
+            event={"ISFIT"}
+            eventCardResponse={isfitEvents}
+          />
         )}
       </TabPanel>
       <TabPanel value={value} index={2}>
         {isUkaLoading ? (
           <div>Loading UKA events...</div>
         ) : (
-          <EventCards event={"UKA"} eventCardResponse={ukaEvents} />
+          <EventCards
+            titleSize={1.2}
+            event={"UKA"}
+            eventCardResponse={ukaEvents}
+          />
         )}
       </TabPanel>
     </>

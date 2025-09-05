@@ -6,7 +6,6 @@ import { PhotoDto } from "../../../../generated";
 import { PhotoApi } from "../../../utils/api/PhotoApi";
 
 import { createImgUrl } from "../../../utils/createImgUrl/createImgUrl";
-import "react-image-lightbox/style.css";
 import FileSaver from "file-saver";
 import JSZip from "jszip";
 

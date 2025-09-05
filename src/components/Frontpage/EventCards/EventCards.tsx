@@ -7,14 +7,29 @@ import { EventCardDto } from "../../../../generated";
 interface Props {
   event: string;
   eventCardResponse: EventCardDto[];
+  minWidth?: number;
+  titleSize?: number;
 }
 
-const EventCards: FC<Props> = ({ event, eventCardResponse }) => {
+const EventCards: FC<Props> = ({
+  event,
+  eventCardResponse,
+  minWidth = 400,
+  titleSize = 2,
+}) => {
   if (!eventCardResponse || eventCardResponse.length === 0) {
     return <div className={styles.emptyState}>No {event} events found</div>;
   }
+  const handleCardClick = () => {
+    window.scrollTo(0, 0);
+  };
   return (
-    <div className={styles.cardsContainer}>
+    <div
+      className={styles.cardsContainer}
+      style={{
+        gridTemplateColumns: `repeat(auto-fit, minmax(${minWidth}px, 1fr))`,
+      }}
+    >
       {eventCardResponse.map((eventCard) => {
         const id = eventCard.motiveId || "default";
         return (
@@ -22,6 +37,7 @@ const EventCards: FC<Props> = ({ event, eventCardResponse }) => {
             className={styles.card}
             key={`motive-card-${id}`}
             to={`/motive/${id}`}
+            onClick={handleCardClick}
           >
             <img
               className={styles.cardImg}
@@ -30,12 +46,17 @@ const EventCards: FC<Props> = ({ event, eventCardResponse }) => {
             />
 
             <div className={styles.cardText}>
-              <div className={styles.cardTextTitle}>
+              <div
+                className={styles.cardTextTitle}
+                style={{ fontSize: `${titleSize}rem` }}
+              >
                 {eventCard.motiveTitle}
               </div>
               <div>
                 <b>Date:</b>
                 {eventCard.date_created?.toString()}
+                <br />
+                <b>{eventCard.eventOwnerName}</b>
               </div>
             </div>
           </Link>
