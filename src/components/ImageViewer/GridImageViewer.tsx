@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import styles from "./imageStyle.module.css";
 import MotiveImage from "./MotiveImage";
-import "react-image-lightbox/style.css";
 import { PhotoDto } from "../../../generated";
 import { createImgUrl } from "../../utils/createImgUrl/createImgUrl";
 import { ImageContext } from "../../contexts/ImageContext";
