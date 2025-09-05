@@ -1,11 +1,25 @@
 .container {
     padding: 0.5rem;
     width: 40%;
-    margin: 0 auto;
+    left: 50%;
+    top: 80%; 
+    position: absolute;
+    transform: translate(-50%, -50%);
     display: flex;
     justify-content: center;
     flex-direction: column;
   }
+
+  .popup {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+    }
  
   
   .input {
@@ -28,3 +42,9 @@
   .backButton:hover {
     text-decoration: underline;
   }
+
+.nav_buttons {
+  display: flex;
+  flex-direction: row-reverse;
+  margin: 10px;
+}

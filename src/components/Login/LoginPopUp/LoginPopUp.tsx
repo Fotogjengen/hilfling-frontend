@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
-import styles from "./Login.module.css";
-import { AuthenticationContext } from "../../contexts/AuthenticationContext";
+import styles from "./LoginPopUp.module.css";
+import { AuthenticationContext } from "../../../contexts/AuthenticationContext";
 import {
   Button,
   FormControl,
@@ -13,11 +13,17 @@ import {
 } from "@mui/material";
 import { CloseSharp, Visibility, VisibilityOff } from "@mui/icons-material";
 
+/*
+We haven’t decided yet whether the "power user" role will be part of the final system. 
+To avoid losing the implementation work already done, we’ve left the supporting logic 
+in place but temporarily disabled its visibility in the user interface. 
+Once the decision about power users is finalized, we can either re-enable the code for power users or remove it entirely.
+*/
 interface Props {
   setLoginForm: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const Login = ({ setLoginForm }: Props) => {
+const LoginPopUp = ({ setLoginForm }: Props) => {
   const [activeForm, setActiveForm] = useState<"husfolk" | "power" | null>(
     null,
   );
@@ -69,20 +75,21 @@ const Login = ({ setLoginForm }: Props) => {
     <div className={styles.popup}>
       <div className={styles.popupInner}>
         <Grid container>
-          <Grid item xs={5}>
+          {/* <Grid item xs={5}>
             <Button
               className={styles.gridItem}
               onClick={() => setActiveForm("power")}
+
             >
               Login PowerBruker
             </Button>
-          </Grid>
-          <Grid item xs={5}>
+          </Grid> */}
+          <Grid item xs={10}>
             <Button
               className={styles.gridItem}
               onClick={() => setActiveForm("husfolk")}
             >
-              Login Husfolk
+              Logg inn som intern
             </Button>
           </Grid>
           <Grid item xs={2}>
@@ -95,11 +102,12 @@ const Login = ({ setLoginForm }: Props) => {
           </Grid>
         </Grid>
 
-        {activeForm === "husfolk" && renderForm("Login Husfolk", "FG")}
-        {activeForm === "power" && renderForm("Login Powerbruker", "PROFILE")}
+        {activeForm === "husfolk" && renderForm("LOGG INN SOM INTERN", "FG")}
+        {activeForm === "power" &&
+          renderForm("LOGG INN SOM POWERBRUKER", "PROFILE")}
       </div>
     </div>
   );
 };
 
-export default Login;
+export default LoginPopUp;

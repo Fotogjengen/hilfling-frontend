@@ -2,13 +2,15 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { KClassPosition } from './KClassPosition';
+import { Email } from "./Email";
+import type { KClassPosition } from "./KClassPosition";
+import { PositionId } from "./PositionId";
 
 export type Position = {
-    title?: string;
-    email?: string;
-    id?: string;
-    dateCreated?: string;
-    properties?: Record<string, any>;
-    entityClass?: KClassPosition;
-}
+  title?: string;
+  email?: Email;
+  positionId?: PositionId;
+  dateCreated?: string;
+  properties?: Record<string, any>;
+  entityClass?: KClassPosition;
+};

@@ -1,25 +1,34 @@
 import React, { FC } from "react";
 import { GuiCard, GuiCardTitle } from "../../../gui-components";
+import { Link } from "react-router-dom";
 
-const CardInformationFotogjengen: FC = () => {
+interface Props {
+  title: string;
+  description: string;
+  link?: string;
+}
+
+const CardInformationFotogjengen: FC<Props> = ({
+  title,
+  description,
+  link,
+}) => {
   return (
     <div>
       <GuiCard>
-        <GuiCardTitle title={"Fotogjengen"} capitalized={true} />
-        <p>
-          Fotogjengen er en gjeng på Samfundet. Vi har ansvar for å dokumentere
-          alt som skjer på huset. Alle bilder vi tar legges ut på denne
-          nettsiden. Ønsker du å bruke noen av bildene våre. Venligst krediter
-          foto med: foto.samfundet.no.
-        </p>
-        <p>
-          <a
-            style={{ color: "#ad2f33" }}
-            href="https://foto.samfundet.no/informasjon/"
-          >
-            Les mer om oss her.
-          </a>
-        </p>
+        <GuiCardTitle title={title} capitalized={true} />
+        <p style={{ whiteSpace: "pre-line" }}>{description}</p>
+        {link && (
+          <p>
+            <Link
+              style={{ color: "#ad2f33" }}
+              to={link}
+              onClick={() => window.scrollTo(0, 0)}
+            >
+              Les mer her.
+            </Link>
+          </p>
+        )}
       </GuiCard>
     </div>
   );
