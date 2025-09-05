@@ -3,10 +3,11 @@
 /* eslint-disable */
 
 import type { KClassSecurityLevel } from './KClassSecurityLevel';
+import { SecurityLevelId } from './SecurityLevelId';
 
 export type SecurityLevel = {
-    type?: string;
-    id?: string;
+    securityLevelType?: string;
+    securityLevelId?: SecurityLevelId;
     dateCreated?: string;
     properties?: Record<string, any>;
     entityClass?: KClassSecurityLevel;

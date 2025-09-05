@@ -2,53 +2,61 @@ import React, { FC } from "react";
 import { Link } from "react-router-dom";
 
 import styles from "./EventCards.module.css";
-import { MotiveDto } from "../../../../generated";
+import { EventCardDto } from "../../../../generated";
 
 interface Props {
   event: string;
-  motiveResponse: MotiveDto[];
+  eventCardResponse: EventCardDto[];
+  minWidth?: number;
+  titleSize?: number;
 }
 
-const EventCards: FC<Props> = ({ event, motiveResponse }) => {
-  const motiveEventResponse = motiveResponse
-    .filter((motiveObject) => {
-      return motiveObject.eventOwnerDto.name === event;
-    })
-    .sort((a, b) => {
-      const dateA = new Date(a.dateCreated);
-      const dateB = new Date(b.dateCreated);
-      return dateB.getTime() - dateA.getTime();
-    });
-
+const EventCards: FC<Props> = ({
+  event,
+  eventCardResponse,
+  minWidth = 400,
+  titleSize = 2,
+}) => {
+  if (!eventCardResponse || eventCardResponse.length === 0) {
+    return <div className={styles.emptyState}>No {event} events found</div>;
+  }
+  const handleCardClick = () => {
+    window.scrollTo(0, 0);
+  };
   return (
-    <div className={styles.cardsContainer}>
-      {motiveEventResponse.map((motiveObject) => {
-        const id = motiveObject.motiveId.id || "default";
+    <div
+      className={styles.cardsContainer}
+      style={{
+        gridTemplateColumns: `repeat(auto-fit, minmax(${minWidth}px, 1fr))`,
+      }}
+    >
+      {eventCardResponse.map((eventCard) => {
+        const id = eventCard.motiveId || "default";
         return (
           <Link
             className={styles.card}
             key={`motive-card-${id}`}
             to={`/motive/${id}`}
+            onClick={handleCardClick}
           >
             <img
               className={styles.cardImg}
-              src="https://www.w3schools.com/css/img_lights.jpg"
+              src={eventCard.frontPageSmallPhotoUrl}
               alt="img"
             />
 
             <div className={styles.cardText}>
-              <div className={styles.cardTextTitle}>{motiveObject.title}</div>
+              <div
+                className={styles.cardTextTitle}
+                style={{ fontSize: `${titleSize}rem` }}
+              >
+                {eventCard.motiveTitle}
+              </div>
               <div>
                 <b>Date:</b>
-                {motiveObject.dateCreated.toString()}
-              </div>
-              <div>
-                <b>Location:</b>
-                {"Blåfjell"}
-              </div>
-              <div>
-                <b>Images:</b>
-                {"367"}
+                {eventCard.date_created?.toString()}
+                <br />
+                <b>{eventCard.eventOwnerName}</b>
               </div>
             </div>
           </Link>

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -12,6 +12,7 @@ import {
   MenuItem,
   Checkbox,
   Grid,
+  Paper,
 } from "@mui/material";
 import { AddCircle } from "@mui/icons-material";
 import styles from "./ArchiveBossAddElements.module.css";
@@ -26,11 +27,9 @@ import { AlertContext, severityEnum } from "../../../contexts/AlertContext";
 const ArchiveBossAddElements = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const types: string[] = ["Kategori", "Sted", "Album"];
-  const { setAlbums, setPlaces, setCategories, setUpdate, update } =
-    useContext(ArchiveBossContext);
+  const { setUpdate } = useContext(ArchiveBossContext);
 
-  const { setMessage, setSeverity, setOpen } =
-    useContext(AlertContext);
+  const { setMessage, setSeverity, setOpen } = useContext(AlertContext);
 
   const handleClickOpen = () => {
     setOpenDialog(true);
@@ -83,33 +82,6 @@ const ArchiveBossAddElements = () => {
     setOpenDialog(false);
   };
 
-  useEffect(() => {
-    if (update) {
-      AlbumApi.getAll()
-        .then((res) => setAlbums(res.data.currentList))
-        .catch((e) => {
-          setOpen(true);
-          setSeverity(severityEnum.ERROR);
-          setMessage(e);
-        });
-      PlaceApi.getAll()
-        .then((res) => setPlaces(res.data.currentList))
-        .catch((e) => {
-          setOpen(true);
-          setSeverity(severityEnum.ERROR);
-          setMessage(e);
-        });
-      CategoryApi.getAll()
-        .then((res) => setCategories(res.data.currentList))
-        .catch((e) => {
-          setOpen(true);
-          setSeverity(severityEnum.ERROR);
-          setMessage(e);
-        });
-      setUpdate(false);
-    }
-  }, [update]);
-
   const validationSchema = yup.object({
     name: yup.string().required("Sliten? Du må fylle inn navn ❤️"),
     type: yup
@@ -125,10 +97,37 @@ const ArchiveBossAddElements = () => {
 
   return (
     <>
-      <IconButton aria-label="add" onClick={handleClickOpen}>
-        <AddCircle className={styles.svgicon} />
-      </IconButton>
-      <Typography onClick={handleClickOpen}>Legg til ny</Typography>
+      <Paper
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          alignContent: "start",
+          justifyContent: "flex-end",
+          padding: "8px 20px",
+          backgroundColor: "#f3f3f3",
+          gap: 0.5,
+          width: "fit-content",
+          cursor: "pointer",
+          boxShadow: "0 1px 3px white",
+          transition: "0.2s",
+          "&:hover": {
+            boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+          },
+        }}
+      >
+        <IconButton
+          aria-label="add"
+          onClick={handleClickOpen}
+          disableRipple={true}
+          sx={{ position: "relative", top: "1px" }}
+        >
+          <AddCircle className={styles.svgicon} />
+        </IconButton>
+        <Typography onClick={handleClickOpen} sx={{ whiteSpace: "nowrap" }}>
+          Legg til ny
+        </Typography>
+      </Paper>
+
       <Dialog open={openDialog} onClose={handleClose}>
         <Formik
           initialValues={initialValues}

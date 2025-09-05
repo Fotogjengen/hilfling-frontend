@@ -19,15 +19,15 @@ const ArchiveBossAccordion: FC<Props> = ({ color, name, children }) => {
   const AccordionSummary: any = withStyles({
     root: {
       backgroundColor: color,
-      padding: "1rem",
+      padding: "1rem", 
     },
   })(MuiAccordionSummary);
 
   return (
     <div className={styles.archiveBossAccordion}>
       <Accordion>
-        <AccordionSummary expandIcon={<ExpandMore />}>
-          <Typography> {name} </Typography>
+        <AccordionSummary expandIcon={<ExpandMore sx = {{color : "white", fontSize : 50}} />}>
+          <Typography color = "white"> {name} </Typography>
         </AccordionSummary>
         <AccordionDetails>
           {children}

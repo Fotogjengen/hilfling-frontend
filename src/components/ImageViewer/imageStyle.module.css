@@ -138,3 +138,41 @@
     height: 2px;
     width: 95%;
 } 
+
+
+.backButton {
+  position: absolute;
+  top: 35px;
+  left: 20px;
+  z-index: 10;
+  
+  background: #ad2f33;
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  color: white;
+  
+  transition: all 0.2s ease;
+  cursor: pointer;
+  
+  outline: none;
+}
+
+.backButton:hover {
+  background: rgba(0, 0, 0, 0.9);
+  transform: scale(1.05);
+}
+
+.backButton:active {
+  transform: scale(0.95);
+}
+
+.backgroundFlex {
+  position: relative;
+}

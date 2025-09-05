@@ -1,13 +1,11 @@
-import React, { FC, SyntheticEvent, useState } from "react";
+import React, { FC, SyntheticEvent, useState, useEffect } from "react";
 
 import { AppBar, Tabs, Tab } from "@mui/material";
 import TabPanel from "../../TabPanel/TabPanel";
-import { useEffect } from "react";
 
-import { MotiveApi } from "../../../utils/api/MotiveApi";
-import { MotiveDto } from "../../../../generated";
-
+import { EventCardDto } from "../../../../generated";
 import EventCards from "../EventCards/EventCards";
+import { EventCardApi } from "../../../utils/api/EventCardApi";
 
 interface Props {
   title?: string;
@@ -19,13 +17,76 @@ interface Props {
 
 const EventCardsDisplayer: FC<Props> = () => {
   const [value, setValue] = useState<number>(0);
-  const [motiveResponse, setMotiveResponse] = useState<MotiveDto[]>([]);
+  const [samfundetEvents, setSamfundetEvents] = useState<EventCardDto[]>([]);
+  const [isfitEvents, setIsfitEvents] = useState<EventCardDto[]>([]);
+  const [ukaEvents, setUkaEvents] = useState<EventCardDto[]>([]);
+  const [isSamfundetLoading, setIsSamfundetLoading] = useState<boolean>(true);
+  const [isIsfitLoading, setIsIsfitLoading] = useState<boolean>(true);
+  const [isUkaLoading, setIsUkaLoading] = useState<boolean>(true);
 
+  // Load initial tab content on component mount
   useEffect(() => {
-    MotiveApi.getAll()
-      .then((res) => setMotiveResponse(res.data.currentList))
-      .catch((e) => console.log(e));
+    // Load initial tab content (SAMFUNDET)
+    loadEventCards("Samfundet");
   }, []);
+
+  // Load event cards when tab changes
+  useEffect(() => {
+    const eventTypes = ["Samfundet", "ISFIT", "UKA"];
+    const currentEvent = eventTypes[value];
+    loadEventCards(currentEvent);
+  }, [value]);
+
+  const loadEventCards = (eventType: string) => {
+    switch (eventType) {
+      case "Samfundet":
+        setIsSamfundetLoading(true);
+        break;
+      case "ISFIT":
+        setIsIsfitLoading(true);
+        break;
+      case "UKA":
+        setIsUkaLoading(true);
+        break;
+    }
+    EventCardApi.getLatestEventCards(eventType, 3)
+      .then((res) => {
+        const events = res || [];
+
+        switch (eventType) {
+          case "Samfundet":
+            setSamfundetEvents(events);
+            setIsSamfundetLoading(false);
+
+            break;
+          case "ISFIT":
+            setIsfitEvents(events);
+            setIsIsfitLoading(false);
+
+            break;
+          case "UKA":
+            setUkaEvents(events);
+            setIsUkaLoading(false);
+
+            break;
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        // Set loading to false even on error
+        switch (eventType) {
+          case "Samfundet":
+            setIsSamfundetLoading(false);
+            break;
+          case "ISFIT":
+            setIsIsfitLoading(false);
+            break;
+          case "UKA":
+            setIsUkaLoading(false);
+            break;
+        }
+      });
+  };
 
   const handleChange = (event: SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -48,13 +109,37 @@ const EventCardsDisplayer: FC<Props> = () => {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <EventCards event={"Samfundet"} motiveResponse={motiveResponse} />
+        {isSamfundetLoading ? (
+          <div>Loading Samfundet events...</div>
+        ) : (
+          <EventCards
+            titleSize={1.2}
+            event={"Samfundet"}
+            eventCardResponse={samfundetEvents}
+          />
+        )}
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <EventCards event={"ISFIT"} motiveResponse={motiveResponse} />
+        {isIsfitLoading ? (
+          <div>Loading ISFIT events...</div>
+        ) : (
+          <EventCards
+            titleSize={1.2}
+            event={"ISFIT"}
+            eventCardResponse={isfitEvents}
+          />
+        )}
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <EventCards event={"UKA"} motiveResponse={motiveResponse} />
+        {isUkaLoading ? (
+          <div>Loading UKA events...</div>
+        ) : (
+          <EventCards
+            titleSize={1.2}
+            event={"UKA"}
+            eventCardResponse={ukaEvents}
+          />
+        )}
       </TabPanel>
     </>
   );

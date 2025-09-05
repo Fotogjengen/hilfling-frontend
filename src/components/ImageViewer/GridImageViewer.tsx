@@ -1,26 +1,16 @@
-import React, { FC, useContext } from "react";
+import React, { useContext } from "react";
 import styles from "./imageStyle.module.css";
 import MotiveImage from "./MotiveImage";
-import "react-image-lightbox/style.css";
 import { PhotoDto } from "../../../generated";
 import { createImgUrl } from "../../utils/createImgUrl/createImgUrl";
 import { ImageContext } from "../../contexts/ImageContext";
-import { useSearchContext } from "../../views/Search/SearchProvider";
 
-interface Props {
+interface GridImageViewerProps {
   photos: PhotoDto[];
 }
 
-const ShowMotive: FC<Props> = ({ photos }) => {
+const GridImageViewer = ({ photos }: GridImageViewerProps) => {
   const { setPhotos, setPhotoIndex, setIsOpen } = useContext(ImageContext);
-
-  const searchContext = useSearchContext();
-  const searchQuery = searchContext ? searchContext.searchQuery : "";
-  
-
-  
-
-  const filteredPhotos = photos.filter((photo: PhotoDto) => searchQuery != "" ? (photo.motive.title.toLowerCase().includes(searchQuery.toLowerCase())) : photos); //Finn en bedre løsning etterhvert
 
   const updateIndex = (index: number) => {
     setPhotos(photos);
@@ -28,7 +18,7 @@ const ShowMotive: FC<Props> = ({ photos }) => {
     setIsOpen(true);
   };
 
-  const imageItems = filteredPhotos.map((image: PhotoDto, index: number) => {
+  const imageItems = photos.map((image: PhotoDto, index: number) => {
     const key = `motive-image${index}`;
     return (
       <MotiveImage
@@ -39,6 +29,7 @@ const ShowMotive: FC<Props> = ({ photos }) => {
         index={index}
         updateIndex={() => updateIndex(index)}
         title={image.motive.title}
+        date={image.motive.dateCreated}
       />
     );
   });
@@ -46,16 +37,10 @@ const ShowMotive: FC<Props> = ({ photos }) => {
   return (
     <>
       <div className={styles.backgroundFlex}>
-        
-          <div className={styles.flex}>
-            {imageItems}
-            {/*TODO: remove filling elements, this is a temp fix! This fix ensures that the first image in a row always is at the far left. FInd a better method for doing this  */}
-            
-          </div>
-       
+        <div className={styles.flex}>{imageItems}</div>
       </div>
     </>
   );
 };
 
-export default ShowMotive;
+export default GridImageViewer;

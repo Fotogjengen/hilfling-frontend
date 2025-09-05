@@ -3,8 +3,9 @@
 /* eslint-disable */
 
 export type EventCardDto = {
+    motiveId?: string;
     motiveTitle?: string;
-    date_crated?: string;
+    date_created?: string;
     locationTaken?: string;
     frontPageSmallPhotoUrl?: string;
     eventOwnerName?: string;

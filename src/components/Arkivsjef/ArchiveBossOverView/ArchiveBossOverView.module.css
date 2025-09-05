@@ -1,0 +1,58 @@
+
+
+.tilbake_button_container{
+    display: flex;
+    align-content: center;
+    width: 100%;
+    
+}
+
+.tilbake_button{
+    width: 50%;
+    align-self: center;
+    background-color: blue;
+    
+}
+
+.container {
+    padding: 2rem;
+    width: 80%;
+    left: 50%;
+    top: 50%; 
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+/* edits the color of the toolbar of the table*/
+.container :global(.MuiDataGrid-columnHeaders) {
+    background-color: #b52026;
+    color: white;
+    width: 100%;
+  }
+
+  .popup {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+    }
+
+    .table {
+        border: 1px solid black;
+        height: 100%;
+        width: 100%;
+        
+    }
+
+    .headerCell {
+        background-color: #b52026;
+        color : white;
+    }
+
