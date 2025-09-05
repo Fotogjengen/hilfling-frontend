@@ -20,6 +20,9 @@ const EventCards: FC<Props> = ({
   if (!eventCardResponse || eventCardResponse.length === 0) {
     return <div className={styles.emptyState}>No {event} events found</div>;
   }
+  const handleCardClick = () => {
+    window.scrollTo(0, 0);
+  };
   return (
     <div
       className={styles.cardsContainer}
@@ -34,6 +37,7 @@ const EventCards: FC<Props> = ({
             className={styles.card}
             key={`motive-card-${id}`}
             to={`/motive/${id}`}
+            onClick={handleCardClick}
           >
             <img
               className={styles.cardImg}
