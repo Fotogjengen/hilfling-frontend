@@ -1,4 +1,3 @@
-
 import React, { useState, FC, useEffect, useMemo } from "react";
 
 import { render } from "react-dom";
@@ -12,13 +11,13 @@ import { theme } from "./styles/muiStyles";
 import { AlertContext, severityEnum } from "./contexts/AlertContext";
 import { ImageContext } from "./contexts/ImageContext";
 import Alert from "./components/Alert/Alert";
-import Lightbox from "react-image-lightbox";
+import { PhotoSlider } from "react-photo-view";
+import "react-photo-view/dist/react-photo-view.css";
 import { PhotoDto } from "../generated";
 import { createImgUrl } from "./utils/createImgUrl/createImgUrl";
 import { AuthenticationContext } from "./contexts/AuthenticationContext";
 import Cookies from "js-cookie";
 import { decryptData, encryptData } from "./utils/encryption/encrypt";
-
 
 const Root: FC = () => {
   // Hooks for the Alert component
@@ -28,7 +27,6 @@ const Root: FC = () => {
   const [photos, setPhotos] = useState<PhotoDto[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [photoIndex, setPhotoIndex] = useState(0);
-
 
   // Hooks for Authentication
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -88,7 +86,6 @@ const Root: FC = () => {
     [isOpen, photoIndex, photos],
   );
 
-
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -113,22 +110,16 @@ const Root: FC = () => {
             </AlertContext.Provider>
           </AuthenticationContext.Provider>
 
-          {isOpen && (
-            <Lightbox
-              mainSrc={createImgUrl(photos[photoIndex])}
-              nextSrc={createImgUrl(photos[(photoIndex + 1) % photos.length])}
-              prevSrc={createImgUrl(
-                photos[(photoIndex + photos.length - 1) % photos.length],
-              )}
-              onCloseRequest={() => setIsOpen(false)}
-              onMovePrevRequest={() =>
-                setPhotoIndex((photoIndex + photos.length - 1) % photos.length)
-              }
-              onMoveNextRequest={() =>
-                setPhotoIndex((photoIndex + 1) % photos.length)
-              }
-            />
-          )}
+          <PhotoSlider
+            images={photos.map((p) => ({
+              src: createImgUrl(p),
+              key: createImgUrl(p),
+            }))}
+            visible={isOpen}
+            index={photoIndex}
+            onClose={() => setIsOpen(false)}
+            onIndexChange={(newIndex) => setPhotoIndex(newIndex)}
+          />
         </ImageContext.Provider>
       </ThemeProvider>
     </>
