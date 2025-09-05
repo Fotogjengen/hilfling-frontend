@@ -12,7 +12,7 @@ import LockIcon from "@mui/icons-material/Lock";
 import NoEncryptionGmailerrorredIcon from "@mui/icons-material/NoEncryptionGmailerrorred";
 import SearchIcon from "@mui/icons-material/Search";
 import { AuthenticationContext } from "../../contexts/AuthenticationContext";
-import LoginButton from "../../views/Login/LoginButton";
+import LoginButton from "../Login/LoginButton/LoginButton";
 
 const HeaderComponent: FC = () => {
   const { isAuthenticated, position } = useContext(AuthenticationContext);
