@@ -10,6 +10,7 @@ interface Props {
   index: number;
   updateIndex: (index: number) => void;
   title: string;
+  date: Date;
 }
 
 const MotiveImage: FC<Props> = ({
@@ -17,6 +18,7 @@ const MotiveImage: FC<Props> = ({
   index,
   updateIndex,
   title,
+  date,
 }: Props) => {
   return (
     <>
@@ -24,7 +26,7 @@ const MotiveImage: FC<Props> = ({
         <img src={image} width="250px" />
         <div className={styles.imageContainer}>
           <p className={styles.imageTitle}>{title}</p>
-          <p className={styles.imageTitle}>31.08.21</p>
+          <p className={styles.imageTitle}>{date}</p>
         </div>
       </div>
     </>
