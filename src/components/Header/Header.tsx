@@ -117,7 +117,7 @@ const HeaderComponent: FC = () => {
             <Link to="/about">OM OSS</Link>
             <Link to="/search">SØK</Link>
             {isAuthenticated && position === "FG" && (
-              <Link to="/fg/search">INTERNSØK</Link>
+              <Link to="/intern/search">INTERNSØK</Link>
             )}
             {isAuthenticated && position === "FG" && (
               <Link to="/fg/">FG</Link>

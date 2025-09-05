@@ -19,15 +19,19 @@ import {
   CategoryDto,
   SecurityLevelDto,
   PhotoTagDto,
-} from "../../../../generated";
-import { AlbumApi } from "../../../utils/api/AlbumApi";
-import { PlaceApi } from "../../../utils/api/PlaceApi";
-import { CategoryApi } from "../../../utils/api/CategoryApi";
-import { MotiveApi } from "../../../utils/api/MotiveApi";
-import { SecurityLevelApi } from "../../../utils/api/SecurityLevelApi";
-import { PhotoTagApi } from "../../../utils/api/PhotoTagApi";
-import { AlertContext, severityEnum } from "../../../contexts/AlertContext";
-import { PhotoSearch } from "../../../utils/api/PhotoApi";
+} from "../../../generated";
+import { AlbumApi } from "../../utils/api/AlbumApi";
+import { PlaceApi } from "../../utils/api/PlaceApi";
+import { CategoryApi } from "../../utils/api/CategoryApi";
+import { MotiveApi } from "../../utils/api/MotiveApi";
+import { SecurityLevelApi } from "../../utils/api/SecurityLevelApi";
+import { PhotoTagApi } from "../../utils/api/PhotoTagApi";
+import { AlertContext, severityEnum } from "../../contexts/AlertContext";
+import { PhotoSearch } from "../../utils/api/PhotoApi";
+/*
+  There is commented out a lot of code here, this is because we have not yet decided if we will be havings tags. 
+  For now we have decided not to, but we are still keeping the code. Be sure to delete it if we decide not to use it. 
+*/
 
 // interface ChipData {
 //   key: number;
