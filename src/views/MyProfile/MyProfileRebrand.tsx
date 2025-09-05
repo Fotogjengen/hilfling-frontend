@@ -75,7 +75,7 @@ const MyProfileRebrand = () => {
     const setError = (e: string) => {
       setOpen(true);
       setSeverity(severityEnum.ERROR);
-      setMessage(e);
+      setMessage("Error");
     };
 
   const webPositions: string[] = [ "websjef", "benkmester", "opplæringsannsvarlig", "webAdmin", "web"];
@@ -136,7 +136,7 @@ const MyProfileRebrand = () => {
         
       
 
-      PhotoApi.getById("0f07f0c0-c402-3cf9-9e58-4aca2e9c56f3") //This should be changed to nt be hard code at a later time
+      PhotoApi.getById("7a89444f-25f6-44d9-8a73-94587d72b839") //This should be changed to not be hard code at a later time
 
       .then((res) => {
 
@@ -147,7 +147,7 @@ const MyProfileRebrand = () => {
 
       .catch( (e) => {
         setError(e);
-        console.log(e.message)
+        console.log("Error fetching profilepucture")
       });
 
 
