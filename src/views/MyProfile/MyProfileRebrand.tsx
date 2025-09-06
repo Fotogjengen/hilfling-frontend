@@ -62,13 +62,13 @@ const emptyUser: UserInfo = {
 //http://localhost:8000/photo_gang_bangers/7a89444f-25f6-44d9-8a73-94587d72b839
 
 const MyProfileRebrand = () => {
-  const { setMessage, setSeverity, setOpen } = useContext(AlertContext);
+  // const { setMessage, setSeverity, setOpen } = useContext(AlertContext);
 
-  const setError = (e: string) => {
-    setOpen(true);
-    setSeverity(severityEnum.ERROR);
-    setMessage("Error");
-  };
+  // const setError = (e: string) => {
+  //   setOpen(true);
+  //   setSeverity(severityEnum.ERROR);
+  //   setMessage("Error");
+  // };
 
   const webPositions: string[] = [
     "websjef",
