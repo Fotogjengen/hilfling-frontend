@@ -1,11 +1,10 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./MyProfileRebrand.css";
 import axios from "axios";
-import { PhotoApi } from "../../utils/api/PhotoApi";
-import { PhotoDto } from "../../../generated";
+// import { PhotoApi } from "../../utils/api/PhotoApi";
 import { AlertContext, severityEnum } from "../../contexts/AlertContext";
 
-//https:\/\/images.dog.ceo\/breeds\/dane-great\/n02109047_6042.jpg
+
 
 interface UserInfo {
   profilePicure: string;
@@ -80,13 +79,16 @@ const MyProfileRebrand = () => {
   ];
 
   const [currentUser, setCurrentUser] = useState<UserInfo>(emptyUser);
-  const [photoObject, setPhotoObject] = useState<string>("");
+  // const [photoObject, setPhotoObject] = useState<string>(""); // This is part of the rendering for the display photo. 
+                                                                 // The idea is that the user one day will be albe to change the picture as they want
+                                                                 // Right now there is no support in the database or backend for this, so there is just hard coded a picture of samfundet in its place
+                                                                 // Parts of the code neede to implement this is commented out further down
 
   useEffect(() => {
     const getUser = () => {
       //Make api-call
       const url =
-        "http://localhost:8000/photo_gang_bangers/7a89444f-25f6-44d9-8a73-94587d72b839"; //For testing purpose. Has to be modified make corrrect api call
+        "http://localhost:8000/photo_gang_bangers/7a89444f-25f6-44d9-8a73-94587d72b839"; //For testing purpose. Has to be modified to make corrrect api call
 
       axios
         .get(url)
@@ -139,20 +141,22 @@ const MyProfileRebrand = () => {
     getUser();
   }, []);
 
-  useEffect(() => {
-    const getDisplayPhoto = () => {
-      PhotoApi.getById("08ffaae9-f238-3c36-ad44-27f4682b01a6") //This should be changed to not be hard code at a later time
+  // Parts of the implementation needed to implement display photo as intended (line 146-168)
 
-        .then((res) => {
-          const picture_url = res.largeUrl;
-          setPhotoObject(picture_url);
-        })
+  // useEffect(() => {
+  //   const getDisplayPhoto = () => {
+  //     PhotoApi.getById("08ffaae9-f238-3c36-ad44-27f4682b01a6") //This should be changed to not be hard code at a later time
 
-        .catch((e) => {
-          setError(e);
-          console.log("Error fetching profilepucture");
-        });
-    };
+  //       .then((res) => {
+  //         const picture_url = res.largeUrl;
+  //         setPhotoObject(picture_url);
+  //       })
+
+  //       .catch((e) => {
+  //         setError(e);
+  //         console.log("Error fetching Display picture");
+  //       });
+  //   };
 
     // PhotoApi.getById("0f07f0c0-c402-3cf9-9e58-4aca2e9c56f3")
     // .then((res) => console.log(res))
@@ -160,8 +164,8 @@ const MyProfileRebrand = () => {
     //   console.log(err.message)
     // });
 
-    getDisplayPhoto();
-  }, []);
+  //   getDisplayPhoto();
+  // }, []);
 
   return (
     <>
