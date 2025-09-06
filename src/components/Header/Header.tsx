@@ -7,12 +7,13 @@ import ImageIcon from "@mui/icons-material/Image";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import InfoIcon from "@mui/icons-material/Info";
-import AccessibilityNewIcon from "@mui/icons-material/AccessibilityNew";
 import LockIcon from "@mui/icons-material/Lock";
 import NoEncryptionGmailerrorredIcon from "@mui/icons-material/NoEncryptionGmailerrorred";
 import SearchIcon from "@mui/icons-material/Search";
 import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 import LoginButton from "../Login/LoginButton/LoginButton";
+import ImageSearchIcon from '@mui/icons-material/ImageSearch';
+import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
 
 const HeaderComponent: FC = () => {
   const { isAuthenticated, position } = useContext(AuthenticationContext);
@@ -27,20 +28,20 @@ const HeaderComponent: FC = () => {
 
   const menuLinks = [
     {
-      name: "Bilder",
+      name: "BILDER",
       to: "/photos",
       icon: <ImageIcon />,
       noAuth: true,
     },
     {
-      name: "Om oss",
+      name: "OM OSS",
       to: "/about",
       icon: <InfoIcon />,
       noAuth: true,
     },
 
     {
-      name: "Søk",
+      name: "SØK",
       to: "/search",
       icon: <SearchIcon />,
       noAuth: true,
@@ -49,22 +50,28 @@ const HeaderComponent: FC = () => {
     ...(isAuthenticated && position === "FG"
       ? [
           {
+            name: "INTERNSØK",
+            to: "/intern/search",
+            icon: <ImageSearchIcon />,
+            noAuth: true,
+          },
+          {
             name: "FG",
             to: "/fg",
-            icon: <AccessibilityNewIcon />,
+            icon: <PhotoCameraIcon />,
             noAuth: true,
           }
         ]
       : []),
     {
-      name: "Logg inn",
-      to: "/logg-inn",
+      name: "LOGG INN",
+      to: "/login",
       icon: <LockIcon />,
       noAuth: !isAuthenticated,
     },
     {
-      name: "Logg ut",
-      to: "/logg-inn",
+      name: "LOGG UT",
+      to: "/login",
       icon: <NoEncryptionGmailerrorredIcon />,
       noAuth: isAuthenticated,
     },
@@ -116,7 +123,7 @@ const HeaderComponent: FC = () => {
             <Link to="/photos">BILDER</Link>
             <Link to="/about">OM OSS</Link>
             <Link to="/search">SØK</Link>
-            {isAuthenticated && position === "FG" && (
+            {isAuthenticated && (
               <Link to="/intern/search">INTERNSØK</Link>
             )}
             {isAuthenticated && position === "FG" && (

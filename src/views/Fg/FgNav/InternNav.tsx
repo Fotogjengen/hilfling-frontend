@@ -6,7 +6,6 @@ import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import ChildFriendlyIcon from '@mui/icons-material/ChildFriendly';
-import HandymanIcon from '@mui/icons-material/Handyman';
 import YardIcon from '@mui/icons-material/Yard';
 import { Link } from "react-router-dom";
 
@@ -23,12 +22,12 @@ const FgNav = () => {
   const mainLinks = [
     {
       name: "Last opp",
-      to: "/fg/last-opp",
+      to: "/fg/upload",
       icon: <UploadIcon style={{ fontSize: mainIconSize }} />,
     },
     {
       name: "Arkiv",
-      to: "/fg/arkivsjef",
+      to: "/fg/archiveBoss",
       icon: <InventoryIcon style={{ fontSize: mainIconSize }} />,
     },
     {

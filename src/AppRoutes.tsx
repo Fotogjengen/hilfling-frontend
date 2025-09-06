@@ -18,8 +18,9 @@ import InternSearchView from "./views/InternSearch/InternSearchView";
 import { Box } from "@mui/material";
 import { AuthenticationContext } from "./contexts/AuthenticationContext";
 import ArchiveBossEditUser from "./views/Fg/ArchiveBossEditUser/ArchiveBossEditUser";
-import DeNyeSiden from "./views/DeNyeSiden/DeNyeSiden";
+import DeNyeSiden from "./views/Fg/NewProjects/NewProjects";
 import Photos from "./views/Photos/Photos";
+import MobileLogin from "./views/MobileLogin/MobileLogin";
 
 const AppRoutes: FC = () => {
   const { isAuthenticated, position } = useContext(AuthenticationContext);
@@ -34,6 +35,7 @@ const AppRoutes: FC = () => {
         <Route path="/photos" element={<Photos />} />
         <Route path="/search/:term" element={<Search />} />
         <Route path="/csa-tester" element={<CsaTester />} />
+        <Route path="/login" element={<MobileLogin />} />
         {isAuthenticated && (
           <>
             <Route path="/intern/search" element={<InternSearchView />} />
@@ -42,10 +44,10 @@ const AppRoutes: FC = () => {
                 <Route path="/fg" element={<InternNav />} />
                 <Route path="/fg/myprofile" element={<MyProfile />} />
                 <Route path="/fg/projects" element={<DeNyeSiden />} />
-                <Route path="/fg/last-opp" element={<PhotoUpload />} />
-                <Route path="/fg/arkivsjef" element={<Arkivsjef />} />
+                <Route path="/fg/upload" element={<PhotoUpload />} />
+                <Route path="/fg/archiveBoss" element={<Arkivsjef />} />
                 <Route
-                  path="/fg/arkivsjef/editUser/:id"
+                  path="/fg/archiveBoss/editUser/:id"
                   element={<ArchiveBossEditUser />}
                 />
                 <Route path="/fg/motive" element={<Motives />} />
@@ -68,5 +70,4 @@ const AppRoutes: FC = () => {
     </Box>
   );
 };
-
 export default AppRoutes;
