@@ -84,6 +84,8 @@ const MyProfileRebrand = () => {
                                                                  // Right now there is no support in the database or backend for this, so there is just hard coded a picture of samfundet in its place
                                                                  // Parts of the code neede to implement this is commented out further down
 
+  const [isHovered, setHoverVariable] = useState(false)
+
   useEffect(() => {
     const getUser = () => {
       //Make api-call
@@ -182,14 +184,26 @@ const MyProfileRebrand = () => {
           <div className="card_1">
             {" "}
             {/* Contains profile picture and personal info*/}
-            <div className="profile_picture">
+            <div className="profile_picture"
+              onMouseOver={() => setHoverVariable(true)}
+              onMouseLeave={() => setHoverVariable(false)}
+            >
               <div className="profile_picture_img">
+                
+              {!isHovered &&
                 <img
                   src={currentUser.profilePicure}
                   alt="Profile"
                   height="225"
                   width="225"
                 />
+              }
+
+                {isHovered && (
+                  <button className="new_profile_picture_button">
+                    Legg til nytt profilbilde
+                  </button>
+                )}
               </div>
             </div>
             <div className="positions">
