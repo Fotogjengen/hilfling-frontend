@@ -6,11 +6,9 @@ import PhotoUpload from "./views/Fg/PhotoUpload/PhotoUpload";
 import Arkivsjef from "./views/Fg/Arkivsjef/ArchiveBoss";
 import NotFound from "./views/NotFound/NotFound";
 import Search from "./views/Search/SearchMotive";
-import CsaTester from "./views/CsaTester";
 import Motives from "./views/Fg/Motives/Motives";
 import EditMotive from "./views/Fg/EditMotive/EditMotive";
 import InternNav from "./views/Fg/FgNav/InternNav";
-import Expo from "./views/Fg/Expo/Expo";
 import Redirect from "./utils/Redirect/Redirect";
 import MotiveHeader from "./components/ImageViewer/MotiveHeader";
 import InternSearchView from "./views/InternSearch/InternSearchView";
@@ -34,7 +32,6 @@ const AppRoutes: FC = () => {
         <Route path="/search" element={<Search />} />
         <Route path="/photos" element={<Photos />} />
         <Route path="/search/:term" element={<Search />} />
-        <Route path="/csa-tester" element={<CsaTester />} />
         <Route path="/login" element={<MobileLogin />} />
         {isAuthenticated && (
           <>
@@ -52,7 +49,6 @@ const AppRoutes: FC = () => {
                 />
                 <Route path="/fg/motive" element={<Motives />} />
                 <Route path="/fg/motive/:id" element={<EditMotive />} />
-                <Route path="/fg/expo" element={<Expo />} />
               </>
             )}
           </>
