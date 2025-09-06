@@ -30,15 +30,22 @@ const Root: FC = () => {
 
   // Hooks for Authentication
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [position, setPosition] = useState("oo"); //Change maybe? verv?
+  const [isFG, setIsFG] = useState(false);
+  const [username, setUsername] = useState("");
 
   // Checks if the user is logged in when the page loads
   useEffect(() => {
     const data = decryptData(Cookies.get("fgData") || "");
     if (data !== "") {
-      const parsedData = JSON.parse(data);
-      setIsAuthenticated(parsedData.isAuthenticated);
-      setPosition(parsedData.position);
+      try {
+        const parsedData = JSON.parse(data);
+        setIsAuthenticated(parsedData.isAuthenticated);
+        setIsFG(parsedData.isFG);
+        setUsername(parsedData.username);
+      } catch (error) {
+        console.error("Error parsing authentication data:", error);
+        Cookies.remove("fgData");
+      }
     }
   }, []);
 
@@ -46,10 +53,54 @@ const Root: FC = () => {
   useEffect(() => {
     const data = {
       isAuthenticated,
-      position,
+      isFG,
+      username,
     };
-    Cookies.set("fgData", encryptData(JSON.stringify(data)));
-  }, [isAuthenticated, position]);
+    Cookies.set("fgData", encryptData(JSON.stringify(data)), {
+      expires: 5,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+    });
+  }, [isAuthenticated, isFG, username]);
+
+  const login = (creadentials: { username: string; password: string }) => {
+    //make function async
+    // try {
+    // Example of how we can check for users, need to comeback to this when we have our discussion with ITK
+    // const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:3001/api'}/auth/login`, {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(credentials),
+    // });
+    // if (!response.ok) {
+    //   if (response.status === 401) {
+    //     throw new Error('Invalid username or password');
+    //   }
+    //   throw new Error('Authentication failed. Please try again.');
+    // }
+    // const data = await response.json();
+    // Update authentication state
+    //setIsAuthenticated(true);
+    //setUsername(data.username);
+    //setIsFG(data.isFG || "");
+
+    // Temporary workaround: auto-login
+    setIsAuthenticated(true);
+    setIsFG(true);
+    setUsername(creadentials.username);
+    // } catch (error) {
+    //  throw error;
+    //}
+  };
+
+  const logout = () => {
+    setIsAuthenticated(false);
+    setUsername("");
+    setIsFG(false);
+    Cookies.remove("fgData");
+  };
 
   // Memoized context values to avoid unnecessary re-renders
   const alertContextValue = useMemo(
@@ -68,10 +119,14 @@ const Root: FC = () => {
     () => ({
       isAuthenticated,
       setIsAuthenticated,
-      position,
-      setPosition,
+      isFG,
+      setIsFG,
+      username,
+      setUsername,
+      login,
+      logout,
     }),
-    [isAuthenticated, position],
+    [isAuthenticated, isFG, username],
   );
 
   const imageContextValue = useMemo(
