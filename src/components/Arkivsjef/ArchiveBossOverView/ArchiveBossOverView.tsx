@@ -101,7 +101,7 @@ const ArchiveBossOverView = ({ setOverview }: Props) => {
       width: 100,
       headerClassName: styles.headerCell,
       renderCell: (params) => (
-        <Link to={`/intern/arkivsjef/editUser/${params.row.id}`}>
+        <Link to={`/fg/archiveBoss/editUser/${params.row.id}`}>
           <Button>Edit</Button>
         </Link>
       ),
