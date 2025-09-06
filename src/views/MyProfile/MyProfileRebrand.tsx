@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect } from "react";
 import "./MyProfileRebrand.css";
 import axios from "axios";
 // import { PhotoApi } from "../../utils/api/PhotoApi";
-import { AlertContext, severityEnum } from "../../contexts/AlertContext";
+// import { AlertContext, severityEnum } from "../../contexts/AlertContext";
 
 
 
