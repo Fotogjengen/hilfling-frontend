@@ -65,10 +65,7 @@ const AboutTab: FC = () => {
             <div className={styles.gangBangers}>
             {activePangs && mapUsers(activePangs)}
             </div>
-            <h2>Pensjonerte fotogjengere</h2>
-            <div className={styles.gangBangers}>
-            {inActivePangs && mapUsers(inActivePangs)}
-            </div> 
+            
         </div>
     )
 }
