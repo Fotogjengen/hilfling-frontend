@@ -1,22 +1,19 @@
 import React, { useContext } from "react";
 
-import ImageSearchIcon from "@mui/icons-material/ImageSearch";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import UploadIcon from "@mui/icons-material/Upload";
-import SportsKabaddiIcon from "@mui/icons-material/SportsKabaddi";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import CameraswitchIcon from "@mui/icons-material/Cameraswitch";
-import ComputerIcon from "@mui/icons-material/Computer";
-import AppShortcutIcon from "@mui/icons-material/AppShortcut";
+import ChildFriendlyIcon from '@mui/icons-material/ChildFriendly';
+import YardIcon from '@mui/icons-material/Yard';
 import { Link } from "react-router-dom";
 
 import { experimentalStyled as styled } from "@mui/material/styles";
 import { Grid, Paper, Typography } from "@mui/material";
 import { AuthenticationContext } from "../../../contexts/AuthenticationContext";
 
-const InternNav = () => {
+const FgNav = () => {
   const { position } = useContext(AuthenticationContext);
 
   const mainIconSize = 100;
@@ -24,34 +21,29 @@ const InternNav = () => {
 
   const mainLinks = [
     {
-      name: "Internsøk",
-      to: "/intern/sok",
-      icon: <ImageSearchIcon style={{ fontSize: mainIconSize }} />,
-    },
-    {
       name: "Last opp",
-      to: "/intern/last-opp",
+      to: "/fg/upload",
       icon: <UploadIcon style={{ fontSize: mainIconSize }} />,
     },
     {
       name: "Arkiv",
-      to: "/intern/arkivsjef",
+      to: "/fg/archiveBoss",
       icon: <InventoryIcon style={{ fontSize: mainIconSize }} />,
     },
     {
       name: "Motiv",
-      to: "/intern/motive",
-      icon: <SportsKabaddiIcon style={{ fontSize: mainIconSize }} />,
+      to: "/fg/motive",
+      icon: <YardIcon style={{ fontSize: mainIconSize }} />,
     },
     {
       name: "Min profil",
-      to: "/intern/myprofile",
+      to: "/fg/myprofile",
       icon: <AccountBoxIcon style={{ fontSize: mainIconSize }} />,
     },
     {
-      name: "Expo",
-      to: "/intern/expo",
-      icon: <AppShortcutIcon style={{ fontSize: mainIconSize }} />,
+      name: "De nye",
+      to: "/fg/projects",
+      icon: <ChildFriendlyIcon style={{ fontSize: mainIconSize }} />,
     },
   ];
 
@@ -65,16 +57,6 @@ const InternNav = () => {
       name: "Fg wiki",
       to: "/fg-wiki",
       icon: <CameraAltIcon style={{ fontSize: otherIconSize }} />,
-    },
-    {
-      name: "Utlån",
-      to: "/utlaan",
-      icon: <CameraswitchIcon style={{ fontSize: otherIconSize }} />,
-    },
-    {
-      name: "Fg web",
-      to: "/fg-web",
-      icon: <ComputerIcon style={{ fontSize: otherIconSize }} />,
     },
   ];
 
@@ -154,4 +136,4 @@ const InternNav = () => {
   );
 };
 
-export default InternNav;
+export default FgNav;

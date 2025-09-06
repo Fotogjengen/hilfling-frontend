@@ -15,7 +15,7 @@ import Form from "../components/Form/Form";
 import { Errors, Validate } from "../components/Form/types";
 import { DragNDropFile } from "../types";
 import cx from "classnames";
-import styles from "../views/Intern/PhotoUpload/PhotoUpload.module.css";
+import styles from "../views/Fg/PhotoUpload/PhotoUpload.module.css";
 import { useDropzone } from "react-dropzone";
 import PhotoUploadPreview from "../components/PhotoUploadPreview/PhotoUploadPreview";
 import { CategoryApi } from "../utils/api/CategoryApi";
