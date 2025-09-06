@@ -2,7 +2,6 @@ import React, { FC, useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import App from "./views/App/App";
 import About from "./views/About/About";
-import MyProfile from "./views/MyProfile/MyProfile";
 import PhotoUpload from "./views/Fg/PhotoUpload/PhotoUpload";
 import Arkivsjef from "./views/Fg/Arkivsjef/ArchiveBoss";
 import NotFound from "./views/NotFound/NotFound";
@@ -20,6 +19,7 @@ import { AuthenticationContext } from "./contexts/AuthenticationContext";
 import ArchiveBossEditUser from "./views/Fg/ArchiveBossEditUser/ArchiveBossEditUser";
 import DeNyeSiden from "./views/Fg/NewProjects/NewProjects";
 import Photos from "./views/Photos/Photos";
+import MyProfileRebrand from "./views/MyProfile/MyProfileRebrand";
 import MobileLogin from "./views/MobileLogin/MobileLogin";
 
 const AppRoutes: FC = () => {
@@ -42,7 +42,7 @@ const AppRoutes: FC = () => {
             {position === "FG" && (
               <>
                 <Route path="/fg" element={<InternNav />} />
-                <Route path="/fg/myprofile" element={<MyProfile />} />
+                <Route path="/fg/myprofile" element={<MyProfileRebrand />} />
                 <Route path="/fg/projects" element={<DeNyeSiden />} />
                 <Route path="/fg/upload" element={<PhotoUpload />} />
                 <Route path="/fg/archiveBoss" element={<Arkivsjef />} />
