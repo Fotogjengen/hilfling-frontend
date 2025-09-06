@@ -22,21 +22,25 @@ export interface PhotoSearch {
 export const PhotoApi = {
   getAll: async function (): Promise<PhotoDto[]> {
     return api.get("/photos").then((res) => res.data.currentList);
-
   },
 
   getPhotoCount: async function (): Promise<Number> {
-    return api.get("/photos/count").then((res) => res.data.PromiseResult).catch((e) => {
-      console.log(e);
-    });
+    return api
+      .get("/photos/count")
+      .then((res) => res.data.PromiseResult)
+      .catch((e) => {
+        console.log(e);
+      });
   },
 
   getAllByMotiveId: async function (id: string): Promise<PhotoDto[]> {
     return api.get(`/photos/motive/${id}`).then((res) => res.data.currentList);
   },
+
   post: async function (photo: Photo): Promise<Photo> {
     return api.post("/photos", photo);
   },
+
   batchUpload: async function (
     photos: FormData,
     onUploadProgress?: (progressEvent: ProgressEvent) => void,
@@ -47,10 +51,19 @@ export const PhotoApi = {
     });
   },
 
-  getGoodPhotos: async function (page?: string, pageSize?:string): Promise<PhotoDto[]> {
-    return api.get("/photos/goodPhotos",{params:{page, pageSize}}).then((res) => res.data.currentList);
+  getGoodPhotos: async function (
+    page?: string,
+    pageSize?: string,
+  ): Promise<PhotoDto[]> {
+    return api
+      .get("/photos/goodPhotos", { params: { page, pageSize } })
+      .then((res) => res.data.currentList);
   },
-  
+
+  getById: async function (id: string): Promise<PhotoDto> {
+    return api.get(`photos/${id}`).then((res) => res.data);
+  },
+
   search: async function (
     photoSearch: PhotoSearch,
   ): Promise<PaginatedResult<PhotoDto>> {

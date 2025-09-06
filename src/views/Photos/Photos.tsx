@@ -5,7 +5,7 @@ import { createImgUrl } from "../../utils/createImgUrl/createImgUrl";
 import styles from "./Photos.module.css";
 import { ImageContext } from "../../contexts/ImageContext";
 
-export const Photos: React.FC = () => {
+export const Photos = () => {
   const PAGE_SIZE = 20;
   const BUFFER_PX = 300;
 

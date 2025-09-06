@@ -2,24 +2,25 @@ import React, { FC, useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import App from "./views/App/App";
 import About from "./views/About/About";
-import MyProfile from "./views/MyProfile/MyProfile";
-import PhotoUpload from "./views/Intern/PhotoUpload/PhotoUpload";
-import Arkivsjef from "./views/Intern/Arkivsjef/ArchiveBoss";
+import PhotoUpload from "./views/Fg/PhotoUpload/PhotoUpload";
+import Arkivsjef from "./views/Fg/Arkivsjef/ArchiveBoss";
 import NotFound from "./views/NotFound/NotFound";
 import Search from "./views/Search/SearchMotive";
 import CsaTester from "./views/CsaTester";
-import Motives from "./views/Intern/Motives/Motives";
-import EditMotive from "./views/Intern/EditMotive/EditMotive";
-import InternNav from "./views/Intern/InternNav/InternNav";
-import Expo from "./views/Intern/Expo/Expo";
+import Motives from "./views/Fg/Motives/Motives";
+import EditMotive from "./views/Fg/EditMotive/EditMotive";
+import InternNav from "./views/Fg/FgNav/InternNav";
+import Expo from "./views/Fg/Expo/Expo";
 import Redirect from "./utils/Redirect/Redirect";
 import MotiveHeader from "./components/ImageViewer/MotiveHeader";
-import InternSearchView from "./views/Intern/InternSearch/InternSearchView";
+import InternSearchView from "./views/InternSearch/InternSearchView";
 import { Box } from "@mui/material";
 import { AuthenticationContext } from "./contexts/AuthenticationContext";
-import ArchiveBossEditUser from "./views/Intern/ArchiveBossEditUser/ArchiveBossEditUser";
-import DeNyeSiden from "./views/DeNyeSiden/DeNyeSiden";
+import ArchiveBossEditUser from "./views/Fg/ArchiveBossEditUser/ArchiveBossEditUser";
+import DeNyeSiden from "./views/Fg/NewProjects/NewProjects";
 import Photos from "./views/Photos/Photos";
+import MyProfileRebrand from "./views/MyProfile/MyProfileRebrand";
+import MobileLogin from "./views/MobileLogin/MobileLogin";
 
 const AppRoutes: FC = () => {
   const { isAuthenticated, position } = useContext(AuthenticationContext);
@@ -34,23 +35,24 @@ const AppRoutes: FC = () => {
         <Route path="/photos" element={<Photos />} />
         <Route path="/search/:term" element={<Search />} />
         <Route path="/csa-tester" element={<CsaTester />} />
+        <Route path="/login" element={<MobileLogin />} />
         {isAuthenticated && (
           <>
-            <Route path="/intern" element={<InternNav />} />
-            <Route path="/intern/myprofile" element={<MyProfile />} />
-            <Route path="/intern/sok" element={<InternSearchView />} />
+            <Route path="/intern/search" element={<InternSearchView />} />
             {position === "FG" && (
               <>
-                <Route path="/intern/DeNyeSiden" element={<DeNyeSiden />} />
-                <Route path="/intern/last-opp" element={<PhotoUpload />} />
-                <Route path="/intern/arkivsjef" element={<Arkivsjef />} />
+                <Route path="/fg" element={<InternNav />} />
+                <Route path="/fg/myprofile" element={<MyProfileRebrand />} />
+                <Route path="/fg/projects" element={<DeNyeSiden />} />
+                <Route path="/fg/upload" element={<PhotoUpload />} />
+                <Route path="/fg/archiveBoss" element={<Arkivsjef />} />
                 <Route
-                  path="/intern/arkivsjef/editUser/:id"
+                  path="/fg/archiveBoss/editUser/:id"
                   element={<ArchiveBossEditUser />}
                 />
-                <Route path="/intern/motive" element={<Motives />} />
-                <Route path="/intern/motive/:id" element={<EditMotive />} />
-                <Route path="/intern/expo" element={<Expo />} />
+                <Route path="/fg/motive" element={<Motives />} />
+                <Route path="/fg/motive/:id" element={<EditMotive />} />
+                <Route path="/fg/expo" element={<Expo />} />
               </>
             )}
           </>
@@ -64,19 +66,8 @@ const AppRoutes: FC = () => {
           path="/fg-wiki"
           element={<Redirect link="https://wiki.samfundet.no/fg/" />}
         />
-        <Route
-          path="/utlaan"
-          element={
-            <Redirect link="https://wiki.samfundet.no/fg/Utl%C3%A5nsordning" />
-          }
-        />
-        <Route
-          path="/fg-web"
-          element={<Redirect link="https://github.com/Fotogjengen/" />}
-        />
       </Routes>
     </Box>
   );
 };
-
 export default AppRoutes;

@@ -10,10 +10,10 @@ import {
   Paper,
   TextField,
 } from "@mui/material";
-import { Link } from "react-router-dom";
 import styles from "./ArchiveBossEditUser.module.css";
 import { AlertContext, severityEnum } from "../../../contexts/AlertContext";
 import { PhotoGangBangerApi } from "../../../utils/api/PhotoGangBangerApi";
+import { useNavigate } from "react-router-dom";
 
 const ArchiveBossEditUser = () => {
   const { setMessage, setSeverity, setOpen } = useContext(AlertContext);
@@ -23,6 +23,7 @@ const ArchiveBossEditUser = () => {
   const [emailError, setEmailError] = useState("");
   const [phoneNumberError, setPhoneNumberError] = useState("");
   const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(false);
+  const navigate = useNavigate();
 
   // Email validation regex pattern
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -234,10 +235,12 @@ const ArchiveBossEditUser = () => {
               >
                 Oppdater bruker
               </Button>
-
-              <Link className={styles.backButton} to={"/intern/arkivsjef"}>
-                <Button>Tilbake</Button>
-              </Link>
+              <Button
+                className={styles.backButton}
+                onClick={() => navigate(-1)}
+              >
+                Tilbake
+              </Button>
             </div>
           </FormControl>
         </Paper>

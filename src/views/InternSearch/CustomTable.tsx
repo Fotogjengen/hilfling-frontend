@@ -9,7 +9,7 @@ import Paper from "@mui/material/Paper";
 import Pagination from "@mui/material/Pagination";
 import styles from "./InternSearch.module.css";
 import ToggleComponent from "./ToggleComponent";
-import { PhotoDto } from "../../../../generated";
+import { PhotoDto } from "../../../generated";
 
 interface Props {
   photos: PhotoDto[];
