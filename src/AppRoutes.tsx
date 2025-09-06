@@ -2,8 +2,8 @@ import React, { FC, useContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import App from "./views/App/App";
 import About from "./views/About/About";
-import PhotoUpload from "./views/Intern/PhotoUpload/PhotoUpload";
-import Arkivsjef from "./views/Intern/Arkivsjef/ArchiveBoss";
+import PhotoUpload from "./views/Fg/PhotoUpload/PhotoUpload";
+import Arkivsjef from "./views/Fg/Arkivsjef/ArchiveBoss";
 import NotFound from "./views/NotFound/NotFound";
 import Search from "./views/Search/SearchMotive";
 import CsaTester from "./views/CsaTester";
@@ -21,7 +21,6 @@ import DeNyeSiden from "./views/Fg/NewProjects/NewProjects";
 import Photos from "./views/Photos/Photos";
 import MyProfileRebrand from "./views/MyProfile/MyProfileRebrand";
 import MobileLogin from "./views/MobileLogin/MobileLogin";
-
 
 const AppRoutes: FC = () => {
   const { isAuthenticated, position } = useContext(AuthenticationContext);
