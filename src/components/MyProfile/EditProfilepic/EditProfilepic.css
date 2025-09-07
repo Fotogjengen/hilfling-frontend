@@ -1,0 +1,27 @@
+.pop_up_box{
+    background-color: white;
+    z-index: 2;
+    padding: 0.5rem;
+    width: 40%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.picture_preview{
+    display : flex;
+    align-content: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.nav_buttons{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 10px;
+}

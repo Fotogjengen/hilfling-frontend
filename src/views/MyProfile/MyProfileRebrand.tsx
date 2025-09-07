@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./MyProfileRebrand.css";
 import axios from "axios";
-// import { PhotoApi } from "../../utils/api/PhotoApi";
+import EditProfilepic from "../../components/MyProfile/EditProfilepic/EditProfilpic";
 // import { AlertContext, severityEnum } from "../../contexts/AlertContext";
 
 
@@ -84,7 +84,8 @@ const MyProfileRebrand = () => {
                                                                  // Right now there is no support in the database or backend for this, so there is just hard coded a picture of samfundet in its place
                                                                  // Parts of the code neede to implement this is commented out further down
 
-  const [isHovered, setHoverVariable] = useState(false)
+  const [isHovered, setHoverVariable] = useState(false);
+  const [editProfilepic, setEditProfilepic] = useState(false)
 
   useEffect(() => {
     const getUser = () => {
@@ -179,11 +180,18 @@ const MyProfileRebrand = () => {
             {currentUser?.role || "loading ... "}
           </h2>
         </header>
-
+        
         <div className="info_card">
+        
+
           <div className="card_1">
             {" "}
             {/* Contains profile picture and personal info*/}
+            {editProfilepic && (     // Renders pop up for changing profile picture
+
+            <EditProfilepic setEditProfilepic={setEditProfilepic} />
+
+        )}
             <div className="profile_picture"
               onMouseOver={() => setHoverVariable(true)}
               onMouseLeave={() => setHoverVariable(false)}
@@ -200,10 +208,12 @@ const MyProfileRebrand = () => {
               }
 
                 {isHovered && (
-                  <button className="new_profile_picture_button">
+                  <button className="new_profile_picture_button" onClick={()=>setEditProfilepic(true)}>
                     Legg til nytt profilbilde
-                  </button>
+                    {console.log(editProfilepic)}
+                  </button>   
                 )}
+
               </div>
             </div>
             <div className="positions">
