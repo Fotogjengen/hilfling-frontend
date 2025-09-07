@@ -30,8 +30,8 @@
     ]
   },
   "dependencies": {
-    "@emotion/react": "^11.10.4",
-    "@emotion/styled": "^11.10.4",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^5.10.6",
     "@mui/material": "^5.14.7",
     "@mui/styles": "^5.10.8",
@@ -40,8 +40,8 @@
     "axios": "0.27.2",
     "classnames": "2.3.2",
     "crypto-js": "^4.2.0",
-    "dayjs": "^1.11.7",
-    "formik": "^2.2.9",
+    "dayjs": "^1.11.18",
+    "formik": "^2.4.6",
     "hilfling-frontend": "file:",
     "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
@@ -54,9 +54,7 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
-    "@babel/core": "^7.19.3",
-    "@babel/types": "7.19.3",
-    "@types/classnames": "2.3.1",
+  
     "@types/crypto-js": "^4.2.2",
     "@types/js-cookie": "^3.0.6",
     "@types/lodash": "^4.14.186",
