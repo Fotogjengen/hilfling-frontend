@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import {
-  Button,
-  FormLabel,
-  MenuItem,
   Paper,
-  Select,
-  TextField,
   Skeleton,
 } from "@mui/material";
 import "./EditProfilepic.css"
+// import { useNavigate } from "react-router-dom";
 
 
 interface Props {
@@ -18,6 +14,7 @@ interface Props {
 const EditProfilepic = ({ setEditProfilepic }: Props) => {
 
     const [noPictureUploaded, setnoPictureUploade] = useState(true);
+    // const navigate = useNavigate();
 
     const uploadProfilePicBtn = () => {
 
@@ -53,10 +50,10 @@ const EditProfilepic = ({ setEditProfilepic }: Props) => {
                     Last opp bilde
                 </button>
                 <button onClick = {resteBtn}>
-                    Tilbakestill
+                    Tilbakestill bilde
                 </button>
-                <button>
-                    Gå tilbake
+                <button onClick = { () => setEditProfilepic(false)}>
+                    Tilbake
                 </button>
             </div>
         </Paper>        
