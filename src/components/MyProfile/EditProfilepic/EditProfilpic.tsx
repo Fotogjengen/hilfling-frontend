@@ -18,6 +18,18 @@ interface Props {
 const EditProfilepic = ({ setEditProfilepic }: Props) => {
 
     const [noPictureUploaded, setnoPictureUploade] = useState(true);
+
+    const uploadProfilePicBtn = () => {
+
+        setnoPictureUploade(false);
+
+    }
+
+    const resteBtn = () => {
+
+        setnoPictureUploade(true);
+
+    }
     
 
 
@@ -37,10 +49,10 @@ const EditProfilepic = ({ setEditProfilepic }: Props) => {
 
             <div className="nav_buttons"> {/*Contains navigation buttons*/}
 
-                <button> 
+                <button onClick = {uploadProfilePicBtn}> 
                     Last opp bilde
                 </button>
-                <button>
+                <button onClick = {resteBtn}>
                     Tilbakestill
                 </button>
                 <button>
