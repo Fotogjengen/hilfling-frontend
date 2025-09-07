@@ -16,5 +16,4 @@
     "jsx": "react-jsx",
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "src/azureconfig.ts"]
 }
