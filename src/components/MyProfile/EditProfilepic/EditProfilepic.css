@@ -31,13 +31,17 @@
 }
 
 .button_styling{
-    width : 50%
+    width : 50%;
+    height: auto;
+
 }
 
 .back_button_styling{
     width : 50%;
     background-color: #b52026 !important; /* Marked with important command to overwrite some global styling*/
     color: white !important;
+    height: auto;
+
 }
 
 .back_button_styling:hover{
@@ -48,4 +52,6 @@
     width : 50%;
     background-color: #bd565a !important; /* Marked with important command to overwrite some global styling*/
     color: white !important;
+    height: auto;
+
 }

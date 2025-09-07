@@ -210,7 +210,7 @@ const MyProfileRebrand = () => {
                 {isHovered && (
                   <button className="new_profile_picture_button" onClick={()=>setEditProfilepic(true)}>
                     Legg til nytt profilbilde
-                    {console.log(editProfilepic)}
+                 
                   </button>   
                 )}
 
