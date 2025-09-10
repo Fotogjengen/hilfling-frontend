@@ -28,6 +28,15 @@ const EditProfilepic = ({ setEditProfilepic }: Props) => {
         setnoPictureUploade(true);
 
     }
+
+    
+    const useAsProfilepicture = () => {
+
+        setnoPictureUploade(true);
+        setEditProfilepic(false);
+
+
+    }
     
 
 //https://foto.samfundet.no/media/alle/prod/DIGGE/digge0982.jpg
@@ -64,21 +73,32 @@ const EditProfilepic = ({ setEditProfilepic }: Props) => {
                 <Button className = 'button_styling' onClick = {uploadProfilePicBtn}> 
                     Last opp bilde
                 </Button>
-                <Button className = 'button_styling' onClick = {resteBtn}>
-                    Tilbakestill bilde
-                </Button>
+
+                {noPictureUploaded &&(
+
+                    <Button disabled className = 'button_styling'>
+                        Tilbakestill bilde
+
+                    </Button>
+                    )}
+
+                {!noPictureUploaded &&(
+                    <Button className = 'button_styling' onClick = {resteBtn}>
+                        Tilbakestill bilde
+                    </Button>
+                )}
                 <Button className = 'back_button_styling' onClick = { () => setEditProfilepic(false)}>
                     Tilbake
                 </Button>
                 {!noPictureUploaded &&(
 
-                    <Button className = 'button_styling' onClick = {resteBtn}>
+                    <Button className = 'button_styling' onClick = {useAsProfilepicture}>
                         Bruk som profilbilde
                     </Button>
                 )}
-                {noPictureUploaded &&(
+                {noPictureUploaded &&( //disables the "use as profilepicture" if there is no picture that has been uploaded to teh preview window
                     
-                    <Button disabled className = 'button_styling' onClick = {resteBtn}>
+                    <Button disabled className = 'button_styling'>
                         Bruk som profilbilde
                     </Button>
 
