@@ -37,7 +37,7 @@
     "@mui/styles": "^5.10.8",
     "@mui/x-data-grid": "^6.12.1",
     "@mui/x-date-pickers": "^6.1.0",
-    "axios": "1.0.0",
+    "axios": "1.11.0",
     "classnames": "2.5.1",
     "crypto-js": "^4.2.0",
     "dayjs": "^1.11.18",
