@@ -37,8 +37,8 @@
     "@mui/styles": "^5.10.8",
     "@mui/x-data-grid": "^6.12.1",
     "@mui/x-date-pickers": "^6.1.0",
-    "axios": "0.27.2",
-    "classnames": "2.3.2",
+    "axios": "1.0.0",
+    "classnames": "2.5.1",
     "crypto-js": "^4.2.0",
     "dayjs": "^1.11.18",
     "formik": "^2.4.6",
@@ -54,7 +54,6 @@
     "yup": "^0.32.11"
   },
   "devDependencies": {
-  
     "@types/crypto-js": "^4.2.2",
     "@types/js-cookie": "^3.0.6",
     "@types/lodash": "^4.14.186",
