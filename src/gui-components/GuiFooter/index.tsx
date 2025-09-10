@@ -1,7 +1,6 @@
 import React, { FC } from "react";
 import styles from "./GuiFooter.module.css";
-import Facebook from "../Guiicons/Facebook";
-import Instagram from "../Guiicons/Instagram";
+import Instagram from "../../../src/gui-components/Guiicons/Instagram";
 
 const GuiFooter: FC = () => {
   return (
@@ -19,7 +18,7 @@ const GuiFooter: FC = () => {
             href="https://github.com/Fotogjengen/hilfling-frontend/"
             target="_blank"
             rel="noreferrer"
-            style={{color:'#ad2f33'}}
+            style={{ color: "#ad2f33" }}
           >
             HILFLING-FRONTEND
           </a>
@@ -28,20 +27,22 @@ const GuiFooter: FC = () => {
             href="https://github.com/Fotogjengen/hilfling-photo-backend"
             target="_blank"
             rel="noreferrer"
-            style={{color:'#ad2f33'}}
+            style={{ color: "#ad2f33" }}
           >
             HILFLING-PHOTO-BACKEND
           </a>
         </div>
         <div className={styles.section}>
           <h2>FØLG OSS </h2>
-          <div className={styles.follow}>
-            <Facebook />
-            <p className={styles.media}>facebook</p>
-          </div>
-          <div className={styles.follow}>
-            <Instagram />
-            <p className={styles.media}>instagram</p>
+
+          <div>
+            <a
+              href="https://www.instagram.com/fotogjengen/"
+              className={styles.follow}
+            >
+              <Instagram />
+              <p className={styles.media}>Instagram</p>
+            </a>
           </div>
         </div>
         <div className={styles.section}>
