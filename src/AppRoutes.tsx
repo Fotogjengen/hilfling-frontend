@@ -18,6 +18,7 @@ import { Box } from "@mui/material";
 import { AuthenticationContext } from "./contexts/AuthenticationContext";
 import ArchiveBossEditUser from "./views/Fg/ArchiveBossEditUser/ArchiveBossEditUser";
 import DeNyeSiden from "./views/Fg/NewProjects/NewProjects";
+import SpillMeny from "./views/Fg/NewProjects/SpillMeny";
 import Photos from "./views/Photos/Photos";
 import MyProfileRebrand from "./views/MyProfile/MyProfileRebrand";
 import MobileLogin from "./views/MobileLogin/MobileLogin";
@@ -44,6 +45,7 @@ const AppRoutes: FC = () => {
                 <Route path="/fg" element={<InternNav />} />
                 <Route path="/fg/myprofile" element={<MyProfileRebrand />} />
                 <Route path="/fg/projects" element={<DeNyeSiden />} />
+                <Route path="/fg/spillmeny" element={<SpillMeny />} />
                 <Route path="/fg/upload" element={<PhotoUpload />} />
                 <Route path="/fg/archiveBoss" element={<Arkivsjef />} />
                 <Route
