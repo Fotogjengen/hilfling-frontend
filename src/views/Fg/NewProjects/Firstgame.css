@@ -1,0 +1,21 @@
+.h1 {
+    color: rgb(2, 2, 2);
+    left: 1000px;
+
+}
+
+.h2 {
+    color: rgb(2, 2, 2);
+    left: 800px;
+
+
+}
+
+#contain {
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+}
