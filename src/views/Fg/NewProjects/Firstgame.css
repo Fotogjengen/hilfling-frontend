@@ -1,6 +1,7 @@
 .h1 {
     color: rgb(2, 2, 2);
     left: 1000px;
+    font-family: fantasy;
 
 }
 
@@ -18,4 +19,38 @@
     display: flex;
     flex-direction: column;
 
+
 }
+
+#div2 {
+
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    top: 100px;
+}
+
+
+#button-box {
+    width: 300px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    top: 100px;
+}
+
+#play-button {
+    width: 200px;
+    top: 30px;
+}
+
+#add-button {
+    width: 100px;
+    top: 30px;
+    margin-bottom: 30px;
+}
+
+
+
