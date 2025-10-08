@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useMemo} from "react";
 import { experimentalStyled as styled } from "@mui/material/styles";
 import { getScopedCssBaselineUtilityClass, Grid, Paper, Typography } from "@mui/material";
 import VolcanoIcon from '@mui/icons-material/Volcano';
@@ -8,7 +8,18 @@ import { questions } from './questions';
 import { random, set } from "lodash";
 
 const Secondgame = () => {
-  const IconSize = 100;
+  // const IconSize = 100;
+
+  function shuffleArray<T>(array: T[]): T[] {
+    const arr = [...array]; // lag en kopi
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]]; // bytt plass
+    }
+    return arr;
+  }
+
+  const shuffledQuestions = useMemo(() => shuffleArray(questions), [questions]);
 
   const [question, setQuestion] = useState<string>("Klar for 100 (120) questions!?!?");
   const [everyTenth, setTenth] = useState<string>("");
@@ -17,7 +28,7 @@ const Secondgame = () => {
 
   function nyttSpørsmål() {
     setNr(nr + 1);
-    setQuestion(questions[random(1, 100)]);
+    setQuestion(shuffledQuestions[nr-1]);
 
     if (nr%10 === 0 ) {
       setTenth(`${nr} spørsmål - 🍻SKÅL🍻`);
