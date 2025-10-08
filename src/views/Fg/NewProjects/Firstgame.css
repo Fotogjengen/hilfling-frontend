@@ -1,3 +1,4 @@
+
 .h1 {
     color: rgb(2, 2, 2);
     left: 1000px;
@@ -52,5 +53,29 @@
     margin-bottom: 30px;
 }
 
+.wheelCenter {
+  position: relative;
+  width: 400px;     /* match canvas-bredden */
+  height: 400px;    /* match canvas-høyden (valgfrie, men ryddig) */
+  margin: 0 auto;   /* sentrér */
+}
+
+/* Kamera plassert til høyre for hjulet */
+#camera {
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 16px);   /* 16px til høyre for hjulet */
+  transform: translateY(-50%);
+  width: 150px;
+  height: 100px;
+  object-fit: contain;
+}
+
+#fullsizeDiv {
 
 
+  height: 80vh;
+  margin-top: 50px;
+
+
+}

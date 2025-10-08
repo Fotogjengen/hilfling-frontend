@@ -1,24 +1,36 @@
 import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import Wheel from "./components/Wheel";
+import camera from "./icons/camera.png";
+import "./Firstgame.css";
+
 
 const FirstGameStarts: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Trygg uthenting (tåler refresh / direkte URL)
+
   const players = (location.state as { players?: string[] } | undefined)?.players ?? [];
 
   useEffect(() => {
-    if (!players.length) navigate("/fg/firstgame"); //dersom antall spillere er null, ikke spill
+    if (!players.length) navigate("/fg/firstgame"); 
   }, [players, navigate]);
 
   return (
-    <div id="div2">
-      <h1>Spillet starter...</h1>
-      <ul>{players.map((p, i) => <li key={i}>{p}</li>)}</ul>
-    </div>
+    <div id="fullsizeDiv">
+    <div id="div2" style={{ textAlign: "center" }}>
+      <h1>Spillet starter!</h1>
 
-    
+      <div className="wheelCenter">
+      
+        <Wheel participants={players} />
+
+        <img src={camera} alt="Kamera" id="camera"/>
+
+      </div>
+
+    </div>
+    </div>
   );
 };
 
