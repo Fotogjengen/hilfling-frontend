@@ -1,10 +1,12 @@
-import React, { useState} from "react";
+import React, { useEffect, useState} from "react";
 import {
   Paper,
   Skeleton,
   Button,
 } from "@mui/material";
 import "./EditProfilepic.css"
+import { DragNDropFile } from "../../../types";
+import { useDropzone } from "react-dropzone";
 // import { useNavigate } from "react-router-dom";
 
 
@@ -15,28 +17,86 @@ interface Props {
 const EditProfilepic = ({ setEditProfilepic }: Props) => {
 
     const [noPictureUploaded, setnoPictureUploade] = useState(true);
+    const [file, setFile] = useState<DragNDropFile |  null> (null); // stores the uploaded files
+    const [preview, setPreview] = useState<string> ("");
     // const navigate = useNavigate();
 
+    const { acceptedFiles, getRootProps, getInputProps, open } = useDropzone({
+        accept: ".jpg,.jpeg,.png",
+        noClick: true,
+        noKeyboard: true,
+      });
+
+    useEffect   (() => {
+
+        if (acceptedFiles.length > 0){
+
+            const file_new = acceptedFiles[0] as DragNDropFile;
+
+            setFile(file_new)
+            setnoPictureUploade(false)
+
+
+        
+    }},[acceptedFiles])
+
+    useEffect   (() => {
+
+
+        if (!file) return;
+        const objectUrl = URL.createObjectURL(file);
+        setPreview(objectUrl);
+
+
+        
+    },[file])
+
+
+    //     setFile((prevFiles) => [
+    //           ...prevFiles,
+    //           ...(acceptedFiles as DragNDropFile[]).map((file) => {
+
+    //             return file;
+    //           }),
+    //         ]);
+
+    // },[acceptedFiles])
+
+    
+
+//   const handleRemoveProfilePic = (index: number) => {
+//     setFiles((prevFiles) => {
+//       const newFiles = [...prevFiles];
+//       newFiles.splice(index, 1);
+//       return newFiles;
+//     });
+//   };
     const uploadProfilePicBtn = () => {
 
         setnoPictureUploade(false);
-
     }
 
     const resteBtn = () => {
 
         setnoPictureUploade(true);
-
     }
 
-    
     const useAsProfilepicture = () => {
 
         setnoPictureUploade(true);
         setEditProfilepic(false);
-
-
     }
+
+//    <div className={styles.container}>
+//         <img
+//           width={100}
+//           height={100}
+//           src={URL.createObjectURL(file)}
+//           alt={file.name}
+//           className={styles.image}
+//         />
+//     <div>
+
     
 
 //https://foto.samfundet.no/media/alle/prod/DIGGE/digge0982.jpg
@@ -47,20 +107,41 @@ const EditProfilepic = ({ setEditProfilepic }: Props) => {
 
             <div className="picture_preview">   {/* Contains a preview of the profile picture uploaded or a skeleton box*/}
                                             
-                {/*Should show the picture the user uploaded. Right now only hard coded to show a picture of samfundet */}
                 { !noPictureUploaded && ( 
 
-                    <img                            
-                    src={"https://foto.samfundet.no/media/alle/prod/DIGGE/digge0982.jpg"}
-                    alt="Profile"
-                    height="400"
-                    width="90%"
-                    />
-                )}
+     
+                        <img                        
+                        src={preview}
+                        alt="Profile"
+                        height="400"
+                        width="90%"
+                        />
 
+                )}
+                
                 { noPictureUploaded && (
 
-                <Skeleton variant= "rectangular" width="90%" height={400}  />
+                //  <Skeleton variant= "rectangular" width="90%" height={400}  />
+                <section >
+                    <div
+                    {...getRootProps({ className: "dropzone" })}
+                  
+                    >
+                    <input {...getInputProps()} />
+                    <p>------------------Dra og slipp filer her------------------</p>
+                    {/* <Button
+                            variant="contained"
+                            onClick={open}
+                            >
+                            Velg fil
+                    </Button> */}
+                    </div>
+        
+                    {/* <aside>
+                    <ul className={styles.noStyleUl}>{renderFilePreview}</ul>
+                    </aside> */}
+                </section>
+
 
                 )}
 
@@ -70,39 +151,29 @@ const EditProfilepic = ({ setEditProfilepic }: Props) => {
             <div className="nav_buttons"> {/*Contains navigation buttons*/}
 
 
-                <Button className = 'button_styling' onClick = {uploadProfilePicBtn}> 
-                    Last opp bilde
+
+
+
+                <Button disabled = {noPictureUploaded} className = 'button_styling' onClick = {useAsProfilepicture}>
+                    Bruk som profilbilde
                 </Button>
 
-                {noPictureUploaded &&(
+                <Button className = 'button_styling' onClick = {open}> 
+                    ... eller trykk her for å laste opp en fil
+                </Button> 
 
-                    <Button disabled className = 'button_styling'>
-                        Tilbakestill bilde
-
-                    </Button>
-                    )}
-
-                {!noPictureUploaded &&(
-                    <Button className = 'button_styling' onClick = {resteBtn}>
-                        Tilbakestill bilde
-                    </Button>
-                )}
                 <Button className = 'back_button_styling' onClick = { () => setEditProfilepic(false)}>
                     Tilbake
                 </Button>
-                {!noPictureUploaded &&(
 
-                    <Button className = 'button_styling' onClick = {useAsProfilepicture}>
-                        Bruk som profilbilde
-                    </Button>
-                )}
-                {noPictureUploaded &&( //disables the "use as profilepicture" if there is no picture that has been uploaded to teh preview window
-                    
-                    <Button disabled className = 'button_styling'>
-                        Bruk som profilbilde
-                    </Button>
+                <Button  disabled = {noPictureUploaded} className = 'button_styling' onClick = {resteBtn}>
+                    Tilbakestill bilde
+                </Button>
 
-                )}
+
+                
+
+
 
             </div>
         </Paper>        
@@ -111,5 +182,6 @@ const EditProfilepic = ({ setEditProfilepic }: Props) => {
 
 
 };
+
 
 export default EditProfilepic;
