@@ -45,11 +45,6 @@ const EditProfilepic = ({ setEditProfilepic }: Props) => {
         
     },[file])
 
-    const uploadProfilePicBtn = () => {
-
-        setnoPictureUploade(false);
-    }
-
     const resteBtn = () => {
 
         setnoPictureUploade(true);
