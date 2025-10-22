@@ -18,7 +18,7 @@ const FirstGameStarts: React.FC = () => {
 
   return (
     <div id="fullsizeDiv">
-    <div id="div2" style={{ textAlign: "center" }}>
+    <div id="div2" style={{ textAlign: "center", fontFamily: 'Inter'}}>
       <h1>Spillet starter!</h1>
 
       <div className="wheelCenter">

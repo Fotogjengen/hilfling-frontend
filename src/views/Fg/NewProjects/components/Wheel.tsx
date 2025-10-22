@@ -61,8 +61,8 @@ const Wheel: React.FC<Props> = ({ participants }) => {
 
       ctx.save();
       ctx.rotate(a0 + slice / 2);
-      ctx.fillStyle = "#fff";
-      ctx.font = "16px Arial";
+      ctx.fillStyle = "#ffffffff";
+      ctx.font = " 23px Inter";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       const label = participants[i] ? capitalize(participants[i]) : "";
@@ -86,51 +86,58 @@ const Wheel: React.FC<Props> = ({ participants }) => {
   }, [showBlitz]);
 
   // Spin
-  const spin = () => {
-    if (spinning || participants.length === 0 || showOverlay) return;
+const spin = () => {
+  if (spinning || participants.length === 0) return; // fjernet showOverlay
 
-    setWinner(null);
-    setChallenge(null);
-    setSpinning(true);
-    setShowBlitz(false);
-    setShowOverlay(false);
+  // Rydd før ny spinn
+  setShowOverlay(false);
+  setShowBlitz(false);
+  if (audioRef.current) {           // stopp lyden hvis den spiller
+    audioRef.current.pause();
+    audioRef.current.currentTime = 0;
+  }
 
-    const chosenIdx = Math.floor(Math.random() * n);
-    const current = ((rotation % 360) + 360) % 360;
-    const sliceDeg = 360 / n;
-    const chosenCenterDeg = chosenIdx * sliceDeg + sliceDeg / 2;
-    const turns = 5;
-    const targetDeg = turns * 360 + ((360 - chosenCenterDeg) - current + 360) % 360;
+  setWinner(null);
+  setChallenge(null);
+  setSpinning(true);
 
-    const duration = 3500;
-    const start = performance.now();
-    const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
+  const chosenIdx = Math.floor(Math.random() * n);
+  const current = ((rotation % 360) + 360) % 360;
+  const sliceDeg = 360 / n;
+  const chosenCenterDeg = chosenIdx * sliceDeg + sliceDeg / 2;
+  const turns = 5;
+  const targetDeg = turns * 360 + ((360 - chosenCenterDeg) - current + 360) % 360;
 
-    const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / duration);
-      const eased = easeOutCubic(t);
-      setRotation(current + targetDeg * eased);
+  const duration = 3500;
+  const start = performance.now();
+  const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
 
-      if (t < 1) {
-        requestAnimationFrame(tick);
+  const tick = (now: number) => {
+    const t = Math.min(1, (now - start) / duration);
+    const eased = easeOutCubic(t);
+    setRotation(current + targetDeg * eased);
+
+    if (t < 1) {
+      requestAnimationFrame(tick);
+    } else {
+      setSpinning(false);
+      const w = participants[chosenIdx];
+      setWinner(w);
+
+      if (challenges.length > 0) {
+        const idx = Math.floor(Math.random() * challenges.length);
+        setChallenge(challenges[idx]);
       } else {
-        setSpinning(false);
-        const w = participants[chosenIdx];
-        setWinner(w);
-
-        if (challenges.length > 0) {
-          const idx = Math.floor(Math.random() * challenges.length);
-          setChallenge(challenges[idx]);
-        } else {
-          setChallenge("Ingen challenges tilgjengelig.");
-        }
-        setShowOverlay(true);
-        setShowBlitz(true); 
+        setChallenge("Ingen challenges tilgjengelig.");
       }
-    };
-
-    requestAnimationFrame(tick);
+      setShowOverlay(true);
+      setShowBlitz(true);
+    }
   };
+
+  requestAnimationFrame(tick);
+};
+
 
   return (
     <div style={{ textAlign: "center", width: CANVAS_SIZE, margin: "0 auto" }}>
@@ -159,6 +166,8 @@ const Wheel: React.FC<Props> = ({ participants }) => {
               pointerEvents: "none",
               userSelect: "none",
               zIndex: 1,
+              
+   
             }}
           />
         )}
@@ -176,30 +185,43 @@ const Wheel: React.FC<Props> = ({ participants }) => {
             }}
           >
             <div>
-              <div style={{ fontWeight: 1000, marginBottom: 8 }}>
+              <div style={{ fontWeight: 1000, marginBottom: 8, fontFamily: 'Inter', textTransform: 'uppercase'}}>
                 {winner ? capitalize(winner) : ""}
               </div>
-              <div style={{ width: 200, fontWeight: 100 }}>
+              <div style={{ width: 200, fontWeight: 100, fontFamily: 'Inter'}}>
                 {challenge}
               </div>
-              <button
-                onClick={() => {
-                  setShowOverlay(false);
-                  setShowBlitz(false);
-                }}
-                style={{ width: 80, marginTop: 20 }}
-              >
-                OK
-              </button>
+
             </div>
           </div>
         )}
       </div>
 
-      <div style={{ marginTop: 12, display: "flex", gap: 8, justifyContent: "center" }}>
-        <button onClick={spin} disabled={spinning || participants.length === 0 || showOverlay}>
-          Spin
-        </button>
+      <div style={{ marginTop: 12, display: "flex", gap: 8, justifyContent: "center", fontFamily: 'Inter'}}>
+<button
+  onClick={spin}
+  disabled={spinning || participants.length === 0}
+  style={{
+    backgroundColor: "#1e293b",   // mørk blågrå
+    color: "white",
+    fontFamily: "Inter",
+    fontWeight: 400,
+    textTransform: "uppercase",
+    letterSpacing: "0.5px",
+    padding: "10px 24px",
+    borderRadius: "8px",
+    border: "none",
+    cursor: "pointer",
+    transition: "background-color 0.2s ease, transform 0.1s ease",
+  }}
+    onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#ce3030ff")}
+    onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#1e293b")}
+    onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.96)")}
+    onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
+>
+    Spin
+</button>
+
       </div>
     </div>
   );
