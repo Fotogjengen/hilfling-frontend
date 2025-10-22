@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC, useContext, useState } from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -10,6 +10,8 @@ import Pagination from "@mui/material/Pagination";
 import styles from "./InternSearch.module.css";
 import ToggleComponent from "./ToggleComponent";
 import { PhotoDto } from "../../../generated";
+import { createImgUrl } from "../../utils/createImgUrl/createImgUrl";
+import { ImageContext } from "../../contexts/ImageContext";
 
 interface Props {
   photos: PhotoDto[];
@@ -24,15 +26,24 @@ const columns = [
   { id: "motive", label: "Motiv" },
   { id: "placeDto", label: "Place" },
   { id: "securityLevel", label: "Security Level" },
-  { id: "gang", label: "Gang" },
+  // { id: "gang", label: "Gang" },
   { id: "categoryDto", label: "Category" },
   // { id: "photoGangBangerDto", label: "Photo Gang Banger" },
   // { id: "photoTags", label: "Photo Tags" },
-  // { id: "isGoodPicture", label: "Good Picture" },
+  { id: "isGoodPicture", label: "Good Picture" },
+  { id: "scan", label: "Scan" },
+  { id: "small_url", label: "Minature" },
+  { id: "edit", label: "Edit" },
 ];
 
-const CustomTable: FC<Props> = ({ photos, handlePageChange, page, photosCount, pageSize}) => {
- 
+const CustomTable: FC<Props> = ({
+  photos,
+  handlePageChange,
+  page,
+  photosCount,
+  pageSize,
+}) => {
+  const { setPhotos, setPhotoIndex, setIsOpen } = useContext(ImageContext);
   const handleChangePage = (event: any, newPage: any) => {
     handlePageChange(newPage);
   };
@@ -40,15 +51,19 @@ const CustomTable: FC<Props> = ({ photos, handlePageChange, page, photosCount, p
   const handleChange = () => {
     setIsGrid(!isGrid);
   };
- 
-  const emptyRows = Math.max(0, 10 - photos.length); //Usikker på om vi egentlig trenger denne
+
+  const updateIndex = (index: number) => {
+    setPhotos(photos);
+    setPhotoIndex(index);
+    setIsOpen(true);
+  };
 
   return (
     <Paper>
       <div className={styles.toggleHeader}>
         <div className={styles.pagination}>
           <Pagination
-            count={Math.ceil(photosCount/pageSize)}
+            count={Math.ceil(photosCount / pageSize)}
             page={page}
             onChange={handleChangePage}
             color="primary"
@@ -73,7 +88,7 @@ const CustomTable: FC<Props> = ({ photos, handlePageChange, page, photosCount, p
           <TableBody>
             {photos
               //.slice((page - 1) * rowsPerPage, page * rowsPerPage)
-              .map((photo) => (
+              .map((photo, index: number) => (
                 <TableRow key={photo.photoId.id}>
                   {columns.map((column) => (
                     <TableCell key={column.id}>
@@ -83,10 +98,11 @@ const CustomTable: FC<Props> = ({ photos, handlePageChange, page, photosCount, p
                       {column.id === "placeDto" && photo.placeDto.name}
                       {column.id === "securityLevel" &&
                         photo.securityLevel.securityLevelType}
-                      {column.id === "gang" && photo.gang.name}
+                      {/* {column.id === "gang" && photo.gang.name} */}
                       {column.id === "categoryDto" && photo.categoryDto.name}
                       {column.id === "photoGangBangerDto" &&
                         photo.photoGangBangerDto.samfundetUser?.firstName}
+                      {column.id === ""}
 
                       {/* 
                       {column.id === "photoTags" && 
@@ -94,21 +110,29 @@ const CustomTable: FC<Props> = ({ photos, handlePageChange, page, photosCount, p
                       */}
                       {column.id === "isGoodPicture" &&
                         `${photo.isGoodPicture}`}
+                      {column.id === "small_url" && (
+                        <img
+                          src={createImgUrl(photo)}
+                          style={{
+                            maxHeight: "200px",
+                            maxWidth: "200px",
+                            objectFit: "cover",
+                            cursor: "pointer",
+                            borderRadius: "4px",
+                          }}
+                          onClick={() => updateIndex(index)}
+                        />
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               ))}
-            {emptyRows > 0 && (
-              <TableRow style={{ height: 53 * emptyRows }}>
-                <TableCell colSpan={columns.length} />
-              </TableRow>
-            )}
           </TableBody>
         </Table>
       </TableContainer>
       <div className={styles.pagination2}>
         <Pagination
-          count={Math.ceil(photosCount/pageSize)}
+          count={Math.ceil(photosCount / pageSize)}
           page={page}
           onChange={handleChangePage}
           color="primary"
