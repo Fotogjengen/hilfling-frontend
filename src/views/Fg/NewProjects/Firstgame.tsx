@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button, TextField, Stack } from "@mui/material";
 import React, { useState } from "react";
-import "./Firstgame.css"
+import "./Firstgame.css";
 
 const Firstgame = () => {
   const [players, setPlayers] = useState<string[]>([""]);
