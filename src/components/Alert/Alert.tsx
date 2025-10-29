@@ -2,6 +2,8 @@ import React, { FC, useEffect } from "react";
 import { Collapse, Alert as MUIAlert } from "@mui/material";
 import styles from "./Alert.module.css";
 
+//Denne klassen viser en alert melding som forsvinner etter 4 sekunder. Den kan importeres og brukes i andre komponenter.
+//Den er for eksempel ofte brukt i API kall for å vise suksess eller feilmeldinger.
 interface Props {
   open: boolean;
   setOpen: (value: boolean) => void;
