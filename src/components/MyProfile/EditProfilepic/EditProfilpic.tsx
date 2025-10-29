@@ -1,28 +1,26 @@
 import React, { useEffect, useState} from "react";
 import {
   Paper,
-  Skeleton,
   Button,
 } from "@mui/material";
 import "./EditProfilepic.css"
 import { DragNDropFile } from "../../../types";
 import { useDropzone } from "react-dropzone";
-// import { useNavigate } from "react-router-dom";
-
 
 interface Props {
   setEditProfilepic: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const EditProfilepic = ({ setEditProfilepic }: Props) => {
-
+//this.fileInput.current.files[0].name
     const [noPictureUploaded, setnoPictureUploade] = useState(true);
     const [file, setFile] = useState<DragNDropFile |  null> (null); // stores the uploaded files
     const [preview, setPreview] = useState<string> ("");
+    const [fileName, setFileName] = useState<string> ("");
+    const [filePath, setFilePath] = useState<string> ("");
 
     const { acceptedFiles, getRootProps, getInputProps, open } = useDropzone({
-        accept: ".jpg,.jpeg,.png",
-        noClick: true,
+         noClick: true,
         noKeyboard: true,
       });
 
@@ -31,9 +29,23 @@ const EditProfilepic = ({ setEditProfilepic }: Props) => {
         if (acceptedFiles.length > 0){
 
             const file_new = acceptedFiles[0] as DragNDropFile;
-
             setFile(file_new)
+
             setnoPictureUploade(false)
+
+            if (file_new){
+
+                setFileName(file_new.name);
+
+                const url = "alle/fg_profile_pictures/" + file_new.name
+                setFilePath(url)
+
+            }
+
+
+            
+
+       
 
     }},[acceptedFiles])
 
@@ -42,7 +54,9 @@ const EditProfilepic = ({ setEditProfilepic }: Props) => {
         if (!file) return;
         const objectUrl = URL.createObjectURL(file);
         setPreview(objectUrl);
-        
+
+
+
     },[file])
 
     const resteBtn = () => {
