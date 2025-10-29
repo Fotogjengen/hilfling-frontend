@@ -1,7 +1,5 @@
 .internSearch {
-
   display: flex;
-  
 }
 .formTextField {
   padding: 0.4rem;
@@ -9,10 +7,8 @@
 
 .gridDivContainer {
   display: grid;
-  width: 70%;
-  height: 30%;
   order: 2;
-  margin-right: auto;
+  flex: 1;
   padding-left: 1rem;
 }
 
@@ -20,10 +16,6 @@
   padding: 0.5rem;
   background-color: whitesmoke;
   border-radius: 1rem;
-}
-
-.gridBox {
-  width: 100%;
 }
 
 .toggleHeader {

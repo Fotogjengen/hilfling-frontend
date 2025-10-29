@@ -14,7 +14,7 @@ import { createImgUrl } from "../../utils/createImgUrl/createImgUrl";
 import { ImageContext } from "../../contexts/ImageContext";
 import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
-import { Edit, EditAttributes, EditLocation } from "@mui/icons-material";
+import { Edit } from "@mui/icons-material";
 
 interface Props {
   photos: PhotoDto[];
