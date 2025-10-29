@@ -1,16 +1,49 @@
 .photoContainer {
   max-width: 1400px;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
-  gap: 1rem;
+  column-count: 3;      
+  column-gap: 0.2rem;
   margin-top: 35px;
 }
 
 .photoItem img {
   width: 100%;
-  height: auto;
-  display: block;
+  height: 100%; /*mullig at denne må byttes til auto når vanlig bilder kommer */
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 1px;
+
 }
+
+
+.photoItem {
+  break-inside: avoid;
+  margin-bottom: 0.2rem;
+}
+
+
+
+
+
+/* fjern dette under når vanlig bilder kommer inn*/
+
+
+.photoItem {
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+}
+
+
+.photoItem:nth-child(2n) {
+  aspect-ratio: 3 / 4;
+}
+
+
+.photoItem:nth-child(3n) {
+  aspect-ratio: 16 / 9;
+}
+
+
+.photoItem:nth-child(5n) {
+  aspect-ratio: 1 / 1;
+}
+
 
