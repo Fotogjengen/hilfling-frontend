@@ -66,6 +66,10 @@ const AppRoutes: FC = () => {
           path="/fg-wiki"
           element={<Redirect link="https://wiki.samfundet.no/fg/" />}
         />
+        <Route
+          path="/ufs"
+          element={<Redirect link="https://ufs.samfundet.no/" />}
+        />
       </Routes>
     </Box>
   );
