@@ -51,10 +51,8 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
   const [places, setPlaces] = useState<PlaceDto[]>([]);
   const [categories, setCategories] = useState<CategoryDto[]>([]);
   const [securityLevels, setSecurityLevels] = useState<SecurityLevelDto[]>([]);
-  const [,setPhotoTags] = useState<PhotoTagDto[]>([]);
-  const [minDate] = React.useState<Dayjs | null>(
-    dayjs("1910-09-30"),
-  );
+  const [, setPhotoTags] = useState<PhotoTagDto[]>([]);
+  const [minDate] = React.useState<Dayjs | null>(dayjs("1910-09-30"));
   const [dateFrom, setDateFrom] = React.useState<Dayjs | null>(
     dayjs("1910-09-30"),
   );
@@ -232,7 +230,6 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
                     overflowY: "auto",
                   },
                 }}
-                id="combo-box-demo"
                 options={albums.map((albums) => albums.title)}
                 sx={{ width: boxwidth }}
                 onChange={handleAlbumChange}
@@ -250,7 +247,6 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
                     overflowY: "auto",
                   },
                 }}
-                id="combo-box-demo"
                 options={motives.map((motive) => motive.title)}
                 sx={{ width: boxwidth }}
                 onChange={handleMotiveChange}
@@ -300,7 +296,6 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
                     overflowY: "auto",
                   },
                 }}
-                id="combo-box-demo"
                 options={categories.map((category) => category.name)}
                 sx={{ width: boxwidth }}
                 onChange={handleCategoryChange}
@@ -318,7 +313,6 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
                     overflowY: "auto",
                   },
                 }}
-                id="combo-box-demo"
                 options={places.map((place) => place.name)}
                 sx={{ width: boxwidth }}
                 onChange={handlePlaceChange}
@@ -415,7 +409,6 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
                     overflowY: "auto",
                   },
                 }}
-                id="combo-box-demo"
                 options={securityLevels.map(
                   (securityLevel) => securityLevel.securityLevelType,
                 )}

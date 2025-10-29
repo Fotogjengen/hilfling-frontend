@@ -12,6 +12,9 @@ import ToggleComponent from "./ToggleComponent";
 import { PhotoDto } from "../../../generated";
 import { createImgUrl } from "../../utils/createImgUrl/createImgUrl";
 import { ImageContext } from "../../contexts/ImageContext";
+import { Link } from "react-router-dom";
+import { Button } from "@mui/material";
+import { Edit, EditAttributes, EditLocation } from "@mui/icons-material";
 
 interface Props {
   photos: PhotoDto[];
@@ -110,6 +113,12 @@ const CustomTable: FC<Props> = ({
                       */}
                       {column.id === "isGoodPicture" &&
                         `${photo.isGoodPicture}`}
+                      {column.id === "scan" && (
+                        <div>
+                          <Button>Web</Button>
+                          <Button>Prod</Button>
+                        </div>
+                      )}
                       {column.id === "small_url" && (
                         <img
                           src={createImgUrl(photo)}
@@ -122,6 +131,16 @@ const CustomTable: FC<Props> = ({
                           }}
                           onClick={() => updateIndex(index)}
                         />
+                      )}
+                      {column.id === "edit" && (
+                        <Button
+                          style={{ borderRadius: "10em" }}
+                          color="error"
+                          component={Link}
+                          to={`/fg/editPhoto/${photo.photoId.id}`}
+                        >
+                          <Edit />
+                        </Button>
                       )}
                     </TableCell>
                   ))}
