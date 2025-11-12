@@ -16,8 +16,7 @@ const EditProfilepic = ({ setEditProfilepic }: Props) => {
     const [noPictureUploaded, setnoPictureUploade] = useState(true);
     const [file, setFile] = useState<DragNDropFile |  null> (null); // stores the uploaded files
     const [preview, setPreview] = useState<string> ("");
-    const [fileName, setFileName] = useState<string> ("");
-    const [filePath, setFilePath] = useState<string> ("");
+
 
     const { acceptedFiles, getRootProps, getInputProps, open } = useDropzone({
          noClick: true,
