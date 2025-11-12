@@ -14,10 +14,13 @@ interface Props {
 const EditProfilepic = ({ setEditProfilepic }: Props) => {
 //this.fileInput.current.files[0].name
     const [noPictureUploaded, setnoPictureUploade] = useState(true);
-    const [file, setFile] = useState<DragNDropFile |  null> (null); // stores the uploaded files
     const [preview, setPreview] = useState<string> ("");
-    const [fileName, setFileName] = useState<string> ("");
-    const [filePath, setFilePath] = useState<string> ("");
+
+
+    const [file, setFile] = useState<DragNDropFile |  null> (null); // stores the uploaded files
+    
+    // const [fileName, setFileName] = useState<string> (""); // first part of the logic needed to create url for profilepictures, commented out beacuse of lint errors in PR
+    // const [filePath, setFilePath] = useState<string> ("");
 
     const { acceptedFiles, getRootProps, getInputProps, open } = useDropzone({
          noClick: true,
@@ -33,19 +36,16 @@ const EditProfilepic = ({ setEditProfilepic }: Props) => {
 
             setnoPictureUploade(false)
 
-            if (file_new){
+            // second part of the logic needed to create url for profilepictures, commented out beacuse of lint errors in PR
 
-                setFileName(file_new.name);
+            // if (file_new){ 
 
-                const url = "alle/fg_profile_pictures/" + file_new.name
-                setFilePath(url)
+            //     setFileName(file_new.name);
 
-            }
+            //     const url = "alle/fg_profile_pictures/" + file_new.name
+            //     setFilePath(url)
 
-
-            
-
-       
+            // }
 
     }},[acceptedFiles])
 
@@ -54,7 +54,6 @@ const EditProfilepic = ({ setEditProfilepic }: Props) => {
         if (!file) return;
         const objectUrl = URL.createObjectURL(file);
         setPreview(objectUrl);
-
 
 
     },[file])
