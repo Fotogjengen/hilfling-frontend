@@ -12,6 +12,7 @@ import { Link } from "react-router-dom";
 import { experimentalStyled as styled } from "@mui/material/styles";
 import { Grid, Paper, Typography } from "@mui/material";
 import { AuthenticationContext } from "../../../contexts/AuthenticationContext";
+import { LiquorRounded} from "@mui/icons-material";
 
 const FgNav = () => {
   const { position } = useContext(AuthenticationContext);
@@ -57,6 +58,11 @@ const FgNav = () => {
       name: "Fg wiki",
       to: "/fg-wiki",
       icon: <CameraAltIcon style={{ fontSize: otherIconSize }} />,
+    },
+    {
+      name: "µFS",
+      to: "/ufs",
+      icon: <LiquorRounded style={{ fontSize: otherIconSize }} />,
     },
   ];
 
