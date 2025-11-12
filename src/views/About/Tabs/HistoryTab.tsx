@@ -133,8 +133,6 @@ const HistoryTab: FC = () => {
       </Grid>
 
     </Grid>
-
-
   )
 }
 
