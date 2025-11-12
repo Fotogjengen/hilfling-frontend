@@ -7,7 +7,7 @@
 
 .photoItem img {
   width: 100%;
-  height: 100%; /*mullig at denne må byttes til auto når vanlig bilder kommer */
+  height: auto; /*satt til 100% når bildene ble coppet, men tror den må stå på auto */
   object-fit: cover;
   border-radius: 1px;
 
@@ -23,9 +23,10 @@
 
 
 
-/* fjern dette under når vanlig bilder kommer inn*/
+/* brukt for å croppe bilder for å se om det blir nice fordeling, 
+men når bilder i forskjellig size kommer inn er d ikke vits*/
 
-
+/*
 .photoItem {
   aspect-ratio: 4 / 3;
   overflow: hidden;
@@ -47,3 +48,4 @@
 }
 
 
+*/
