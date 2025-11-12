@@ -24,9 +24,12 @@ interface Props {
   pageSize: number;
 }
 
+// Add security access
+
 const columns = [
   { id: "albumDto", label: "Album" },
   { id: "motive", label: "Motiv" },
+  { id: "date", label: "date" },
   { id: "placeDto", label: "Place" },
   { id: "securityLevel", label: "Security Level" },
   // { id: "gang", label: "Gang" },
@@ -98,14 +101,15 @@ const CustomTable: FC<Props> = ({
                       {/* Rendering logic based on column.id */}
                       {column.id === "albumDto" && photo.albumDto.title}
                       {column.id === "motive" && photo.motive.title}
+                      {column.id === "date" && `${photo.dateTaken}`}
                       {column.id === "placeDto" && photo.placeDto.name}
                       {column.id === "securityLevel" &&
                         photo.securityLevel.securityLevelType}
                       {/* {column.id === "gang" && photo.gang.name} */}
                       {column.id === "categoryDto" && photo.categoryDto.name}
-                      {column.id === "photoGangBangerDto" &&
+                      {/* {column.id === "photoGangBangerDto" &&
                         photo.photoGangBangerDto.samfundetUser?.firstName}
-                      {column.id === ""}
+                      {column.id === ""} */}
 
                       {/* 
                       {column.id === "photoTags" && 
@@ -123,11 +127,11 @@ const CustomTable: FC<Props> = ({
                         <img
                           src={createImgUrl(photo)}
                           style={{
-                            maxHeight: "200px",
-                            maxWidth: "200px",
+                            maxHeight: "20em",
+                            maxWidth: "20em",
                             objectFit: "cover",
                             cursor: "pointer",
-                            borderRadius: "4px",
+                            borderRadius: "0.2em",
                           }}
                           onClick={() => updateIndex(index)}
                         />
