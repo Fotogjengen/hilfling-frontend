@@ -41,7 +41,7 @@ const About: FC = () => {
           variant="fullWidth"
           aria-label="about tabs"
         >
-          <Tab label="Om oss" />
+          <Tab label="Fotogjengere" />
           <Tab label="Info" />
           <Tab label="Historie" />
         </Tabs>
