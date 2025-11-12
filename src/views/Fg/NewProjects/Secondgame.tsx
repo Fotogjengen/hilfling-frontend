@@ -1,8 +1,4 @@
 import React, { useState, useMemo, useCallback, useEffect } from "react";
-import { experimentalStyled as styled } from "@mui/material/styles";
-import { Grid, Paper, Typography } from "@mui/material";
-import VolcanoIcon from "@mui/icons-material/Volcano";
-import { Link } from "react-router-dom";
 import "./Secondgame.css";
 import { questions } from "./questions";
 import { random } from "lodash";
@@ -40,7 +36,6 @@ const Secondgame = () => {
     const newDroplets: Droplet[] = Array.from({ length: count }).map((_, i) => {
       const rand = Math.random(); // <--- unikt for hver dråpe
       const x = centerx + (rand - 0.5) * rectwidth;
-      const y = 1.7 * centery - Math.sin(rand * Math.PI) * rectheight * 0.7;
 
       // Startfarge basert på x-posisjon
       const t = (x - (centerx - rectwidth / 2)) / rectwidth;
