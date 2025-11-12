@@ -20,7 +20,7 @@ const AboutTab: FC = () => {
 
     const [activeGangBangers, setActiveGangBangers] = useState<PhotoGangBangerPublicDto[]>([]);
     const [activePangs, setActivePangs] = useState<PhotoGangBangerPublicDto[]>([],);
-    
+    const [inActivePangs, setInactivePangs] = useState<PhotoGangBangerPublicDto[]>([]);
 
 
 

@@ -88,7 +88,7 @@ const MyProfileRebrand = () => {
           // console.log(webPositions.includes(currentUser.currentPosition.toLowerCase()))
 
           if (webPositions.includes(currentPosition.toLowerCase())) {
-            // settes the correct role
+            // settes the correct role i
             role = "Web";
           }
 
