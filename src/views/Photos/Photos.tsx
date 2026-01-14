@@ -15,85 +15,76 @@ export const Photos = () => {
   const [hasMore, setHasMore] = useState(true);
 
   const loaderRef = useRef<HTMLDivElement | null>(null);
-
   const { setPhotos, setPhotoIndex, setIsOpen } = useContext(ImageContext);
 
   useEffect(() => {
-    const loadPhotos = async () => {
+    const load = async () => {
       setIsLoading(true);
       try {
-        const newPhotos = await PhotoApi.getGoodPhotos(
+        const batch = await PhotoApi.getGoodPhotos(
           String(page),
-          String(PAGE_SIZE),
+          String(PAGE_SIZE)
         );
-        setGoodPhotos((prev) => [...prev, ...newPhotos]);
-        if (newPhotos.length < PAGE_SIZE) {
-          setHasMore(false);
-        }
-      } catch (error) {
-        console.error("Error fetching photos:", error);
+        setGoodPhotos((prev) => [...prev, ...batch]);
+        if (batch.length < PAGE_SIZE) setHasMore(false);
       } finally {
         setIsLoading(false);
       }
     };
 
-    if (hasMore) {
-      void loadPhotos();
-    }
+    if (hasMore) void load();
   }, [page, hasMore]);
 
   useEffect(() => {
-    // Make sure the loaderRef is pointing to a real DOM element before proceeding
     if (!loaderRef.current) return;
 
-    const options = {
-      root: null,
-      // Pretend the viewport is BUFFER_PX bigger at the bottom. This makes it trigger early, before the user actually hits the bottom
-      rootMargin: `${BUFFER_PX}px`,
-      // Trigger the callback when 10% of the target is visible
-      threshold: 0.1,
-    };
+    const ob = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting && !isLoading && hasMore) {
+          setPage((p) => p + 1);
+        }
+      },
+      { rootMargin: `${BUFFER_PX}px`, threshold: 0.1 }
+    );
 
-    const handleObserver: IntersectionObserverCallback = (entries) => {
-      const [entry] = entries;
-      if (entry.isIntersecting && !isLoading && hasMore) {
-        setPage((prev) => prev + 1);
-      }
-    };
-
-    // The IntersectionObserver watches loaderRef.current, and whenever that div scrolls into view, it triggers the handleObserver function
-    const observer = new IntersectionObserver(handleObserver, options);
-    observer.observe(loaderRef.current);
-
-    return () => {
-      observer.disconnect();
-    };
+    ob.observe(loaderRef.current);
+    return () => ob.disconnect();
   }, [isLoading, hasMore]);
 
-  const updateIndex = (index: number) => {
+  const openAt = (idx: number) => {
     setPhotos(goodPhotos);
-    setPhotoIndex(index);
+    setPhotoIndex(idx);
     setIsOpen(true);
+  };
+
+  // Breddefordeling: mange 2-kolonne og en del helrad
+  const widthClass = (p: PhotoDto, i: number) => {
+    const id = p.photoId.id.toString();
+    let h = 0;
+    for (let k = 0; k < id.length; k++) h = (h * 31 + id.charCodeAt(k)) | 0;
+
+    const r = Math.abs(h + i) % 100; 
+    if (r < 25) return styles.w12; 
+    return styles.w6; 
   };
 
   return (
     <div>
-      <div className={styles.photoContainer}>
-        {goodPhotos.map((photo, index: number) => (
+      <div className={styles.grid}>
+        {goodPhotos.map((photo, idx) => (
           <div
             key={photo.photoId.id}
-            className={styles.photoItem}
-            onClick={() => updateIndex(index)}
+            className={`${styles.item} ${widthClass(photo, idx)}`}
+            onClick={() => openAt(idx)}
           >
-            <img src={createImgUrl(photo)} />
+            <img src={createImgUrl(photo)} loading="lazy" alt="" />
           </div>
         ))}
       </div>
 
       {isLoading && <p>Laster inn flere bilder... 🤓</p>}
-      {!hasMore && <p>Wow, du har lastet inn alle blinkskuddene våre! 📸 </p>}
+      {!hasMore && <p>Wow, du har lastet inn alle blinkskuddene våre! 📸</p>}
 
-      {/* Invisible "sentinel" at the bottom of the page that is essential for infinity loop to work */}
       <div ref={loaderRef} style={{ height: 1 }} />
     </div>
   );

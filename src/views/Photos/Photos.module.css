@@ -1,51 +1,34 @@
-.photoContainer {
-  max-width: 1400px;
-  column-count: 3;      
-  column-gap: 0.2rem;
-  margin-top: 35px;
+.grid {
+  max-width: 1200px;
+  margin: 35px auto 0;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr); 
+  gap: 10px;
+  grid-auto-flow: dense;                 
 }
 
-.photoItem img {
+
+.w6  { grid-column: span 6; }  
+.w12 { grid-column: 1 / -1; }  
+
+
+@media (max-width: 1000px) { .grid { grid-template-columns: repeat(6, 1fr); } }
+@media (max-width: 640px)  { .grid { grid-template-columns: repeat(1, 1fr); } }
+
+.item img {
   width: 100%;
-  height: auto; /*satt til 100% når bildene ble coppet, men tror den må stå på auto */
-  object-fit: cover;
-  border-radius: 1px;
-
+  height: auto;
+  display: block;
+  margin: 0 auto;      
+  border-radius: 2px;
 }
 
 
-.photoItem {
-  break-inside: avoid;
-  margin-bottom: 0.2rem;
+body {
+  display: flex;
+  justify-content: center;
 }
 
 
 
 
-
-/* brukt for å croppe bilder for å se om det blir nice fordeling, 
-men når bilder i forskjellig size kommer inn er d ikke vits*/
-
-/*
-.photoItem {
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
-}
-
-
-.photoItem:nth-child(2n) {
-  aspect-ratio: 3 / 4;
-}
-
-
-.photoItem:nth-child(3n) {
-  aspect-ratio: 16 / 9;
-}
-
-
-.photoItem:nth-child(5n) {
-  aspect-ratio: 1 / 1;
-}
-
-
-*/
