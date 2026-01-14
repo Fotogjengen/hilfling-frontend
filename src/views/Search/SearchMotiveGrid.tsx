@@ -16,17 +16,12 @@ const SearchMotiveGrid = () => {
   const [hasMore, setHasMore] = useState(true);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
 
+  const [hasSearched, setHasSearched] = useState(false);
+
   const loaderRef = useRef<HTMLDivElement | null>(null);
   const loadingRef = useRef(false);
 
-  useEffect(() => {
-    setMotives(undefined);
-    setPage(0);
-    setHasMore(true);
-    setIsLoading(false);
-    setIsInitialLoad(true);
-    loadingRef.current = false;
-  }, [searchQuery]);
+
 
   const loadMotives = useCallback(
     async (currentPage: number, isNewSearch: boolean) => {
@@ -67,6 +62,27 @@ const SearchMotiveGrid = () => {
     },
     [searchQuery],
   );
+
+useEffect(() => { //foto preview
+    if (hasSearched) return;
+
+    void loadMotives(0, true);
+  }, [hasSearched, loadMotives]);
+
+useEffect(() => {
+
+  if (!searchQuery || searchQuery.trim() === "") return;
+
+    setMotives(undefined);
+    setPage(0);
+    setHasMore(true);
+    setIsLoading(false);
+    setIsInitialLoad(true);
+    loadingRef.current = false;
+
+    void loadMotives(0, true);
+
+}, [searchQuery]);
 
   useEffect(() => {
     if (page === 0 && isInitialLoad) {
