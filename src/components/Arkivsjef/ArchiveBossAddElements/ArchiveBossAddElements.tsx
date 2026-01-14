@@ -16,7 +16,14 @@ import {
 } from "@mui/material";
 import { AddCircle } from "@mui/icons-material";
 import styles from "./ArchiveBossAddElements.module.css";
-import { Formik, Form, Field, ErrorMessage, FormikValues } from "formik";
+import {
+  Formik,
+  Form,
+  Field,
+  ErrorMessage,
+  FormikValues,
+  FormikProps,
+} from "formik";
 import * as yup from "yup";
 import { CategoryApi } from "../../../utils/api/CategoryApi";
 import { PlaceApi } from "../../../utils/api/PlaceApi";
@@ -95,6 +102,18 @@ const ArchiveBossAddElements = () => {
     albumType: false,
   };
 
+  interface FormValues {
+    name: string;
+    type: string;
+    albumType: boolean;
+  }
+
+  interface FormValues {
+    name: string;
+    type: string;
+    albumType: boolean;
+  }
+
   return (
     <>
       <Paper
@@ -134,20 +153,7 @@ const ArchiveBossAddElements = () => {
           validationSchema={validationSchema}
           onSubmit={onSubmit}
         >
-          {(props: {
-            errors: { name: string; type: string; albumType: boolean };
-            touched: { name: string; type: string; albumType: boolean };
-            values: {
-              type: string;
-              albumType:
-                | boolean
-                | React.ReactChild
-                | React.ReactFragment
-                | React.ReactPortal
-                | null
-                | undefined;
-            };
-          }) => (
+          {(props: FormikProps<FormValues>) => (
             <Form>
               <DialogTitle>
                 Legg til nytt album, ny kategori eller nytt sted

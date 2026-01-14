@@ -6,22 +6,19 @@ import {
   Select as MuiSelect,
   SelectProps,
 } from "@mui/material";
-import { withStyles, WithStyles, createStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import { FormFieldProps } from "./types";
 import { useForm } from "./Form";
 
-const styles = () =>
-  createStyles({
-    helperText: {
-      color: "red",
-    },
-  });
+const ErrorText = styled(FormHelperText)({
+  color: "red",
+});
+
 let idCount = 0;
 
-const Select: FC<FormFieldProps<SelectProps & WithStyles<typeof styles>>> = ({
+const Select: FC<FormFieldProps<SelectProps>> = ({
   name,
   label,
-  classes,
   fullWidth,
   children,
   ...rest
@@ -32,7 +29,9 @@ const Select: FC<FormFieldProps<SelectProps & WithStyles<typeof styles>>> = ({
   const error = touched && errors[name];
   return (
     <FormControl fullWidth={fullWidth}>
-      <InputLabel id={`${id}-label-id`} htmlFor={name}>{label}</InputLabel>
+      <InputLabel id={`${id}-label-id`} htmlFor={name}>
+        {label}
+      </InputLabel>
       <MuiSelect
         id={id}
         labelId={`${id}-label-id`}
@@ -45,9 +44,9 @@ const Select: FC<FormFieldProps<SelectProps & WithStyles<typeof styles>>> = ({
       >
         {children}
       </MuiSelect>
-      <FormHelperText className={classes.helperText}>{error}</FormHelperText>
+      <ErrorText>{error}</ErrorText>
     </FormControl>
   );
 };
 
-export default withStyles(styles)(Select);
+export default Select;

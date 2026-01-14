@@ -25,7 +25,7 @@ const MotiveCard: FC<Props> = (props: Props) => {
           Album: {props?.motive?.albumDto?.title}
         </Typography>
         <Typography variant="body2">
-          Dato: {props?.motive?.dateCreated}
+          Dato: {props?.motive?.dateCreated.toLocaleDateString()}
         </Typography>
       </div>
       {props.children}
