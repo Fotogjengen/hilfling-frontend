@@ -16,8 +16,6 @@ const SearchMotiveGrid = () => {
   const [hasMore, setHasMore] = useState(true);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
 
-  const [hasSearched, setHasSearched] = useState(false);
-
   const loaderRef = useRef<HTMLDivElement | null>(null);
   const loadingRef = useRef(false);
 
@@ -63,11 +61,6 @@ const SearchMotiveGrid = () => {
     [searchQuery],
   );
 
-useEffect(() => { //foto preview
-    if (hasSearched) return;
-
-    void loadMotives(0, true);
-  }, [hasSearched, loadMotives]);
 
 useEffect(() => {
 
