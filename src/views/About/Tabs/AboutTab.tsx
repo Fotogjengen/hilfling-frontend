@@ -20,7 +20,7 @@ const AboutTab: FC = () => {
 
     const [activeGangBangers, setActiveGangBangers] = useState<PhotoGangBangerPublicDto[]>([]);
     const [activePangs, setActivePangs] = useState<PhotoGangBangerPublicDto[]>([],);
-    const [inActivePangs, setInactivePangs] = useState<PhotoGangBangerPublicDto[]>([]);
+
 
 
 
@@ -33,9 +33,9 @@ const AboutTab: FC = () => {
     PhotoGangBangerApi.getAllActivePangsPublic()
         .then((res) => setActivePangs(res))
         .catch((err) => console.log(err));
-    PhotoGangBangerApi.getAllInactivePangsPublic()
-        .then((res) => setInactivePangs(res))
-        .catch((err) => console.log(err));
+    // PhotoGangBangerApi.getAllInactivePangsPublic()
+    //     .then((res) => setInactivePangs(res))
+    //     .catch((err) => console.log(err));
     }, []);
 
 
@@ -65,10 +65,7 @@ const AboutTab: FC = () => {
             <div className={styles.gangBangers}>
             {activePangs && mapUsers(activePangs)}
             </div>
-            <h2>Pensjonerte fotogjengere</h2>
-            <div className={styles.gangBangers}>
-            {inActivePangs && mapUsers(inActivePangs)}
-            </div> 
+            
         </div>
     )
 }

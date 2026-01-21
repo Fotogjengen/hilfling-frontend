@@ -1,6 +1,7 @@
 import { api } from "./api";
 import { Photo, PhotoDto } from "../../../generated";
 import { PaginatedResult } from "./types";
+import { AxiosProgressEvent } from "axios";
 
 export interface PhotoSearch {
   motive?: string;
@@ -43,7 +44,7 @@ export const PhotoApi = {
 
   batchUpload: async function (
     photos: FormData,
-    onUploadProgress?: (progressEvent: ProgressEvent) => void,
+    onUploadProgress?: (progressEvent: AxiosProgressEvent) => void,
   ): Promise<any> {
     console.log(photos);
     return api.post("/photos/upload", photos, {
