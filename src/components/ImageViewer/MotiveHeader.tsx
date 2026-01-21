@@ -19,7 +19,7 @@ const MotiveHeader = () => {
   }, []);
 
   const handleBackClick = () => {
-    navigate(-1);
+    void navigate(-1);
   };
 
   return (

@@ -12,13 +12,17 @@ import NoEncryptionGmailerrorredIcon from "@mui/icons-material/NoEncryptionGmail
 import SearchIcon from "@mui/icons-material/Search";
 import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 import LoginButton from "../Login/LoginButton/LoginButton";
-import ImageSearchIcon from '@mui/icons-material/ImageSearch';
-import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
+import ImageSearchIcon from "@mui/icons-material/ImageSearch";
+import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 
 const HeaderComponent: FC = () => {
   const { isAuthenticated, position } = useContext(AuthenticationContext);
   const navigate = useNavigate();
   const [showHamburgerMenu, setShowHamburgerMenu] = useState(false);
+
+  const handleLogoClick = () => {
+    void navigate("/");
+  };
 
   useEffect(() => {
     const handleResize = () => setShowHamburgerMenu(false);
@@ -60,7 +64,7 @@ const HeaderComponent: FC = () => {
             to: "/fg",
             icon: <PhotoCameraIcon />,
             noAuth: true,
-          }
+          },
         ]
       : []),
     {
@@ -81,7 +85,7 @@ const HeaderComponent: FC = () => {
     <>
       <nav className={styles.nav}>
         <div className={styles.navHead}>
-          <GuiLogo size={50} onClick={() => navigate("/")} />
+          <GuiLogo size={50} onClick={handleLogoClick} />
           <div className={styles.hamburger}>
             {showHamburgerMenu ? (
               <CloseIcon
@@ -123,12 +127,8 @@ const HeaderComponent: FC = () => {
             <Link to="/photos">BILDER</Link>
             <Link to="/about">OM OSS</Link>
             <Link to="/search">SØK</Link>
-            {isAuthenticated && (
-              <Link to="/intern/search">INTERNSØK</Link>
-            )}
-            {isAuthenticated && position === "FG" && (
-              <Link to="/fg/">FG</Link>
-            )}
+            {isAuthenticated && <Link to="/intern/search">INTERNSØK</Link>}
+            {isAuthenticated && position === "FG" && <Link to="/fg/">FG</Link>}
           </div>
           <div className={styles.loggContainer}>
             <LoginButton />

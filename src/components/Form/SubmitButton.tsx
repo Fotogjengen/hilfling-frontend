@@ -1,43 +1,40 @@
-import React from "react";
+import React, { FC } from "react";
 import { Fab, FabProps } from "@mui/material";
-import { withStyles, WithStyles, createStyles } from "@mui/styles";
-import cn from "classnames";
 import { useForm } from "./Form";
 import { isEmpty } from "lodash";
+import { styled } from "@mui/material/styles";
 
 interface Props {
   children: string;
   float?: "right" | "left";
 }
 
-const styles = () =>
-  createStyles({
-    floatLeft: {
-      float: "left",
-    },
-    floatRight: {
-      float: "right",
-    },
-  });
+const FloatingFab = styled(Fab, {
+  shouldForwardProp: (prop) => prop !== "float",
+})<{ float?: "right" | "left" }>(({ float }) => ({
+  float: float || "none",
+}));
 
-const SubmitButton = (props: Props & FabProps & WithStyles<typeof styles>) => {
-  const { classes, float, children, onClick } = props;
+const SubmitButton: FC<Props & FabProps> = ({
+  float,
+  children,
+  onClick,
+  ...rest
+}) => {
   const { errors } = useForm();
   return (
-    <Fab
+    <FloatingFab
       color="primary"
       variant="extended"
-      className={cn({
-        [classes.floatLeft]: float === "left",
-        [classes.floatRight]: float === "right",
-      })}
       type="button"
       disabled={!isEmpty(errors)}
+      float={float}
       onClick={onClick}
+      {...rest}
     >
       {children}
-    </Fab>
+    </FloatingFab>
   );
 };
 
-export default withStyles(styles)(SubmitButton);
+export default SubmitButton;
