@@ -104,6 +104,9 @@ const ArchiveBossEditUser = () => {
       setMessage(errorMessage);
     }
   };
+  const handleBackClick = () => {
+    void navigate(-1);
+  };
 
   return (
     <div className={styles.container}>
@@ -235,10 +238,7 @@ const ArchiveBossEditUser = () => {
               >
                 Oppdater bruker
               </Button>
-              <Button
-                className={styles.backButton}
-                onClick={() => navigate(-1)}
-              >
+              <Button className={styles.backButton} onClick={handleBackClick}>
                 Tilbake
               </Button>
             </div>

@@ -27,7 +27,7 @@ const About: FC = () => {
 
   const handleTabChange = (event: SyntheticEvent, newTabValue: number) => {
     setTabValue(newTabValue);
-    navigate(`?tab=${newTabValue}`); // Update URL when tab changes
+    void navigate(`?tab=${newTabValue}`); // Update URL when tab changes
   };
 
   return (
