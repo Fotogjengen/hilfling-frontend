@@ -26,7 +26,9 @@ const MotiveImage: FC<Props> = ({
         <img src={image} width="250px" />
         <div className={styles.imageContainer}>
           <p className={styles.imageTitle}>{title}</p>
-          <p className={styles.imageTitle}>{date}</p>
+          <p className={styles.imageTitle}>
+            {date ? new Date(date).toLocaleDateString() : "N/A"}
+          </p>
         </div>
       </div>
     </>

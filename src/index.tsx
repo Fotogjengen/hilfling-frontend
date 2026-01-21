@@ -1,6 +1,6 @@
 import React, { useState, FC, useEffect, useMemo } from "react";
 
-import { render } from "react-dom";
+import { createRoot } from "react-dom/client";
 import "./index.css";
 import AppRoutes from "./AppRoutes";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -126,4 +126,9 @@ const Root: FC = () => {
   );
 };
 
-render(<Root />, document.getElementById("root"));
+const container = document.getElementById("root");
+if (!container) throw new Error("Root container not found");
+
+const root = createRoot(container);
+
+root.render(<Root />);

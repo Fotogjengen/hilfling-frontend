@@ -5,22 +5,21 @@ import {
   TextField as MuiTextField,
   TextFieldProps,
 } from "@mui/material";
-import { withStyles, WithStyles, createStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import { FormFieldProps } from "./types";
 import { useForm } from "./Form";
 
-const styles = () =>
-  createStyles({
-    helperText: {
-      color: "red",
-    },
-  });
+const ErrorText = styled(FormHelperText)({
+  color: "red",
+});
 
 let idCount = 0;
 
-const TextField: FC<
-  FormFieldProps<TextFieldProps> & WithStyles<typeof styles>
-> = ({ name, label, classes, fullWidth }) => {
+const TextField: FC<FormFieldProps<TextFieldProps>> = ({
+  name,
+  label,
+  fullWidth,
+}) => {
   const { errors, onChange, values } = useForm();
   const [touched, setTouched] = useState<boolean>(false);
   const id = `Select-${name}-${idCount++}`;
@@ -33,9 +32,9 @@ const TextField: FC<
         onBlur={() => setTouched(true)}
         value={values[name]}
       />
-      <FormHelperText className={classes.helperText}>{error}</FormHelperText>
+      <ErrorText>{error}</ErrorText>
     </FormControl>
   );
 };
 
-export default withStyles(styles)(TextField);
+export default TextField;

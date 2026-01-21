@@ -4,32 +4,28 @@ import Wheel from "./components/Wheel";
 import camera from "./icons/camera.png";
 import "./Firstgame.css";
 
-
 const FirstGameStarts: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-
-  const players = (location.state as { players?: string[] } | undefined)?.players ?? [];
+  const players =
+    (location.state as { players?: string[] } | undefined)?.players ?? [];
 
   useEffect(() => {
-    if (!players.length) navigate("/fg/firstgame"); 
+    if (!players.length) void navigate("/fg/firstgame");
   }, [players, navigate]);
 
   return (
     <div id="fullsizeDiv">
-    <div id="div2" style={{ textAlign: "center", fontFamily: 'Inter'}}>
-      <h1>Spillet starter!</h1>
+      <div id="div2" style={{ textAlign: "center", fontFamily: "Inter" }}>
+        <h1>Spillet starter!</h1>
 
-      <div className="wheelCenter">
-      
-        <Wheel participants={players} />
+        <div className="wheelCenter">
+          <Wheel participants={players} />
 
-        <img src={camera} alt="Kamera" id="camera"/>
-
+          <img src={camera} alt="Kamera" id="camera" />
+        </div>
       </div>
-
-    </div>
     </div>
   );
 };

@@ -1,11 +1,11 @@
-import React, { FC, ReactChildren } from "react";
+import React, { FC, ReactNode } from "react";
 import cx from "classnames";
 import styles from "./GuiButton.module.css";
 import { DefaultProps } from "../../types";
 
 interface Props extends DefaultProps {
   /** Content inside */
-  children?: ReactChildren;
+  children?: ReactNode;
   /** Primary button styling */
   primary?: boolean;
   /** Danger button styling (red button) */
