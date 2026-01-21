@@ -1,34 +1,100 @@
+
+
 .grid {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 35px auto 0;
+  padding: 0 16px;
   display: grid;
-  grid-template-columns: repeat(12, 1fr); 
-  gap: 10px;
-  grid-auto-flow: dense;                 
+  grid-template-columns: repeat(12, 1fr);
+  gap: 8px;                   
+  /* IKKE dense */
+  grid-auto-flow: row;
+}
+
+.gap {
+  grid-column: span 4;
+}
+.w4  { grid-column: span 4; }
+
+
+.w6  { grid-column: span 6; }
+
+/* 1 per rad */
+.w12 { grid-column: 1 / -1; }
+
+
+
+
+
+@media (max-width: 1000px) {
+  .grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .w4  { grid-column: span 3; } /* 2 per rad */
+  .w6  { grid-column: span 6; } /* 1 per rad */
+  .w12 { grid-column: span 6; }
+}
+
+/* Mobil */
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .w4,
+  .w6,
+  .w12 {
+    grid-column: span 1;
+  }
 }
 
 
-.w6  { grid-column: span 6; }  
-.w12 { grid-column: 1 / -1; }  
 
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 50px;
+  overflow: hidden;
+  border-radius: 2px;
 
-@media (max-width: 1000px) { .grid { grid-template-columns: repeat(6, 1fr); } }
-@media (max-width: 640px)  { .grid { grid-template-columns: repeat(1, 1fr); } }
+  max-height: 420px;          /* Viktig: holder høyden i sjakk */
+}
+
+/* Helrad-bilder litt lavere → roligere layout */
+.w12.item {
+  min-height: 700px;
+  
+  min-width: 1000px;
+}
+
+.w6.item {
+  min-width: 500px;
+  max-width: 700px;
+}
+
+.w4.item{
+  min-width: 300px;
+  max-width: 500px;
+}
+
+/* ===== BILDER ===== */
 
 .item img {
-  width: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
   height: auto;
+
+
   display: block;
-  margin: 0 auto;      
-  border-radius: 2px;
 }
 
+/* ===== BODY (valgfritt) ===== */
 
 body {
   display: flex;
+  margin: 10;
   justify-content: center;
 }
-
-
-
-
