@@ -1,7 +1,7 @@
 //Encrypts and decrypts data
 import CryptoJS from 'crypto-js';
 
-const SECRET_KEY = process.env.ENCRYPTION_KEY||""; 
+const SECRET_KEY = import.meta.env.VITE_ENCRYPTION_KEY||""; 
 
 // '
 // Encrypt function
