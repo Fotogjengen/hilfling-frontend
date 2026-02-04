@@ -8,7 +8,7 @@ export const SamfundetUserApi = {
   },
 
   getById: async function (id: string): Promise<SamfundetUserDto> {
-    return api.get(`/users/${id}`).then(res => res.data);
+    return api.get(`/users/${id}`).then((res) => res.data);
   },
 
   post: async function (user: SamfundetUserDto): Promise<SamfundetUserDto> {

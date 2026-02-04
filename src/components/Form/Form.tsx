@@ -60,10 +60,13 @@ const Form: FC<FormProps> = ({
     if (isSubmitting) return;
 
     // Mark all fields as touched when attempting to submit
-    const allTouched = Object.keys(initialValues).reduce((acc, key) => {
-      acc[key] = true;
-      return acc;
-    }, {} as Record<string, boolean>);
+    const allTouched = Object.keys(initialValues).reduce(
+      (acc, key) => {
+        acc[key] = true;
+        return acc;
+      },
+      {} as Record<string, boolean>,
+    );
 
     setTouched(allTouched);
 

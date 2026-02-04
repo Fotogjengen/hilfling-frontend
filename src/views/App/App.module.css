@@ -14,20 +14,17 @@
 }
 
 .fakeCaro {
-  
   width: 100%;
   min-height: 25rem;
   background-color: rgb(226, 132, 117);
   display: flex;
   align-items: center;
   justify-content: center;
-
 }
 
 .insta {
   display: none;
 }
-
 
 .rightSide {
   display: flex;
@@ -38,7 +35,6 @@
   margin-bottom: 1rem;
 }
 
-
 @media screen and (min-width: 50rem) {
   .contentContainer {
     grid-template-columns: 10fr 4fr;
@@ -48,6 +44,3 @@
     display: contents;
   }
 }
-
-
- 

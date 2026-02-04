@@ -186,7 +186,7 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
         } else {
           // Fallback when Content-Length (total) is not available
           console.log(`Uploaded ${progressEvent.loaded} bytes`);
-          setProgress(0); 
+          setProgress(0);
         }
       };
 

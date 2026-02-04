@@ -1,19 +1,17 @@
-.motives{
-    background-color: white;
-    padding:2rem;
+.motives {
+  background-color: white;
+  padding: 2rem;
 }
-.motives h2{
-    text-align: center;
-    border-bottom: 0.1rem solid #000000;
-    text-transform: uppercase;
-    padding-bottom: 1rem;
-    color: #1b1b1b;
+.motives h2 {
+  text-align: center;
+  border-bottom: 0.1rem solid #000000;
+  text-transform: uppercase;
+  padding-bottom: 1rem;
+  color: #1b1b1b;
 }
-
 
 .motivesGrid {
-
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
-    gap: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  gap: 2rem;
 }

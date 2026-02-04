@@ -1,10 +1,10 @@
 .container {
-    display: flex;
-    flex-direction: row;
-    margin: 1rem;
-    padding: .5rem;
+  display: flex;
+  flex-direction: row;
+  margin: 1rem;
+  padding: 0.5rem;
 }
 
 .image {
-    margin-right: 1rem;
+  margin-right: 1rem;
 }

@@ -3,5 +3,5 @@
 /* eslint-disable */
 
 export type GangId = {
-    id?: string;
-}
+  id?: string;
+};

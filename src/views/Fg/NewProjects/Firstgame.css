@@ -1,94 +1,83 @@
-
 .h1 {
-    color: rgb(2, 2, 2);
-    left: 1000px;
-
-
-
-
+  color: rgb(2, 2, 2);
+  left: 1000px;
 }
 
 .h2 {
-    color: rgb(176, 24, 24);
-    left: 800px;
-
-
+  color: rgb(176, 24, 24);
+  left: 800px;
 }
 
 #contain {
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-
-
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
 
 #div2 {
-
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    flex-direction: column;
-    top: 100px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  top: 100px;
 }
-
 
 #button-box {
-    width: 300px;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    flex-direction: column;
-    top: 100px;
+  width: 300px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+  top: 100px;
 }
 #play-button {
-    width: 200px;
-    top: 30px;
-    background-color: rgb(2, 2, 2);
-    transition: background-color 0.2s ease, transform 0.1s ease;
-    color: white;
-    font-family: 'Inter', sans-serif;
-    text-transform: uppercase;
-    padding: 10px 24px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
+  width: 200px;
+  top: 30px;
+  background-color: rgb(2, 2, 2);
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
+  color: white;
+  font-family: "Inter", sans-serif;
+  text-transform: uppercase;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
 }
 
-    /* Når du holder musepekeren over knappen */
+/* Når du holder musepekeren over knappen */
 #play-button:hover {
-    background-color: rgb(166, 30, 30);   /* 👈 blir svart ved hover */
-    transform: scale(1.05);
+  background-color: rgb(166, 30, 30); /* 👈 blir svart ved hover */
+  transform: scale(1.05);
 }
 
 #add-button {
-    width: 100px;
-    top: 30px;
-    margin-bottom: 30px;
-    background-color: rgb(2, 2, 2);
+  width: 100px;
+  top: 30px;
+  margin-bottom: 30px;
+  background-color: rgb(2, 2, 2);
 }
 
-
 #add-button:hover {
-
-    background-color: rgb(166, 30, 30);
-    transform: scale(1.05);
+  background-color: rgb(166, 30, 30);
+  transform: scale(1.05);
 }
 
 .wheelCenter {
   position: relative;
-  width: 400px;     /* match canvas-bredden */
-  height: 400px;    /* match canvas-høyden (valgfrie, men ryddig) */
-  margin: 0 auto;   /* sentrér */
+  width: 400px; /* match canvas-bredden */
+  height: 400px; /* match canvas-høyden (valgfrie, men ryddig) */
+  margin: 0 auto; /* sentrér */
 }
 
 /* Kamera plassert til høyre for hjulet */
 #camera {
   position: absolute;
   top: 50%;
-  left: calc(100% + 16px);   /* 16px til høyre for hjulet */
+  left: calc(100% + 16px); /* 16px til høyre for hjulet */
   transform: translateY(-50%);
   width: 150px;
   height: 100px;
@@ -96,10 +85,6 @@
 }
 
 #fullsizeDiv {
-
-
   height: 80vh;
   margin-top: 50px;
-
-
 }

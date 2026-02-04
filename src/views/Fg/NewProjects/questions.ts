@@ -98,5 +98,5 @@ export const questions: string[] = [
   "🏢 Mest sannsynlig til å shotte fra taket?",
   "🤮 Mest sannsynlig til å spy på snabeldassen?",
   "🍺 Henger mest i Bodegaen?",
-  "🥃 Skal chugge eller ta en tequilashot sammen med deg?"
+  "🥃 Skal chugge eller ta en tequilashot sammen med deg?",
 ];
