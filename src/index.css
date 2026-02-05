@@ -1,3 +1,5 @@
+@import "./styles/globals.css";
+
 body,
 html {
   margin: 0 !important;
