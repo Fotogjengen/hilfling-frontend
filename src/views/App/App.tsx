@@ -5,7 +5,6 @@ import CardInformationFotogjengen from "../../components/Frontpage/CardInformati
 import Carousel from "../../components/Frontpage/Carousel/Carousel";
 
 const App: FC = (/* { auth } */) => {
-  throw new Error("Test error boundary");
   return (
     <div className={styles.contentContainer}>
       <div className={styles.leftSide}>
