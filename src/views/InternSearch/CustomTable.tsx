@@ -49,6 +49,7 @@ const CustomTable: FC<Props> = ({
   photosCount,
   pageSize,
 }) => {
+  const { setPhotos, setPhotoIndex, setIsOpen } = useContext(ImageContext);
   const handleChangePage = (event: any, newPage: any) => {
     handlePageChange(newPage);
   };
@@ -57,8 +58,11 @@ const CustomTable: FC<Props> = ({
     setIsGrid(!isGrid);
   };
 
-  const emptyRows = Math.max(0, 10 - photos.length); //Usikker på om vi egentlig trenger denne
-
+  const updateIndex = (index: number) => {
+    setPhotos(photos);
+    setPhotoIndex(index);
+    setIsOpen(true);
+  };
   return (
     <Paper>
       <div className={styles.toggleHeader}>
