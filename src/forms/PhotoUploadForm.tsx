@@ -35,6 +35,7 @@ import { AlertContext, severityEnum } from "../contexts/AlertContext";
 import { styled } from "@mui/material/styles";
 import { LocalizationProvider, nbNO } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { AxiosProgressEvent } from "axios";
 
 export interface PhotoUploadFormIV {
   album: string;
@@ -172,15 +173,21 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
 
       console.log(formData);
 
-      const handleUploadProgress = (progressEvent: ProgressEvent) => {
-        const percentCompleted = Math.round(
-          (progressEvent.loaded * 100) / progressEvent.total,
-        );
-        console.log(`Upload progress: ${percentCompleted}%`);
-        console.log(
-          `Loaded: ${progressEvent.loaded}, Total: ${progressEvent.total}`,
-        );
-        setProgress(percentCompleted);
+      const handleUploadProgress = (progressEvent: AxiosProgressEvent) => {
+        if (progressEvent.total) {
+          const percentCompleted = Math.round(
+            (progressEvent.loaded * 100) / progressEvent.total,
+          );
+          console.log(`Upload progress: ${percentCompleted}%`);
+          console.log(
+            `Loaded: ${progressEvent.loaded}, Total: ${progressEvent.total}`,
+          );
+          setProgress(percentCompleted);
+        } else {
+          // Fallback when Content-Length (total) is not available
+          console.log(`Uploaded ${progressEvent.loaded} bytes`);
+          setProgress(0);
+        }
       };
 
       await PhotoApi.batchUpload(formData, handleUploadProgress);

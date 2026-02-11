@@ -17,7 +17,10 @@ const InfoTab: FC = () => {
             Dersom du bruker bilder fra denne nettsiden skal det krediteres med
             følgende tekst:
           </Typography>
-          <Paper className={cn(styles.cardFoto, styles.redBackground)}>
+          <Paper
+            className={cn(styles.cardFoto, styles.redBackground)}
+            sx={{ padding: "15px" }}
+          >
             <Typography>Foto: foto.samfundet.no</Typography>
           </Paper>
           <br />

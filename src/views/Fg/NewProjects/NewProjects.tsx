@@ -1,7 +1,7 @@
 import React from "react";
 import { experimentalStyled as styled } from "@mui/material/styles";
 import { Grid, Paper, Typography } from "@mui/material";
-import VolcanoIcon from '@mui/icons-material/Volcano';
+import VolcanoIcon from "@mui/icons-material/Volcano";
 import { Link } from "react-router-dom";
 
 const NewProjects = () => {
@@ -9,8 +9,8 @@ const NewProjects = () => {
 
   const menuLinks = [
     {
-      name: "Kull 25",
-      to: "/doesNotExist",
+      name: "Kull 26",
+      to: "/fg/spillmeny",
       icon: <VolcanoIcon style={{ fontSize: IconSize }} />,
     },
   ];

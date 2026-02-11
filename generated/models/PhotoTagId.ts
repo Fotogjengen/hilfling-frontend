@@ -3,5 +3,5 @@
 /* eslint-disable */
 
 export type PhotoTagId = {
-    id?: string;
-}
+  id?: string;
+};

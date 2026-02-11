@@ -3,5 +3,5 @@
 /* eslint-disable */
 
 export type CategoryId = {
-    id: string;
-}
+  id: string;
+};

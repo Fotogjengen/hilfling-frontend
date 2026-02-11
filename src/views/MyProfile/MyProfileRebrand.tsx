@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./MyProfileRebrand.css";
 import axios from "axios";
-// import { PhotoApi } from "../../utils/api/PhotoApi";
+import EditProfilepic from "../../components/MyProfile/EditProfilepic/EditProfilpic";
 // import { AlertContext, severityEnum } from "../../contexts/AlertContext";
-
-
 
 interface UserInfo {
   profilePicure: string;
@@ -22,24 +20,6 @@ interface UserInfo {
   role?: string | " "; // "Fotograf" or "Web"
   admissionSemester?: string;
 }
-
-// const mockUser:UserInfo = {  // Mock-user for test purpose
-//   profilePicure : "https://media1.tenor.com/images/79f8be09f39791c6462d30c5ce42e3be/tenor.gif?itemid=18386674",
-//   firstName : "Hallgeir",
-//   lastName: "Kvadsheim",
-//   userName : "Brukernavn : HallKva",
-//   adress : "Herman Krags vei 13",
-//   zip : "7051",
-//   city : "Trondheim",
-//   phoneNumber : "4712345657",
-//   // eMail: "Hallgair.K@gmail.com" ,
-//   samfundetEMail : "Hallkva@samfundet.no" ,
-//   currentPosition :  "Økonomisjef",
-//   formerPositions : ["Miljøbilde", "Nyoptatt"],
-
-//   admissionSemester : "Høst 25"
-
-// };
 
 const emptyUser: UserInfo = {
   profilePicure:
@@ -62,14 +42,6 @@ const emptyUser: UserInfo = {
 //http://localhost:8000/photo_gang_bangers/7a89444f-25f6-44d9-8a73-94587d72b839
 
 const MyProfileRebrand = () => {
-  // const { setMessage, setSeverity, setOpen } = useContext(AlertContext);
-
-  // const setError = (e: string) => {
-  //   setOpen(true);
-  //   setSeverity(severityEnum.ERROR);
-  //   setMessage("Error");
-  // };
-
   const webPositions: string[] = [
     "websjef",
     "benkmester",
@@ -79,10 +51,9 @@ const MyProfileRebrand = () => {
   ];
 
   const [currentUser, setCurrentUser] = useState<UserInfo>(emptyUser);
-  // const [photoObject, setPhotoObject] = useState<string>(""); // This is part of the rendering for the display photo. 
-                                                                 // The idea is that the user one day will be albe to change the picture as they want
-                                                                 // Right now there is no support in the database or backend for this, so there is just hard coded a picture of samfundet in its place
-                                                                 // Parts of the code neede to implement this is commented out further down
+
+  const [isHovered, setHoverVariable] = useState(false);
+  const [editProfilepic, setEditProfilepic] = useState(false);
 
   useEffect(() => {
     const getUser = () => {
@@ -141,32 +112,6 @@ const MyProfileRebrand = () => {
     getUser();
   }, []);
 
-  // Parts of the implementation needed to implement display photo as intended (line 146-168)
-
-  // useEffect(() => {
-  //   const getDisplayPhoto = () => {
-  //     PhotoApi.getById("08ffaae9-f238-3c36-ad44-27f4682b01a6") //This should be changed to not be hard code at a later time
-
-  //       .then((res) => {
-  //         const picture_url = res.largeUrl;
-  //         setPhotoObject(picture_url);
-  //       })
-
-  //       .catch((e) => {
-  //         setError(e);
-  //         console.log("Error fetching Display picture");
-  //       });
-  //   };
-
-    // PhotoApi.getById("0f07f0c0-c402-3cf9-9e58-4aca2e9c56f3")
-    // .then((res) => console.log(res))
-    // .catch((err) => {
-    //   console.log(err.message)
-    // });
-
-  //   getDisplayPhoto();
-  // }, []);
-
   return (
     <>
       <div className="main_card">
@@ -182,14 +127,32 @@ const MyProfileRebrand = () => {
           <div className="card_1">
             {" "}
             {/* Contains profile picture and personal info*/}
-            <div className="profile_picture">
+            {editProfilepic && ( // Renders pop up for changing profile picture
+              <EditProfilepic setEditProfilepic={setEditProfilepic} />
+            )}
+            <div
+              className="profile_picture"
+              onMouseOver={() => setHoverVariable(true)}
+              onMouseLeave={() => setHoverVariable(false)}
+            >
               <div className="profile_picture_img">
-                <img
-                  src={currentUser.profilePicure}
-                  alt="Profile"
-                  height="225"
-                  width="225"
-                />
+                {!isHovered && (
+                  <img
+                    src={currentUser.profilePicure}
+                    alt="Profile"
+                    height="225"
+                    width="225"
+                  />
+                )}
+
+                {isHovered && (
+                  <button
+                    className="new_profile_picture_button"
+                    onClick={() => setEditProfilepic(true)}
+                  >
+                    Legg til nytt profilbilde
+                  </button>
+                )}
               </div>
             </div>
             <div className="positions">

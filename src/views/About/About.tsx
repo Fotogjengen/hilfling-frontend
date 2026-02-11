@@ -27,7 +27,7 @@ const About: FC = () => {
 
   const handleTabChange = (event: SyntheticEvent, newTabValue: number) => {
     setTabValue(newTabValue);
-    navigate(`?tab=${newTabValue}`); // Update URL when tab changes
+    void navigate(`?tab=${newTabValue}`); // Update URL when tab changes
   };
 
   return (
@@ -41,7 +41,7 @@ const About: FC = () => {
           variant="fullWidth"
           aria-label="about tabs"
         >
-          <Tab label="Om oss" />
+          <Tab label="Fotogjengere" />
           <Tab label="Info" />
           <Tab label="Historie" />
         </Tabs>

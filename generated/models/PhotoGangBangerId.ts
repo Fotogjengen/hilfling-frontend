@@ -3,5 +3,5 @@
 /* eslint-disable */
 
 export type PhotoGangBangerId = {
-    id?: string;
-}
+  id?: string;
+};

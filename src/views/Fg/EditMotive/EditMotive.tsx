@@ -85,7 +85,7 @@ const EditMotive = () => {
   const handleClickPatch = () => {
     MotiveApi.patch(motive)
       .then(() => {
-        navigate("/intern/motive");
+        void navigate("/intern/motive");
         setOpen(true);
         setSeverity(severityEnum.SUCCESS);
         setMessage(`Motivet ${motive.title} ble oppdatert`);
@@ -112,7 +112,7 @@ const EditMotive = () => {
   const handleDelete = () => {
     // TODO: We don't have an endpoint for deleting motives yet
     console.log("deleted");
-    navigate("/intern/motive");
+    void navigate("/intern/motive");
     /* MotiveApi.delete(motive.motiveId.id)
       .then(() => {
         navigate("/intern/motive");

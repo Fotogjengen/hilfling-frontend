@@ -14,13 +14,15 @@ interface ThreeDotsItem {
 
 interface Props extends DefaultProps {
   children?: ReactNode;
-  items?: [ThreeDotsItem];
+  items?: ThreeDotsItem[]; // Changed from [ThreeDotsItem]
 }
 
-const GuiOverflowMenu: FC<Props> = () => {
+const GuiOverflowMenu: FC<Props> = ({ items }: Props) => {
   const { ref, isVisible, setIsVisible } = useVisible(false);
   const content = "showContent";
-  const mock: [ThreeDotsItem] = [
+
+  // Use items prop if provided, otherwise use mock data
+  const menuItems = items || [
     {
       icon: Pencil,
       title: "Rediger",
@@ -28,7 +30,8 @@ const GuiOverflowMenu: FC<Props> = () => {
   ];
 
   const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
-    if (event.key === "escape") {
+    if (event.key === "Escape") {
+      // Changed from "escape"
       setIsVisible(!isVisible);
     }
   };
@@ -47,7 +50,7 @@ const GuiOverflowMenu: FC<Props> = () => {
       <div>
         {isVisible && (
           <OverflowMenu2 overflowTabClass={content}>
-            {mock.map((item, index) => (
+            {menuItems.map((item, index) => (
               <GuiOverflowMenuItem
                 key={`overflow-menu-item-${index}`}
                 text={item.title}

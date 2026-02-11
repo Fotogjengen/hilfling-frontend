@@ -2,13 +2,13 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { PurchaseOrderDto } from './PurchaseOrderDto';
+import type { PurchaseOrderDto } from "./PurchaseOrderDto";
 
 export type PagePurchaseOrderDto = {
-    offset?: number;
-    limit?: number;
-    totalRecords?: number;
-    pageSize?: number;
-    totalPages?: number;
-    currentList?: Array<PurchaseOrderDto>;
-}
+  offset?: number;
+  limit?: number;
+  totalRecords?: number;
+  pageSize?: number;
+  totalPages?: number;
+  currentList?: Array<PurchaseOrderDto>;
+};

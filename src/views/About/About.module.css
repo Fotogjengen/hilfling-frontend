@@ -1,4 +1,23 @@
 .redBackground {
+  background: #605c5c !important;
+  color: #f4f4f4 !important;
+}
+
+.blueBackground {
+  background: #8f4650 !important;
+  color: #f4f4f4 !important;
+}
+
+.greenBackground {
+  background: #be3144 !important;
+  color: #f4f4f4 !important;
+}
+
+.widthFotogjengenBanner {
+  padding: 20px;
+}
+
+/* .redBackground {
   background: #da7777 !important;
 }
 
@@ -8,7 +27,7 @@
 
 .greenBackground {
   background: #BADA77 !important;
-}
+} */
 
 .round {
   border-radius: 50%;
@@ -24,24 +43,19 @@ h6 {
   border-radius: 0.5em;
   width: fit-content;
   padding-bottom: 0.2em;
-  
 }
 
 .cardFoto {
   width: fit-content;
-  padding: 0.1em 0.4em 
+  padding: 0.1em 0.4em;
 }
 
 a {
   font-size: inherit;
 }
 
-
-
 .gangBangers {
   width: 100%;
   display: flex;
   flex-wrap: wrap;
 }
-
-

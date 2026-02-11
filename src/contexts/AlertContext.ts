@@ -11,7 +11,14 @@ interface IAlertContext {
   message: string;
   open: boolean;
   severity: "error" | "success" | "info" | "warning";
-  setSeverity: Dispatch<SetStateAction<severityEnum.ERROR | severityEnum.SUCCESS | severityEnum.INFO | severityEnum.WARNING>>;
+  setSeverity: Dispatch<
+    SetStateAction<
+      | severityEnum.ERROR
+      | severityEnum.SUCCESS
+      | severityEnum.INFO
+      | severityEnum.WARNING
+    >
+  >;
   setOpen: Dispatch<SetStateAction<boolean>>;
   setMessage: Dispatch<SetStateAction<string>>;
 }

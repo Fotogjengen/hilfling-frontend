@@ -2,20 +2,17 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { EventOwnerId } from './EventOwnerId';
+import type { EventOwnerId } from "./EventOwnerId";
 
 export type EventOwnerDto = {
-    eventOwnerId: EventOwnerId;
-    name: EventOwnerDto.name;
-}
+  eventOwnerId: EventOwnerId;
+  name: EventOwnerDto.name;
+};
 
 export namespace EventOwnerDto {
-
-    export enum name {
-        ISFIT = 'ISFIT',
-        UKA = 'UKA',
-        SAMFUNDET = 'Samfundet',
-    }
-
-
+  export enum name {
+    ISFIT = "ISFIT",
+    UKA = "UKA",
+    SAMFUNDET = "Samfundet",
+  }
 }

@@ -7,10 +7,10 @@ interface Props extends DefaultProps {
   icon: FC;
 }
 
-const GuiOverflowMenuItem: FC<Props> = ({ text, icon }: Props) => {
+const GuiOverflowMenuItem: FC<Props> = ({ text, icon: Icon }: Props) => {
   return (
     <div className={styles.OverflowMenuItem}>
-      {icon}
+      <Icon />
       {text}
     </div>
   );
