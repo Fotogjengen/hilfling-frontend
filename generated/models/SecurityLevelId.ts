@@ -3,5 +3,5 @@
 /* eslint-disable */
 
 export type SecurityLevelId = {
-    id: string;
-}
+  id: string;
+};

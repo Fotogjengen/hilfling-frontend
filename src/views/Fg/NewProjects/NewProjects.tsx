@@ -1,7 +1,7 @@
 import React from "react";
 import { experimentalStyled as styled } from "@mui/material/styles";
 import { Grid, Paper, Typography } from "@mui/material";
-import VolcanoIcon from '@mui/icons-material/Volcano';
+import VolcanoIcon from "@mui/icons-material/Volcano";
 import { Link } from "react-router-dom";
 
 const NewProjects = () => {

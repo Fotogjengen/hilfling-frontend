@@ -16,7 +16,7 @@
   width: 33%;
 }
 
-.users{
+.users {
   display: flex;
   justify-content: center;
 }
@@ -47,7 +47,7 @@
   position: "sticky";
 }
 
-.createUser{
+.createUser {
   padding: 20px;
   background-color: lightgreen;
   color: white;
@@ -55,6 +55,6 @@
   text-align: center;
 }
 
-.createUser:hover{
+.createUser:hover {
   background-color: lightseagreen;
 }

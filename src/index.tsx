@@ -4,7 +4,8 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import AppRoutes from "./AppRoutes";
 import { BrowserRouter as Router } from "react-router-dom";
-import { Box, ThemeProvider } from "@mui/material";
+import { Box, ThemeProvider, Typography, Button } from "@mui/material";
+import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import { GuiFooter } from "./gui-components";
 import HeaderComponent from "./components/Header/Header";
 import { theme } from "./styles/muiStyles";
@@ -18,6 +19,48 @@ import { createImgUrl } from "./utils/createImgUrl/createImgUrl";
 import { AuthenticationContext } from "./contexts/AuthenticationContext";
 import Cookies from "js-cookie";
 import { decryptData, encryptData } from "./utils/encryption/encrypt";
+
+function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
+  return (
+    <Box
+      sx={{
+        m: 4,
+        p: 3,
+        backgroundColor: "#fff0f0",
+        border: "1px solid #ff0000",
+        borderRadius: 1,
+      }}
+    >
+      <Typography variant="h5" color="error" gutterBottom>
+        Something went wrong
+      </Typography>
+      <Typography
+        variant="body2"
+        component="pre"
+        sx={{
+          whiteSpace: "pre-wrap",
+          wordBreak: "break-word",
+          fontFamily: "monospace",
+          backgroundColor: "#fff",
+          p: 2,
+          borderRadius: 1,
+        }}
+      >
+        {error instanceof Error ? error.message : String(error)}
+        {"\n\n"}
+        {error instanceof Error ? error.stack : ""}
+      </Typography>
+      <Button
+        variant="outlined"
+        color="error"
+        sx={{ mt: 2 }}
+        onClick={resetErrorBoundary}
+      >
+        Try again
+      </Button>
+    </Box>
+  );
+}
 
 const Root: FC = () => {
   // Hooks for the Alert component
@@ -87,7 +130,7 @@ const Root: FC = () => {
   );
 
   return (
-    <>
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
       <ThemeProvider theme={theme}>
         <ImageContext.Provider value={imageContextValue}>
           <AuthenticationContext.Provider value={authContextValue}>
@@ -122,7 +165,7 @@ const Root: FC = () => {
           />
         </ImageContext.Provider>
       </ThemeProvider>
-    </>
+    </ErrorBoundary>
   );
 };
 

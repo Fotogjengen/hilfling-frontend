@@ -51,10 +51,8 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
   const [places, setPlaces] = useState<PlaceDto[]>([]);
   const [categories, setCategories] = useState<CategoryDto[]>([]);
   const [securityLevels, setSecurityLevels] = useState<SecurityLevelDto[]>([]);
-  const [,setPhotoTags] = useState<PhotoTagDto[]>([]);
-  const [minDate] = React.useState<Dayjs | null>(
-    dayjs("1910-09-30"),
-  );
+  const [, setPhotoTags] = useState<PhotoTagDto[]>([]);
+  const [minDate] = React.useState<Dayjs | null>(dayjs("1910-09-30"));
   const [dateFrom, setDateFrom] = React.useState<Dayjs | null>(
     dayjs("1910-09-30"),
   );

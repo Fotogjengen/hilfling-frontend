@@ -24,7 +24,9 @@ const Secondgame = () => {
   }
 
   const shuffledQuestions = useMemo(() => shuffleArray(questions), [questions]);
-  const [question, setQuestion] = useState<string>("Klar for 100 (120) questions!?!?");
+  const [question, setQuestion] = useState<string>(
+    "Klar for 100 (120) questions!?!?",
+  );
   const [everyTenth, setTenth] = useState<string>("");
   const [splash, setSplashh] = useState<string>("");
   const [nr, setNr] = useState<number>(1);
@@ -32,28 +34,39 @@ const Secondgame = () => {
   // -------------------- SPLASH ANIMATION LOGIC --------------------
   const [droplets, setDroplets] = useState<Droplet[]>([]);
 
-  const triggerSplash = useCallback((centerx: number, centery: number, rectwidth: number, rectheight: number,count = 100) => {
-    const newDroplets: Droplet[] = Array.from({ length: count }).map((_, i) => {
-      const rand = Math.random(); // <--- unikt for hver dråpe
-      const x = centerx + (rand - 0.5) * rectwidth;
+  const triggerSplash = useCallback(
+    (
+      centerx: number,
+      centery: number,
+      rectwidth: number,
+      rectheight: number,
+      count = 100,
+    ) => {
+      const newDroplets: Droplet[] = Array.from({ length: count }).map(
+        (_, i) => {
+          const rand = Math.random(); // <--- unikt for hver dråpe
+          const x = centerx + (rand - 0.5) * rectwidth;
 
-      // Startfarge basert på x-posisjon
-      const t = (x - (centerx - rectwidth / 2)) / rectwidth;
-      const hue = 240 - 240 * t; // blå → rød
-      const color = `hsl(${hue}, 100%, 50%)`;
-      return {
-        id: Date.now() + i,
-        x: centerx + (rand - 0.5) * rectwidth, // spres horisontalt rundt midten
-        y: 1.7*centery - Math.sin(rand * Math.PI) * rectheight*0.7, // gir “kurve”
-        angle: Math.random() * Math.PI *0.5 - Math.PI * 0.75,
-        velocity: 300 + Math.random() * 200,
-        life: 0,
-        color,
-      };
-    });
+          // Startfarge basert på x-posisjon
+          const t = (x - (centerx - rectwidth / 2)) / rectwidth;
+          const hue = 240 - 240 * t; // blå → rød
+          const color = `hsl(${hue}, 100%, 50%)`;
+          return {
+            id: Date.now() + i,
+            x: centerx + (rand - 0.5) * rectwidth, // spres horisontalt rundt midten
+            y: 1.7 * centery - Math.sin(rand * Math.PI) * rectheight * 0.7, // gir “kurve”
+            angle: Math.random() * Math.PI * 0.5 - Math.PI * 0.75,
+            velocity: 300 + Math.random() * 200,
+            life: 0,
+            color,
+          };
+        },
+      );
 
-    setDroplets((prev) => [...prev, ...newDroplets]);
-  }, []);
+      setDroplets((prev) => [...prev, ...newDroplets]);
+    },
+    [],
+  );
 
   const handleAnimationEnd = useCallback((id: number) => {
     setDroplets((prev) => prev.filter((d) => d.id !== id));
@@ -71,8 +84,9 @@ const Secondgame = () => {
       setDroplets((prev) =>
         prev
           .map((d) => {
-            const vx = (Math.cos(d.angle) * d.velocity)*0.8;
-            const vy = (Math.sin(d.angle) * d.velocity + gravity * d.life)*0.8;
+            const vx = Math.cos(d.angle) * d.velocity * 0.8;
+            const vy =
+              (Math.sin(d.angle) * d.velocity + gravity * d.life) * 0.8;
 
             const newX = d.x + vx * dt;
             const newY = d.y + vy * dt;
@@ -88,10 +102,10 @@ const Secondgame = () => {
               y: newY,
               life: newLife,
               velocity: d.velocity * 0.98,
-              color
+              color,
             };
           })
-          .filter((d) => d.y < window.innerHeight + 100)
+          .filter((d) => d.y < window.innerHeight + 100),
       );
 
       requestAnimationFrame(animate);
@@ -120,7 +134,7 @@ const Secondgame = () => {
         const rect = container.getBoundingClientRect();
         triggerSplash(
           rect.left + rect.width / 2,
-          rect.top-rect.height,
+          rect.top - rect.height,
           rect.width,
           rect.height,
         );

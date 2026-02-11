@@ -5,14 +5,14 @@ import UploadIcon from "@mui/icons-material/Upload";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import ChildFriendlyIcon from '@mui/icons-material/ChildFriendly';
-import YardIcon from '@mui/icons-material/Yard';
+import ChildFriendlyIcon from "@mui/icons-material/ChildFriendly";
+import YardIcon from "@mui/icons-material/Yard";
 import { Link } from "react-router-dom";
 
 import { experimentalStyled as styled } from "@mui/material/styles";
 import { Grid, Paper, Typography } from "@mui/material";
 import { AuthenticationContext } from "../../../contexts/AuthenticationContext";
-import { LiquorRounded} from "@mui/icons-material";
+import { LiquorRounded } from "@mui/icons-material";
 
 const FgNav = () => {
   const { position } = useContext(AuthenticationContext);

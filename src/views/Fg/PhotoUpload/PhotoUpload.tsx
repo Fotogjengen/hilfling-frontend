@@ -19,7 +19,9 @@ const initialValues: PhotoUploadFormIV = {
 const PhotoUpload: FC = () => {
   return (
     <div className={styles.photoUpload}>
-      <Typography variant="h2" gutterBottom>Last opp bilder</Typography>
+      <Typography variant="h2" gutterBottom>
+        Last opp bilder
+      </Typography>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <PhotoUploadForm initialValues={initialValues} />

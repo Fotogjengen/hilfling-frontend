@@ -2,20 +2,17 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { KType } from './KType';
+import type { KType } from "./KType";
 
 export type KTypeProjection = {
-    variance?: KTypeProjection.variance;
-    type?: KType;
-}
+  variance?: KTypeProjection.variance;
+  type?: KType;
+};
 
 export namespace KTypeProjection {
-
-    export enum variance {
-        INVARIANT = 'INVARIANT',
-        IN = 'IN',
-        OUT = 'OUT',
-    }
-
-
+  export enum variance {
+    INVARIANT = "INVARIANT",
+    IN = "IN",
+    OUT = "OUT",
+  }
 }
