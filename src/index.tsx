@@ -18,6 +18,7 @@ import { createImgUrl } from "./utils/createImgUrl/createImgUrl";
 import { AuthenticationContext } from "./contexts/AuthenticationContext";
 import Cookies from "js-cookie";
 import { decryptData, encryptData } from "./utils/encryption/encrypt";
+import  DownloadButton  from "./components/DownloadImages/DownloadButton/DownloadButton"
 
 const Root: FC = () => {
   // Hooks for the Alert component
@@ -119,6 +120,8 @@ const Root: FC = () => {
             index={photoIndex}
             onClose={() => setIsOpen(false)}
             onIndexChange={(newIndex) => setPhotoIndex(newIndex)}
+            toolbarRender={({ images, index }) => (
+                  <DownloadButton/>)}
           />
         </ImageContext.Provider>
       </ThemeProvider>
