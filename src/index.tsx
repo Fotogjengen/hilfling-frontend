@@ -19,6 +19,7 @@ import { AuthenticationContext } from "./contexts/AuthenticationContext";
 import Cookies from "js-cookie";
 import { decryptData, encryptData } from "./utils/encryption/encrypt";
 import  DownloadButton  from "./components/DownloadImages/DownloadButton/DownloadButton"
+import CreditPopUp from "./components/DownloadImages/CreditPopUp/CreditPopUp";
 
 const Root: FC = () => {
   // Hooks for the Alert component
@@ -32,6 +33,10 @@ const Root: FC = () => {
   // Hooks for Authentication
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [position, setPosition] = useState("oo"); //Change maybe? verv?
+
+  // Hooks for rendering credit warning
+      const [triggerCreditPopUp, setTriggerCreditPopUp] = useState(false)
+      const [downloadAbort, setdownloadAbort] = useState(false);
 
   // Checks if the user is logged in when the page loads
   useEffect(() => {
@@ -121,8 +126,11 @@ const Root: FC = () => {
             onClose={() => setIsOpen(false)}
             onIndexChange={(newIndex) => setPhotoIndex(newIndex)}
             toolbarRender={({ images, index }) => (
-                  <DownloadButton/>)}
+                  <DownloadButton setTriggerCreditPopUp={setTriggerCreditPopUp} />)} 
           />
+          {triggerCreditPopUp && (
+              <CreditPopUp setTriggerCreditPopUp={setTriggerCreditPopUp} setDownloadAbort={setdownloadAbort}/>
+            )}
         </ImageContext.Provider>
       </ThemeProvider>
     </>
