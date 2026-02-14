@@ -21,6 +21,23 @@
     padding: 1rem;
 }
 
+.headerContainerStyle{
+    display: flex;
+    flex-direction: row;
+    /* justify-content: center; */
+    /* align-items: center; */
+    padding: 1rem;
+}
+
+.textContainerStyle{
+    display: flex;
+    flex-direction: column;
+    /* justify-content: center; */
+    /* align-items: center; */
+    padding: 2rem;
+}
+
+
 .buttonContainerStyle{
     display: flex;
     flex-direction: row;

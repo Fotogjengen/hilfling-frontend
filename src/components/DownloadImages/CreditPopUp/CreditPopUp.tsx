@@ -30,14 +30,14 @@ const CreditPopUp =({ setTriggerCreditPopUp, setDownloadAbort }: Props)  => {
     
     return (
         <Paper className= {styles.mainContainerStyle}>
-            <div>
+            <div className= {styles.exitContainerStyle}>
                 <IconButton onClick={() => handleAbort()}>
                     <CloseIcon/>
                 </IconButton>
             </div>
 
 
-            <div>
+            <div className={styles.textContainerStyle}>
                 <h1> Husk kreditering! </h1>
                 <p>
                     Alle bilder tatt av fotogjengen skal krediteres med: <br/><br/>
