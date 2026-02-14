@@ -22,29 +22,19 @@ import { decryptData, encryptData } from "./utils/encryption/encrypt";
 
 function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
   return (
-    <Box
-      sx={{
-        m: 4,
-        p: 3,
-        backgroundColor: "#fff0f0",
-        border: "1px solid #ff0000",
-        borderRadius: 1,
-      }}
-    >
-      <Typography variant="h5" color="error" gutterBottom>
+    <Box className="errorFallback">
+      <Typography
+        variant="h5"
+        color="error"
+        gutterBottom
+        className="errorFallbackTitle"
+      >
         Something went wrong
       </Typography>
       <Typography
         variant="body2"
         component="pre"
-        sx={{
-          whiteSpace: "pre-wrap",
-          wordBreak: "break-word",
-          fontFamily: "monospace",
-          backgroundColor: "#fff",
-          p: 2,
-          borderRadius: 1,
-        }}
+        className="errorFallbackMessage"
       >
         {error instanceof Error ? error.message : String(error)}
         {"\n\n"}
@@ -53,7 +43,7 @@ function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
       <Button
         variant="outlined"
         color="error"
-        sx={{ mt: 2 }}
+        className="errorFallbackButton"
         onClick={resetErrorBoundary}
       >
         Try again
@@ -143,7 +133,7 @@ const Root: FC = () => {
                   severity={severity}
                 />
               )}
-              <Box sx={{ m: "2rem" }}>
+              <Box className="appContainer">
                 <Router>
                   <HeaderComponent />
                   <AppRoutes />
