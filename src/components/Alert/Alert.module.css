@@ -1,14 +1,10 @@
-
 .collapse {
-    position: fixed;
-    top: 1rem;
-    z-index: 20;
-    width: calc(100% - 4rem);
-    cursor: pointer;
-    margin-left: 2rem;
-    margin-right: 2rem;
-    box-shadow: 1rem, 1rem, 1rem, 1rem;
+  position: fixed;
+  top: 1rem;
+  z-index: 20;
+  width: calc(100% - 4rem);
+  cursor: pointer;
+  margin-left: 2rem;
+  margin-right: 2rem;
+  box-shadow: 1rem, 1rem, 1rem, 1rem;
 }
-
-
-

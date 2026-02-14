@@ -30,37 +30,36 @@ const SpillMeny = () => {
   }));
 
   return (
-    <div style={{ display: "flex", flexDirection: "row", gap: "60px", marginTop: "100px"}}>
-  
-        <Grid
-          container
-          spacing={3}
-          justifyContent="center"  
-          alignItems="center"
-        
-  >
-    {menuLinksOne.map((link, index) => (
-      <Grid item key={index}>
-        <Link to={link.to}>
-          <MainItem>
-            <Typography>{link.name}</Typography>
-            {link.icon}
-          </MainItem>
-        </Link>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        gap: "60px",
+        marginTop: "100px",
+      }}
+    >
+      <Grid container spacing={3} justifyContent="center" alignItems="center">
+        {menuLinksOne.map((link, index) => (
+          <Grid item key={index}>
+            <Link to={link.to}>
+              <MainItem>
+                <Typography>{link.name}</Typography>
+                {link.icon}
+              </MainItem>
+            </Link>
+          </Grid>
+        ))}
+        {menuLinksTwo.map((link, index) => (
+          <Grid item key={index}>
+            <Link to={link.to}>
+              <MainItem>
+                <Typography>{link.name}</Typography>
+                {link.icon}
+              </MainItem>
+            </Link>
+          </Grid>
+        ))}
       </Grid>
-    ))}
-    {menuLinksTwo.map((link, index) => (
-      <Grid item key={index}>
-        <Link to={link.to}>
-          <MainItem>
-            <Typography>{link.name}</Typography>
-            {link.icon}
-          </MainItem>
-        </Link>
-      </Grid>
-    ))}
-  </Grid>
-
     </div>
   );
 };

@@ -3,5 +3,5 @@
 /* eslint-disable */
 
 export type SemesterStart = {
-    value?: string;
-}
+  value?: string;
+};

@@ -2,9 +2,9 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { GangId } from './GangId';
+import type { GangId } from "./GangId";
 
 export type GangDto = {
-    gangId?: GangId;
-    name?: string;
-}
+  gangId?: GangId;
+  name?: string;
+};

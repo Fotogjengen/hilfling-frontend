@@ -12,9 +12,16 @@ const LoginButton = () => {
   return (
     <>
       {isAuthenticated ? (
-        <button className={styles.button} onClick={() => setIsAuthenticated(false)}>Logg ut</button>
+        <button
+          className={styles.button}
+          onClick={() => setIsAuthenticated(false)}
+        >
+          Logg ut
+        </button>
       ) : (
-        <button className={styles.button} onClick={() => setLoginForm(true)}>Logg inn</button>
+        <button className={styles.button} onClick={() => setLoginForm(true)}>
+          Logg inn
+        </button>
       )}
       {loginForm && <LoginPopUp setLoginForm={setLoginForm} />}
     </>

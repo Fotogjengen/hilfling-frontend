@@ -2,38 +2,16 @@
   "name": "hilfling-frontend",
   "version": "0.1.0",
   "private": true,
-  "overrides": {
-    "nth-check": "^2.1.1",
-    "postcss": "^8.4.31",
-    "webpack-dev-server": "^4.15.1",
-    "svgo": "^2.8.0"
-  },
   "engines": {
     "node": ">=16.0.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --passWithNoTests",
-    "eject": "react-scripts eject",
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
     "lint": "eslint --ext .ts,.tsx .",
     "lint:fix": "eslint --fix --ext .ts,.tsx .",
     "codegen": "openapi --exportSchemas false --exportCore false --exportServices false -i ../hilfling_backend/target/openapi.json --output ./generated"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -47,15 +25,15 @@
     "crypto-js": "^4.2.0",
     "dayjs": "^1.11.18",
     "formik": "^2.4.6",
-    "hilfling-frontend": "file:",
     "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-dropzone": "^11.4.2",
+    "react-error-boundary": "^6.1.0",
     "react-photo-view": "^1.2.7",
     "react-router-dom": "^7.12.0",
-    "typescript": "^4.9.5",
+    "typescript": "^5.0.0",
     "yup": "^1.7.0"
   },
   "devDependencies": {
@@ -66,9 +44,12 @@
     "@types/react-dom": "^18.3.7",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
+    "@vitejs/plugin-react": "^4.3.4",
     "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-react": "^7.37.5",
     "lint-staged": "16.1.6",
     "prettier": "3.6.2",
-    "react-scripts": "5.0.1"
+    "vite": "^6.3.5"
   }
 }

@@ -3,5 +3,5 @@
 /* eslint-disable */
 
 export type AlbumId = {
-    id: string;
-}
+  id: string;
+};

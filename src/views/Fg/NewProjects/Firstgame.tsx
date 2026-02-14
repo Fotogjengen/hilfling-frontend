@@ -8,7 +8,9 @@ const Firstgame = () => {
 
   const addInput = () => setPlayers([...players, ""]);
   const handleChange = (i: number, v: string) => {
-    const next = [...players]; next[i] = v; setPlayers(next);
+    const next = [...players];
+    next[i] = v;
+    setPlayers(next);
   };
 
   return (
@@ -25,17 +27,22 @@ const Firstgame = () => {
             onChange={(e) => handleChange(i, e.target.value)}
           />
         ))}
-
       </Stack>
       <div id="button-box">
-        <Button id="add-button" variant="contained" onClick={addInput}>Legg til</Button>
+        <Button id="add-button" variant="contained" onClick={addInput}>
+          Legg til
+        </Button>
 
-
-        <Link to="/fg/firstgamestarts" state={{ players }} style={{ textDecoration: "none" }}>
-          <Button id="play-button" variant="contained">Start game</Button>
+        <Link
+          to="/fg/firstgamestarts"
+          state={{ players }}
+          style={{ textDecoration: "none" }}
+        >
+          <Button id="play-button" variant="contained">
+            Start game
+          </Button>
         </Link>
       </div>
-      
     </div>
   );
 };

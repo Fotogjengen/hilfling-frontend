@@ -1,15 +1,15 @@
-.notFound p{
-    padding-top:4rem;
-    font-size: 15pt;
-    text-align: left;
-    font-family: "Raleway", Arial, Helvetica, sans-serif;
+.notFound p {
+  padding-top: 4rem;
+  font-size: 15pt;
+  text-align: left;
+  font-family: "Raleway", Arial, Helvetica, sans-serif;
 }
-.notFound img{
-    width:100%;
+.notFound img {
+  width: 100%;
 }
 .container {
-    padding-top:4rem;
-    width: 50%;
-    margin: auto;
-    text-align: center;
+  padding-top: 4rem;
+  width: 50%;
+  margin: auto;
+  text-align: center;
 }

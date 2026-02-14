@@ -6,7 +6,7 @@ name: CI-CD
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ master ]
+    branches: [master]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -72,19 +72,17 @@ jobs:
           prerelease: true
           files: ./build/
 
-
-
   lint:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v2
-        - name: Run eslint with reviewdog
-          # You may pin to the exact commit or the version.
-          # uses: reviewdog/action-eslint@c93d1f8efe07ce3b9b2d186ceaa5cd6ced717633
-          uses: reviewdog/action-eslint@v1.0.0
-          with:
-            # GITHUB_TOKEN.
-            github_token: ${{ secrets.GITHUB_TOKEN }}
-            # Report level for reviewdog [info,warning,error]
-            level: error # optional, default is error
-            reporter: github-pr-review
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run eslint with reviewdog
+        # You may pin to the exact commit or the version.
+        # uses: reviewdog/action-eslint@c93d1f8efe07ce3b9b2d186ceaa5cd6ced717633
+        uses: reviewdog/action-eslint@v1.0.0
+        with:
+          # GITHUB_TOKEN.
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # Report level for reviewdog [info,warning,error]
+          level: error # optional, default is error
+          reporter: github-pr-review
