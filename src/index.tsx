@@ -125,7 +125,7 @@ const Root: FC = () => {
             index={photoIndex}
             onClose={() => setIsOpen(false)}
             onIndexChange={(newIndex) => setPhotoIndex(newIndex)}
-            toolbarRender={({ images, index }) => (
+            toolbarRender={() => (
                   <DownloadButton setTriggerCreditPopUp={setTriggerCreditPopUp} />)} 
           />
           {triggerCreditPopUp && (

@@ -40,13 +40,6 @@
 
 }
 
-/* .textContainerStyle{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-} */
 
 .textContainerStyle{
     display: flex;
@@ -56,17 +49,6 @@
     padding: 2rem;
     text-align: center;
 }
-
-/* .paragraphContainerStyle{
-    display: flex;
-    flex-direction: column;
-
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-
-} */
-
 
 .buttonContainerStyle{
     display: flex;
