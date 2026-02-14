@@ -3,6 +3,7 @@ import styles from "./CreditPopUp.module.css"
 import { Paper,Button, IconButton } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
 
+
 interface Props {
   setTriggerCreditPopUp: React.Dispatch<React.SetStateAction<boolean>>;
   setDownloadAbort: React.Dispatch<React.SetStateAction<boolean>>;
@@ -31,15 +32,15 @@ const CreditPopUp =({ setTriggerCreditPopUp, setDownloadAbort }: Props)  => {
     return (
         <Paper className= {styles.mainContainerStyle}>
             <div className= {styles.exitContainerStyle}>
-                <IconButton onClick={() => handleAbort()}>
+                <IconButton onClick={() => handleAbort()} disableRipple className= {styles.extiButton}>
                     <CloseIcon/>
                 </IconButton>
             </div>
 
 
             <div className={styles.textContainerStyle}>
-                <h1> Husk kreditering! </h1>
-                <p>
+                <h1  className={styles.headerContainerStyle}> Husk kreditering! </h1>
+                <p >
                     Alle bilder tatt av fotogjengen skal krediteres med: <br/><br/>
 
                 
@@ -61,7 +62,7 @@ const CreditPopUp =({ setTriggerCreditPopUp, setDownloadAbort }: Props)  => {
             
 
             <div className= {styles.buttonContainerStyle}>
-                <Button onClick={() => handleAccept()}>
+                <Button onClick={() => handleAccept()} className={styles.OKbuttonStyle}>
                     OK!
                 </Button>
 
