@@ -119,7 +119,7 @@ const CustomTable: FC<Props> = ({
                       {column.id === "isGoodPicture" &&
                         `${photo.isGoodPicture}`}
                       {column.id === "scan" && (
-                        <div>
+                        <div className={styles.scanButtons}>
                           <Button>Web</Button>
                           <Button>Prod</Button>
                         </div>
@@ -127,21 +127,13 @@ const CustomTable: FC<Props> = ({
                       {column.id === "small_url" && (
                         <img
                           src={createImgUrl(photo)}
-                          style={{
-                            // maxHeight: "20em",
-                            // maxWidth: "20em",
-                            maxWidth: "100%",
-                            height: "auto",
-                            objectFit: "cover",
-                            cursor: "pointer",
-                            borderRadius: "0.2em",
-                          }}
+                          className={styles.thumbnailImage}
                           onClick={() => updateIndex(index)}
                         />
                       )}
                       {column.id === "edit" && (
                         <Button
-                          style={{ borderRadius: "10em" }}
+                          className={styles.editButton}
                           color="error"
                           component={Link}
                           to={`/fg/editPhoto/${photo.photoId.id}`}
