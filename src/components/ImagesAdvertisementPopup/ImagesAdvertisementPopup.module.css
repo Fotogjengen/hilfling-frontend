@@ -1,0 +1,102 @@
+.OuterPopup {
+  position: fixed;
+  bottom: 2rem;
+  padding-left: 5rem;
+  padding-right: 5rem;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.InnerPopup {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 2rem;
+  width: 100%;
+  max-width: 50rem;
+  z-index: 1000;
+  border-radius: 0.5rem;
+  background-color: var(--color-white);
+  border-left: 4px solid var(--hilfling-color-red);
+  box-shadow:
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  animation: fadeIn 0.25s ease-out;
+}
+
+.InnerPopup h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.BuyLink {
+  width: fit-content;
+  color: var(--hilfling-link-color);
+}
+
+.BuyLink:hover {
+  text-decoration: underline;
+}
+
+.CloseButton {
+  top: 0.25rem;
+  right: 0.25rem;
+}
+
+.PopupContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.Logo {
+  flex-shrink: 0;
+}
+
+.PopupInfo {
+  margin-top: 0.125rem;
+  font-size: 0.875rem;
+  display: flex;
+  flex-direction: row;
+  gap: 0.25rem;
+}
+
+@media (max-width: 768px) {
+  .OuterPopup {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    bottom: 1rem;
+  }
+
+  .InnerPopup {
+    padding: 0.75rem 1rem;
+  }
+
+  .Logo {
+    display: none;
+  }
+
+  .InnerPopup h3 {
+    font-size: 1rem;
+  }
+
+  .PopupInfo {
+    font-size: 0.75rem;
+  }
+}
