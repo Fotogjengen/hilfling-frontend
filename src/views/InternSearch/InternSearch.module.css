@@ -1,7 +1,6 @@
 .internSearch {
   display: flex;
-  gap: 1rem; 
-  
+  gap: 1rem;
 }
 .formTextField {
   padding: 0.4rem;
@@ -11,7 +10,6 @@
   flex: 1;
   min-width: 0;
   order: 2;
-
 }
 
 .gridContainer {
