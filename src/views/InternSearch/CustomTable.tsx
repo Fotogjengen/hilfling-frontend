@@ -27,19 +27,19 @@ interface Props {
 // Add security access
 
 const columns = [
-  { id: "albumDto", label: "Album" },
-  { id: "motive", label: "Motiv" },
-  { id: "date", label: "date" },
-  { id: "placeDto", label: "Place" },
-  { id: "securityLevel", label: "Security Level" },
+  { id: "albumDto", label: "Album", width: "10%" },
+  { id: "motive", label: "Motiv", width: "10%" },
+  { id: "date", label: "date", width: "10%" },
+  { id: "placeDto", label: "Place", width: "10%" },
+  { id: "securityLevel", label: "Security Level", width: "10%" },
   // { id: "gang", label: "Gang" },
-  { id: "categoryDto", label: "Category" },
+  { id: "categoryDto", label: "Category", width: "10%" },
   // { id: "photoGangBangerDto", label: "Photo Gang Banger" },
   // { id: "photoTags", label: "Photo Tags" },
-  { id: "isGoodPicture", label: "Good Picture" },
-  { id: "scan", label: "Scan" },
-  { id: "small_url", label: "Minature" },
-  { id: "edit", label: "Edit" },
+  { id: "isGoodPicture", label: "Good Picture", width: "10%" },
+  { id: "scan", label: "Scan", width: "10%" },
+  { id: "small_url", label: "Minature", width: "15%" },
+  { id: "edit", label: "Edit", width: "5%" },
 ];
 
 const CustomTable: FC<Props> = ({
@@ -82,11 +82,13 @@ const CustomTable: FC<Props> = ({
         </div>
       </div>
       <TableContainer>
-        <Table>
+        <Table sx={{ tableLayout: "fixed", width: "100%" }}>
           <TableHead>
             <TableRow>
               {columns.map((column) => (
-                <TableCell key={column.id}>{column.label}</TableCell>
+                <TableCell key={column.id} sx={{ width: column.width }}>
+                  {column.label}
+                </TableCell>
               ))}
             </TableRow>
           </TableHead>
@@ -126,8 +128,10 @@ const CustomTable: FC<Props> = ({
                         <img
                           src={createImgUrl(photo)}
                           style={{
-                            maxHeight: "20em",
-                            maxWidth: "20em",
+                            // maxHeight: "20em",
+                            // maxWidth: "20em",
+                            maxWidth: "100%",
+                            height: "auto",
                             objectFit: "cover",
                             cursor: "pointer",
                             borderRadius: "0.2em",
