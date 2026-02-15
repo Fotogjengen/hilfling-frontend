@@ -6,22 +6,24 @@ import CloseIcon from '@mui/icons-material/Close';
 
 interface Props {
   setTriggerCreditPopUp: React.Dispatch<React.SetStateAction<boolean>>;
-  setDownloadAbort: React.Dispatch<React.SetStateAction<boolean>>;
+  setcreditAccepted: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const CreditPopUp =({ setTriggerCreditPopUp, setDownloadAbort }: Props)  => {
-    const [isIntern, setIsIntern] = useState(false);
+const CreditPopUp =({ setTriggerCreditPopUp, setcreditAccepted }: Props)  => {
+
+    const [isIntern, setIsIntern] = useState(false); //if the user is intern, a reminder to not post pictures from internområder appears
 
     useEffect( () =>{
         setIsIntern(true);
     }),[];
 
     const handleAccept = () => {
+        setcreditAccepted(true);
         setTriggerCreditPopUp(false);
     }
 
     const handleAbort = () => {
-        setDownloadAbort(true);
+        setcreditAccepted(false);
         setTriggerCreditPopUp(false);
     }
     

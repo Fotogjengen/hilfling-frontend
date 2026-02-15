@@ -169,11 +169,9 @@ const Root: FC = () => {
             onClose={() => setIsOpen(false)}
             onIndexChange={(newIndex) => setPhotoIndex(newIndex)}
             toolbarRender={() => (
-                  <DownloadButton setTriggerCreditPopUp={setTriggerCreditPopUp} />)} 
+                  <DownloadButton/>)} 
           />
-          {triggerCreditPopUp && (
-              <CreditPopUp setTriggerCreditPopUp={setTriggerCreditPopUp} setDownloadAbort={setdownloadAbort}/>
-            )}
+
         </ImageContext.Provider>
       </ThemeProvider>
     </ErrorBoundary>
