@@ -30,7 +30,7 @@ const DownloadButton = () => {
 
         handleDownload();
 
-    }), [creditAccepted];
+    }, [creditAccepted]);
 
     return (
         <div>
