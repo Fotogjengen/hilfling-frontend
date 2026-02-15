@@ -32,7 +32,7 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    padding: 1rem;
+    padding: 0.5rem;
 }
 
 .extiButton:hover {
@@ -46,9 +46,15 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 2rem;
+    padding: 1rem;
     text-align: center;
 }
+
+.textDisclaimerStyle{
+    font-size: small;
+
+}
+
 
 .buttonContainerStyle{
     display: flex;
