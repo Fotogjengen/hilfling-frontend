@@ -77,7 +77,7 @@ const Root: FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [position, setPosition] = useState("oo"); //Change maybe? verv?
 
-  // Hooks for rendering credit warning
+  // For rendering credit warning
       const [triggerCreditPopUp, setTriggerCreditPopUp] = useState(false)
       const [downloadAbort, setdownloadAbort] = useState(false);
 
