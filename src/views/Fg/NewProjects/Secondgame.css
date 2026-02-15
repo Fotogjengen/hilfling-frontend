@@ -1,0 +1,65 @@
+#secondgame {
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#gameTitle {
+    font-size: 40px;
+    color: #ad2f33;
+}
+
+#qstbutton-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+#qstbutton {
+    background-color: #ad2f33;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+#question-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    height: 200px;
+}
+
+#container-main {
+    display:flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 200px;
+}
+
+.splash-container {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.droplet {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #ad2f33;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform, opacity;
+}

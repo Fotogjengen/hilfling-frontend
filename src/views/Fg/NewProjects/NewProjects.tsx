@@ -9,8 +9,8 @@ const NewProjects = () => {
 
   const menuLinks = [
     {
-      name: "Kull 25",
-      to: "/doesNotExist",
+      name: "Kull 26",
+      to: "/fg/spillmeny",
       icon: <VolcanoIcon style={{ fontSize: IconSize }} />,
     },
   ];
