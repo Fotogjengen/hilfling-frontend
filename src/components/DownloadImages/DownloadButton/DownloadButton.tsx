@@ -5,30 +5,38 @@ import {IconButton } from "@mui/material";
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
 import CreditPopUp from "../CreditPopUp/CreditPopUp";
 
-// interface Props {
-//     setTriggerCreditPopUp: React.Dispatch<React.SetStateAction<boolean>>;
-//     setDownloadAbort: React.Dispatch<React.SetStateAction<boolean>>;
-// }
-// {setTriggerCreditPopUp} : Props
 
-const DownloadButton = () => {
+const DownloadButton = ({currentIndex} : any ) => {
 
     const [triggerCreditPopUp, setTriggerCreditPopUp] = useState(false)
     const [creditAccepted, setcreditAccepted] = useState(false);
 
+
+   
     //TODO actually implement the logic for downloading pictures when ITK server is linked up. 
     //Should let user download the picture if they do not click abort on the credit pop up
     //This is just a dummy function
-    const handleDownload = () => {
+    const handleDownload = async (imageUrl: string, filename: string = "photo.jpg") => {
         
         setcreditAccepted(false);
         console.log(creditAccepted)
+        try {
 
-    }
+        console.log(imageUrl)
+        } 
+        catch (error) {
+            console.error("Download failed:", error);
+        }
+
+
+    };
 
     useEffect ( () => {
+        const currentImageUrl = currentIndex.url; //this is broken btw
 
-        handleDownload();
+        if (creditAccepted){
+        handleDownload(currentImageUrl);
+        };
 
     }, [creditAccepted]);
 

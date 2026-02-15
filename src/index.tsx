@@ -20,7 +20,7 @@ import { AuthenticationContext } from "./contexts/AuthenticationContext";
 import Cookies from "js-cookie";
 import { decryptData, encryptData } from "./utils/encryption/encrypt";
 import  DownloadButton  from "./components/DownloadImages/DownloadButton/DownloadButton"
-import CreditPopUp from "./components/DownloadImages/CreditPopUp/CreditPopUp";
+
 
 function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
   return (
@@ -168,8 +168,8 @@ const Root: FC = () => {
             index={photoIndex}
             onClose={() => setIsOpen(false)}
             onIndexChange={(newIndex) => setPhotoIndex(newIndex)}
-            toolbarRender={() => (
-                  <DownloadButton/>)} 
+            toolbarRender={(photoIndex) => (
+                  <DownloadButton currentIndex={photoIndex}/>)} 
           />
 
         </ImageContext.Provider>
