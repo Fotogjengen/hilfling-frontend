@@ -1,7 +1,8 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect,useState, useContext } from "react";
 import styles from "./CreditPopUp.module.css"
 import { Paper,Button, IconButton } from "@mui/material";
 import CloseIcon from '@mui/icons-material/Close';
+import { AuthenticationContext } from "../../../contexts/AuthenticationContext";
 
 
 interface Props {
@@ -12,6 +13,7 @@ interface Props {
 const CreditPopUp =({ setTriggerCreditPopUp, setcreditAccepted }: Props)  => {
 
     const [isIntern, setIsIntern] = useState(false); //if the user is intern, a reminder to not post pictures from internområder
+    const { isAuthenticated, position } = useContext(AuthenticationContext);
     useEffect( () =>{
         setIsIntern(true);  //update to actually check the users staus
     }),[];
@@ -47,7 +49,7 @@ const CreditPopUp =({ setTriggerCreditPopUp, setcreditAccepted }: Props)  => {
 
                     
                 </p>
-                {isIntern &&
+                {isAuthenticated &&
                     <p>
                         Husk å ikke dele bilder fra interne områder på sosiale medier!<br/>
                     </p>
