@@ -5,6 +5,19 @@ import { createImgUrl } from "../../utils/createImgUrl/createImgUrl";
 import styles from "./Photos.module.css";
 import { ImageContext } from "../../contexts/ImageContext";
 
+type Tile =
+  | {
+      type: "photo";
+      photo: PhotoDto;
+      photoIndex: number;
+      className: string;
+    }
+  | {
+      type: "gap";
+      key: string;
+      className: string;
+    };
+
 export const Photos = () => {
   const PAGE_SIZE = 20;
   const BUFFER_PX = 300;
@@ -15,85 +28,167 @@ export const Photos = () => {
   const [hasMore, setHasMore] = useState(true);
 
   const loaderRef = useRef<HTMLDivElement | null>(null);
+  const { setPhotos, setPhotoIndex, setIsOpen } =
+    useContext(ImageContext);
 
-  const { setPhotos, setPhotoIndex, setIsOpen } = useContext(ImageContext);
+
 
   useEffect(() => {
-    const loadPhotos = async () => {
+    const load = async () => {
       setIsLoading(true);
       try {
-        const newPhotos = await PhotoApi.getGoodPhotos(
+        const batch = await PhotoApi.getGoodPhotos(
           String(page),
-          String(PAGE_SIZE),
+          String(PAGE_SIZE)
         );
-        setGoodPhotos((prev) => [...prev, ...newPhotos]);
-        if (newPhotos.length < PAGE_SIZE) {
-          setHasMore(false);
-        }
-      } catch (error) {
-        console.error("Error fetching photos:", error);
+        setGoodPhotos((prev) => [...prev, ...batch]);
+        if (batch.length < PAGE_SIZE) setHasMore(false);
       } finally {
         setIsLoading(false);
       }
     };
 
-    if (hasMore) {
-      void loadPhotos();
-    }
+    if (hasMore) void load();
   }, [page, hasMore]);
 
   useEffect(() => {
-    // Make sure the loaderRef is pointing to a real DOM element before proceeding
     if (!loaderRef.current) return;
 
-    const options = {
-      root: null,
-      // Pretend the viewport is BUFFER_PX bigger at the bottom. This makes it trigger early, before the user actually hits the bottom
-      rootMargin: `${BUFFER_PX}px`,
-      // Trigger the callback when 10% of the target is visible
-      threshold: 0.1,
-    };
+    const ob = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting && !isLoading && hasMore) {
+          setPage((p) => p + 1);
+        }
+      },
+      { rootMargin: `${BUFFER_PX}px`, threshold: 0.1 }
+    );
 
-    const handleObserver: IntersectionObserverCallback = (entries) => {
-      const [entry] = entries;
-      if (entry.isIntersecting && !isLoading && hasMore) {
-        setPage((prev) => prev + 1);
-      }
-    };
-
-    // The IntersectionObserver watches loaderRef.current, and whenever that div scrolls into view, it triggers the handleObserver function
-    const observer = new IntersectionObserver(handleObserver, options);
-    observer.observe(loaderRef.current);
-
-    return () => {
-      observer.disconnect();
-    };
+    ob.observe(loaderRef.current);
+    return () => ob.disconnect();
   }, [isLoading, hasMore]);
 
-  const updateIndex = (index: number) => {
+  const openAt = (idx: number) => {
     setPhotos(goodPhotos);
-    setPhotoIndex(index);
+    setPhotoIndex(idx);
     setIsOpen(true);
   };
 
+
+
+  const hash01 = (s: string) => {
+    let h = 0;
+    for (let i = 0; i < s.length; i++) {
+      h = (h * 31 + s.charCodeAt(i)) | 0;
+    }
+    return (Math.abs(h) % 1000) / 1000; 
+  };
+
+  const buildTiles = (photos: PhotoDto[]): Tile[] => {
+    const tiles: Tile[] = [];
+    let i = 0;
+
+    while (i < photos.length) {
+      const seed = `${photos[i].photoId.id}:${i}`;
+
+      const r = hash01(seed);
+
+   
+      if (r < 0.35 && i + 1 < photos.length) {
+        const pattern = Math.floor(
+          hash01(seed + ":p") * 3
+        ); // 0,1,2
+
+        const a = photos[i];
+        const b = photos[i + 1];
+
+        const A: Tile = {
+          type: "photo",
+          photo: a,
+          photoIndex: i,
+          className: styles.w4,
+        };
+        const B: Tile = {
+          type: "photo",
+          photo: b,
+          photoIndex: i + 1,
+          className: styles.w4,
+        };
+        const G: Tile = {
+          type: "gap",
+          key: `gap-${a.photoId.id}-${b.photoId.id}-${i}`,
+          className: styles.gap,
+        };
+
+        if (pattern === 0) tiles.push(A, B, G); 
+        if (pattern === 1) tiles.push(G, A, B); 
+        if (pattern === 2) tiles.push(A, G, B); 
+
+        i += 2;
+        continue;
+      }
+
+  
+      const p = photos[i];
+      const r2 = hash01(
+        `${p.photoId.id}:w:${i}`
+      );
+
+
+      const cls =
+        r2 < 0.25 ? styles.w12 : styles.w6;
+
+      tiles.push({
+        type: "photo",
+        photo: p,
+        photoIndex: i,
+        className: cls,
+      });
+
+      i += 1;
+    }
+
+    return tiles;
+  };
+
+  const tiles = buildTiles(goodPhotos);
+
+
+
   return (
     <div>
-      <div className={styles.photoContainer}>
-        {goodPhotos.map((photo, index: number) => (
-          <div
-            key={photo.photoId.id}
-            className={styles.photoItem}
-            onClick={() => updateIndex(index)}
-          >
-            <img src={createImgUrl(photo)} />
-          </div>
-        ))}
+      <div className={styles.grid}>
+        {tiles.map((t) => {
+          if (t.type === "gap") {
+            return (
+              <div
+                key={t.key}
+                className={t.className}
+                aria-hidden="true"
+              />
+            );
+          }
+
+          return (
+            <div
+              key={t.photo.photoId.id}
+              className={`${styles.item} ${t.className}`}
+              onClick={() => openAt(t.photoIndex)}
+            >
+              <img
+                src={createImgUrl(t.photo)}
+                loading="lazy"
+                alt=""
+              />
+            </div>
+          );
+        })}
       </div>
 
       {isLoading && <p>Laster inn flere bilder... 🤓</p>}
-      {!hasMore && <p>Wow, du har lastet inn alle blinkskuddene våre! 📸 </p>}
+      {!hasMore && (
+        <p>Wow, du har lastet inn alle blinkskuddene våre! 📸</p>
+      )}
 
-      {/* Invisible "sentinel" at the bottom of the page that is essential for infinity loop to work */}
       <div ref={loaderRef} style={{ height: 1 }} />
     </div>
   );
