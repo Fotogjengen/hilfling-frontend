@@ -4,6 +4,8 @@ import { PhotoApi } from "../../utils/api/PhotoApi";
 import { createImgUrl } from "../../utils/createImgUrl/createImgUrl";
 import styles from "./Photos.module.css";
 import { ImageContext } from "../../contexts/ImageContext";
+import ImagesAdvertisementPopup from "../../components/ImagesAdvertisementPopup/ImagesAdvertisementPopup";
+import { useAdBanner } from "../../hooks/useAdBanner";
 
 export const Photos = () => {
   const PAGE_SIZE = 20;
@@ -17,6 +19,7 @@ export const Photos = () => {
   const loaderRef = useRef<HTMLDivElement | null>(null);
 
   const { setPhotos, setPhotoIndex, setIsOpen } = useContext(ImageContext);
+  const { showAdBanner, dismissAdBanner } = useAdBanner();
 
   useEffect(() => {
     const loadPhotos = async () => {
@@ -95,6 +98,8 @@ export const Photos = () => {
 
       {/* Invisible "sentinel" at the bottom of the page that is essential for infinity loop to work */}
       <div ref={loaderRef} style={{ height: 1 }} />
+
+      {showAdBanner && <ImagesAdvertisementPopup onClose={dismissAdBanner} />}
     </div>
   );
 };
