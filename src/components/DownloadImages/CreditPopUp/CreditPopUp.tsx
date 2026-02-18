@@ -11,10 +11,9 @@ interface Props {
 
 const CreditPopUp =({ setTriggerCreditPopUp, setcreditAccepted }: Props)  => {
 
-    const [isIntern, setIsIntern] = useState(false); //if the user is intern, a reminder to not post pictures from internområder appears
-
+    const [isIntern, setIsIntern] = useState(false); //if the user is intern, a reminder to not post pictures from internområder
     useEffect( () =>{
-        setIsIntern(true);
+        setIsIntern(true);  //update to actually check the users staus
     }),[];
 
     const handleAccept = () => {
