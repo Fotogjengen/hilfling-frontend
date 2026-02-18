@@ -1,5 +1,4 @@
 {
   "trailingComma": "all",
-  "singleQuote": false,
-  "editor.formatOnSave": true
+  "singleQuote": false
 }
