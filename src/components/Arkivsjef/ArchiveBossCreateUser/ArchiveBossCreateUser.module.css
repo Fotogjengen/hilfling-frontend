@@ -1,47 +1,45 @@
 .container {
-    padding: 0.5rem;
-    width: 40%;
-    left: 50%;
-    top: 80%; 
-    position: absolute;
-    transform: translate(-50%, -50%);
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-  }
+  padding: 0.5rem;
+  width: 40%;
+  left: 50%;
+  top: 80%;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
 
-  .popup {
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0,0,0,0.4);
-    }
- 
-  
-  .input {
-    margin-bottom: 2rem;
-  }
-  
-  .submitButton {
-    width: 50%;
-    
-  }
-  
-  .backButton {
-    margin-top: 0.5rem;
-    text-align: center;
-    color: #007bff; 
-    cursor: pointer;
-    text-decoration: none;
-  }
-  
-  .backButton:hover {
-    text-decoration: underline;
-  }
+.popup {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.input {
+  margin-bottom: 2rem;
+}
+
+.submitButton {
+  width: 50%;
+}
+
+.backButton {
+  margin-top: 0.5rem;
+  text-align: center;
+  color: #007bff;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.backButton:hover {
+  text-decoration: underline;
+}
 
 .nav_buttons {
   display: flex;

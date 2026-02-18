@@ -2,13 +2,13 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { GangDto } from './GangDto';
+import type { GangDto } from "./GangDto";
 
 export type PageGangDto = {
-    offset?: number;
-    limit?: number;
-    totalRecords?: number;
-    pageSize?: number;
-    totalPages?: number;
-    currentList?: Array<GangDto>;
-}
+  offset?: number;
+  limit?: number;
+  totalRecords?: number;
+  pageSize?: number;
+  totalPages?: number;
+  currentList?: Array<GangDto>;
+};

@@ -3,5 +3,5 @@
 /* eslint-disable */
 
 export type PlaceId = {
-    id: string;
-}
+  id: string;
+};

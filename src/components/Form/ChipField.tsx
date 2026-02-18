@@ -14,45 +14,41 @@ import {
   InputProps,
   InputLabel,
 } from "@mui/material";
-import { WithStyles, createStyles, withStyles } from "@mui/styles";
+import { styled } from "@mui/material/styles";
 import { FormFieldProps } from "./types";
 import { useForm } from "./Form";
 
-const styles = () =>
-  createStyles({
-    helperText: {
-      color: "red",
-    },
-    chips: {
-      marginBottom: "1rem",
-    },
-  });
+const ChipsWrapper = styled("div")({
+  marginBottom: "1rem",
+});
 
-const ChipField: FC<FormFieldProps<InputProps> & WithStyles<typeof styles>> = ({
+const ErrorText = styled(FormHelperText)({
+  color: "red",
+});
+
+const ChipField: FC<FormFieldProps<InputProps>> = ({
   name,
   label,
   fullWidth,
-  classes,
   ...rest
 }) => {
   const { values, errors, onChange } = useForm();
   const [interimValue, setInterimValue] = useState<string>("");
   const [touched, setTouched] = useState<boolean>(false);
+
   const error = touched && errors[name];
 
-  const onChangeInterimValue = (event: ChangeEvent) => {
-    setInterimValue((event.target as HTMLTextAreaElement).value);
+  const onChangeInterimValue = (event: ChangeEvent<HTMLInputElement>) => {
+    setInterimValue(event.target.value);
   };
 
-  const addChip = (event: KeyboardEvent) => {
+  const addChip = (event: KeyboardEvent<HTMLInputElement>) => {
     if (
       event.key == "Enter" &&
       !values[name].includes(interimValue.trim()) &&
       interimValue.trim() !== ""
     ) {
       onChange(name, [interimValue.trim(), ...values[name]]);
-      setInterimValue("");
-    } else if (interimValue.trim() === "") {
       setInterimValue("");
     }
   };
@@ -64,7 +60,7 @@ const ChipField: FC<FormFieldProps<InputProps> & WithStyles<typeof styles>> = ({
     );
   };
 
-  const chipRenderer: ReactElement[] = values[name].map(
+  const chipRenderer: ReactElement[] = values[name]?.map(
     (chip: string, index: number) => {
       return (
         <Chip
@@ -79,7 +75,7 @@ const ChipField: FC<FormFieldProps<InputProps> & WithStyles<typeof styles>> = ({
 
   return (
     <Fragment>
-      <div className={classes.chips}>{values[name] && chipRenderer}</div>
+      <ChipsWrapper>{chipRenderer}</ChipsWrapper>
       <FormControl fullWidth={fullWidth}>
         <InputLabel htmlFor={name}>{label}</InputLabel>
         <Input
@@ -90,10 +86,10 @@ const ChipField: FC<FormFieldProps<InputProps> & WithStyles<typeof styles>> = ({
           value={interimValue}
           onBlur={() => setTouched(true)}
         />
-        <FormHelperText className={classes.helperText}>{error}</FormHelperText>
+        <ErrorText>{error}</ErrorText>
       </FormControl>
     </Fragment>
   );
 };
 
-export default withStyles(styles)(ChipField);
+export default ChipField;

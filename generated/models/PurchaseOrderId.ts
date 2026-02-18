@@ -3,5 +3,5 @@
 /* eslint-disable */
 
 export type PurchaseOrderId = {
-    id?: string;
-}
+  id?: string;
+};

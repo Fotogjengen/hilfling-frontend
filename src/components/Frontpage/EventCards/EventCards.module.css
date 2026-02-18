@@ -1,71 +1,66 @@
 @import "../../../styles/variables.css";
 
 .cardsContainer {
-    width: 100%;
-    display: grid;
-    gap: 1rem;
+  width: 100%;
+  display: grid;
+  gap: 1rem;
 }
-
 
 .card {
-    display: flex;
-    width: calc(100%);
-    box-shadow: var(--box-shadow-1);
-    position: relative;
-
+  display: flex;
+  width: calc(100%);
+  box-shadow: var(--box-shadow-1);
+  position: relative;
 }
-
 
 .card::before {
-    transition: width ease-in-out 0.1s;
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    width: 0.2rem;
+  transition: width ease-in-out 0.1s;
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 0.2rem;
 
-    background-color: var(--hilfling-color-red);
+  background-color: var(--hilfling-color-red);
 }
 
-
 .card:hover::before {
-    width: 0.6rem;
+  width: 0.6rem;
 }
 
 .cardImg {
-    width: 40%;
-    box-shadow: var(--box-shadow-1);
-    aspect-ratio: 4 / 3;
+  width: 40%;
+  box-shadow: var(--box-shadow-1);
+  aspect-ratio: 4 / 3;
 }
 
 .cardText {
-    width: fit-content;
-    gap: 0.2rem;
-    padding: 0.5rem 1rem;
+  width: fit-content;
+  gap: 0.2rem;
+  padding: 0.5rem 1rem;
 }
 
 .cardTextTitle {
-    border-bottom: 0.2rem solid var(--hilfling-color-red);
+  border-bottom: 0.2rem solid var(--hilfling-color-red);
 }
 
-.cardText>* {
-    min-width: fit-content;
+.cardText > * {
+  min-width: fit-content;
 }
 
 .cardText b {
-    margin-right: 0.2rem;
-    font-size: 0.8rem;
+  margin-right: 0.2rem;
+  font-size: 0.8rem;
 }
 
 @media only screen and (max-width: 600px) {
-    .card {
-        border: none;
-        flex-direction: column;
-    }
+  .card {
+    border: none;
+    flex-direction: column;
+  }
 
-    .cardImg {
-        width: 100%;
-    }
-
+  .cardImg {
+    width: 100%;
+  }
 }

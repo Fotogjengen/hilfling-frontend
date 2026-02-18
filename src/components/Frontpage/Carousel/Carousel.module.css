@@ -1,52 +1,49 @@
 .container {
-    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 6px 0px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    width: 100%;
-    height: 60vw;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 6px 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  height: 60vw;
 }
 
-
 .img {
-    position: absolute;
-    left: 0;
-    top: 0;
-    display: block;
-    width: 100%;
-    height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .arrows {
-    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 6px 0px;
-    border-radius: 1rem;
-    background-color: rgba(255, 255, 255, 0.597);
-    bottom: 0.5rem;
-    padding: 0.2rem 0rem;
-    position: absolute;
-    width: 60%;
-    display: flex;
-    justify-content: space-between;
+  box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 6px 0px;
+  border-radius: 1rem;
+  background-color: rgba(255, 255, 255, 0.597);
+  bottom: 0.5rem;
+  padding: 0.2rem 0rem;
+  position: absolute;
+  width: 60%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .arrows > * {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .arrows > *:active {
-    transform: scale(1.1);
-    cursor: pointer;
+  transform: scale(1.1);
+  cursor: pointer;
 }
 
-
 @media screen and (min-width: 50rem) {
+  .img {
+    height: 40vw;
+  }
 
-    .img {
-        height: 40vw;
-    }
-
-    .container {
-        height: 40vw;
-    }
+  .container {
+    height: 40vw;
+  }
 }

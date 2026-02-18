@@ -31,8 +31,13 @@ const columns = [
   // { id: "isGoodPicture", label: "Good Picture" },
 ];
 
-const CustomTable: FC<Props> = ({ photos, handlePageChange, page, photosCount, pageSize}) => {
- 
+const CustomTable: FC<Props> = ({
+  photos,
+  handlePageChange,
+  page,
+  photosCount,
+  pageSize,
+}) => {
   const handleChangePage = (event: any, newPage: any) => {
     handlePageChange(newPage);
   };
@@ -40,7 +45,7 @@ const CustomTable: FC<Props> = ({ photos, handlePageChange, page, photosCount, p
   const handleChange = () => {
     setIsGrid(!isGrid);
   };
- 
+
   const emptyRows = Math.max(0, 10 - photos.length); //Usikker på om vi egentlig trenger denne
 
   return (
@@ -48,7 +53,7 @@ const CustomTable: FC<Props> = ({ photos, handlePageChange, page, photosCount, p
       <div className={styles.toggleHeader}>
         <div className={styles.pagination}>
           <Pagination
-            count={Math.ceil(photosCount/pageSize)}
+            count={Math.ceil(photosCount / pageSize)}
             page={page}
             onChange={handleChangePage}
             color="primary"
@@ -108,7 +113,7 @@ const CustomTable: FC<Props> = ({ photos, handlePageChange, page, photosCount, p
       </TableContainer>
       <div className={styles.pagination2}>
         <Pagination
-          count={Math.ceil(photosCount/pageSize)}
+          count={Math.ceil(photosCount / pageSize)}
           page={page}
           onChange={handleChangePage}
           color="primary"

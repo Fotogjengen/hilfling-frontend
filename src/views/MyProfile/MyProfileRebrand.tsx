@@ -4,8 +4,6 @@ import axios from "axios";
 import EditProfilepic from "../../components/MyProfile/EditProfilepic/EditProfilpic";
 // import { AlertContext, severityEnum } from "../../contexts/AlertContext";
 
-
-
 interface UserInfo {
   profilePicure: string;
   firstName: string;
@@ -22,7 +20,6 @@ interface UserInfo {
   role?: string | " "; // "Fotograf" or "Web"
   admissionSemester?: string;
 }
-
 
 const emptyUser: UserInfo = {
   profilePicure:
@@ -45,7 +42,6 @@ const emptyUser: UserInfo = {
 //http://localhost:8000/photo_gang_bangers/7a89444f-25f6-44d9-8a73-94587d72b839
 
 const MyProfileRebrand = () => {
-
   const webPositions: string[] = [
     "websjef",
     "benkmester",
@@ -56,9 +52,8 @@ const MyProfileRebrand = () => {
 
   const [currentUser, setCurrentUser] = useState<UserInfo>(emptyUser);
 
-
   const [isHovered, setHoverVariable] = useState(false);
-  const [editProfilepic, setEditProfilepic] = useState(false)
+  const [editProfilepic, setEditProfilepic] = useState(false);
 
   useEffect(() => {
     const getUser = () => {
@@ -117,8 +112,6 @@ const MyProfileRebrand = () => {
     getUser();
   }, []);
 
-
-
   return (
     <>
       <div className="main_card">
@@ -129,40 +122,37 @@ const MyProfileRebrand = () => {
             {currentUser?.role || "loading ... "}
           </h2>
         </header>
-        
-        <div className="info_card">
-        
 
+        <div className="info_card">
           <div className="card_1">
             {" "}
             {/* Contains profile picture and personal info*/}
-            {editProfilepic && (     // Renders pop up for changing profile picture
-
-            <EditProfilepic setEditProfilepic={setEditProfilepic} />
-
-        )}
-            <div className="profile_picture"
+            {editProfilepic && ( // Renders pop up for changing profile picture
+              <EditProfilepic setEditProfilepic={setEditProfilepic} />
+            )}
+            <div
+              className="profile_picture"
               onMouseOver={() => setHoverVariable(true)}
               onMouseLeave={() => setHoverVariable(false)}
             >
               <div className="profile_picture_img">
-                
-              {!isHovered &&
-                <img
-                  src={currentUser.profilePicure}
-                  alt="Profile"
-                  height="225"
-                  width="225"
-                />
-              }
-
-                {isHovered && (
-                  <button className="new_profile_picture_button" onClick={()=>setEditProfilepic(true)}>
-                    Legg til nytt profilbilde
-                 
-                  </button>   
+                {!isHovered && (
+                  <img
+                    src={currentUser.profilePicure}
+                    alt="Profile"
+                    height="225"
+                    width="225"
+                  />
                 )}
 
+                {isHovered && (
+                  <button
+                    className="new_profile_picture_button"
+                    onClick={() => setEditProfilepic(true)}
+                  >
+                    Legg til nytt profilbilde
+                  </button>
+                )}
               </div>
             </div>
             <div className="positions">

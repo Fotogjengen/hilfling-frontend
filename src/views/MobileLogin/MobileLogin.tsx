@@ -1,6 +1,14 @@
 import React, { useContext, useState } from "react";
 import { AuthenticationContext } from "../../contexts/AuthenticationContext";
-import { Button, FormControl, IconButton, Input, InputAdornment, InputLabel, TextField } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  IconButton,
+  Input,
+  InputAdornment,
+  InputLabel,
+  TextField,
+} from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 
 /*
@@ -11,14 +19,16 @@ When more styling is added it should be in its own file.
 */
 
 const MobileLogin = () => {
-  const { isAuthenticated, setIsAuthenticated, setPosition } = useContext(AuthenticationContext);
+  const { isAuthenticated, setIsAuthenticated, setPosition } = useContext(
+    AuthenticationContext,
+  );
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
     setIsAuthenticated(true);
-    setPosition("FG"); 
+    setPosition("FG");
   };
 
   const handleLogout = () => {
@@ -31,7 +41,12 @@ const MobileLogin = () => {
     return (
       <div>
         <h2>Du er logget inn</h2>
-        <Button variant="contained" color="primary" sx={{ mt: 3, width: "80%" }} onClick={handleLogout}>
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{ mt: 3, width: "80%" }}
+          onClick={handleLogout}
+        >
           Logg ut
         </Button>
       </div>
