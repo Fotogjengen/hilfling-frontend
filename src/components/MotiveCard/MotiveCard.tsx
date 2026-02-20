@@ -22,9 +22,6 @@ const MotiveCard: FC<Props> = (props: Props) => {
           Eier: {props?.motive?.eventOwnerDto?.name}
         </Typography>
         <Typography variant="body2">
-          Album: {props?.motive?.albumDto?.title}
-        </Typography>
-        <Typography variant="body2">
           Dato:{" "}
           {props?.motive?.dateCreated
             ? new Date(props.motive.dateCreated).toLocaleDateString()
