@@ -39,7 +39,7 @@ import { AxiosProgressEvent } from "axios";
 
 export interface PhotoUploadFormIV {
   album: string;
-  date: Date;
+  date?: Date;
   motive: string;
   tags: string[];
   category: string;

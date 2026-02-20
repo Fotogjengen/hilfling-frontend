@@ -21,6 +21,7 @@ import SpillMeny from "./views/Fg/NewProjects/SpillMeny";
 import Firstgame from "./views/Fg/NewProjects/Firstgame";
 import Secondgame from "./views/Fg/NewProjects/Secondgame";
 import FirstGameStarts from "./views/Fg/NewProjects/FirstGameStarts";
+import EditPicture from "./views/Fg/EditPicture/EditPicture";
 
 import Photos from "./views/Photos/Photos";
 import MyProfileRebrand from "./views/MyProfile/MyProfileRebrand";
@@ -64,6 +65,7 @@ const AppRoutes: FC = () => {
                 />
                 <Route path="/fg/motive" element={<Motives />} />
                 <Route path="/fg/motive/:id" element={<EditMotive />} />
+                <Route path="/fg/editpicture" element={<EditPicture/>}/>
               </>
             )}
           </>
