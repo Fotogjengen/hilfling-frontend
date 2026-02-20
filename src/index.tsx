@@ -77,10 +77,6 @@ const Root: FC = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [position, setPosition] = useState("oo"); //Change maybe? verv?
 
-  // For rendering credit warning
-      const [triggerCreditPopUp, setTriggerCreditPopUp] = useState(false)
-      const [downloadAbort, setdownloadAbort] = useState(false);
-
   // Checks if the user is logged in when the page loads
   useEffect(() => {
     const data = decryptData(Cookies.get("fgData") || "");

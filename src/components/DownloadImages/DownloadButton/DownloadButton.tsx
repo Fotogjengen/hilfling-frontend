@@ -23,10 +23,11 @@ const DownloadButton = ({currentIndex, isAuthenticated} : Props) => {
     const handleDownload = async (imageUrl: string, filename: string = "photo.jpg") => {
         
         setcreditAccepted(false);
-        // console.log(creditAccepted)
+
         try {
 
         console.log(imageUrl)
+        console.log(filename)
         } 
         catch (error) {
             console.error("Download failed:", error);
