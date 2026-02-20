@@ -178,36 +178,7 @@ const EditMotive = () => {
                   />
                 )}
               />
-              <Autocomplete
-                disablePortal
-                getOptionLabel={(albums: AlbumDto) => albums?.title || ""}
-                options={albums.map((album) => album || "")}
-                isOptionEqualToValue={(option, value) => option !== value}
-                value={motive?.albumDto || ""}
-                onChange={(e, value) => {
-                  if (value) {
-                    setMotive({
-                      ...motive,
-                      albumDto: {
-                        ...motive.albumDto,
-                        title: value.title,
-                        albumId: {
-                          ...motive.albumDto?.albumId,
-                          id: value.albumId.id,
-                        },
-                      },
-                    });
-                  }
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    fullWidth
-                    label="Endre album"
-                    margin="normal"
-                  />
-                )}
-              />
+
               <Autocomplete
                 disablePortal
                 getOptionLabel={(eventOwners: EventOwnerDto) =>
