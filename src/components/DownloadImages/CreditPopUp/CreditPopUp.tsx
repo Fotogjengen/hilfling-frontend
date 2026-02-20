@@ -8,15 +8,19 @@ import { AuthenticationContext } from "../../../contexts/AuthenticationContext";
 interface Props {
   setTriggerCreditPopUp: React.Dispatch<React.SetStateAction<boolean>>;
   setcreditAccepted: React.Dispatch<React.SetStateAction<boolean>>;
+  isAuthenticated : Boolean;
 }
 
-const CreditPopUp =({ setTriggerCreditPopUp, setcreditAccepted }: Props)  => {
+const CreditPopUp =({ setTriggerCreditPopUp, setcreditAccepted, isAuthenticated }: Props )  => {
 
     const [isIntern, setIsIntern] = useState(false); //if the user is intern, a reminder to not post pictures from internområder
-    const { isAuthenticated, position } = useContext(AuthenticationContext);
+    // const { isAuthenticated} = useContext(AuthenticationContext);
+
+
     useEffect( () =>{
         setIsIntern(true);  //update to actually check the users staus
-    }),[];
+        console.log(isAuthenticated)
+    },[]);
 
     const handleAccept = () => {
         setcreditAccepted(true);

@@ -169,7 +169,7 @@ const Root: FC = () => {
             onClose={() => setIsOpen(false)}
             onIndexChange={(newIndex) => setPhotoIndex(newIndex)}
             toolbarRender={(photoIndex) => (
-                  <DownloadButton currentIndex={photoIndex}/>)} 
+                  <DownloadButton currentIndex={photoIndex} isAuthenticated = {isAuthenticated} />)} 
           />
 
         </ImageContext.Provider>
