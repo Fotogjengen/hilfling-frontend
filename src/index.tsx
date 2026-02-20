@@ -21,6 +21,7 @@ import Cookies from "js-cookie";
 import { decryptData, encryptData } from "./utils/encryption/encrypt";
 import  DownloadButton  from "./components/DownloadImages/DownloadButton/DownloadButton"
 
+import { AdBannerContext } from "./contexts/AdBannerContext";
 
 function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
   return (
@@ -72,6 +73,10 @@ const Root: FC = () => {
   const [photos, setPhotos] = useState<PhotoDto[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [photoIndex, setPhotoIndex] = useState(0);
+
+  // Hooks for Ad Banner
+  const [showAdBanner, setShowAdBanner] = useState(false);
+  const [shouldShowAdBanner, setShouldShowAdBanner] = useState(true);
 
   // Hooks for Authentication
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -131,6 +136,16 @@ const Root: FC = () => {
     [isOpen, photoIndex, photos],
   );
 
+  const adBannerContextValue = useMemo(
+    () => ({
+      showAdBanner,
+      setShowAdBanner,
+      shouldShowAdBanner,
+      setShouldShowAdBanner,
+    }),
+    [showAdBanner, shouldShowAdBanner],
+  );
+
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <ThemeProvider theme={theme}>
@@ -169,6 +184,40 @@ const Root: FC = () => {
           />
 
         </ImageContext.Provider>
+        <AdBannerContext.Provider value={adBannerContextValue}>
+          <ImageContext.Provider value={imageContextValue}>
+            <AuthenticationContext.Provider value={authContextValue}>
+              <AlertContext.Provider value={alertContextValue}>
+                {open && (
+                  <Alert
+                    open={open}
+                    setOpen={setOpen}
+                    message={message}
+                    severity={severity}
+                  />
+                )}
+                <Box sx={{ m: "2rem" }}>
+                  <Router>
+                    <HeaderComponent />
+                    <AppRoutes />
+                  </Router>
+                </Box>
+                <GuiFooter />
+              </AlertContext.Provider>
+            </AuthenticationContext.Provider>
+
+            <PhotoSlider
+              images={photos.map((p) => ({
+                src: createImgUrl(p),
+                key: createImgUrl(p),
+              }))}
+              visible={isOpen}
+              index={photoIndex}
+              onClose={() => setIsOpen(false)}
+              onIndexChange={(newIndex) => setPhotoIndex(newIndex)}
+            />
+          </ImageContext.Provider>
+        </AdBannerContext.Provider>
       </ThemeProvider>
     </ErrorBoundary>
   );

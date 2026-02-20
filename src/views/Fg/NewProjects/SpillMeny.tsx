@@ -7,18 +7,20 @@ import CameraAltIcon from "@mui/icons-material/CameraAlt";
 const SpillMeny = () => {
   const IconSize = 100;
 
-  const menuLinksOne = [
+  const menuLinks = [
     {
       name: "Spill 1",
       to: "/fg/firstgame",
       icon: <CameraAltIcon style={{ fontSize: IconSize }} />,
     },
-  ];
-
-  const menuLinksTwo = [
     {
       name: "Spill 2",
       to: "/fg/secondgame",
+      icon: <CameraAltIcon style={{ fontSize: IconSize }} />,
+    },
+    {
+      name: "Markus sitt spill",
+      to: "/fg/markussittspill",
       icon: <CameraAltIcon style={{ fontSize: IconSize }} />,
     },
   ];
@@ -39,17 +41,7 @@ const SpillMeny = () => {
       }}
     >
       <Grid container spacing={3} justifyContent="center" alignItems="center">
-        {menuLinksOne.map((link, index) => (
-          <Grid item key={index}>
-            <Link to={link.to}>
-              <MainItem>
-                <Typography>{link.name}</Typography>
-                {link.icon}
-              </MainItem>
-            </Link>
-          </Grid>
-        ))}
-        {menuLinksTwo.map((link, index) => (
+        {menuLinks.map((link, index) => (
           <Grid item key={index}>
             <Link to={link.to}>
               <MainItem>
