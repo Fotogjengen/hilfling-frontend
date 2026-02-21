@@ -149,41 +149,6 @@ const Root: FC = () => {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <ThemeProvider theme={theme}>
-        <ImageContext.Provider value={imageContextValue}>
-          <AuthenticationContext.Provider value={authContextValue}>
-            <AlertContext.Provider value={alertContextValue}>
-              {open && (
-                <Alert
-                  open={open}
-                  setOpen={setOpen}
-                  message={message}
-                  severity={severity}
-                />
-              )}
-              <Box sx={{ m: "2rem" }}>
-                <Router>
-                  <HeaderComponent />
-                  <AppRoutes />
-                </Router>
-              </Box>
-              <GuiFooter />
-            </AlertContext.Provider>
-          </AuthenticationContext.Provider>
-
-          <PhotoSlider
-            images={photos.map((p) => ({
-              src: createImgUrl(p),
-              key: createImgUrl(p),
-            }))}
-            visible={isOpen}
-            index={photoIndex}
-            onClose={() => setIsOpen(false)}
-            onIndexChange={(newIndex) => setPhotoIndex(newIndex)}
-            toolbarRender={(photoIndex) => (
-                  <DownloadButton currentIndex={photoIndex} isAuthenticated = {isAuthenticated} />)} 
-          />
-
-        </ImageContext.Provider>
         <AdBannerContext.Provider value={adBannerContextValue}>
           <ImageContext.Provider value={imageContextValue}>
             <AuthenticationContext.Provider value={authContextValue}>
@@ -206,16 +171,18 @@ const Root: FC = () => {
               </AlertContext.Provider>
             </AuthenticationContext.Provider>
 
-            <PhotoSlider
-              images={photos.map((p) => ({
-                src: createImgUrl(p),
-                key: createImgUrl(p),
-              }))}
-              visible={isOpen}
-              index={photoIndex}
-              onClose={() => setIsOpen(false)}
-              onIndexChange={(newIndex) => setPhotoIndex(newIndex)}
-            />
+          <PhotoSlider
+            images={photos.map((p) => ({
+              src: createImgUrl(p),
+              key: createImgUrl(p),
+            }))}
+            visible={isOpen}
+            index={photoIndex}
+            onClose={() => setIsOpen(false)}
+            onIndexChange={(newIndex) => setPhotoIndex(newIndex)}
+            toolbarRender={(photoIndex) => (
+                  <DownloadButton currentIndex={photoIndex} isAuthenticated = {isAuthenticated} />)} 
+          />
           </ImageContext.Provider>
         </AdBannerContext.Provider>
       </ThemeProvider>
