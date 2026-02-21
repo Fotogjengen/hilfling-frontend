@@ -13,6 +13,12 @@ export interface DragNDropFile extends File {
   isGoodPicture: boolean;
 }
 
+export interface PaginatedResult<T> {
+  currentList: T[];
+  totalPages: number;
+  totalElements: number;
+}
+
 export type UKA = "uka";
 export type SAMFUNDET = "samfundet";
 export type ISFIT = "isfit";
