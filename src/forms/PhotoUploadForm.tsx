@@ -50,13 +50,19 @@ export interface PhotoUploadFormIV {
 
 interface Props {
   initialValues: PhotoUploadFormIV;
+  mode?: "create" | "edit";
+  photoId?: string;
 }
 
-const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
+const PhotoUploadForm: FC<Props> = ({ initialValues, mode = "create", photoId }) => {
+
   //Handling file Uploads with dropzone
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
-    accept: ".jpg,.jpeg,.png",
-  });
+const dropzone = useDropzone({
+  accept: ".jpg,.jpeg,.png",
+  disabled: mode === "edit",
+});
+
+const { acceptedFiles, getRootProps, getInputProps } = dropzone;
 
   const [files, setFiles] = useState<DragNDropFile[]>([]); // stores the uploaded files
   const [albums, setAlbums] = useState<AlbumDto[]>([]); // stores api fetch data from dropdowns
@@ -130,6 +136,18 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
     console.log("categories");
     console.log(categories);
   }, [categories]);
+
+  useEffect(() => {
+  if (mode === "edit") return;
+
+  setFiles((prevFiles) => [
+    ...prevFiles,
+    ...(acceptedFiles as DragNDropFile[]).map((file) => {
+      file.isGoodPicture = false;
+      return file;
+    }),
+  ]);
+}, [acceptedFiles, mode]);
 
   const onSubmit = async (values: Record<string, any>) => {
     setFormSubmitted(false); // Reset state before submission
@@ -228,6 +246,7 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
     if (formSubmitted) return {}; // Skip validation if form was just submitted
 
     const errors: Errors = {};
+
 
     // Album validation
     if (!values.album) {
@@ -340,16 +359,19 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
           >
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Select name="album" label="Album" fullWidth required>
-                  {albums.map((album, index) => (
-                    <MenuItem
-                      key={`album-item-${index}`}
-                      value={album?.albumId?.id}
-                    >
-                      {album.title}
-                    </MenuItem>
-                  ))}
-                </Select>
+              <Select
+                name="album"
+                label="Album"
+                fullWidth
+                required
+                disabled={mode === "edit"}
+              >
+                {albums.map((album, index) => (
+                  <MenuItem key={`album-item-${index}`} value={album?.albumId?.id}>
+                    {album.title}
+                  </MenuItem>
+                ))}
+              </Select>
               </Grid>
 
               <Grid item xs={12}>
@@ -437,19 +459,25 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
           </Form>
         </Grid>
         <Grid item xs={6}>
-          <section>
-            <div
-              {...getRootProps({ className: "dropzone" })}
-              className={cx(styles.dropzone)}
-            >
-              <input {...getInputProps()} />
-              <p>Dra og slipp filer her, eller klikk for å velge filer.</p>
-            </div>
+          {mode !== "edit" ? (
+            <section>
+              <div
+                {...getRootProps({ className: "dropzone" })}
+                className={cx(styles.dropzone)}
+              >
+                <input {...getInputProps()} />
+                <p>Dra og slipp filer her, eller klikk for å velge filer.</p>
+              </div>
 
-            <aside>
-              <ul className={styles.noStyleUl}>{renderFilePreview}</ul>
-            </aside>
-          </section>
+              <aside>
+                <ul className={styles.noStyleUl}>{renderFilePreview}</ul>
+              </aside>
+            </section>
+          ) : (
+            <section className={cx(styles.dropzone)}>
+              <p>Fil kan ikke endres ved redigering.</p>
+            </section>
+          )}
         </Grid>
       </Grid>
       <Dialog open={isLoading}>

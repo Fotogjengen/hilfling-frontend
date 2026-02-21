@@ -64,8 +64,10 @@ const AppRoutes: FC = () => {
                   element={<ArchiveBossEditUser />}
                 />
                 <Route path="/fg/motive" element={<Motives />} />
+                <Route path="/fg/editpicture/:id" element={<EditPicture/>}/>
                 <Route path="/fg/motive/:id" element={<EditMotive />} />
-                <Route path="/fg/editpicture" element={<EditPicture/>}/>
+                <Route path="/fg/photo/:id" element={<EditPicture />} />
+                
               </>
             )}
           </>

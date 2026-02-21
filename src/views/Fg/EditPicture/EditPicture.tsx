@@ -8,8 +8,11 @@ import { PhotoApi } from "../../../utils/api/PhotoApi";
 
 import PhotoUploadForm, { PhotoUploadFormIV } from "../../../forms/PhotoUploadForm";
 
+
 const EditPicture = () => {
     const [initialValues, setInitialValues] = useState<PhotoUploadFormIV | null>(null);
+
+    
     
    
     const { id } = useParams<{ id: string }>();
@@ -17,8 +20,9 @@ const EditPicture = () => {
     useEffect(() => {
     if (id) {
         PhotoApi.getById(id).then((photo) => {
+          
         setInitialValues({
-            album: photo.albumDto?.albumId?.id,
+            album: photo.albumDto?.albumId?.id ?? "",
             date: undefined, //ser ikke at det blir lastet opp til API
             motive: photo.motive?.title,
             tags: [],
@@ -33,9 +37,11 @@ const EditPicture = () => {
 
     if (!initialValues) return <div>Laster inn</div>;
 
-    return <PhotoUploadForm initialValues={initialValues}/>;
+    return <PhotoUploadForm mode="edit" photoId={id!} initialValues={initialValues} />;
 
     };
+
+
 
 
 

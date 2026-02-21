@@ -24,6 +24,10 @@ import styles from "./EditMotive.module.css";
 import MotiveCard from "../../../components/MotiveCard/MotiveCard";
 import { AlertContext, severityEnum } from "../../../contexts/AlertContext";
 import DeleteDialog from "../../../components/DeleteDialog/DeleteDialog";
+import { PhotoApi } from "../../../utils/api/PhotoApi";
+import { createImgUrl } from "../../../utils/createImgUrl/createImgUrl";
+import { Link } from "react-router-dom";
+import { PhotoDto } from "../../../../generated";
 
 const EditMotive = () => {
   const [motive, setMotive] = useState<MotiveDto>({} as MotiveDto);
@@ -33,6 +37,7 @@ const EditMotive = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
   const [, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [photos, setPhotos] = useState<PhotoDto[]>([]);
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -73,6 +78,10 @@ const EditMotive = () => {
           setSeverity(severityEnum.ERROR);
           setMessage(e);
         });
+      PhotoApi.getAllByMotiveId(id).then((res) => {
+        console.log(res);
+        setPhotos(res);
+      });;
     }
   }, []);
 
@@ -255,6 +264,36 @@ const EditMotive = () => {
           </>
         )}
       </Grid>
+
+            {/* --- Bilder i motivet --- */}
+      <h3 style={{ marginTop: 24 }}>Bilder i  motivet</h3>
+
+        {photos.length === 0 ? (
+          <p>Ingen bilder funnet.</p>
+        ) : (
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
+              gap: 12,
+              marginTop: 12,
+            }}
+          >
+            {photos.map((photo) => (
+              <Link
+                key={photo.photoId.id}
+                to={`/fg/photo/${photo.photoId.id}`}
+                style={{ display: "block" }}
+              >
+                <img
+                  src={createImgUrl(photo)}
+                  alt=""
+                  style={{ width: "100%", borderRadius: 6, display: "block" }}
+                />
+              </Link>
+            ))}
+          </div>
+        )}
       <DeleteDialog
         open={openDeleteDialog}
         onClose={handleDialogClose}
