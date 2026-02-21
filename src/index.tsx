@@ -19,6 +19,8 @@ import { createImgUrl } from "./utils/createImgUrl/createImgUrl";
 import { AuthenticationContext } from "./contexts/AuthenticationContext";
 import Cookies from "js-cookie";
 import { decryptData, encryptData } from "./utils/encryption/encrypt";
+import  DownloadButton  from "./components/DownloadImages/DownloadButton/DownloadButton"
+
 import { AdBannerContext } from "./contexts/AdBannerContext";
 
 function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
@@ -169,16 +171,18 @@ const Root: FC = () => {
               </AlertContext.Provider>
             </AuthenticationContext.Provider>
 
-            <PhotoSlider
-              images={photos.map((p) => ({
-                src: createImgUrl(p),
-                key: createImgUrl(p),
-              }))}
-              visible={isOpen}
-              index={photoIndex}
-              onClose={() => setIsOpen(false)}
-              onIndexChange={(newIndex) => setPhotoIndex(newIndex)}
-            />
+          <PhotoSlider
+            images={photos.map((p) => ({
+              src: createImgUrl(p),
+              key: createImgUrl(p),
+            }))}
+            visible={isOpen}
+            index={photoIndex}
+            onClose={() => setIsOpen(false)}
+            onIndexChange={(newIndex) => setPhotoIndex(newIndex)}
+            toolbarRender={(photoIndex) => (
+                  <DownloadButton currentIndex={photoIndex} isAuthenticated = {isAuthenticated} />)} 
+          />
           </ImageContext.Provider>
         </AdBannerContext.Provider>
       </ThemeProvider>
