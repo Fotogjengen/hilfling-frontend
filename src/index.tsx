@@ -20,6 +20,7 @@ import { AuthenticationContext } from "./contexts/AuthenticationContext";
 import Cookies from "js-cookie";
 import { decryptData, encryptData } from "./utils/encryption/encrypt";
 import { AdBannerContext } from "./contexts/AdBannerContext";
+import  TitleBanner  from "./components/TitleBanner/TitleBanner"
 
 function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
   return (
@@ -178,6 +179,12 @@ const Root: FC = () => {
               index={photoIndex}
               onClose={() => setIsOpen(false)}
               onIndexChange={(newIndex) => setPhotoIndex(newIndex)}
+              overlayRender = { (index)  => (
+                <TitleBanner/>
+
+              )
+
+              }
             />
           </ImageContext.Provider>
         </AdBannerContext.Provider>

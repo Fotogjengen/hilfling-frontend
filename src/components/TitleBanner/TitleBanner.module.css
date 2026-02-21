@@ -1,0 +1,11 @@
+.titleBanner {
+    position: 'absolute';
+    left: 0;
+    bottom: 0;
+    padding: '8px';
+    width: '100%';
+    min-Height: '40px';
+    color: '#fff';
+    z-Index: 50;
+    background-Color: 'rgba(0, 0, 0, 0.5)';
+};
