@@ -4,15 +4,15 @@ import {
   PhotoGangBangerDto,
   PhotoGangBangerPublicDto,
 } from "../../../generated";
-import { PaginatedResult } from "./types";
+import { PaginatedResult, PaginatedResultData } from "./types";
 
 export const PhotoGangBangerApi = {
-  getAll: async function (): Promise<PaginatedResult<PhotoGangBangerDto>> {
+  getAll: async function (): Promise<PaginatedResultData<PhotoGangBangerDto>> {
     const res = await api.get<PaginatedResult<PhotoGangBangerDto>>(
       "/photo_gang_bangers",
     );
-    return res.data;
-  },
+    return res.data.data;
+    },
 
   getById: async function (id: string): Promise<PhotoGangBangerDto> {
     return api.get(`/photo_gang_bangers/${id}`).then((res) => res.data);
