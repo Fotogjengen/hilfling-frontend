@@ -32,25 +32,20 @@ const SearchField: FC = () => {
 
   const handleSearch = useCallback(
     (s: string) => {
-
       setSearch(s);
 
-          const query = (s ?? search);
+      const query = s ?? search;
 
-          
       //setSearchQuery(s);
       setSuggestions([]);
       setSelectedIndex(-1);
 
-
-    setTimeout(() => {
-      setSearchQuery(query);
-    }, 0);
+      setTimeout(() => {
+        setSearchQuery(query);
+      }, 0);
     },
     [search, setSearchQuery],
   );
-
-
 
   useEffect(() => {
     if (search.length === 0) {

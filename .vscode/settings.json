@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["guistyles", "hilfling", "myprofile"]
+  "cSpell.words": ["guistyles", "hilfling", "myprofile"],
+  "editor.formatOnSave": true
 }
