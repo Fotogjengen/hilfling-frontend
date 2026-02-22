@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [15.x]
+        node-version: [20.x]
     steps:
       - uses: actions/checkout@v6
 
@@ -35,7 +35,7 @@ jobs:
         uses: actions/cache@v5
         with:
           path: node_modules
-          key: node-modules-${{ hashFiles('package-lock.json') }}
+          key: node-modules-${{ matrix.node-version }}-${{ hashFiles('package-lock.json') }}
           restore-keys: |
             node-modules-
 
