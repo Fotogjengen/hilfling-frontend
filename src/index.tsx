@@ -181,7 +181,8 @@ const Root: FC = () => {
             index={photoIndex}
             onClose={() => setIsOpen(false)}
             onIndexChange={(newIndex) => setPhotoIndex(newIndex)}
-            toolbarRender={(photoIndex) => (
+            toolbarRender={(photoIndex, overlayVisible=false) => (
+
                   <DownloadButton currentIndex={photoIndex} isAuthenticated = {isAuthenticated} />)} 
             overlayRender = { (index)  => (
                 <TitleBanner/>)}
