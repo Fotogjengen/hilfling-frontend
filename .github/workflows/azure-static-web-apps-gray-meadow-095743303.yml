@@ -21,6 +21,18 @@ jobs:
       - uses: actions/checkout@v6
         with:
           submodules: true
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20          # or 18, but >=16 as per your package.json
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+        
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
