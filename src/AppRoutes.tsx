@@ -25,6 +25,7 @@ import FirstGameStarts from "./views/Fg/NewProjects/FirstGameStarts";
 import Photos from "./views/Photos/Photos";
 import MyProfileRebrand from "./views/MyProfile/MyProfileRebrand";
 import MobileLogin from "./views/MobileLogin/MobileLogin";
+import MarkusProject from "./views/Fg/NewProjects/MarkusProject";
 
 const AppRoutes: FC = () => {
   const { isAuthenticated, position } = useContext(AuthenticationContext);
@@ -50,6 +51,7 @@ const AppRoutes: FC = () => {
                 <Route path="/fg/spillmeny" element={<SpillMeny />} />
                 <Route path="/fg/firstgame" element={<Firstgame />} />
                 <Route path="/fg/secondgame" element={<Secondgame />} />
+                <Route path="/fg/markussittspill" element={<MarkusProject />} />
                 <Route
                   path="/fg/firstgamestarts"
                   element={<FirstGameStarts />}
