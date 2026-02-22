@@ -18,7 +18,7 @@ jobs:
     env:
       REACT_APP_TEMP_API_PATH: ${{ secrets.TEMP_API_PATH }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v5
         with:
           submodules: true
       - name: Build And Deploy
