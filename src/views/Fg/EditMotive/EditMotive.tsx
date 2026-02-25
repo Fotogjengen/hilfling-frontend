@@ -220,7 +220,25 @@ const EditMotive = () => {
                   />
                 )}
               />
+              <TextField
+              label="Endre dato"
+              type="date"
+              value={
+                motive?.dateCreated
+                  ? new Date(motive.dateCreated).toISOString().slice(0, 10)
+                  : ""
+              }
+              onChange={(e) => {
+                const isoDate = e.target.value;
+                const d = new Date(`${isoDate}T12:00:00`);
+                setMotive({ ...motive, dateCreated: d as unknown as Date });
+              }}
+              margin="normal"
+              fullWidth
+              InputLabelProps={{ shrink: true }}
+            />
             </Grid>
+
             <Grid item xs={12} sm={6}>
               <Typography variant="h6">Slik vil motivet se ut</Typography>
               <MotiveCard key={1} motive={motive}>
