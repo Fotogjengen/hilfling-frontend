@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styles from "./CreditPopUp.module.css";
 import { Paper, Button, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
