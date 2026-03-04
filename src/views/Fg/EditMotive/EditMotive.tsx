@@ -221,21 +221,25 @@ const EditMotive = () => {
                 )}
               />
               <TextField
-              label="Endre dato"
-              type="date"
-              value={
-                motive?.dateCreated
-                  ? new Date(motive.dateCreated).toISOString().slice(0, 10)
-                  : ""
-              }
-              onChange={(e) => {
-                const isoDate = e.target.value;
-                const d = new Date(`${isoDate}T12:00:00`);
-                setMotive({ ...motive, dateCreated: d as unknown as Date });
-              }}
-              margin="normal"
-              fullWidth
-              InputLabelProps={{ shrink: true }}
+                label="Endre dato"
+                type="date"
+                value={
+                  motive?.dateCreated
+                    ? new Date(motive.dateCreated).toISOString().slice(0, 10)
+                    : ""
+                }
+                onChange={(e) => {
+                  const isoDate = e.target.value; 
+                  if (!isoDate) {
+              
+                    return;
+                  }
+                  const newDate = new Date(`${isoDate}T12:00:00`);
+                  setMotive({ ...motive, dateCreated: newDate });
+                }}
+                margin="normal"
+                fullWidth
+                InputLabelProps={{ shrink: true }}
             />
             </Grid>
 
@@ -283,7 +287,6 @@ const EditMotive = () => {
         )}
       </Grid>
 
-            {/* --- Bilder i motivet --- */}
       <h3 style={{ marginTop: 24 }}>Bilder i  motivet</h3>
 
         {photos.length === 0 ? (

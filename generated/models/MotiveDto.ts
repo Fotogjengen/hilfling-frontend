@@ -8,6 +8,7 @@ import type { EventOwnerDto } from "./EventOwnerDto";
 import type { MotiveId } from "./MotiveId";
 
 export type MotiveDto = {
+  id: string | number | readonly string[] | undefined;
   motiveId: MotiveId;
   title: string;
   categoryDto: CategoryDto;

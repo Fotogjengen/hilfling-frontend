@@ -25,7 +25,10 @@ import {
   EventOwnerDto,
   PlaceDto,
   SecurityLevelDto,
+  MotiveDto,
 } from "../../generated";
+import { MotiveApi } from "../utils/api/MotiveApi";
+
 import { PlaceApi } from "../utils/api/PlaceApi";
 import { SecurityLevelApi } from "../utils/api/SecurityLevelApi";
 import { AlbumApi } from "../utils/api/AlbumApi";
@@ -52,6 +55,7 @@ interface Props {
   initialValues: PhotoUploadFormIV;
   mode?: "create" | "edit";
   photoId?: string;
+  photoUrl?: string | null;
 }
 
 const PhotoUploadForm: FC<Props> = ({ initialValues, mode = "create", photoId }) => {
@@ -71,10 +75,13 @@ const { acceptedFiles, getRootProps, getInputProps } = dropzone;
   const [places, setPlaces] = useState<PlaceDto[]>([]); // stores api fetch data from dropdowns
   const [securityLevels, setSecurityLevels] = useState<SecurityLevelDto[]>([]); // stores api fetch data from dropdowns
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [motives, setMotives] = useState<MotiveDto[]>([]);
+  const [photoUrl, setPhotoUrl] = useState<string | null>(null);
 
   const [isLoading, setIsLoading] = useState(false); // Track if a file is being uploaded
   const [progress, setProgress] = useState(0); // Tracks upload progress percentage'
   const [success, setSuccess] = useState(false);
+
 
   const { setMessage, setSeverity, setOpen } = useContext(AlertContext);
 
@@ -123,6 +130,14 @@ const { acceptedFiles, getRootProps, getInputProps } = dropzone;
       });
   }, []);
 
+  MotiveApi.getAll()
+  .then((res) => setMotives(res.data.currentList))
+  .catch((err) => {
+    setOpen(true);
+    setSeverity(severityEnum.ERROR);
+    setMessage(err.message);
+  });
+
   useEffect(() => {
     setFiles((prevFiles) => [
       ...prevFiles,
@@ -148,6 +163,8 @@ const { acceptedFiles, getRootProps, getInputProps } = dropzone;
     }),
   ]);
 }, [acceptedFiles, mode]);
+
+
 
   const onSubmit = async (values: Record<string, any>) => {
     setFormSubmitted(false); // Reset state before submission
@@ -350,136 +367,154 @@ const { acceptedFiles, getRootProps, getInputProps } = dropzone;
 
   return (
     <div>
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <Form
-            onSubmit={onSubmit}
-            initialValues={initialValues}
-            validate={validate}
+<Grid container spacing={2}>
+
+  {mode !== "edit" && (
+    <Grid item xs={12}>
+      <Select
+        name="album"
+        label="Album"
+        fullWidth
+        required
+      >
+        {albums.map((album, index) => (
+          <MenuItem key={`album-item-${index}`} value={album?.albumId?.id}>
+            {album.title}
+          </MenuItem>
+        ))}
+      </Select>
+    </Grid>
+  )}
+
+  {mode !== "edit" && (
+    <Grid item xs={12}>
+      <LocalizationProvider
+        dateAdapter={AdapterDayjs}
+        adapterLocale={"NO"}
+        localeText={
+          nbNO.components.MuiLocalizationProvider.defaultProps.localeText
+        }
+      >
+        <DatePickerField
+          name="date"
+          label="Dato"
+          required
+          fullWidth
+        />
+      </LocalizationProvider>
+    </Grid>
+  )}
+
+  <Grid item xs={12}>
+    <Select name="motive" label="Motiv" fullWidth required>
+      {motives.map((motive, index) => (
+        <MenuItem key={`motive-item-${index}`} value={motive.motiveId?.id}>
+          {motive.title}
+        </MenuItem>
+      ))}
+    </Select>
+  </Grid>
+
+  {mode !== "edit" && (
+    <Grid item xs={12}>
+      <Select name="category" label="Kategori" fullWidth required>
+        {categories.map((category, index) => (
+          <MenuItem
+            key={`category-item-${index}`}
+            value={category.name}
           >
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-              <Select
-                name="album"
-                label="Album"
-                fullWidth
-                required
-                disabled={mode === "edit"}
-              >
-                {albums.map((album, index) => (
-                  <MenuItem key={`album-item-${index}`} value={album?.albumId?.id}>
-                    {album.title}
-                  </MenuItem>
-                ))}
-              </Select>
-              </Grid>
+            {category.name}
+          </MenuItem>
+        ))}
+      </Select>
+    </Grid>
+  )}
 
-              <Grid item xs={12}>
-                <LocalizationProvider
-                  dateAdapter={AdapterDayjs}
-                  adapterLocale={"NO"}
-                  localeText={
-                    nbNO.components.MuiLocalizationProvider.defaultProps
-                      .localeText
-                  }
-                >
-                  <DatePickerField
-                    name="date"
-                    label="Dato"
-                    required
-                    fullWidth
-                  />
-                </LocalizationProvider>
-                {/* TODO: Add new datepicker, this one is outdated and not working */}
-              </Grid>
+  {mode !== "edit" && (
+    <Grid item xs={12}>
+      <Select name="place" label="Sted" fullWidth required>
+        {places.map((place, index) => (
+          <MenuItem key={`place-item-${index}`} value={place.name}>
+            {place.name}
+          </MenuItem>
+        ))}
+      </Select>
+    </Grid>
+  )}
 
-              <Grid item xs={12}>
-                <TextField name="motive" label="Motiv" fullWidth required />
-              </Grid>
+  <Grid item xs={12}>
+    <Select
+      name="securityLevel"
+      label="Sikkerhetsnivå"
+      fullWidth
+      required
+    >
+      {securityLevels.map((securityLevel, index) => (
+        <MenuItem
+          key={`security-level-item-${index}`}
+          value={securityLevel?.securityLevelId?.id}
+        >
+          {securityLevel.securityLevelType}
+        </MenuItem>
+      ))}
+    </Select>
+  </Grid>
 
-              {/*
-              For Tags
-              <Grid item xs={12}>
-                <ChipField name="tags" label="Tags" fullWidth />
-              </Grid> */}
+  {mode !== "edit" && (
+    <Grid item xs={12}>
+      <Select name="eventOwner" label="Eier" fullWidth required>
+        {eventOwners.map((eventOwner, index) => (
+          <MenuItem
+            key={`event-owner-item-${index}`}
+            value={eventOwner.name}
+          >
+            {eventOwner.name}
+          </MenuItem>
+        ))}
+      </Select>
+    </Grid>
+  )}
 
-              <Grid item xs={12}>
-                <Select name="category" label="Kategori" fullWidth required>
-                  {categories.map((category, index) => (
-                    <MenuItem
-                      key={`category-item-${index}`}
-                      value={category.name}
-                    >
-                      {category.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </Grid>
+<Grid item xs={6}>
+  {mode !== "edit" ? (
+    <section>
+      <div
+        {...getRootProps({ className: "dropzone" })}
+        className={cx(styles.dropzone)}
+      >
+        <input {...getInputProps()} />
+        <p>Dra og slipp filer her, eller klikk for å velge filer.</p>
+      </div>
 
-              <Grid item xs={12}>
-                <Select name="place" label="Sted" fullWidth required>
-                  {places.map((place, index) => (
-                    <MenuItem key={`place-item-${index}`} value={place.name}>
-                      {place.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </Grid>
+      <aside>
+        <ul className={styles.noStyleUl}>{renderFilePreview}</ul>
+      </aside>
+    </section>
+  ) : (
+    <section className={styles.dropzone}>
+      {photoUrl ? (
+        <img
+          src={photoUrl}
+          alt="Photo being edited"
+          style={{
+            width: "100%",
+            maxHeight: "500px",
+            objectFit: "contain",
+            borderRadius: "6px",
+          }}
+        />
+      ) : (
+        <p>Laster bilde...</p>
+      )}
+    </section>
+  )}
+</Grid>
 
-              <Grid item xs={12}>
-                <Select
-                  name="securityLevel"
-                  label="Sikkerhetsnivå"
-                  fullWidth
-                  required
-                >
-                  {securityLevels.map((securityLevel, index) => (
-                    <MenuItem
-                      key={`security-level-item-${index}`}
-                      value={securityLevel?.securityLevelId?.id}
-                    >
-                      {securityLevel.securityLevelType}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </Grid>
-              <Grid item xs={12}>
-                <Select name="eventOwner" label="Eier" fullWidth required>
-                  {eventOwners.map((eventOwner, index) => (
-                    <MenuItem
-                      key={`event-owner-item-${index}`}
-                      value={eventOwner.name}
-                    >
-                      {eventOwner.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </Grid>
-            </Grid>
-          </Form>
-        </Grid>
-        <Grid item xs={6}>
-          {mode !== "edit" ? (
-            <section>
-              <div
-                {...getRootProps({ className: "dropzone" })}
-                className={cx(styles.dropzone)}
-              >
-                <input {...getInputProps()} />
-                <p>Dra og slipp filer her, eller klikk for å velge filer.</p>
-              </div>
 
-              <aside>
-                <ul className={styles.noStyleUl}>{renderFilePreview}</ul>
-              </aside>
-            </section>
-          ) : (
-            <section className={cx(styles.dropzone)}>
-              <p>Fil kan ikke endres ved redigering.</p>
-            </section>
-          )}
-        </Grid>
-      </Grid>
+
+  
+
+</Grid>
       <Dialog open={isLoading}>
         <DialogContent
           sx={{
