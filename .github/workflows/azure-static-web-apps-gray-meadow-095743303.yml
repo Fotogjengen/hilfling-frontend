@@ -24,8 +24,8 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20          # or 18, but >=16 as per your package.json
-          cache: 'npm'
+          node-version: 20 # or 18, but >=16 as per your package.json
+          cache: "npm"
 
       - name: Install dependencies
         run: npm ci
