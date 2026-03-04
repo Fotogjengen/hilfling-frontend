@@ -65,8 +65,8 @@ const CreditPopUp = ({
         )}
 
         <p className={styles.textDisclaimerStyle}>
-          Ved å trykke {"\"OK\""} aksepterer du Fotogjengens retningslinjer og vilkår
-          for bruk av bilder.
+          Ved å trykke {'"OK"'} aksepterer du Fotogjengens retningslinjer og
+          vilkår for bruk av bilder.
         </p>
       </div>
       <div className={styles.buttonContainerStyle}>
