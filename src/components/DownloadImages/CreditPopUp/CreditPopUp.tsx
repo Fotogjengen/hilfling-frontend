@@ -1,8 +1,7 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect } from "react";
 import styles from "./CreditPopUp.module.css";
 import { Paper, Button, IconButton } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { AuthenticationContext } from "../../../contexts/AuthenticationContext";
 
 interface Props {
   setTriggerCreditPopUp: React.Dispatch<React.SetStateAction<boolean>>;
@@ -15,11 +14,11 @@ const CreditPopUp = ({
   setcreditAccepted,
   isAuthenticated,
 }: Props) => {
-  const [isIntern, setIsIntern] = useState(false); //if the user is intern, a reminder to not post pictures from internområder
+  // const [setIsIntern] = useState(false); //if the user is intern, a reminder to not post pictures from internområder
   // const { isAuthenticated} = useContext(AuthenticationContext);
 
   useEffect(() => {
-    setIsIntern(true); //update to actually check the users staus
+    // setIsIntern(true); //update to actually check the users staus
     console.log(isAuthenticated);
   }, []);
 
@@ -66,8 +65,8 @@ const CreditPopUp = ({
         )}
 
         <p className={styles.textDisclaimerStyle}>
-          Ved å trykke "OK" aksepterer du Fotogjengens retningslinjer og vilkår
-          for bruk av bilder.
+          Ved å trykke {'"OK"'} aksepterer du Fotogjengens retningslinjer og
+          vilkår for bruk av bilder.
         </p>
       </div>
       <div className={styles.buttonContainerStyle}>

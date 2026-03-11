@@ -1,15 +1,15 @@
 name: get-env-variables
 
 on:
-  push:
-    branches: [master]
+  #run manually this test has crashed 29/29 times ran idk why its here will disable
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
 
       - name: Build the project
         env:

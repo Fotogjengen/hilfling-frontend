@@ -16,10 +16,7 @@ const DownloadButton = ({ currentIndex, isAuthenticated }: Props) => {
   //TODO actually implement the logic for downloading pictures when ITK server is linked up.
   //Should let user download the picture if they do not click abort on the credit pop up
   //This is just a dummy function
-  const handleDownload = async (
-    imageUrl: string,
-    filename: string = "photo.jpg",
-  ) => {
+  const handleDownload = (imageUrl: string, filename = "photo.jpg") => {
     setcreditAccepted(false);
 
     try {
