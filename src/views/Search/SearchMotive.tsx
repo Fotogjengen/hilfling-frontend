@@ -7,7 +7,7 @@ import ImagesAdvertisementPopup from "../../components/ImagesAdvertisementPopup/
 
 const SearchMotive = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const { showAdBanner, dismissAdBanner } = useAdBanner();
+  const { showAdBanner } = useAdBanner();
 
   return (
     <div>
