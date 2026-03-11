@@ -39,7 +39,7 @@ export const Photos = () => {
       try {
         const batch = await PhotoApi.getGoodPhotos(
           String(page),
-          String(PAGE_SIZE)
+          String(PAGE_SIZE),
         );
         setGoodPhotos((prev) => [...prev, ...batch]);
         if (batch.length < PAGE_SIZE) setHasMore(false);
@@ -60,7 +60,7 @@ export const Photos = () => {
           setPage((p) => p + 1);
         }
       },
-      { rootMargin: `${BUFFER_PX}px`, threshold: 0.1 }
+      { rootMargin: `${BUFFER_PX}px`, threshold: 0.1 },
     );
 
     ob.observe(loaderRef.current);
@@ -73,14 +73,12 @@ export const Photos = () => {
     setIsOpen(true);
   };
 
-
-
   const hash01 = (s: string) => {
     let h = 0;
     for (let i = 0; i < s.length; i++) {
       h = (h * 31 + s.charCodeAt(i)) | 0;
     }
-    return (Math.abs(h) % 1000) / 1000; 
+    return (Math.abs(h) % 1000) / 1000;
   };
 
   const buildTiles = (photos: PhotoDto[]): Tile[] => {
@@ -92,11 +90,8 @@ export const Photos = () => {
 
       const r = hash01(seed);
 
-   
       if (r < 0.35 && i + 1 < photos.length) {
-        const pattern = Math.floor(
-          hash01(seed + ":p") * 3
-        ); // 0,1,2
+        const pattern = Math.floor(hash01(seed + ":p") * 3); // 0,1,2
 
         const a = photos[i];
         const b = photos[i + 1];
@@ -119,23 +114,18 @@ export const Photos = () => {
           className: styles.gap,
         };
 
-        if (pattern === 0) tiles.push(A, B, G); 
-        if (pattern === 1) tiles.push(G, A, B); 
-        if (pattern === 2) tiles.push(A, G, B); 
+        if (pattern === 0) tiles.push(A, B, G);
+        if (pattern === 1) tiles.push(G, A, B);
+        if (pattern === 2) tiles.push(A, G, B);
 
         i += 2;
         continue;
       }
 
-  
       const p = photos[i];
-      const r2 = hash01(
-        `${p.photoId.id}:w:${i}`
-      );
+      const r2 = hash01(`${p.photoId.id}:w:${i}`);
 
-
-      const cls =
-        r2 < 0.25 ? styles.w12 : styles.w6;
+      const cls = r2 < 0.25 ? styles.w12 : styles.w6;
 
       tiles.push({
         type: "photo",
@@ -152,19 +142,13 @@ export const Photos = () => {
 
   const tiles = buildTiles(goodPhotos);
 
-
-
   return (
     <div>
       <div className={styles.grid}>
         {tiles.map((t) => {
           if (t.type === "gap") {
             return (
-              <div
-                key={t.key}
-                className={t.className}
-                aria-hidden="true"
-              />
+              <div key={t.key} className={t.className} aria-hidden="true" />
             );
           }
 
@@ -174,20 +158,14 @@ export const Photos = () => {
               className={`${styles.item} ${t.className}`}
               onClick={() => openAt(t.photoIndex)}
             >
-              <img
-                src={createImgUrl(t.photo)}
-                loading="lazy"
-                alt=""
-              />
+              <img src={createImgUrl(t.photo)} loading="lazy" alt="" />
             </div>
           );
         })}
       </div>
 
       {isLoading && <p>Laster inn flere bilder... 🤓</p>}
-      {!hasMore && (
-        <p>Wow, du har lastet inn alle blinkskuddene våre! 📸</p>
-      )}
+      {!hasMore && <p>Wow, du har lastet inn alle blinkskuddene våre! 📸</p>}
 
       <div ref={loaderRef} style={{ height: 1 }} />
 
