@@ -26,4 +26,5 @@ export type PhotoDto = {
   photoGangBangerDto: PhotoGangBangerDto;
   photoTags: Array<PhotoTagDto>;
   isGoodPicture: boolean;
+  dateTaken: string;
 };
