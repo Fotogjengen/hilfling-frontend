@@ -4,3 +4,32 @@ body,
 html {
   margin: 0 !important;
 }
+
+.errorFallback {
+  margin: 2rem;
+  padding: 1.5rem;
+  background-color: #fff0f0;
+  border: 1px solid #ff0000;
+  border-radius: 4px;
+}
+
+.errorFallbackTitle {
+  margin-bottom: 1rem;
+}
+
+.errorFallbackMessage {
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: monospace;
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.errorFallbackButton {
+  margin-top: 1rem;
+}
+
+.appContainer {
+  margin: 1rem;
+}

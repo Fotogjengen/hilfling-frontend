@@ -19,33 +19,25 @@ import { createImgUrl } from "./utils/createImgUrl/createImgUrl";
 import { AuthenticationContext } from "./contexts/AuthenticationContext";
 import Cookies from "js-cookie";
 import { decryptData, encryptData } from "./utils/encryption/encrypt";
+import DownloadButton from "./components/DownloadImages/DownloadButton/DownloadButton";
+
 import { AdBannerContext } from "./contexts/AdBannerContext";
 
 function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
   return (
-    <Box
-      sx={{
-        m: 4,
-        p: 3,
-        backgroundColor: "#fff0f0",
-        border: "1px solid #ff0000",
-        borderRadius: 1,
-      }}
-    >
-      <Typography variant="h5" color="error" gutterBottom>
+    <Box className="errorFallback">
+      <Typography
+        variant="h5"
+        color="error"
+        gutterBottom
+        className="errorFallbackTitle"
+      >
         Something went wrong
       </Typography>
       <Typography
         variant="body2"
         component="pre"
-        sx={{
-          whiteSpace: "pre-wrap",
-          wordBreak: "break-word",
-          fontFamily: "monospace",
-          backgroundColor: "#fff",
-          p: 2,
-          borderRadius: 1,
-        }}
+        className="errorFallbackMessage"
       >
         {error instanceof Error ? error.message : String(error)}
         {"\n\n"}
@@ -54,7 +46,7 @@ function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
       <Button
         variant="outlined"
         color="error"
-        sx={{ mt: 2 }}
+        className="errorFallbackButton"
         onClick={resetErrorBoundary}
       >
         Try again
@@ -178,6 +170,12 @@ const Root: FC = () => {
               index={photoIndex}
               onClose={() => setIsOpen(false)}
               onIndexChange={(newIndex) => setPhotoIndex(newIndex)}
+              toolbarRender={(photoIndex) => (
+                <DownloadButton
+                  currentIndex={photoIndex}
+                  isAuthenticated={isAuthenticated}
+                />
+              )}
             />
           </ImageContext.Provider>
         </AdBannerContext.Provider>

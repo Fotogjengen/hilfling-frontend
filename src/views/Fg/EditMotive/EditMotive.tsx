@@ -303,7 +303,7 @@ const EditMotive = () => {
             {photos.map((photo) => (
               <Link
                 key={photo.photoId.id}
-                to={`/fg/photo/${photo.photoId.id}`}
+                to={`/fg/editpicture/${photo.photoId.id}`}
                 style={{ display: "block" }}
               >
                 <img
