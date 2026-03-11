@@ -58,7 +58,12 @@ interface Props {
   photoUrl?: string | null;
 }
 
-const PhotoUploadForm: FC<Props> = ({ initialValues, mode = "create", photoId }) => {
+const PhotoUploadForm: FC<Props> = ({
+  initialValues,
+  mode = "create",
+  photoId,
+  photoUrl: initialPhotoUrl,
+}) => {
 
   //Handling file Uploads with dropzone
 const dropzone = useDropzone({
@@ -76,7 +81,7 @@ const { acceptedFiles, getRootProps, getInputProps } = dropzone;
   const [securityLevels, setSecurityLevels] = useState<SecurityLevelDto[]>([]); // stores api fetch data from dropdowns
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [motives, setMotives] = useState<MotiveDto[]>([]);
-  const [photoUrl, setPhotoUrl] = useState<string | null>(null);
+  const [photoUrl, setPhotoUrl] = useState<string | null>(initialPhotoUrl ?? null);
 
   const [isLoading, setIsLoading] = useState(false); // Track if a file is being uploaded
   const [progress, setProgress] = useState(0); // Tracks upload progress percentage'
@@ -121,6 +126,14 @@ const { acceptedFiles, getRootProps, getInputProps } = dropzone;
         setMessage(err.message);
       });
 
+    MotiveApi.getAll()
+      .then((res) => setMotives(res.data.currentList))
+      .catch((err) => {
+        setOpen(true);
+        setSeverity(severityEnum.ERROR);
+        setMessage(err.message);
+      });
+
     SecurityLevelApi.getAll()
       .then((res) => setSecurityLevels(res.data.currentList))
       .catch((err) => {
@@ -130,13 +143,7 @@ const { acceptedFiles, getRootProps, getInputProps } = dropzone;
       });
   }, []);
 
-  MotiveApi.getAll()
-  .then((res) => setMotives(res.data.currentList))
-  .catch((err) => {
-    setOpen(true);
-    setSeverity(severityEnum.ERROR);
-    setMessage(err.message);
-  });
+
 
   useEffect(() => {
     setFiles((prevFiles) => [
@@ -366,6 +373,8 @@ const { acceptedFiles, getRootProps, getInputProps } = dropzone;
   }));
 
   return (
+
+    <Form initialValues={initialValues} validate={validate} onSubmit={onSubmit}>
     <div>
 <Grid container spacing={2}>
 
@@ -492,20 +501,20 @@ const { acceptedFiles, getRootProps, getInputProps } = dropzone;
     </section>
   ) : (
     <section className={styles.dropzone}>
-      {photoUrl ? (
-        <img
-          src={photoUrl}
-          alt="Photo being edited"
-          style={{
-            width: "100%",
-            maxHeight: "500px",
-            objectFit: "contain",
-            borderRadius: "6px",
-          }}
-        />
-      ) : (
-        <p>Laster bilde...</p>
-      )}
+    {initialPhotoUrl ? (
+      <img
+        src={initialPhotoUrl}
+        alt="Photo being edited"
+        style={{
+          width: "100%",
+          maxHeight: "500px",
+          objectFit: "contain",
+          borderRadius: "6px",
+        }}
+      />
+    ) : (
+      <p>Laster bilde...</p>
+    )}
     </section>
   )}
 </Grid>
@@ -544,6 +553,7 @@ const { acceptedFiles, getRootProps, getInputProps } = dropzone;
         </DialogContent>
       </Dialog>
     </div>
+    </Form>
   );
 };
 

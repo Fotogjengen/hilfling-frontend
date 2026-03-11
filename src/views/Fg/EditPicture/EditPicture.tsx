@@ -1,48 +1,47 @@
-import React, { FC, useEffect, useState, useContext } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { Grid, MenuItem } from "@mui/material";
-
-
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { PhotoApi } from "../../../utils/api/PhotoApi";
-
-
 import PhotoUploadForm, { PhotoUploadFormIV } from "../../../forms/PhotoUploadForm";
 
-
 const EditPicture = () => {
-    const [initialValues, setInitialValues] = useState<PhotoUploadFormIV | null>(null);
+  const [initialValues, setInitialValues] = useState<PhotoUploadFormIV | null>(null);
+  const [photoUrl, setPhotoUrl] = useState<string | null>(null);
 
-    
-    
-   
-    const { id } = useParams<{ id: string }>();
+  const { id } = useParams<{ id: string }>();
 
-    useEffect(() => {
-    if (id) {
-        PhotoApi.getById(id).then((photo) => {
-          
-        setInitialValues({
-            album: photo.albumDto?.albumId?.id ?? "",
-            date: undefined, //ser ikke at det blir lastet opp til API
-            motive: photo.motive?.title,
-            tags: [],
-            category: photo.categoryDto?.name,
-            place: photo.placeDto?.name,
-            securityLevel: photo.securityLevel?.securityLevelId?.id,
-            eventOwner: photo.motive?.eventOwnerDto?.name,
-        });
-        });
-    }
-    }, [id]);
+  useEffect(() => {
+    if (!id) return;
 
-    if (!initialValues) return <div>Laster inn</div>;
+    PhotoApi.getById(id).then((photo) => {
+      const values = {
+        album: photo.albumDto?.albumId?.id ?? "",
+        date: undefined,
+        motive: photo.motive?.motiveId?.id ?? "",
+        tags: [],
+        category: photo.categoryDto?.categoryId?.id ?? "",
+        place: photo.placeDto?.placeId?.id ?? "",
+        securityLevel: photo.securityLevel?.securityLevelId?.id ?? "",
+        eventOwner: photo.motive?.eventOwnerDto?.eventOwnerId?.id ?? "",
+      };
 
-    return <PhotoUploadForm mode="edit" photoId={id!} initialValues={initialValues} />;
+      console.log("photo:", photo);
+      console.log("values:", values);
 
-    };
+      setInitialValues(values);
+      setPhotoUrl(photo.largeUrl ?? photo.mediumUrl ?? photo.smallUrl ?? null);
+    });
+  }, [id]);
 
+  if (!initialValues) return <div>Laster inn</div>;
 
-
-
+  return (
+    <PhotoUploadForm
+      mode="edit"
+      photoId={id!}
+      initialValues={initialValues}
+      photoUrl={photoUrl}
+    />
+  );
+};
 
 export default EditPicture;
