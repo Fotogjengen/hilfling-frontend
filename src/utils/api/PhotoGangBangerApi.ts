@@ -12,7 +12,7 @@ export const PhotoGangBangerApi = {
       "/photo_gang_bangers",
     );
     return res.data.data;
-    },
+  },
 
   getById: async function (id: string): Promise<PhotoGangBangerDto> {
     return api.get(`/photo_gang_bangers/${id}`).then((res) => res.data);
