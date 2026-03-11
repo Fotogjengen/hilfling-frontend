@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 import Wheel from "./components/Wheel";
 import camera from "./icons/camera.png";
 import "./Firstgame.css";

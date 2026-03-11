@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { PhotoApi } from "../../utils/api/PhotoApi";
 import GridImageViewer from "./GridImageViewer";
 import styles from "./imageStyle.module.css";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router";
 
 const MotiveHeader = () => {
   const [photoResponse, setPhotoResponse] = useState<PhotoDto[]>([]);

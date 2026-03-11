@@ -1,4 +1,4 @@
-import React, { FC, useState, SyntheticEvent, useEffect } from "react";
+import { useState, SyntheticEvent, useEffect } from "react";
 
 import { AppBar, Tab, Tabs } from "@mui/material";
 import TabPanel from "../../components/TabPanel/TabPanel";
@@ -7,9 +7,9 @@ import InfoTab from "./Tabs/InfoTab";
 import HistoryTab from "./Tabs/HistoryTab";
 import AboutTab from "./Tabs/AboutTab";
 import styles from "./About.module.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
 
-const About: FC = () => {
+export default function About() {
   const location = useLocation();
   const navigate = useNavigate();
   const [tabValue, setTabValue] = useState<number>(0);
@@ -57,6 +57,4 @@ const About: FC = () => {
       </TabPanel>
     </div>
   );
-};
-
-export default About;
+}

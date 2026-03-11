@@ -5,7 +5,7 @@ import styles from "./Motives.module.css";
 import MotiveCard from "../../../components/MotiveCard/MotiveCard";
 import { Button } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 const Motives = () => {
   const [motives, setMotives] = useState<MotiveDto[]>([]);

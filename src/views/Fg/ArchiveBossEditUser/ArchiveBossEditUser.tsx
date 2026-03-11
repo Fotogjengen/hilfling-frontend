@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { PhotoGangBangerDto } from "../../../../generated";
 import {
   Button,
@@ -13,7 +13,7 @@ import {
 import styles from "./ArchiveBossEditUser.module.css";
 import { AlertContext, severityEnum } from "../../../contexts/AlertContext";
 import { PhotoGangBangerApi } from "../../../utils/api/PhotoGangBangerApi";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 const ArchiveBossEditUser = () => {
   const { setMessage, setSeverity, setOpen } = useContext(AlertContext);

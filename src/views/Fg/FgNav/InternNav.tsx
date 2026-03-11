@@ -7,7 +7,7 @@ import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 import ChildFriendlyIcon from "@mui/icons-material/ChildFriendly";
 import YardIcon from "@mui/icons-material/Yard";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 import { experimentalStyled as styled } from "@mui/material/styles";
 import { Grid, Paper, Typography } from "@mui/material";

@@ -1,10 +1,12 @@
-import React, { useState, FC, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 
-import { createRoot } from "react-dom/client";
-import "./index.css";
-import AppRoutes from "./AppRoutes";
-import { BrowserRouter as Router } from "react-router-dom";
-import { Box, ThemeProvider, Typography, Button } from "@mui/material";
+import {
+  Box,
+  ThemeProvider,
+  Typography,
+  Button,
+  CssBaseline,
+} from "@mui/material";
 import { ErrorBoundary, FallbackProps } from "react-error-boundary";
 import { GuiFooter } from "./gui-components";
 import HeaderComponent from "./components/Header/Header";
@@ -19,9 +21,9 @@ import { createImgUrl } from "./utils/createImgUrl/createImgUrl";
 import { AuthenticationContext } from "./contexts/AuthenticationContext";
 import Cookies from "js-cookie";
 import { decryptData, encryptData } from "./utils/encryption/encrypt";
-import  DownloadButton  from "./components/DownloadImages/DownloadButton/DownloadButton"
-
+import DownloadButton from "./components/DownloadImages/DownloadButton/DownloadButton";
 import { AdBannerContext } from "./contexts/AdBannerContext";
+import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 
 function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
   return (
@@ -65,7 +67,7 @@ function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
   );
 }
 
-const Root: FC = () => {
+export function Layout({ children }: { children: React.ReactNode }) {
   // Hooks for the Alert component
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
@@ -147,52 +149,65 @@ const Root: FC = () => {
   );
 
   return (
-    <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <ThemeProvider theme={theme}>
-        <AdBannerContext.Provider value={adBannerContextValue}>
-          <ImageContext.Provider value={imageContextValue}>
-            <AuthenticationContext.Provider value={authContextValue}>
-              <AlertContext.Provider value={alertContextValue}>
-                {open && (
-                  <Alert
-                    open={open}
-                    setOpen={setOpen}
-                    message={message}
-                    severity={severity}
-                  />
-                )}
-                <Box sx={{ m: "2rem" }}>
-                  <Router>
-                    <HeaderComponent />
-                    <AppRoutes />
-                  </Router>
-                </Box>
-                <GuiFooter />
-              </AlertContext.Provider>
-            </AuthenticationContext.Provider>
+    <html lang="no">
+      <head>
+        <meta charSet="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Fotogjengen</title>
+        <Meta />
+        <Links />
+      </head>
+      <body>
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <AdBannerContext.Provider value={adBannerContextValue}>
+              <ImageContext.Provider value={imageContextValue}>
+                <AuthenticationContext.Provider value={authContextValue}>
+                  <AlertContext.Provider value={alertContextValue}>
+                    {open && (
+                      <Alert
+                        open={open}
+                        setOpen={setOpen}
+                        message={message}
+                        severity={severity}
+                      />
+                    )}
+                    <Box sx={{ m: "2rem" }}>
+                      <HeaderComponent />
+                      {children}
+                    </Box>
+                    <GuiFooter />
+                  </AlertContext.Provider>
+                </AuthenticationContext.Provider>
 
-          <PhotoSlider
-            images={photos.map((p) => ({
-              src: createImgUrl(p),
-              key: createImgUrl(p),
-            }))}
-            visible={isOpen}
-            index={photoIndex}
-            onClose={() => setIsOpen(false)}
-            onIndexChange={(newIndex) => setPhotoIndex(newIndex)}
-            toolbarRender={(photoIndex) => (
-                  <DownloadButton currentIndex={photoIndex} isAuthenticated = {isAuthenticated} />)} 
-          />
-          </ImageContext.Provider>
-        </AdBannerContext.Provider>
-      </ThemeProvider>
-    </ErrorBoundary>
+                <PhotoSlider
+                  images={photos.map((p) => ({
+                    src: createImgUrl(p),
+                    key: createImgUrl(p),
+                  }))}
+                  visible={isOpen}
+                  index={photoIndex}
+                  onClose={() => setIsOpen(false)}
+                  onIndexChange={(newIndex) => setPhotoIndex(newIndex)}
+                  toolbarRender={(photoIndex) => (
+                    <DownloadButton
+                      currentIndex={photoIndex}
+                      isAuthenticated={isAuthenticated}
+                    />
+                  )}
+                />
+              </ImageContext.Provider>
+            </AdBannerContext.Provider>
+          </ThemeProvider>
+        </ErrorBoundary>
+        <ScrollRestoration />
+        <Scripts />
+      </body>
+    </html>
   );
-};
+}
 
-const container = document.getElementById("root");
-if (!container) throw new Error("Root container not found");
-
-const root = createRoot(container);
-
-root.render(<Root />);
+export default function Root() {
+  return <Outlet />;
+}

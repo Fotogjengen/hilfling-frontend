@@ -1,7 +1,7 @@
 import React from "react";
 import { experimentalStyled as styled } from "@mui/material/styles";
 import { Grid, Paper, Typography } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 
 const SpillMeny = () => {

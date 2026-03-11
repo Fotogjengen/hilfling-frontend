@@ -3,7 +3,7 @@ import { PhotoGangBanger } from "../../../../generated";
 import { Button, Paper } from "@mui/material";
 import styles from "./ArchiveBossOverView.module.css";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { PhotoGangBangerApi } from "../../../utils/api/PhotoGangBangerApi";
 
 interface Props {
