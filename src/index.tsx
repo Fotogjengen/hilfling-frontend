@@ -19,32 +19,25 @@ import { createImgUrl } from "./utils/createImgUrl/createImgUrl";
 import { AuthenticationContext } from "./contexts/AuthenticationContext";
 import Cookies from "js-cookie";
 import { decryptData, encryptData } from "./utils/encryption/encrypt";
+import  DownloadButton  from "./components/DownloadImages/DownloadButton/DownloadButton"
+
+import { AdBannerContext } from "./contexts/AdBannerContext";
 
 function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
   return (
-    <Box
-      sx={{
-        m: 4,
-        p: 3,
-        backgroundColor: "#fff0f0",
-        border: "1px solid #ff0000",
-        borderRadius: 1,
-      }}
-    >
-      <Typography variant="h5" color="error" gutterBottom>
+    <Box className="errorFallback">
+      <Typography
+        variant="h5"
+        color="error"
+        gutterBottom
+        className="errorFallbackTitle"
+      >
         Something went wrong
       </Typography>
       <Typography
         variant="body2"
         component="pre"
-        sx={{
-          whiteSpace: "pre-wrap",
-          wordBreak: "break-word",
-          fontFamily: "monospace",
-          backgroundColor: "#fff",
-          p: 2,
-          borderRadius: 1,
-        }}
+        className="errorFallbackMessage"
       >
         {error instanceof Error ? error.message : String(error)}
         {"\n\n"}
@@ -53,7 +46,7 @@ function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
       <Button
         variant="outlined"
         color="error"
-        sx={{ mt: 2 }}
+        className="errorFallbackButton"
         onClick={resetErrorBoundary}
       >
         Try again
@@ -70,6 +63,10 @@ const Root: FC = () => {
   const [photos, setPhotos] = useState<PhotoDto[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [photoIndex, setPhotoIndex] = useState(0);
+
+  // Hooks for Ad Banner
+  const [showAdBanner, setShowAdBanner] = useState(false);
+  const [shouldShowAdBanner, setShouldShowAdBanner] = useState(true);
 
   // Hooks for Authentication
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -129,29 +126,40 @@ const Root: FC = () => {
     [isOpen, photoIndex, photos],
   );
 
+  const adBannerContextValue = useMemo(
+    () => ({
+      showAdBanner,
+      setShowAdBanner,
+      shouldShowAdBanner,
+      setShouldShowAdBanner,
+    }),
+    [showAdBanner, shouldShowAdBanner],
+  );
+
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <ThemeProvider theme={theme}>
-        <ImageContext.Provider value={imageContextValue}>
-          <AuthenticationContext.Provider value={authContextValue}>
-            <AlertContext.Provider value={alertContextValue}>
-              {open && (
-                <Alert
-                  open={open}
-                  setOpen={setOpen}
-                  message={message}
-                  severity={severity}
-                />
-              )}
-              <Box sx={{ m: "2rem" }}>
-                <Router>
-                  <HeaderComponent />
-                  <AppRoutes />
-                </Router>
-              </Box>
-              <GuiFooter />
-            </AlertContext.Provider>
-          </AuthenticationContext.Provider>
+        <AdBannerContext.Provider value={adBannerContextValue}>
+          <ImageContext.Provider value={imageContextValue}>
+            <AuthenticationContext.Provider value={authContextValue}>
+              <AlertContext.Provider value={alertContextValue}>
+                {open && (
+                  <Alert
+                    open={open}
+                    setOpen={setOpen}
+                    message={message}
+                    severity={severity}
+                  />
+                )}
+                <Box sx={{ m: "2rem" }}>
+                  <Router>
+                    <HeaderComponent />
+                    <AppRoutes />
+                  </Router>
+                </Box>
+                <GuiFooter />
+              </AlertContext.Provider>
+            </AuthenticationContext.Provider>
 
           <PhotoSlider
             images={photos.map((p) => ({
@@ -162,8 +170,11 @@ const Root: FC = () => {
             index={photoIndex}
             onClose={() => setIsOpen(false)}
             onIndexChange={(newIndex) => setPhotoIndex(newIndex)}
+            toolbarRender={(photoIndex) => (
+                  <DownloadButton currentIndex={photoIndex} isAuthenticated = {isAuthenticated} />)} 
           />
-        </ImageContext.Provider>
+          </ImageContext.Provider>
+        </AdBannerContext.Provider>
       </ThemeProvider>
     </ErrorBoundary>
   );

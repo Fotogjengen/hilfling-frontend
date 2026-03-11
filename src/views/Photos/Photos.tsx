@@ -4,6 +4,8 @@ import { PhotoApi } from "../../utils/api/PhotoApi";
 import { createImgUrl } from "../../utils/createImgUrl/createImgUrl";
 import styles from "./Photos.module.css";
 import { ImageContext } from "../../contexts/ImageContext";
+import ImagesAdvertisementPopup from "../../components/ImagesAdvertisementPopup/ImagesAdvertisementPopup";
+import { useAdBanner } from "../../hooks/useAdBanner";
 
 type Tile =
   | {
@@ -28,10 +30,8 @@ export const Photos = () => {
   const [hasMore, setHasMore] = useState(true);
 
   const loaderRef = useRef<HTMLDivElement | null>(null);
-  const { setPhotos, setPhotoIndex, setIsOpen } =
-    useContext(ImageContext);
-
-
+  const { setPhotos, setPhotoIndex, setIsOpen } = useContext(ImageContext);
+  const { showAdBanner, dismissAdBanner } = useAdBanner();
 
   useEffect(() => {
     const load = async () => {
@@ -190,6 +190,8 @@ export const Photos = () => {
       )}
 
       <div ref={loaderRef} style={{ height: 1 }} />
+
+      {showAdBanner && <ImagesAdvertisementPopup onClose={dismissAdBanner} />}
     </div>
   );
 };
