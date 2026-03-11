@@ -8,9 +8,12 @@ interface Props {
 }
 
 
-const TitleBanner  = ( ) => {
+const TitleBanner  = ( {photo} : Props) => {
   return (
-    <div className={styles.titleBanner}> hei </div>
+    <div className={styles.titleBanner}>
+    <div > {photo.motive.title} </div>
+    <div > {photo.dateTaken} </div>
+    </div>
 
   );
 };

@@ -174,8 +174,8 @@ const Root: FC = () => {
             toolbarRender={(photoIndex, overlayVisible=false) => (
 
                   <DownloadButton currentIndex={photoIndex} isAuthenticated = {isAuthenticated} />)} 
-            overlayRender = { (index)  => (
-                <TitleBanner/>)}
+            overlayRender = { ()  => (
+                <TitleBanner photo={photos[photoIndex]}/>)}
           />
           </ImageContext.Provider>
         </AdBannerContext.Provider>
