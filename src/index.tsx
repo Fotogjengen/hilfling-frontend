@@ -19,7 +19,7 @@ import { createImgUrl } from "./utils/createImgUrl/createImgUrl";
 import { AuthenticationContext } from "./contexts/AuthenticationContext";
 import Cookies from "js-cookie";
 import { decryptData, encryptData } from "./utils/encryption/encrypt";
-import  DownloadButton  from "./components/DownloadImages/DownloadButton/DownloadButton"
+import DownloadButton from "./components/DownloadImages/DownloadButton/DownloadButton";
 
 import { AdBannerContext } from "./contexts/AdBannerContext";
 import  TitleBanner  from "./components/TitleBanner/TitleBanner"
@@ -162,21 +162,25 @@ const Root: FC = () => {
               </AlertContext.Provider>
             </AuthenticationContext.Provider>
 
-          <PhotoSlider
-            images={photos.map((p) => ({
-              src: createImgUrl(p),
-              key: createImgUrl(p),
-            }))}
-            visible={isOpen}
-            index={photoIndex}
-            onClose={() => setIsOpen(false)}
-            onIndexChange={(newIndex) => setPhotoIndex(newIndex)}
-            toolbarRender={(photoIndex, overlayVisible=false) => (
-
-                  <DownloadButton currentIndex={photoIndex} isAuthenticated = {isAuthenticated} />)} 
-            overlayRender = { ()  => (
-                <TitleBanner photo={photos[photoIndex]}/>)}
-          />
+            <PhotoSlider
+              images={photos.map((p) => ({
+                src: createImgUrl(p),
+                key: createImgUrl(p),
+              }))}
+              visible={isOpen}
+              index={photoIndex}
+              onClose={() => setIsOpen(false)}
+              onIndexChange={(newIndex) => setPhotoIndex(newIndex)}
+              toolbarRender={(photoIndex) => (
+                <DownloadButton
+                  currentIndex={photoIndex}
+                  isAuthenticated={isAuthenticated}
+                />
+              )}
+              overlayRender = { ()  => (
+                <TitleBanner 
+                  photo={photos[photoIndex]}/>)}
+            />
           </ImageContext.Provider>
         </AdBannerContext.Provider>
       </ThemeProvider>

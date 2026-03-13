@@ -5,8 +5,8 @@ name: CI-CD
 # Controls when the action will run.
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
-  push:
-    branches: [master]
+  # push:
+  #   branches: [master]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -20,15 +20,15 @@ jobs:
         #node-version: [12.x, 14.x, 15.x]
         node-version: [15.x]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
 
       - name: Cache Node Modules
         id: node-cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: node_modules
           key: node-modules-${{ hashFiles('package-lock.json') }}
@@ -44,7 +44,7 @@ jobs:
     needs: test
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
@@ -75,7 +75,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v6
       - name: Run eslint with reviewdog
         # You may pin to the exact commit or the version.
         # uses: reviewdog/action-eslint@c93d1f8efe07ce3b9b2d186ceaa5cd6ced717633
