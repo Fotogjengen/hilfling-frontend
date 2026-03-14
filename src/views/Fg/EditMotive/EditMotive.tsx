@@ -94,7 +94,6 @@ const EditMotive = () => {
   const handleClickPatch = () => {
     MotiveApi.patch(motive)
       .then(() => {
-        void navigate("/intern/motive");
         setOpen(true);
         setSeverity(severityEnum.SUCCESS);
         setMessage(`Motivet ${motive.title} ble oppdatert`);
