@@ -12,8 +12,8 @@ import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 import LoginButton from "../Login/LoginButton/LoginButton";
 import ImageSearchIcon from "@mui/icons-material/ImageSearch";
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
-import { Link } from "react-router";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { Link } from "@tanstack/react-router";
 
 export function HeaderComponent() {
   const { isAuthenticated, position } = useContext(AuthenticationContext);

@@ -7,7 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Pagination from "@mui/material/Pagination";
-import styles from "./InternSearch.module.css";
+import styles from "./internSearch.module.css";
 import ToggleComponent from "./ToggleComponent";
 import { PhotoDto } from "../../../generated";
 

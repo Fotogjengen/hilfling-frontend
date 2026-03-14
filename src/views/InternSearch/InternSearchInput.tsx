@@ -9,9 +9,10 @@ import {
   TextField,
 } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider, DatePicker, nbNO } from "@mui/x-date-pickers";
+import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
+import { nbNO } from "@mui/x-date-pickers/locales";
 import dayjs, { Dayjs } from "dayjs";
-import styles from "./InternSearch.module.css";
+import styles from "./internSearch.module.css";
 import {
   MotiveDto,
   PlaceDto,
@@ -52,13 +53,13 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
   const [categories, setCategories] = useState<CategoryDto[]>([]);
   const [securityLevels, setSecurityLevels] = useState<SecurityLevelDto[]>([]);
   const [, setPhotoTags] = useState<PhotoTagDto[]>([]);
-  const [minDate] = React.useState<Dayjs | null>(dayjs("1910-09-30"));
-  const [dateFrom, setDateFrom] = React.useState<Dayjs | null>(
+  const [minDate] = React.useState<Dayjs | undefined>(dayjs("1910-09-30"));
+  const [dateFrom, setDateFrom] = React.useState<Dayjs | undefined>(
     dayjs("1910-09-30"),
   );
   const [, setDateFromChanged] = useState(false);
-  const [maxDate] = React.useState<Dayjs | null>(dayjs());
-  const [dateTo, setDateTo] = React.useState<Dayjs | null>(dayjs());
+  const [maxDate] = React.useState<Dayjs | undefined>(dayjs());
+  const [dateTo, setDateTo] = React.useState<Dayjs | undefined>(dayjs());
   const [isGoodPic, setIsGoodPic] = useState(false);
   const [isAnalog, setIsAnalog] = useState(false);
   const [securityLevel, setSecurityLevel] = useState<string>("");
@@ -270,7 +271,7 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
                   minDate={minDate}
                   value={dateFrom}
                   onChange={(newValue) => {
-                    setDateFrom(newValue);
+                    setDateFrom(newValue ?? undefined);
                     setDateFromChanged(true);
                   }}
                   format="DD/MM/YYYY"
@@ -282,7 +283,7 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
                   label={"Dato til"}
                   maxDate={maxDate}
                   value={dateTo}
-                  onChange={(newValue) => setDateTo(newValue)}
+                  onChange={(newValue) => setDateTo(newValue ?? undefined)}
                   format="DD/MM/YYYY"
                   sx={{ width: boxwidth }}
                 />

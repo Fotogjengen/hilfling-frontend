@@ -1,9 +1,8 @@
-import { Link } from "react-router";
 import styles from "./ImagesAdvertisementPopup.module.css";
-import React from "react";
 import { Close } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import GuiImageLogo from "../../gui-components/GuiImageLogo";
+import { Link } from "@tanstack/react-router";
 
 export type ImagesAdvertisementPopupProps = {
   onClose?: () => void;

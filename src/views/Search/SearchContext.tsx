@@ -2,7 +2,7 @@ import { useContext, createContext } from "react";
 
 export interface SearchContextType {
   searchQuery: string;
-  setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
+  setSearchQuery: (value: string) => void;
 }
 
 const SearchContext = createContext<SearchContextType | undefined>(undefined);
