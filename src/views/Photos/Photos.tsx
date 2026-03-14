@@ -6,6 +6,7 @@ import styles from "./Photos.module.css";
 import { ImageContext } from "../../contexts/ImageContext";
 import ImagesAdvertisementPopup from "../../components/ImagesAdvertisementPopup/ImagesAdvertisementPopup";
 import { useAdBanner } from "../../hooks/useAdBanner";
+import TitleBanner from "../../components/TitleBanner/TitleBanner";
 
 type Tile =
   | {
@@ -158,7 +159,11 @@ export const Photos = () => {
               className={`${styles.item} ${t.className}`}
               onClick={() => openAt(t.photoIndex)}
             >
+              
               <img src={createImgUrl(t.photo)} loading="lazy" alt="" />
+              <div className={styles.titleBannerContainer}>
+                  <TitleBanner photo={t.photo} styling="ScrapBook"/>
+              </div>
             </div>
           );
         })}
@@ -170,6 +175,7 @@ export const Photos = () => {
       <div ref={loaderRef} style={{ height: 1 }} />
 
       {showAdBanner && <ImagesAdvertisementPopup onClose={dismissAdBanner} />}
+       
     </div>
   );
 };
