@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -15,7 +15,7 @@ import Form from "../components/Form/Form";
 import { Errors, Validate } from "../components/Form/types";
 import { DragNDropFile } from "../types";
 import cx from "classnames";
-import styles from "../views/Fg/PhotoUpload/PhotoUpload.module.css";
+import styles from "./PhotoUploadForm.module.css";
 import { useDropzone } from "react-dropzone";
 import PhotoUploadPreview from "../components/PhotoUploadPreview/PhotoUploadPreview";
 import { CategoryApi } from "../utils/api/CategoryApi";
@@ -213,7 +213,8 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
       setFormSubmitted(true); // Indicate successful submission
 
       return true;
-    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (_) {
       setOpen(true);
       setSeverity(severityEnum.ERROR);
       setMessage("Upload failed. Please try again.");

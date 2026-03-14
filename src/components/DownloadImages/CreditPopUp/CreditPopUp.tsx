@@ -6,7 +6,7 @@ import CloseIcon from "@mui/icons-material/Close";
 interface Props {
   setTriggerCreditPopUp: React.Dispatch<React.SetStateAction<boolean>>;
   setcreditAccepted: React.Dispatch<React.SetStateAction<boolean>>;
-  isAuthenticated: Boolean;
+  isAuthenticated: boolean;
 }
 
 const CreditPopUp = ({

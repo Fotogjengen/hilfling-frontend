@@ -5,6 +5,9 @@
 /.pnp
 .pnp.js
 
+# tanstack
+.tanstack
+
 # testing
 /coverage
 

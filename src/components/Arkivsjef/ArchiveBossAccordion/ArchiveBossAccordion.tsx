@@ -15,19 +15,19 @@ interface Props extends DefaultProps {
   name: string;
   children?: React.ReactNode;
 }
-const StyledAccordionSummary = styled(AccordionSummary)<{ bgColor: string }>(
-  ({ bgColor }) => ({
-    backgroundColor: bgColor,
-    padding: "1rem",
-  }),
-);
+const StyledAccordionSummary = styled(AccordionSummary)<{
+  backgroundcolor: string;
+}>(({ backgroundcolor }) => ({
+  backgroundColor: backgroundcolor,
+  padding: "1rem",
+}));
 
 const ArchiveBossAccordion = ({ color, name, children }: Props) => {
   return (
     <div className={styles.archiveBossAccordion}>
       <Accordion>
         <StyledAccordionSummary
-          bgColor={color}
+          backgroundcolor={color}
           expandIcon={<ExpandMore sx={{ color: "white", fontSize: 50 }} />}
         >
           <Typography color="white">{name}</Typography>

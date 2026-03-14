@@ -1,8 +1,8 @@
 import React, { FC } from "react";
-import { Link } from "react-router-dom";
 
 import styles from "./EventCards.module.css";
 import { EventCardDto } from "../../../../generated";
+import { Link } from "@tanstack/react-router";
 
 interface Props {
   event: string;
@@ -36,7 +36,10 @@ const EventCards: FC<Props> = ({
           <Link
             className={styles.card}
             key={`motive-card-${id}`}
-            to={`/motive/${id}`}
+            to="/motive/$motiveId"
+            params={{
+              motiveId: id,
+            }}
             onClick={handleCardClick}
           >
             <img

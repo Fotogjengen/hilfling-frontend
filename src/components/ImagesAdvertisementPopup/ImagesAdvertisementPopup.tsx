@@ -1,9 +1,8 @@
-import { Link } from "react-router-dom";
 import styles from "./ImagesAdvertisementPopup.module.css";
-import React from "react";
 import { Close } from "@mui/icons-material";
 import { Button } from "@mui/material";
 import GuiImageLogo from "../../gui-components/GuiImageLogo";
+import { Link } from "@tanstack/react-router";
 
 export type ImagesAdvertisementPopupProps = {
   onClose?: () => void;
@@ -20,7 +19,7 @@ export default function ImagesAdvertisementPopup({
           <h3>Liker du bildene våre?</h3>
           <div className={styles.PopupInfo}>
             Vi printer også ut bilder i høy kvalitet.
-            <Link to="/about?tab=1" className={styles.BuyLink}>
+            <Link to="/about/info" className={styles.BuyLink}>
               Les mer her
             </Link>
           </div>
