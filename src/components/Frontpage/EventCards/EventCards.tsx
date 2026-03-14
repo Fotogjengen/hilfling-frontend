@@ -36,7 +36,10 @@ const EventCards: FC<Props> = ({
           <Link
             className={styles.card}
             key={`motive-card-${id}`}
-            to={`/motive/${id}`}
+            to="/motive/$motiveId"
+            params={{
+              motiveId: id,
+            }}
             onClick={handleCardClick}
           >
             <img
