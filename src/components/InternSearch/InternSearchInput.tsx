@@ -231,7 +231,6 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
                     overflowY: "auto",
                   },
                 }}
-                id="combo-box-demo"
                 options={albums.map((albums) => albums.title)}
                 sx={{ width: boxwidth }}
                 onChange={handleAlbumChange}
@@ -249,7 +248,6 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
                     overflowY: "auto",
                   },
                 }}
-                id="combo-box-demo"
                 options={motives.map((motive) => motive.title)}
                 sx={{ width: boxwidth }}
                 onChange={handleMotiveChange}
@@ -299,7 +297,6 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
                     overflowY: "auto",
                   },
                 }}
-                id="combo-box-demo"
                 options={categories.map((category) => category.name)}
                 sx={{ width: boxwidth }}
                 onChange={handleCategoryChange}
@@ -317,7 +314,6 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
                     overflowY: "auto",
                   },
                 }}
-                id="combo-box-demo"
                 options={places.map((place) => place.name)}
                 sx={{ width: boxwidth }}
                 onChange={handlePlaceChange}
@@ -414,7 +410,6 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
                     overflowY: "auto",
                   },
                 }}
-                id="combo-box-demo"
                 options={securityLevels.map(
                   (securityLevel) => securityLevel.securityLevelType,
                 )}

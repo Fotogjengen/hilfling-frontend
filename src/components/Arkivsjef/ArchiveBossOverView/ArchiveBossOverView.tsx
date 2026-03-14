@@ -28,11 +28,15 @@ const ArchiveBossOverView = ({ setOverview }: Props) => {
 
   useEffect(() => {
     PhotoGangBangerApi.getAll()
-      .then((res) => {
-        setUsers(res.data.currentList);
+      .then((page) => {
+        console.log("page from getAll:", page); // optional sanity check (takk chat)
+        setUsers(page.currentList ?? []);
         setIsLoading(false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+      });
   }, []);
 
   useEffect(() => {
