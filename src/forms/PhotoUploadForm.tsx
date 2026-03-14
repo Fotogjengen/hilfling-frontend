@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, useState } from "react";
+import { FC, useContext, useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -213,7 +213,8 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
       setFormSubmitted(true); // Indicate successful submission
 
       return true;
-    } catch (error) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (_) {
       setOpen(true);
       setSeverity(severityEnum.ERROR);
       setMessage("Upload failed. Please try again.");

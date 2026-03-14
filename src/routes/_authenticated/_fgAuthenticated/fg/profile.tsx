@@ -22,9 +22,9 @@ interface UserInfo {
   phoneNumber: string;
   // eMail: string ;
   samfundetEMail: string;
-  currentPosition: string | " ";
+  currentPosition: string;
   formerPositions: string[] | [" "];
-  role?: string | " "; // "Fotograf" or "Web"
+  role?: string; // "Fotograf" or "Web"
   admissionSemester?: string;
 }
 

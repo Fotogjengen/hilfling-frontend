@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import styles from "./InternSearch.module.css";
+import { useEffect, useState } from "react";
+import styles from "./internSearch.module.css";
 import InternSearchInput from "./InternSearchInput";
 import CustomDataGrid from "./CustomTable";
 import { PhotoApi, PhotoSearch } from "../../utils/api/PhotoApi";
