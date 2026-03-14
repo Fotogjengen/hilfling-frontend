@@ -18,9 +18,6 @@ const TitleBanner  = ( {photo,styling} : Props) => {
 
   }
 
-
- 
-
   const date = new Date(photo.dateTaken)
   const options: Intl.DateTimeFormatOptions = {
     year: 'numeric',
@@ -30,7 +27,6 @@ const TitleBanner  = ( {photo,styling} : Props) => {
   
   const formattedDate:string = date.toLocaleString(undefined, options);
   console.log(formattedDate);
-
 
   return (
     <div className={bannerStyle}>
