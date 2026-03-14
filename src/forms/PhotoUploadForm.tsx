@@ -40,6 +40,7 @@ import { LocalizationProvider, nbNO } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { AxiosProgressEvent } from "axios";
 
+
 export interface PhotoUploadFormIV {
   album: string;
   date?: Date;
@@ -65,11 +66,16 @@ const PhotoUploadForm: FC<Props> = ({
   photoUrl: initialPhotoUrl,
 }) => {
 
+const [formValues, setFormValues] = useState(initialValues);
+
   //Handling file Uploads with dropzone
 const dropzone = useDropzone({
   accept: ".jpg,.jpeg,.png",
   disabled: mode === "edit",
 });
+
+
+
 
 const { acceptedFiles, getRootProps, getInputProps } = dropzone;
 
@@ -144,21 +150,6 @@ const { acceptedFiles, getRootProps, getInputProps } = dropzone;
   }, []);
 
 
-
-  useEffect(() => {
-    setFiles((prevFiles) => [
-      ...prevFiles,
-      ...(acceptedFiles as DragNDropFile[]).map((file) => {
-        file.isGoodPicture = false;
-        return file;
-      }),
-    ]);
-  }, [acceptedFiles]);
-  useEffect(() => {
-    console.log("categories");
-    console.log(categories);
-  }, [categories]);
-
   useEffect(() => {
   if (mode === "edit") return;
 
@@ -171,21 +162,32 @@ const { acceptedFiles, getRootProps, getInputProps } = dropzone;
   ]);
 }, [acceptedFiles, mode]);
 
+const onSubmit = async (values: Record<string, any>): Promise<boolean> => {
+  setFormSubmitted(false);
 
+  if (mode === "create" && files.length === 0) {
+    setOpen(true);
+    setSeverity(severityEnum.ERROR);
+    setMessage("Du må laste opp minst én fil");
+    return false;
+  }
 
-  const onSubmit = async (values: Record<string, any>) => {
-    setFormSubmitted(false); // Reset state before submission
+  try {
+    setIsLoading(true);
+    setSuccess(false);
 
-    if (files.length === 0) {
-      setOpen(true);
-      setSeverity(severityEnum.ERROR);
-      setMessage("Du må laste opp minst én fil");
-      return false; // Prevent form submission
-    }
-    try {
-      setIsLoading(true);
-      setSuccess(false);
+    const handleUploadProgress = (progressEvent: AxiosProgressEvent) => {
+      if (progressEvent.total) {
+        const percentCompleted = Math.round(
+          (progressEvent.loaded * 100) / progressEvent.total,
+        );
+        setProgress(percentCompleted);
+      } else {
+        setProgress(0);
+      }
+    };
 
+    if (mode === "create") {
       const formattedDate = values["date"]
         ? new Date(values["date"]).toISOString().split("T")[0]
         : "";
@@ -201,7 +203,7 @@ const { acceptedFiles, getRootProps, getInputProps } = dropzone;
       formData.append(
         "photoGangBangerId",
         "6a89444f-25f6-44d9-8a73-94587d72b839",
-      ); // TODO: Use actual user Id
+      );
       formData.append("tagList", values["tags"]);
 
       files.forEach((dragNDropFile, index) => {
@@ -209,75 +211,86 @@ const { acceptedFiles, getRootProps, getInputProps } = dropzone;
           "isGoodPhotoList",
           JSON.stringify(dragNDropFile.isGoodPicture),
         );
-
         formData.append("photoFileList", acceptedFiles[index]);
       });
 
-      console.log(formData);
-
-      const handleUploadProgress = (progressEvent: AxiosProgressEvent) => {
-        if (progressEvent.total) {
-          const percentCompleted = Math.round(
-            (progressEvent.loaded * 100) / progressEvent.total,
-          );
-          console.log(`Upload progress: ${percentCompleted}%`);
-          console.log(
-            `Loaded: ${progressEvent.loaded}, Total: ${progressEvent.total}`,
-          );
-          setProgress(percentCompleted);
-        } else {
-          // Fallback when Content-Length (total) is not available
-          console.log(`Uploaded ${progressEvent.loaded} bytes`);
-          setProgress(0);
-        }
-      };
-
       await PhotoApi.batchUpload(formData, handleUploadProgress);
       setFiles([]);
-      setOpen(true);
-      setSeverity(severityEnum.SUCCESS);
+      
       setMessage("Photos uploaded successfully!");
+    } else {
+      if (!photoId) {
+        throw new Error("Missing photoId in edit mode");
+      }
 
-      // PhotoApi.batchUpload(formData, handleUploadProgress)
-      //   .then((res) => {
-      //     console.log(res);
-      //     setFiles([]);
-      //   })
-      //   .catch((err) => {
-      //     setOpen(true);
-      //     setSeverity(severityEnum.ERROR);
-      //     setMessage(err.message);
-      //   })
-      //   .finally(() => {
-      //     setIsLoading(false);
-      //   });
-      setSuccess(true);
-      setFormSubmitted(true); // Indicate successful submission
+      const selectedMotive = motives.find(
+        (motive) => motive.motiveId?.id === values["motive"],
+      );
 
-      return true;
-    } catch (error) {
-      setOpen(true);
-      setSeverity(severityEnum.ERROR);
-      setMessage("Upload failed. Please try again.");
-      setSuccess(false);
-      return false;
-    } finally {
-      setIsLoading(false);
+      const selectedSecurityLevel = securityLevels.find(
+        (securityLevel) =>
+          securityLevel.securityLevelId?.id === values["securityLevel"],
+      );
+
+      if (!selectedMotive) {
+        throw new Error("Fant ikke valgt motiv");
+      }
+
+      if (!selectedSecurityLevel) {
+        throw new Error("Fant ikke valgt sikkerhetsnivå");
+      }
+
+      await PhotoApi.patch({
+        photoId: { id: photoId },
+        isGoodPicture: null,
+        motive: selectedMotive,
+        placeDto: null,
+        securityLevel: selectedSecurityLevel,
+        gang: null,
+        albumDto: null,
+        categoryDto: null,
+        photoGangBangerDto: null,
+        photoTags: null,
+      });
+
+
+      setFormValues((prev) => ({
+        ...prev,
+        motive: values["motive"],
+        securityLevel: values["securityLevel"],
+      }));
+
+      setMessage("Photo updated successfully!");
+      
     }
-  };
 
-  const validate: Validate = (values: any): Errors => {
-    if (formSubmitted) return {}; // Skip validation if form was just submitted
+    setOpen(true);
+    setSeverity(severityEnum.SUCCESS);
+    setSuccess(true);
+    setFormSubmitted(true);
 
-    const errors: Errors = {};
+    return true;
+  } catch (error: any) {
+    setOpen(true);
+    setSeverity(severityEnum.ERROR);
+    setMessage(error?.response?.data?.message || error?.message || "Upload failed");
+    setSuccess(false);
+    return false;
+  } finally {
+    setIsLoading(false);
+  }
+};
 
+const validate: Validate = (values: any): Errors => {
+  if (formSubmitted) return {};
 
-    // Album validation
+  const errors: Errors = {};
+
+  if (mode !== "edit") {
     if (!values.album) {
       errors.album = "Album er påkrevd";
     }
 
-    // Date validation
     if (!values.date) {
       errors.date = "Dato er påkrevd";
     } else {
@@ -291,35 +304,29 @@ const { acceptedFiles, getRootProps, getInputProps } = dropzone;
       }
     }
 
-    // Motive validation
-    if (!values.motive) {
-      errors.motive = "Motiv er påkrevd";
-    } else if (values.motive.length < 3) {
-      errors.motive = "Motiv må være minst 3 tegn";
-    }
-
-    // Category validation
     if (!values.category) {
       errors.category = "Kategori er påkrevd";
     }
 
-    // Place validation
     if (!values.place) {
       errors.place = "Sted er påkrevd";
     }
 
-    // SecurityLevel validation
-    if (!values.securityLevel) {
-      errors.securityLevel = "Sikkerhetsnivå er påkrevd";
-    }
-
-    // EventOwner validation
     if (!values.eventOwner) {
       errors.eventOwner = "Eier er påkrevd";
     }
+  }
 
-    return errors;
-  };
+  if (!values.motive) {
+    errors.motive = "Motiv er påkrevd";
+  }
+
+  if (!values.securityLevel) {
+    errors.securityLevel = "Sikkerhetsnivå er påkrevd";
+  }
+
+  return errors;
+};
 
   const handleGoodPictureChange = (index: number) => {
     const newFiles: DragNDropFile[] = files;
@@ -344,7 +351,9 @@ const { acceptedFiles, getRootProps, getInputProps } = dropzone;
         />
         <button
           type="button"
+          
           onClick={() => handleRemoveFile(index)}
+        
           style={{
             position: "absolute",
             top: "5px",
@@ -374,7 +383,12 @@ const { acceptedFiles, getRootProps, getInputProps } = dropzone;
 
   return (
 
-    <Form initialValues={initialValues} validate={validate} onSubmit={onSubmit}>
+    <Form
+      key={`${photoId ?? "create"}-${formValues.motive}-${formValues.securityLevel}`}
+      initialValues={formValues}
+      validate={validate}
+      onSubmit={onSubmit}
+    >
     <div>
 <Grid container spacing={2}>
 
@@ -501,20 +515,20 @@ const { acceptedFiles, getRootProps, getInputProps } = dropzone;
     </section>
   ) : (
     <section className={styles.dropzone}>
-    {initialPhotoUrl ? (
-      <img
-        src={initialPhotoUrl}
-        alt="Photo being edited"
-        style={{
-          width: "100%",
-          maxHeight: "500px",
-          objectFit: "contain",
-          borderRadius: "6px",
-        }}
-      />
-    ) : (
-      <p>Laster bilde...</p>
-    )}
+      {photoUrl ? (
+        <img
+          src={photoUrl}
+          alt="Photo being edited"
+          style={{
+            width: "100%",
+            maxHeight: "500px",
+            objectFit: "contain",
+            borderRadius: "6px",
+          }}
+        />
+      ) : (
+        <p>Laster bilde...</p>
+      )}
     </section>
   )}
 </Grid>
