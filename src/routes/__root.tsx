@@ -13,7 +13,6 @@ import { createImgUrl } from "../utils/createImgUrl/createImgUrl";
 import DownloadButton from "../components/DownloadImages/DownloadButton/DownloadButton";
 import { AdBannerContext } from "../contexts/AdBannerContext";
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
-import NotFound from "../views/NotFound/NotFound";
 import {
   AuthenticationContext,
   AuthState,
@@ -26,7 +25,6 @@ interface RouterContext {
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: RootComponent,
-  notFoundComponent: () => <NotFound />,
 });
 
 function RootComponent() {

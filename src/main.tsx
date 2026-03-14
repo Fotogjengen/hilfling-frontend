@@ -9,6 +9,7 @@ import "./index.css";
 import Cookies from "js-cookie";
 import { decryptData, encryptData } from "./utils/encryption/encrypt";
 import { AuthenticationContext } from "@/contexts/AuthenticationContext";
+import NotFound from "./components/NotFound/NotFound";
 
 // Create a new router instance
 const router = createRouter({
@@ -17,6 +18,7 @@ const router = createRouter({
   scrollRestoration: true,
   defaultStructuralSharing: true,
   defaultPreloadStaleTime: 0,
+  defaultNotFoundComponent: NotFound,
   context: {
     auth: {
       isAuthenticated: false,

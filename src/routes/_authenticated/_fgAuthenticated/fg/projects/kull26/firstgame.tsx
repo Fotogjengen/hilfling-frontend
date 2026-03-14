@@ -2,8 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Button, TextField, Stack } from "@mui/material";
 import { useState } from "react";
 import "./firstgame.css";
-
-import Wheel from "@/views/Fg/NewProjects/components/Wheel";
+import Wheel from "@/components/NewProjects/components/Wheel";
 import camera from "@/views/Fg/NewProjects/icons/camera.png";
 
 export const Route = createFileRoute(

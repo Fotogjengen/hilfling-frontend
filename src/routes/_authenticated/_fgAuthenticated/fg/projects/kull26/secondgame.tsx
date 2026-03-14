@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import React, { useState, useMemo, useCallback, useEffect } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import "./secondgame.css";
-import { questions } from "@/views/Fg/NewProjects/questions";
+import { questions } from "@/components/NewProjects/questions";
 import { random } from "lodash";
 
 export const Route = createFileRoute(

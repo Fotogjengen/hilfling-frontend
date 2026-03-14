@@ -1,14 +1,23 @@
-import { PhotoDto } from "../../../generated";
-import React, { useState, useEffect } from "react";
-import { PhotoApi } from "../../utils/api/PhotoApi";
-import GridImageViewer from "./GridImageViewer";
-import styles from "./imageStyle.module.css";
-import { useNavigate, useParams } from "react-router";
+import {
+  createFileRoute,
+  useNavigate,
+  useRouter,
+} from "@tanstack/react-router";
+import { PhotoDto } from "@/../generated";
+import { useState, useEffect } from "react";
+import { PhotoApi } from "@/utils/api/PhotoApi";
+import styles from "./motive.module.css";
+import GridImageViewer from "@/components/ImageViewer/GridImageViewer";
 
-const MotiveHeader = () => {
+export const Route = createFileRoute("/motive/$motiveId")({
+  component: MotiveHeader,
+});
+
+function MotiveHeader() {
   const [photoResponse, setPhotoResponse] = useState<PhotoDto[]>([]);
-  const { id } = useParams<{ id: string }>();
+  const { motiveId: id } = Route.useParams();
   const navigate = useNavigate();
+  const router = useRouter();
 
   useEffect(() => {
     if (id) {
@@ -19,7 +28,12 @@ const MotiveHeader = () => {
   }, []);
 
   const handleBackClick = () => {
-    void navigate(-1);
+    if (window.history.length > 1) {
+      router.history.back();
+      return;
+    }
+
+    void navigate({ to: "/" });
   };
 
   return (
@@ -49,6 +63,6 @@ const MotiveHeader = () => {
       <GridImageViewer photos={photoResponse} />
     </div>
   );
-};
+}
 
 export default MotiveHeader;

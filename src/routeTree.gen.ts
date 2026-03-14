@@ -16,6 +16,7 @@ import { Route as AboutRouteRouteImport } from './routes/about/route'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutIndexRouteImport } from './routes/about/index'
+import { Route as MotiveMotiveIdRouteImport } from './routes/motive.$motiveId'
 import { Route as AboutInfoRouteImport } from './routes/about/info'
 import { Route as AboutHistoryRouteImport } from './routes/about/history'
 import { Route as AuthenticatedFgAuthenticatedRouteRouteImport } from './routes/_authenticated/_fgAuthenticated/route'
@@ -66,6 +67,11 @@ const AboutIndexRoute = AboutIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => AboutRouteRoute,
+} as any)
+const MotiveMotiveIdRoute = MotiveMotiveIdRouteImport.update({
+  id: '/motive/$motiveId',
+  path: '/motive/$motiveId',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AboutInfoRoute = AboutInfoRouteImport.update({
   id: '/info',
@@ -169,6 +175,7 @@ export interface FileRoutesByFullPath {
   '/search': typeof SearchRoute
   '/about/history': typeof AboutHistoryRoute
   '/about/info': typeof AboutInfoRoute
+  '/motive/$motiveId': typeof MotiveMotiveIdRoute
   '/about/': typeof AboutIndexRoute
   '/intern/search': typeof AuthenticatedInternSearchRoute
   '/fg/profile': typeof AuthenticatedFgAuthenticatedFgProfileRoute
@@ -191,6 +198,7 @@ export interface FileRoutesByTo {
   '/search': typeof SearchRoute
   '/about/history': typeof AboutHistoryRoute
   '/about/info': typeof AboutInfoRoute
+  '/motive/$motiveId': typeof MotiveMotiveIdRoute
   '/about': typeof AboutIndexRoute
   '/intern/search': typeof AuthenticatedInternSearchRoute
   '/fg/profile': typeof AuthenticatedFgAuthenticatedFgProfileRoute
@@ -217,6 +225,7 @@ export interface FileRoutesById {
   '/_authenticated/_fgAuthenticated': typeof AuthenticatedFgAuthenticatedRouteRouteWithChildren
   '/about/history': typeof AboutHistoryRoute
   '/about/info': typeof AboutInfoRoute
+  '/motive/$motiveId': typeof MotiveMotiveIdRoute
   '/about/': typeof AboutIndexRoute
   '/_authenticated/intern/search': typeof AuthenticatedInternSearchRoute
   '/_authenticated/_fgAuthenticated/fg/profile': typeof AuthenticatedFgAuthenticatedFgProfileRoute
@@ -242,6 +251,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/about/history'
     | '/about/info'
+    | '/motive/$motiveId'
     | '/about/'
     | '/intern/search'
     | '/fg/profile'
@@ -264,6 +274,7 @@ export interface FileRouteTypes {
     | '/search'
     | '/about/history'
     | '/about/info'
+    | '/motive/$motiveId'
     | '/about'
     | '/intern/search'
     | '/fg/profile'
@@ -289,6 +300,7 @@ export interface FileRouteTypes {
     | '/_authenticated/_fgAuthenticated'
     | '/about/history'
     | '/about/info'
+    | '/motive/$motiveId'
     | '/about/'
     | '/_authenticated/intern/search'
     | '/_authenticated/_fgAuthenticated/fg/profile'
@@ -312,6 +324,7 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   PhotosRoute: typeof PhotosRoute
   SearchRoute: typeof SearchRoute
+  MotiveMotiveIdRoute: typeof MotiveMotiveIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -364,6 +377,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/about/'
       preLoaderRoute: typeof AboutIndexRouteImport
       parentRoute: typeof AboutRouteRoute
+    }
+    '/motive/$motiveId': {
+      id: '/motive/$motiveId'
+      path: '/motive/$motiveId'
+      fullPath: '/motive/$motiveId'
+      preLoaderRoute: typeof MotiveMotiveIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/about/info': {
       id: '/about/info'
@@ -565,6 +585,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   PhotosRoute: PhotosRoute,
   SearchRoute: SearchRoute,
+  MotiveMotiveIdRoute: MotiveMotiveIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

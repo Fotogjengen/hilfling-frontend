@@ -6,10 +6,10 @@ export const Route = createFileRoute("/_authenticated/intern/search")({
 
 import React, { useEffect, useState } from "react";
 import styles from "./internSearch.module.css";
-import InternSearchInput from "../../../views/InternSearch/InternSearchInput";
-import CustomDataGrid from "../../../views/InternSearch/CustomTable";
-import { PhotoApi, PhotoSearch } from "../../../utils/api/PhotoApi";
-import { PhotoDto } from "../../../../generated";
+import InternSearchInput from "@/components/InternSearch/InternSearchInput";
+import CustomDataGrid from "@/components/InternSearch/CustomTable";
+import { PhotoApi, PhotoSearch } from "@/utils/api/PhotoApi";
+import { PhotoDto } from "@/../generated";
 
 function RouteComponent() {
   const [photos, setPhotos] = useState<PhotoDto[]>([]);

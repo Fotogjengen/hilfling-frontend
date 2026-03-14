@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Button, Input } from "@mui/material";
 import classnames from "classnames";
 import styles from "./thirdgame.module.css";
-import React, { useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 export const Route = createFileRoute(
   "/_authenticated/_fgAuthenticated/fg/projects/kull26/thirdgame",

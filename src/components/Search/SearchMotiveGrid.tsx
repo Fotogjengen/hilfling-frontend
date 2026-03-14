@@ -3,7 +3,7 @@ import { useSearchContext } from "./SearchContext";
 import { EventCardApi } from "../../utils/api/EventCardApi";
 import { EventCardDto } from "../../../generated";
 import { PaginatedResultData } from "../../utils/api/types";
-import EventCards from "../../components/Frontpage/EventCards/EventCards";
+import EventCards from "../Frontpage/EventCards/EventCards";
 
 const SearchMotiveGrid = () => {
   const PAGE_SIZE = 10;
@@ -18,8 +18,6 @@ const SearchMotiveGrid = () => {
 
   const loaderRef = useRef<HTMLDivElement | null>(null);
   const loadingRef = useRef(false);
-
-
 
   const loadMotives = useCallback(
     async (currentPage: number, isNewSearch: boolean) => {
@@ -61,10 +59,8 @@ const SearchMotiveGrid = () => {
     [searchQuery],
   );
 
-
-useEffect(() => {
-
-  if (!searchQuery || searchQuery.trim() === "") return;
+  useEffect(() => {
+    if (!searchQuery || searchQuery.trim() === "") return;
 
     setMotives(undefined);
     setPage(0);
@@ -74,8 +70,7 @@ useEffect(() => {
     loadingRef.current = false;
 
     void loadMotives(0, true);
-
-}, [searchQuery]);
+  }, [searchQuery]);
 
   useEffect(() => {
     if (page === 0 && isInitialLoad) {
