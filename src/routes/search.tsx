@@ -39,7 +39,7 @@ function RouteComponent() {
     [query, setSearchQuery],
   );
 
-  const { showAdBanner } = useAdBanner();
+  const { showAdBanner, dismissAdBanner } = useAdBanner();
 
   return (
     <div>
@@ -47,7 +47,7 @@ function RouteComponent() {
         <SearchField initialValue={query} />
         <SearchMotiveGrid />
       </SearchContext.Provider>
-      {showAdBanner && <ImagesAdvertisementPopup />}
+      {showAdBanner && <ImagesAdvertisementPopup onClose={dismissAdBanner} />}
     </div>
   );
 }

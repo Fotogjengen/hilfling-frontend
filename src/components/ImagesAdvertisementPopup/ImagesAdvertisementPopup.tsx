@@ -19,7 +19,7 @@ export default function ImagesAdvertisementPopup({
           <h3>Liker du bildene våre?</h3>
           <div className={styles.PopupInfo}>
             Vi printer også ut bilder i høy kvalitet.
-            <Link to="/about?tab=1" className={styles.BuyLink}>
+            <Link to="/about/info" className={styles.BuyLink}>
               Les mer her
             </Link>
           </div>
