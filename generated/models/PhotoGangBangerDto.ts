@@ -9,7 +9,6 @@ import type { SemesterStart } from "./SemesterStart";
 
 export type PhotoGangBangerDto = {
   photoGangBangerId?: PhotoGangBangerId;
-  relationShipStatus?: string;
   semesterStart?: SemesterStart;
   address?: string;
   zipCode?: string;
@@ -19,10 +18,3 @@ export type PhotoGangBangerDto = {
   isActive?: boolean;
   isPang?: boolean;
 };
-
-// export namespace PhotoGangBangerDto {}
-export enum relationShipStatus {
-  SINGLE = "single",
-  RELATIONSHIP = "relationship",
-  MARRIED = "married",
-}

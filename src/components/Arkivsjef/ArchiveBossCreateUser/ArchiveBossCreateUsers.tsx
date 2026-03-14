@@ -22,7 +22,6 @@ interface Props {
 const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
   const { setMessage, setSeverity, setOpen } = useContext(AlertContext);
   const initialUserState: PhotoGangBanger = {
-    relationShipStatus: "single", // remove this in the future
     semesterStart: {
       value: "",
     },

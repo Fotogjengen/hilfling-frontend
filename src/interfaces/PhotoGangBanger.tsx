@@ -4,7 +4,6 @@ export interface PhotoGangBanger extends BaseModel {
   photoGangBangerId: {
     [id: string]: string;
   };
-  relationShipStatus: string;
   semesterStart: {
     [key: string]: string;
   };
