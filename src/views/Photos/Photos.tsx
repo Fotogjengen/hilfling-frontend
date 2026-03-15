@@ -159,10 +159,9 @@ export const Photos = () => {
               className={`${styles.item} ${t.className}`}
               onClick={() => openAt(t.photoIndex)}
             >
-              
               <img src={createImgUrl(t.photo)} loading="lazy" alt="" />
               <div className={styles.titleBannerContainer}>
-                  <TitleBanner photo={t.photo} styling="ScrapBook"/>
+                <TitleBanner photo={t.photo} styling="ScrapBook" />
               </div>
             </div>
           );
@@ -175,7 +174,6 @@ export const Photos = () => {
       <div ref={loaderRef} style={{ height: 1 }} />
 
       {showAdBanner && <ImagesAdvertisementPopup onClose={dismissAdBanner} />}
-       
     </div>
   );
 };

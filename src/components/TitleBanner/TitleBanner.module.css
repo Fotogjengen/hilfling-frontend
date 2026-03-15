@@ -1,84 +1,144 @@
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap");
 
-
-@import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap");
 
 .titleBannerPhotos {
-    display: flex;
-    bottom: 0;
-    padding: 10px;
-    width: auto;
-    min-Height: 70px;
-    justify-content: center;
-    align-items: center;
-    background: repeating-linear-gradient(
-        #F8F3E8, #f5f0e8 10px,
-        #d8d1c2  11px, #d8d1c2  11px);
-    font-size: 1.4rem;
-    color: #1a1a1a;
-    /* font-family: "Bradley Hand", "Comic Sans MS", cursive; */
-    /* font-family: 'Caveat', cursive; */
-    font-family: "Indie Flower", cursive;
-    font-weight: 400;
-    font-style: normal;
-    letter-spacing: 0.5px;
-    line-height: 1.6;
-    font-size: 1.5rem;
-    margin-left: 30px;
-    margin-right: 30px;
-    /* transform: rotate(-1.5deg); */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-    /* Create the jagged line effect */
-    clip-path: polygon(
-    /* top edge: left to right. Watch the x coordinates */
-    0% 20%, 3% 13%, 6% 18%, 9% 12%, 12% 20%,
-    15% 11%, 18% 11%, 21% 10%, 24% 18%, 27% 5%,
-    30% 14%, 33% 8%, 36% 16%, 39% 7%, 42% 12%,
-    45% 6%, 48% 15%, 51% 5%, 54% 10%, 57% 4%,
-    60% 9%, 63% 3%, 66% 4%, 69% 2%, 72% 7%,
-    75% 20%, 78% 6%, 81% 0%, 84% 5%, 87% 0%,
-    90% 4%, 93% 0%, 96% 3%, 100% 0%,
+  display: flex;
+  bottom: 0;
+  padding: 10px;
+  width: auto;
+  min-height: 70px;
+  justify-content: center;
+  align-items: center;
+  background: repeating-linear-gradient(
+    #f8f3e8,
+    #f5f0e8 10px,
+    #d8d1c2 11px,
+    #d8d1c2 11px
+  );
+  font-size: 1.4rem;
+  color: #1a1a1a;
+  /* font-family: "Bradley Hand", "Comic Sans MS", cursive; */
+  /* font-family: 'Caveat', cursive; */
+  font-family: "Indie Flower", cursive;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 0.5px;
+  line-height: 1.6;
+  font-size: 1.5rem;
+  margin-left: 30px;
+  margin-right: 30px;
+  /* transform: rotate(-1.5deg); */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  /* Create the jagged line effect */
+  clip-path: polygon(
+    /* top edge: left to right. Watch the x coordinates */ 0% 20%,
+    3% 13%,
+    6% 18%,
+    9% 12%,
+    12% 20%,
+    15% 11%,
+    18% 11%,
+    21% 10%,
+    24% 18%,
+    27% 5%,
+    30% 14%,
+    33% 8%,
+    36% 16%,
+    39% 7%,
+    42% 12%,
+    45% 6%,
+    48% 15%,
+    51% 5%,
+    54% 10%,
+    57% 4%,
+    60% 9%,
+    63% 3%,
+    66% 4%,
+    69% 2%,
+    72% 7%,
+    75% 20%,
+    78% 6%,
+    81% 0%,
+    84% 5%,
+    87% 0%,
+    90% 4%,
+    93% 0%,
+    96% 3%,
+    100% 0%,
 
-    /* right edge : top to bottom */
-    99% 15%, 100% 30%, 99% 45%, 99% 60%,
-    98% 75%, 100% 90%, 100% 95%,
+    /* right edge : top to bottom */ 99% 15%,
+    100% 30%,
+    99% 45%,
+    99% 60%,
+    98% 75%,
+    100% 90%,
+    100% 95%,
 
-    /* bottom edge: right to left */
-    96% 90%, 93% 92%, 90% 85%, 87% 94%, 84% 89%,
-    81% 95%, 78% 90%, 75% 96%, 72% 91%, 69% 97%,
-    66% 92%, 63% 98%, 60% 84%, 57% 99%, 54% 94%,
-    51% 100%, 48% 90%, 45% 99%, 42% 87%, 39% 98%,
-    36% 92%, 33% 97%, 30% 91%, 26% 96%, 24% 90%,
-    21% 95%, 18% 89%, 15% 94%, 12% 88%, 9% 93%,
-    6% 87%, 3% 92%, 0% 88%,
+    /* bottom edge: right to left */ 96% 90%,
+    93% 92%,
+    90% 85%,
+    87% 94%,
+    84% 89%,
+    81% 95%,
+    78% 90%,
+    75% 96%,
+    72% 91%,
+    69% 97%,
+    66% 92%,
+    63% 98%,
+    60% 84%,
+    57% 99%,
+    54% 94%,
+    51% 100%,
+    48% 90%,
+    45% 99%,
+    42% 87%,
+    39% 98%,
+    36% 92%,
+    33% 97%,
+    30% 91%,
+    26% 96%,
+    24% 90%,
+    21% 95%,
+    18% 89%,
+    15% 94%,
+    12% 88%,
+    9% 93%,
+    6% 87%,
+    3% 92%,
+    0% 88%,
 
-    /* left edge : bottom to top */
-    1% 85%, 0% 70%, 3% 40%, 1% 40%,
-    1% 25%, 0% 20%
-    );
-    flex-wrap: wrap;
+    /* left edge : bottom to top */ 1% 85%,
+    0% 70%,
+    3% 40%,
+    1% 40%,
+    1% 25%,
+    0% 20%
+  );
+  flex-wrap: wrap;
 }
-.titleBannerText{
-    margin-left: 10px;
-    margin-right: 10px;
+.titleBannerText {
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .titleBannerSlideShow {
-    display: flex;
-    justify-content: space-between;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    padding: 8px;
-    width: 100%;
-    min-Height: 40px;
-    color: #fff;
-    z-Index: 50;
-    background-Color: rgba(0, 0, 0, 0.5);
-};
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  padding: 8px;
+  width: 100%;
+  min-height: 40px;
+  color: #fff;
+  z-index: 50;
+  background-color: rgba(0, 0, 0, 0.5);
+}
 
-    /* position: absolute; */
-    /* left: 0; */
-    /* color: #fff; */
-    /* z-Index: 50; */
-    /* background-Color: rgba(0, 0, 0, 0.5); */
+/* position: absolute; */
+/* left: 0; */
+/* color: #fff; */
+/* z-Index: 50; */
+/* background-Color: rgba(0, 0, 0, 0.5); */

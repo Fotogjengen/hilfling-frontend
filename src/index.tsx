@@ -22,7 +22,7 @@ import { decryptData, encryptData } from "./utils/encryption/encrypt";
 import DownloadButton from "./components/DownloadImages/DownloadButton/DownloadButton";
 
 import { AdBannerContext } from "./contexts/AdBannerContext";
-import  TitleBanner  from "./components/TitleBanner/TitleBanner"
+import TitleBanner from "./components/TitleBanner/TitleBanner";
 
 function ErrorFallback({ error, resetErrorBoundary }: FallbackProps) {
   return (
@@ -177,9 +177,7 @@ const Root: FC = () => {
                   isAuthenticated={isAuthenticated}
                 />
               )}
-              overlayRender = { ()  => (
-                <TitleBanner 
-                  photo={photos[photoIndex]}/>)}
+              overlayRender={() => <TitleBanner photo={photos[photoIndex]} />}
             />
           </ImageContext.Provider>
         </AdBannerContext.Provider>
