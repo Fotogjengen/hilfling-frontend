@@ -10,7 +10,7 @@ export const Route = createFileRoute("/about/info")({
 function InfoTab() {
   return (
     <Grid container spacing={4} padding={"0.5em"}>
-      <Grid item>
+      <Grid item xs={12} md={6}>
         <Typography variant="h5">
           <b>KREDITERING</b>
         </Typography>
@@ -67,7 +67,7 @@ function InfoTab() {
           </Grid>
         </Paper>
       </Grid>
-      <Grid item>
+      <Grid item xs={12} md={6}>
         <Typography paragraph>
           MERK Bestillinger som gjøres etter 15.11 om høsten og 15.04 om våren
           kan ikke garanteres levering før ferien på grunn av eksamensperiode.

@@ -10,7 +10,7 @@ export const Route = createFileRoute("/about/history")({
 function HistoryTab() {
   return (
     <Grid container spacing={4} padding={"0.5rem"}>
-      <Grid item>
+      <Grid item xs={12} md={6}>
         <Typography variant="h6">
           <b>HVORFOR HAR VI FOTOGJENGEN PÅ SAMF?</b>
         </Typography>
@@ -72,7 +72,7 @@ function HistoryTab() {
         </Typography>
       </Grid>
 
-      <Grid item>
+      <Grid item xs={12} md={6}>
         <Typography variant="h6">
           <b>HVEM VAR HILFLING</b>
         </Typography>
