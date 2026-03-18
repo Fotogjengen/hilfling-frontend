@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { PhotoApi } from "../../../utils/api/PhotoApi";
-import PhotoUploadForm, { PhotoUploadFormIV } from "../../../forms/PhotoUploadForm";
+import PhotoUploadForm, {
+  PhotoUploadFormIV,
+} from "../../../forms/PhotoUploadForm";
 
 const EditPicture = () => {
-  const [initialValues, setInitialValues] = useState<PhotoUploadFormIV | null>(null);
+  const [initialValues, setInitialValues] = useState<PhotoUploadFormIV | null>(
+    null,
+  );
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
 
   const { id } = useParams<{ id: string }>();

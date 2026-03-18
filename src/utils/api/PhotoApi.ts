@@ -20,8 +20,6 @@ export interface PhotoSearch {
   [key: string]: string | string[] | boolean | undefined;
 }
 
-
-
 export const PhotoApi = {
   getAll: async function (): Promise<PhotoDto[]> {
     return api.get("/photos").then((res) => res.data.currentList);
@@ -38,10 +36,8 @@ export const PhotoApi = {
   },
 
   patch: async function (photo: any): Promise<any> {
-    
-  return api.patch("/photos", photo);
+    return api.patch("/photos", photo);
   },
-  
 
   getPhotoCount: async function (): Promise<Number> {
     return api
@@ -82,8 +78,6 @@ export const PhotoApi = {
   getById: async function (id: string): Promise<PhotoDto> {
     return api.get(`photos/${id}`).then((res) => res.data);
   },
-
-
 
   search: async function (
     photoSearch: PhotoSearch,

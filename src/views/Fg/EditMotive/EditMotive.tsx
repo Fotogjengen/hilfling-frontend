@@ -81,7 +81,7 @@ const EditMotive = () => {
       PhotoApi.getAllByMotiveId(id).then((res) => {
         console.log(res);
         setPhotos(res);
-      });;
+      });
     }
   }, []);
 
@@ -91,35 +91,34 @@ const EditMotive = () => {
     }
   }, [motive, albums, categories, eventOwners]);
 
-const handleClickPatch = async () => {
-  try {
-    await fetch("http://localhost:8000/motives", {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        motiveId: motive.motiveId,
-        title: motive.title,
-        categoryDto: motive.categoryDto,
-        eventOwnerDto: motive.eventOwnerDto,
-        albumDto: motive.albumDto,
-        dateCreated:
-          motive.dateCreated
+  const handleClickPatch = async () => {
+    try {
+      await fetch("http://localhost:8000/motives", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          motiveId: motive.motiveId,
+          title: motive.title,
+          categoryDto: motive.categoryDto,
+          eventOwnerDto: motive.eventOwnerDto,
+          albumDto: motive.albumDto,
+          dateCreated: motive.dateCreated
             ? new Date(motive.dateCreated).toISOString().slice(0, 10)
             : null,
-      }),
-    });
+        }),
+      });
 
-    setOpen(true);
-    setSeverity(severityEnum.SUCCESS);
-    setMessage(`Motivet ${motive.title} ble oppdatert`);
-  } catch (e) {
-    setOpen(true);
-    setSeverity(severityEnum.ERROR);
-    setMessage(String(e));
-  }
-};
+      setOpen(true);
+      setSeverity(severityEnum.SUCCESS);
+      setMessage(`Motivet ${motive.title} ble oppdatert`);
+    } catch (e) {
+      setOpen(true);
+      setSeverity(severityEnum.ERROR);
+      setMessage(String(e));
+    }
+  };
 
   const handleDialogClose = (value: boolean) => {
     setOpenDeleteDialog(false);
@@ -235,27 +234,27 @@ const handleClickPatch = async () => {
                   />
                 )}
               />
-<TextField
-  label="Endre dato"
-  type="date"
-  value={
-    motive?.dateCreated
-      ? new Date(motive.dateCreated).toISOString().slice(0, 10)
-      : ""
-  }
-  onChange={(e) => {
-    const isoDate = e.target.value;
-    if (!isoDate) return;
+              <TextField
+                label="Endre dato"
+                type="date"
+                value={
+                  motive?.dateCreated
+                    ? new Date(motive.dateCreated).toISOString().slice(0, 10)
+                    : ""
+                }
+                onChange={(e) => {
+                  const isoDate = e.target.value;
+                  if (!isoDate) return;
 
-    setMotive({
-      ...motive,
-      dateCreated: isoDate as any,
-    });
-  }}
-  margin="normal"
-  fullWidth
-  InputLabelProps={{ shrink: true }}
-/>
+                  setMotive({
+                    ...motive,
+                    dateCreated: isoDate as any,
+                  });
+                }}
+                margin="normal"
+                fullWidth
+                InputLabelProps={{ shrink: true }}
+              />
             </Grid>
 
             <Grid item xs={12} sm={6}>
@@ -302,34 +301,34 @@ const handleClickPatch = async () => {
         )}
       </Grid>
 
-      <h3 style={{ marginTop: 24 }}>Bilder i  motivet</h3>
+      <h3 style={{ marginTop: 24 }}>Bilder i motivet</h3>
 
-        {photos.length === 0 ? (
-          <p>Ingen bilder funnet.</p>
-        ) : (
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
-              gap: 12,
-              marginTop: 12,
-            }}
-          >
-            {photos.map((photo) => (
-              <Link
-                key={photo.photoId.id}
-                to={`/fg/editpicture/${photo.photoId.id}`}
-                style={{ display: "block" }}
-              >
-                <img
-                  src={createImgUrl(photo)}
-                  alt=""
-                  style={{ width: "100%", borderRadius: 6, display: "block" }}
-                />
-              </Link>
-            ))}
-          </div>
-        )}
+      {photos.length === 0 ? (
+        <p>Ingen bilder funnet.</p>
+      ) : (
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
+            gap: 12,
+            marginTop: 12,
+          }}
+        >
+          {photos.map((photo) => (
+            <Link
+              key={photo.photoId.id}
+              to={`/fg/editpicture/${photo.photoId.id}`}
+              style={{ display: "block" }}
+            >
+              <img
+                src={createImgUrl(photo)}
+                alt=""
+                style={{ width: "100%", borderRadius: 6, display: "block" }}
+              />
+            </Link>
+          ))}
+        </div>
+      )}
       <DeleteDialog
         open={openDeleteDialog}
         onClose={handleDialogClose}
