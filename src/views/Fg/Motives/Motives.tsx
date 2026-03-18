@@ -20,7 +20,7 @@ const Motives = () => {
       <MotiveCard key={index} motive={motive}>
         <Link
           className={styles.cardlink}
-          to={`/intern/motive/${motive.motiveId.id}`}
+          to={`/fg/motive/${motive.motiveId.id}`}
         >
           <Button
             size="small"

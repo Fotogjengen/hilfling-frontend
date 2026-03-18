@@ -25,6 +25,20 @@ export const PhotoApi = {
     return api.get("/photos").then((res) => res.data.currentList);
   },
 
+  update: async function (
+    id: string,
+    photo: FormData,
+    onUploadProgress?: (progressEvent: AxiosProgressEvent) => void,
+  ): Promise<any> {
+    return api.put(`/photos/${id}`, photo, {
+      onUploadProgress,
+    });
+  },
+
+  patch: async function (photo: any): Promise<any> {
+    return api.patch("/photos", photo);
+  },
+
   getPhotoCount: async function (): Promise<Number> {
     return api
       .get("/photos/count")

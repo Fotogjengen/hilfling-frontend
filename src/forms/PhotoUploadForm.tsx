@@ -25,7 +25,10 @@ import {
   EventOwnerDto,
   PlaceDto,
   SecurityLevelDto,
+  MotiveDto,
 } from "../../generated";
+import { MotiveApi } from "../utils/api/MotiveApi";
+
 import { PlaceApi } from "../utils/api/PlaceApi";
 import { SecurityLevelApi } from "../utils/api/SecurityLevelApi";
 import { AlbumApi } from "../utils/api/AlbumApi";
@@ -39,7 +42,7 @@ import { AxiosProgressEvent } from "axios";
 
 export interface PhotoUploadFormIV {
   album: string;
-  date: Date;
+  dateCreated?: Date;
   motive: string;
   tags: string[];
   category: string;
@@ -50,13 +53,26 @@ export interface PhotoUploadFormIV {
 
 interface Props {
   initialValues: PhotoUploadFormIV;
+  mode?: "create" | "edit";
+  photoId?: string;
+  photoUrl?: string | null;
 }
 
-const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
+const PhotoUploadForm: FC<Props> = ({
+  initialValues,
+  mode = "create",
+  photoId,
+  photoUrl: initialPhotoUrl,
+}) => {
+  const [formValues, setFormValues] = useState(initialValues);
+
   //Handling file Uploads with dropzone
-  const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+  const dropzone = useDropzone({
     accept: ".jpg,.jpeg,.png",
+    disabled: mode === "edit",
   });
+
+  const { acceptedFiles, getRootProps, getInputProps } = dropzone;
 
   const [files, setFiles] = useState<DragNDropFile[]>([]); // stores the uploaded files
   const [albums, setAlbums] = useState<AlbumDto[]>([]); // stores api fetch data from dropdowns
@@ -65,6 +81,10 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
   const [places, setPlaces] = useState<PlaceDto[]>([]); // stores api fetch data from dropdowns
   const [securityLevels, setSecurityLevels] = useState<SecurityLevelDto[]>([]); // stores api fetch data from dropdowns
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [motives, setMotives] = useState<MotiveDto[]>([]);
+  const [photoUrl, setPhotoUrl] = useState<string | null>(
+    initialPhotoUrl ?? null,
+  );
 
   const [isLoading, setIsLoading] = useState(false); // Track if a file is being uploaded
   const [progress, setProgress] = useState(0); // Tracks upload progress percentage'
@@ -108,6 +128,14 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
         setMessage(err.message);
       });
 
+    MotiveApi.getAll()
+      .then((res) => setMotives(res.data.currentList))
+      .catch((err) => {
+        setOpen(true);
+        setSeverity(severityEnum.ERROR);
+        setMessage(err.message);
+      });
+
     SecurityLevelApi.getAll()
       .then((res) => setSecurityLevels(res.data.currentList))
       .catch((err) => {
@@ -118,6 +146,8 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
   }, []);
 
   useEffect(() => {
+    if (mode === "edit") return;
+
     setFiles((prevFiles) => [
       ...prevFiles,
       ...(acceptedFiles as DragNDropFile[]).map((file) => {
@@ -125,98 +155,121 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
         return file;
       }),
     ]);
-  }, [acceptedFiles]);
-  useEffect(() => {
-    console.log("categories");
-    console.log(categories);
-  }, [categories]);
+  }, [acceptedFiles, mode]);
 
-  const onSubmit = async (values: Record<string, any>) => {
-    setFormSubmitted(false); // Reset state before submission
+  const onSubmit = async (values: Record<string, any>): Promise<boolean> => {
+    setFormSubmitted(false);
 
-    if (files.length === 0) {
+    if (mode === "create" && files.length === 0) {
       setOpen(true);
       setSeverity(severityEnum.ERROR);
       setMessage("Du må laste opp minst én fil");
-      return false; // Prevent form submission
+      return false;
     }
+
     try {
       setIsLoading(true);
       setSuccess(false);
-
-      const formattedDate = values["date"]
-        ? new Date(values["date"]).toISOString().split("T")[0]
-        : "";
-
-      const formData = new FormData();
-      formData.append("motiveTitle", values["motive"]);
-      formData.append("securityLevelId", values["securityLevel"]);
-      formData.append("placeName", values["place"]);
-      formData.append("albumId", values["album"]);
-      formData.append("categoryName", values["category"]);
-      formData.append("eventOwnerName", values["eventOwner"]);
-      formData.append("dateTaken", formattedDate);
-      formData.append(
-        "photoGangBangerId",
-        "6a89444f-25f6-44d9-8a73-94587d72b839",
-      ); // TODO: Use actual user Id
-      formData.append("tagList", values["tags"]);
-
-      files.forEach((dragNDropFile, index) => {
-        formData.append(
-          "isGoodPhotoList",
-          JSON.stringify(dragNDropFile.isGoodPicture),
-        );
-
-        formData.append("photoFileList", acceptedFiles[index]);
-      });
-
-      console.log(formData);
 
       const handleUploadProgress = (progressEvent: AxiosProgressEvent) => {
         if (progressEvent.total) {
           const percentCompleted = Math.round(
             (progressEvent.loaded * 100) / progressEvent.total,
           );
-          console.log(`Upload progress: ${percentCompleted}%`);
-          console.log(
-            `Loaded: ${progressEvent.loaded}, Total: ${progressEvent.total}`,
-          );
           setProgress(percentCompleted);
         } else {
-          // Fallback when Content-Length (total) is not available
-          console.log(`Uploaded ${progressEvent.loaded} bytes`);
           setProgress(0);
         }
       };
 
-      await PhotoApi.batchUpload(formData, handleUploadProgress);
-      setFiles([]);
+      if (mode === "create") {
+        const formattedDateCreated = values["dateCreated"]
+          ? new Date(values["dateCreated"]).toISOString().split("T")[0]
+          : "";
+
+        const formData = new FormData();
+        formData.append("motiveTitle", values["motive"]);
+        formData.append("securityLevelId", values["securityLevel"]);
+        formData.append("placeName", values["place"]);
+        formData.append("albumId", values["album"]);
+        formData.append("categoryName", values["category"]);
+        formData.append("eventOwnerName", values["eventOwner"]);
+        formData.append("dateCreated", formattedDateCreated);
+        formData.append(
+          "photoGangBangerId",
+          "6a89444f-25f6-44d9-8a73-94587d72b839",
+        );
+        formData.append("tagList", values["tags"]);
+
+        files.forEach((dragNDropFile, index) => {
+          formData.append(
+            "isGoodPhotoList",
+            JSON.stringify(dragNDropFile.isGoodPicture),
+          );
+          formData.append("photoFileList", acceptedFiles[index]);
+        });
+
+        await PhotoApi.batchUpload(formData, handleUploadProgress);
+        setFiles([]);
+
+        setMessage("Photos uploaded successfully!");
+      } else {
+        if (!photoId) {
+          throw new Error("Missing photoId in edit mode");
+        }
+
+        const selectedMotive = motives.find(
+          (motive) => motive.motiveId?.id === values["motive"],
+        );
+
+        const selectedSecurityLevel = securityLevels.find(
+          (securityLevel) =>
+            securityLevel.securityLevelId?.id === values["securityLevel"],
+        );
+
+        if (!selectedMotive) {
+          throw new Error("Fant ikke valgt motiv");
+        }
+
+        if (!selectedSecurityLevel) {
+          throw new Error("Fant ikke valgt sikkerhetsnivå");
+        }
+
+        await PhotoApi.patch({
+          photoId: { id: photoId },
+          isGoodPicture: null,
+          motive: selectedMotive,
+          placeDto: null,
+          securityLevel: selectedSecurityLevel,
+          gang: null,
+          albumDto: null,
+          categoryDto: null,
+          photoGangBangerDto: null,
+          photoTags: null,
+          dateCreated: new Date().toISOString().split("T")[0],
+        });
+
+        setFormValues((prev) => ({
+          ...prev,
+          motive: values["motive"],
+          securityLevel: values["securityLevel"],
+        }));
+
+        setMessage("Photo updated successfully!");
+      }
+
       setOpen(true);
       setSeverity(severityEnum.SUCCESS);
-      setMessage("Photos uploaded successfully!");
-
-      // PhotoApi.batchUpload(formData, handleUploadProgress)
-      //   .then((res) => {
-      //     console.log(res);
-      //     setFiles([]);
-      //   })
-      //   .catch((err) => {
-      //     setOpen(true);
-      //     setSeverity(severityEnum.ERROR);
-      //     setMessage(err.message);
-      //   })
-      //   .finally(() => {
-      //     setIsLoading(false);
-      //   });
       setSuccess(true);
-      setFormSubmitted(true); // Indicate successful submission
+      setFormSubmitted(true);
 
       return true;
-    } catch (error) {
+    } catch (error: any) {
       setOpen(true);
       setSeverity(severityEnum.ERROR);
-      setMessage("Upload failed. Please try again.");
+      setMessage(
+        error?.response?.data?.message || error?.message || "Upload failed",
+      );
       setSuccess(false);
       return false;
     } finally {
@@ -225,54 +278,47 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
   };
 
   const validate: Validate = (values: any): Errors => {
-    if (formSubmitted) return {}; // Skip validation if form was just submitted
+    if (formSubmitted) return {};
 
     const errors: Errors = {};
 
-    // Album validation
-    if (!values.album) {
-      errors.album = "Album er påkrevd";
-    }
+    if (mode !== "edit") {
+      if (!values.album) {
+        errors.album = "Album er påkrevd";
+      }
 
-    // Date validation
-    if (!values.date) {
-      errors.date = "Dato er påkrevd";
-    } else {
-      const selectedDate = new Date(values.date);
-      const today = new Date();
+      if (!values.dateCreated) {
+        errors.dateCreated = "Dato er påkrevd";
+      } else {
+        const selectedDate = new Date(values.dateCreated);
+        const today = new Date();
 
-      if (isNaN(selectedDate.getTime())) {
-        errors.date = "Ugyldig dato";
-      } else if (selectedDate > today) {
-        errors.date = "Dato kan ikke være i fremtiden";
+        if (isNaN(selectedDate.getTime())) {
+          errors.dateCreated = "Ugyldig dato";
+        } else if (selectedDate > today) {
+          errors.dateCreated = "Dato kan ikke være i fremtiden";
+        }
+      }
+
+      if (!values.category) {
+        errors.category = "Kategori er påkrevd";
+      }
+
+      if (!values.place) {
+        errors.place = "Sted er påkrevd";
+      }
+
+      if (!values.eventOwner) {
+        errors.eventOwner = "Eier er påkrevd";
       }
     }
 
-    // Motive validation
     if (!values.motive) {
       errors.motive = "Motiv er påkrevd";
-    } else if (values.motive.length < 3) {
-      errors.motive = "Motiv må være minst 3 tegn";
     }
 
-    // Category validation
-    if (!values.category) {
-      errors.category = "Kategori er påkrevd";
-    }
-
-    // Place validation
-    if (!values.place) {
-      errors.place = "Sted er påkrevd";
-    }
-
-    // SecurityLevel validation
     if (!values.securityLevel) {
       errors.securityLevel = "Sikkerhetsnivå er påkrevd";
-    }
-
-    // EventOwner validation
-    if (!values.eventOwner) {
-      errors.eventOwner = "Eier er påkrevd";
     }
 
     return errors;
@@ -330,157 +376,189 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
   }));
 
   return (
-    <div>
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <Form
-            onSubmit={onSubmit}
-            initialValues={initialValues}
-            validate={validate}
-          >
-            <Grid container spacing={2}>
-              <Grid item xs={12}>
-                <Select name="album" label="Album" fullWidth required>
-                  {albums.map((album, index) => (
-                    <MenuItem
-                      key={`album-item-${index}`}
-                      value={album?.albumId?.id}
-                    >
-                      {album.title}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </Grid>
-
-              <Grid item xs={12}>
-                <LocalizationProvider
-                  dateAdapter={AdapterDayjs}
-                  adapterLocale={"NO"}
-                  localeText={
-                    nbNO.components.MuiLocalizationProvider.defaultProps
-                      .localeText
-                  }
-                >
-                  <DatePickerField
-                    name="date"
-                    label="Dato"
-                    required
-                    fullWidth
-                  />
-                </LocalizationProvider>
-                {/* TODO: Add new datepicker, this one is outdated and not working */}
-              </Grid>
-
-              <Grid item xs={12}>
-                <TextField name="motive" label="Motiv" fullWidth required />
-              </Grid>
-
-              {/*
-              For Tags
-              <Grid item xs={12}>
-                <ChipField name="tags" label="Tags" fullWidth />
-              </Grid> */}
-
-              <Grid item xs={12}>
-                <Select name="category" label="Kategori" fullWidth required>
-                  {categories.map((category, index) => (
-                    <MenuItem
-                      key={`category-item-${index}`}
-                      value={category.name}
-                    >
-                      {category.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </Grid>
-
-              <Grid item xs={12}>
-                <Select name="place" label="Sted" fullWidth required>
-                  {places.map((place, index) => (
-                    <MenuItem key={`place-item-${index}`} value={place.name}>
-                      {place.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </Grid>
-
-              <Grid item xs={12}>
-                <Select
-                  name="securityLevel"
-                  label="Sikkerhetsnivå"
-                  fullWidth
-                  required
-                >
-                  {securityLevels.map((securityLevel, index) => (
-                    <MenuItem
-                      key={`security-level-item-${index}`}
-                      value={securityLevel?.securityLevelId?.id}
-                    >
-                      {securityLevel.securityLevelType}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </Grid>
-              <Grid item xs={12}>
-                <Select name="eventOwner" label="Eier" fullWidth required>
-                  {eventOwners.map((eventOwner, index) => (
-                    <MenuItem
-                      key={`event-owner-item-${index}`}
-                      value={eventOwner.name}
-                    >
-                      {eventOwner.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </Grid>
+    <Form
+      key={`${photoId ?? "create"}-${formValues.motive}-${formValues.securityLevel}`}
+      initialValues={formValues}
+      validate={validate}
+      onSubmit={onSubmit}
+    >
+      <div>
+        <Grid container spacing={2}>
+          {mode !== "edit" && (
+            <Grid item xs={12}>
+              <Select name="album" label="Album" fullWidth required>
+                {albums.map((album, index) => (
+                  <MenuItem
+                    key={`album-item-${index}`}
+                    value={album?.albumId?.id}
+                  >
+                    {album.title}
+                  </MenuItem>
+                ))}
+              </Select>
             </Grid>
-          </Form>
-        </Grid>
-        <Grid item xs={6}>
-          <section>
-            <div
-              {...getRootProps({ className: "dropzone" })}
-              className={cx(styles.dropzone)}
-            >
-              <input {...getInputProps()} />
-              <p>Dra og slipp filer her, eller klikk for å velge filer.</p>
-            </div>
+          )}
 
-            <aside>
-              <ul className={styles.noStyleUl}>{renderFilePreview}</ul>
-            </aside>
-          </section>
+          {mode !== "edit" && (
+            <Grid item xs={12}>
+              <LocalizationProvider
+                dateAdapter={AdapterDayjs}
+                adapterLocale={"NO"}
+                localeText={
+                  nbNO.components.MuiLocalizationProvider.defaultProps
+                    .localeText
+                }
+              >
+                <DatePickerField
+                  name="dateCreated"
+                  label="Dato create"
+                  required
+                  fullWidth
+                />
+              </LocalizationProvider>
+            </Grid>
+          )}
+
+          <Grid item xs={12}>
+            <Select name="motive" label="Motiv" fullWidth required>
+              {motives.map((motive, index) => (
+                <MenuItem
+                  key={`motive-item-${index}`}
+                  value={motive.motiveId?.id}
+                >
+                  {motive.title}
+                </MenuItem>
+              ))}
+            </Select>
+          </Grid>
+
+          {mode !== "edit" && (
+            <Grid item xs={12}>
+              <Select name="category" label="Kategori" fullWidth required>
+                {categories.map((category, index) => (
+                  <MenuItem
+                    key={`category-item-${index}`}
+                    value={category.name}
+                  >
+                    {category.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Grid>
+          )}
+
+          {mode !== "edit" && (
+            <Grid item xs={12}>
+              <Select name="place" label="Sted" fullWidth required>
+                {places.map((place, index) => (
+                  <MenuItem key={`place-item-${index}`} value={place.name}>
+                    {place.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Grid>
+          )}
+
+          {mode !== "edit" && (
+            <Grid item xs={12}>
+              <Select
+                name="securityLevel"
+                label="Sikkerhetsnivå"
+                fullWidth
+                required
+              >
+                {securityLevels.map((securityLevel, index) => (
+                  <MenuItem
+                    key={`security-level-item-${index}`}
+                    value={securityLevel?.securityLevelId?.id}
+                  >
+                    {securityLevel.securityLevelType}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Grid>
+          )}
+
+          {mode !== "edit" && (
+            <Grid item xs={12}>
+              <Select name="eventOwner" label="Eier" fullWidth required>
+                {eventOwners.map((eventOwner, index) => (
+                  <MenuItem
+                    key={`event-owner-item-${index}`}
+                    value={eventOwner.name}
+                  >
+                    {eventOwner.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </Grid>
+          )}
+
+          <Grid item xs={6}>
+            {mode !== "edit" ? (
+              <section>
+                <div
+                  {...getRootProps({ className: "dropzone" })}
+                  className={cx(styles.dropzone)}
+                >
+                  <input {...getInputProps()} />
+                  <p>Dra og slipp filer her, eller klikk for å velge filer.</p>
+                </div>
+
+                <aside>
+                  <ul className={styles.noStyleUl}>{renderFilePreview}</ul>
+                </aside>
+              </section>
+            ) : (
+              <section className={styles.dropzone}>
+                {photoUrl ? (
+                  <img
+                    src={photoUrl}
+                    alt="Photo being edited"
+                    style={{
+                      width: "100%",
+                      maxHeight: "500px",
+                      objectFit: "contain",
+                      borderRadius: "6px",
+                    }}
+                  />
+                ) : (
+                  <p>Laster bilde...</p>
+                )}
+              </section>
+            )}
+          </Grid>
         </Grid>
-      </Grid>
-      <Dialog open={isLoading}>
-        <DialogContent
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "space-around",
-            paddingX: 3,
-          }}
-        >
-          <Typography
+        <Dialog open={isLoading}>
+          <DialogContent
             sx={{
-              fontSize: "larger",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "space-around",
+              paddingX: 3,
             }}
           >
-            {progress === 100
-              ? success
-                ? "Velykket!"
-                : "Opplasting feilet"
-              : "Laster opp! 🦙"}
-          </Typography>
-          <BorderLinearProgress
-            sx={{ width: "25vw" }}
-            variant="determinate"
-            value={progress}
-          />
-        </DialogContent>
-      </Dialog>
-    </div>
+            <Typography
+              sx={{
+                fontSize: "larger",
+              }}
+            >
+              {progress === 100
+                ? success
+                  ? "Velykket!"
+                  : "Opplasting feilet"
+                : "Laster opp! 🦙"}
+            </Typography>
+            <BorderLinearProgress
+              sx={{ width: "25vw" }}
+              variant="determinate"
+              value={progress}
+            />
+          </DialogContent>
+        </Dialog>
+      </div>
+    </Form>
   );
 };
 
