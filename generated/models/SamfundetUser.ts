@@ -2,19 +2,17 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Email } from "./Email";
 import type { KClassSamfundetUser } from "./KClassSamfundetUser";
-import { PhoneNumber } from "./PhoneNumber";
 import { SamfundetUserId } from "./SamfundetUserId";
 import type { SecurityLevel } from "./SecurityLevel";
 import { SecurityLevelDto } from "./SecurityLevelDto";
 
 export type SamfundetUser = {
   securityLevel?: SecurityLevel;
-  email?: Email;
+  email?: string;
   username?: string;
   profilePicturePath?: string;
-  phoneNumber?: PhoneNumber;
+  phoneNumber?: string;
   sex?: string;
   firstName?: string;
   lastName?: string;

@@ -46,8 +46,8 @@ const ArchiveBossOverView = ({ setOverview }: Props) => {
         firstName: user.samfundetUser?.firstName,
         lastName: user.samfundetUser?.lastName,
         username: user.samfundetUser?.username,
-        phoneNumber: user.samfundetUser?.phoneNumber?.value,
-        email: user.samfundetUser?.email?.value,
+        phoneNumber: user.samfundetUser?.phoneNumber,
+        email: user.samfundetUser?.email,
         active: user.isActive,
         pang: user.isPang,
       }));

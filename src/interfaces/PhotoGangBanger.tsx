@@ -4,9 +4,7 @@ export interface PhotoGangBanger extends BaseModel {
   photoGangBangerId: {
     [id: string]: string;
   };
-  semesterStart: {
-    [key: string]: string;
-  };
+  semesterStart: string;
   address: string;
   zipCode: number;
   city: string;
@@ -17,12 +15,8 @@ export interface PhotoGangBanger extends BaseModel {
     firstName: string;
     lastName: string;
     username: string;
-    phoneNumber: {
-      value: string;
-    };
-    email: {
-      value: string;
-    };
+    phoneNumber: string;
+    email: string;
     profilePicturePath: string;
     sex: string;
     securituLevel: {
@@ -37,9 +31,7 @@ export interface PhotoGangBanger extends BaseModel {
       id: string;
     };
     title: string;
-    email: {
-      value: string;
-    };
+    email: string;
   };
   active: boolean;
   pang: boolean;

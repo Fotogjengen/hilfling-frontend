@@ -34,9 +34,9 @@ const ArchiveBossEditUser = () => {
   useEffect(() => {
     const phoneNumberLength = 8;
     setIsPhoneNumberValid(
-      user.samfundetUser?.phoneNumber?.value?.length === phoneNumberLength,
+      user.samfundetUser?.phoneNumber?.length === phoneNumberLength,
     );
-  }, [user.samfundetUser?.phoneNumber?.value]);
+  }, [user.samfundetUser?.phoneNumber]);
 
   useEffect(() => {
     PhotoGangBangerApi.getById(id || "")
@@ -50,30 +50,30 @@ const ArchiveBossEditUser = () => {
   }, []);
 
   useEffect(() => {
-    if (!user.samfundetUser?.email?.value) {
+    if (!user.samfundetUser?.email) {
       setIsEmailValid(false);
       setEmailError("");
-    } else if (!emailRegex.test(user.samfundetUser?.email.value)) {
+    } else if (!emailRegex.test(user.samfundetUser?.email)) {
       setIsEmailValid(false);
       setEmailError("Ugyldig e-postadresse");
     } else {
       setIsEmailValid(true);
       setEmailError("");
     }
-  }, [user.samfundetUser?.email?.value]);
+  }, [user.samfundetUser?.email]);
 
   useEffect(() => {
-    if (!user.samfundetUser?.phoneNumber?.value) {
+    if (!user.samfundetUser?.phoneNumber) {
       setIsPhoneNumberValid(false);
       setPhoneNumberError("");
-    } else if (!phoneNumberRegex.test(user.samfundetUser?.phoneNumber.value)) {
+    } else if (!phoneNumberRegex.test(user.samfundetUser?.phoneNumber)) {
       setIsPhoneNumberValid(false);
       setPhoneNumberError("Ugyldig telefonnummer");
     } else {
       setIsPhoneNumberValid(true);
       setPhoneNumberError("");
     }
-  }, [user.samfundetUser?.phoneNumber?.value]);
+  }, [user.samfundetUser?.phoneNumber]);
 
   const handleEditUserClick = () => {
     if (isPhoneNumberValid && isEmailValid) {
@@ -162,9 +162,9 @@ const ArchiveBossEditUser = () => {
             <TextField
               // className={styles.input}
               required
-              value={user?.samfundetUser?.phoneNumber?.value}
+              value={user?.samfundetUser?.phoneNumber}
               error={
-                user?.samfundetUser?.phoneNumber?.value !== "" &&
+                user?.samfundetUser?.phoneNumber !== "" &&
                 !isPhoneNumberValid
               }
               helperText={phoneNumberError}
@@ -173,7 +173,7 @@ const ArchiveBossEditUser = () => {
                   ...user,
                   samfundetUser: {
                     ...user.samfundetUser,
-                    phoneNumber: { value: e.target.value },
+                    phoneNumber: e.target.value,
                   },
                 })
               }
@@ -183,15 +183,15 @@ const ArchiveBossEditUser = () => {
             <TextField
               // className={styles.input}
               required
-              value={user?.samfundetUser?.email?.value}
-              error={user?.samfundetUser?.email?.value !== "" && !isEmailValid}
+              value={user?.samfundetUser?.email}
+              error={user?.samfundetUser?.email !== "" && !isEmailValid}
               helperText={emailError}
               onChange={(e) =>
                 setUser({
                   ...user,
                   samfundetUser: {
                     ...user.samfundetUser,
-                    email: { value: e.target.value },
+                    email: e.target.value,
                   },
                 })
               }

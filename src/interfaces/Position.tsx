@@ -5,7 +5,5 @@ export interface Position extends BaseModel {
     id: string;
   };
   title: string;
-  email: {
-    value: string;
-  };
+  email: string;
 }

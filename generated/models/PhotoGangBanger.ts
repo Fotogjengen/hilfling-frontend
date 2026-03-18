@@ -6,10 +6,9 @@ import type { KClassPhotoGangBanger } from "./KClassPhotoGangBanger";
 import { PhotoGangBangerId } from "./PhotoGangBangerId";
 import type { Position } from "./Position";
 import type { SamfundetUser } from "./SamfundetUser";
-import type { SemesterStart } from "./SemesterStart";
 
 export type PhotoGangBanger = {
-  semesterStart?: SemesterStart;
+  semesterStart?: string;
   isActive?: boolean;
   isPang?: boolean;
   samfundetUser?: SamfundetUser;

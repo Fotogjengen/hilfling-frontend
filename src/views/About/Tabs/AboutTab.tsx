@@ -35,7 +35,7 @@ const AboutTab: FC = () => {
           firstName={photoGangBanger.samfundetUser?.firstName || ""}
           lastName={photoGangBanger.samfundetUser?.lastName || ""}
           position={photoGangBanger.position?.title || ""}
-          email={photoGangBanger.samfundetUser?.email?.value || ""}
+          email={photoGangBanger.samfundetUser?.email || ""}
           image={photoGangBanger.samfundetUser?.profilePicturePath || ""}
           key={`photo-gang-banger-public-key-${index}`}
         />

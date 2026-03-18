@@ -72,12 +72,12 @@ const MyProfileRebrand = () => {
           const adress = response.data.address;
           const zip = response.data.zipCode;
           const city = response.data.city;
-          const phoneNumber = response.data.samfundetUser.phoneNumber.value;
+          const phoneNumber = response.data.samfundetUser.phoneNumber;
           // const eMail= response.data.samfundetUser.email.value;
-          const samfundetEMail = response.data.samfundetUser.email.value;
+          const samfundetEMail = response.data.samfundetUser.email;
           const currentPosition = response.data.position.title;
           const formerPositions = [" "]; //Not supported yet
-          const admissionSemester = response.data.semesterStart.value;
+          const admissionSemester = response.data.semesterStart;
           //determine if web or fotograf
           let role = "Fotograf";
           // console.log(webPositions.includes(currentUser.currentPosition.toLowerCase()))

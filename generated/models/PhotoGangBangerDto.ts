@@ -5,11 +5,10 @@
 import type { PhotoGangBangerId } from "./PhotoGangBangerId";
 import type { PositionDto } from "./PositionDto";
 import type { SamfundetUserDto } from "./SamfundetUserDto";
-import type { SemesterStart } from "./SemesterStart";
 
 export type PhotoGangBangerDto = {
   photoGangBangerId?: PhotoGangBangerId;
-  semesterStart?: SemesterStart;
+  semesterStart?: string;
   address?: string;
   zipCode?: string;
   city?: string;

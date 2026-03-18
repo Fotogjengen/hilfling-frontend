@@ -2,14 +2,14 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import type { Email } from "./Email";
+
 import type { PurchaseOrderId } from "./PurchaseOrderId";
 import type { ZipCode } from "./ZipCode";
 
 export type PurchaseOrderDto = {
   purchaseOrderId?: PurchaseOrderId;
   name?: string;
-  email?: Email;
+  email?: string;
   address?: string;
   zipCode?: ZipCode;
   city?: string;
