@@ -27,9 +27,10 @@
     }
   },
   "rules": {
+    "import/no-unresolved": ["error", { "ignore": ["@react-router/.*"] }],
+    "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
     "react/self-closing-comp": "error",
-    "import/no-unresolved": "error",
     "@typescript-eslint/unbound-method": "off",
     "@typescript-eslint/no-unsafe-assignment": "off", // TODO: want this on
     "@typescript-eslint/ban-types": "off",

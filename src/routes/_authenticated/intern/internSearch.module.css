@@ -1,0 +1,58 @@
+.internSearch {
+  display: flex;
+  gap: 1rem;
+}
+.formTextField {
+  padding: 0.4rem;
+}
+
+.gridDivContainer {
+  flex: 1;
+  min-width: 0;
+  order: 2;
+}
+
+.gridContainer {
+  padding: 0.5rem;
+  background-color: whitesmoke;
+  border-radius: 1rem;
+}
+
+.toggleHeader {
+  width: 100%;
+  border-radius: 1rem;
+  display: flex;
+  flex: 1;
+}
+
+.pagination {
+  width: 100%;
+  padding: 1rem;
+}
+
+.pagination2 {
+  width: 100%;
+  padding: 1rem;
+}
+
+.toggleComponent {
+  width: 15%;
+  padding: 1rem;
+}
+
+.thumbnailImage {
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+  cursor: pointer;
+  border-radius: 0.2em;
+}
+
+.editButton {
+  border-radius: 10em;
+}
+
+.scanButtons {
+  display: flex;
+  flex-direction: column;
+}

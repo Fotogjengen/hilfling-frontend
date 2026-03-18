@@ -5,6 +5,7 @@
   "engines": {
     "node": ">=16.0.0"
   },
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -20,36 +21,40 @@
     "@mui/material": "^5.14.7",
     "@mui/x-data-grid": "^6.12.1",
     "@mui/x-date-pickers": "^6.1.0",
+    "@tanstack/react-router": "^1.166.7",
+    "@tanstack/react-router-devtools": "^1.166.7",
     "axios": "^1.13.2",
     "classnames": "2.5.1",
     "crypto-js": "^4.2.0",
     "dayjs": "^1.11.18",
     "formik": "^2.4.6",
+    "isbot": "^5",
     "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-dropzone": "^11.4.2",
-    "react-error-boundary": "^6.1.0",
     "react-photo-view": "^1.2.7",
-    "react-router-dom": "^7.13.0",
     "typescript": "^5.0.0",
     "yup": "^1.7.0"
   },
   "devDependencies": {
+    "@tanstack/router-plugin": "^1.166.7",
     "@types/crypto-js": "^4.2.2",
     "@types/js-cookie": "^3.0.6",
     "@types/lodash": "^4.14.186",
+    "@types/node": "^25.5.0",
     "@types/react": "^18.3.27",
     "@types/react-dom": "^18.3.7",
-    "@typescript-eslint/eslint-plugin": "^5.62.0",
-    "@typescript-eslint/parser": "^5.62.0",
     "@vitejs/plugin-react": "^4.3.4",
-    "eslint-config-prettier": "10.1.8",
+    "eslint": "^9.39.3",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-react": "^7.37.5",
     "lint-staged": "16.1.6",
     "prettier": "3.6.2",
+    "typescript-eslint": "^8.56.1",
     "vite": "^6.3.5"
   }
 }
