@@ -8,10 +8,10 @@ import { PaginatedResult, PaginatedResultData } from "./types";
 
 export const PhotoGangBangerApi = {
   getAll: async function (): Promise<PaginatedResultData<PhotoGangBangerDto>> {
-    const res = await api.get<PaginatedResult<PhotoGangBangerDto>>(
+    const res = await api.get<PaginatedResultData<PhotoGangBangerDto>>(
       "/photo_gang_bangers",
     );
-    return res.data.data;
+    return res.data;
   },
 
   getById: async function (id: string): Promise<PhotoGangBangerDto> {
