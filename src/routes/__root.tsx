@@ -17,6 +17,7 @@ import {
   AuthenticationContext,
   AuthState,
 } from "../contexts/AuthenticationContext";
+import TitleBanner from "@/components/TitleBanner/TitleBanner";
 
 // What state we want to pass along with the router context.
 interface RouterContext {
@@ -113,6 +114,7 @@ function RootComponent() {
                 isAuthenticated={isAuthenticated}
               />
             )}
+            overlayRender={() => <TitleBanner photo={photos[photoIndex]} />}
           />
         </ImageContext.Provider>
       </AdBannerContext.Provider>

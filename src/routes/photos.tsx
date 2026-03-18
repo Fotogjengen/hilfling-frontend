@@ -7,6 +7,7 @@ import styles from "./photos.module.css";
 import { ImageContext } from "@/contexts/ImageContext";
 import ImagesAdvertisementPopup from "@/components/ImagesAdvertisementPopup/ImagesAdvertisementPopup";
 import { useAdBanner } from "@/hooks/useAdBanner";
+import TitleBanner from "@/components/TitleBanner/TitleBanner";
 
 export const Route = createFileRoute("/photos")({
   component: Photos,
@@ -163,6 +164,9 @@ function Photos() {
               onClick={() => openAt(t.photoIndex)}
             >
               <img src={createImgUrl(t.photo)} loading="lazy" alt="" />
+              <div className={styles.titleBannerContainer}>
+                <TitleBanner photo={t.photo} styling="ScrapBook" />
+              </div>
             </div>
           );
         })}
