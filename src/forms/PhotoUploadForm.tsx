@@ -43,7 +43,7 @@ import { AxiosProgressEvent } from "axios";
 
 export interface PhotoUploadFormIV {
   album: string;
-  date?: Date;
+  dateCreated?: Date;
   motive: string;
   tags: string[];
   category: string;
@@ -188,8 +188,8 @@ const onSubmit = async (values: Record<string, any>): Promise<boolean> => {
     };
 
     if (mode === "create") {
-      const formattedDate = values["date"]
-        ? new Date(values["date"]).toISOString().split("T")[0]
+      const formattedDateCreated = values["dateCreated"]
+        ? new Date(values["dateCreated"]).toISOString().split("T")[0]
         : "";
 
       const formData = new FormData();
@@ -199,7 +199,7 @@ const onSubmit = async (values: Record<string, any>): Promise<boolean> => {
       formData.append("albumId", values["album"]);
       formData.append("categoryName", values["category"]);
       formData.append("eventOwnerName", values["eventOwner"]);
-      formData.append("dateTaken", formattedDate);
+      formData.append("dateCreated", formattedDateCreated);
       formData.append(
         "photoGangBangerId",
         "6a89444f-25f6-44d9-8a73-94587d72b839",
@@ -251,7 +251,9 @@ const onSubmit = async (values: Record<string, any>): Promise<boolean> => {
         categoryDto: null,
         photoGangBangerDto: null,
         photoTags: null,
+        dateCreated: new Date().toISOString().split("T")[0],
       });
+
 
 
       setFormValues((prev) => ({
@@ -291,16 +293,16 @@ const validate: Validate = (values: any): Errors => {
       errors.album = "Album er påkrevd";
     }
 
-    if (!values.date) {
-      errors.date = "Dato er påkrevd";
+    if (!values.dateCreated) {
+      errors.dateCreated = "Dato er påkrevd";
     } else {
-      const selectedDate = new Date(values.date);
+      const selectedDate = new Date(values.dateCreated);
       const today = new Date();
 
       if (isNaN(selectedDate.getTime())) {
-        errors.date = "Ugyldig dato";
+        errors.dateCreated = "Ugyldig dato";
       } else if (selectedDate > today) {
-        errors.date = "Dato kan ikke være i fremtiden";
+        errors.dateCreated = "Dato kan ikke være i fremtiden";
       }
     }
 
@@ -419,8 +421,8 @@ const validate: Validate = (values: any): Errors => {
         }
       >
         <DatePickerField
-          name="date"
-          label="Dato"
+          name="dateCreated"
+          label="Dato create"
           required
           fullWidth
         />
@@ -465,6 +467,8 @@ const validate: Validate = (values: any): Errors => {
     </Grid>
   )}
 
+  
+  {mode !== "edit" && (
   <Grid item xs={12}>
     <Select
       name="securityLevel"
@@ -482,6 +486,7 @@ const validate: Validate = (values: any): Errors => {
       ))}
     </Select>
   </Grid>
+)}
 
   {mode !== "edit" && (
     <Grid item xs={12}>

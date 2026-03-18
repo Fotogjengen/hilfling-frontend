@@ -91,19 +91,35 @@ const EditMotive = () => {
     }
   }, [motive, albums, categories, eventOwners]);
 
-  const handleClickPatch = () => {
-    MotiveApi.patch(motive)
-      .then(() => {
-        setOpen(true);
-        setSeverity(severityEnum.SUCCESS);
-        setMessage(`Motivet ${motive.title} ble oppdatert`);
-      })
-      .catch((e) => {
-        setOpen(true);
-        setSeverity(severityEnum.ERROR);
-        setMessage(e);
-      });
-  };
+const handleClickPatch = async () => {
+  try {
+    await fetch("http://localhost:8000/motives", {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        motiveId: motive.motiveId,
+        title: motive.title,
+        categoryDto: motive.categoryDto,
+        eventOwnerDto: motive.eventOwnerDto,
+        albumDto: motive.albumDto,
+        dateCreated:
+          motive.dateCreated
+            ? new Date(motive.dateCreated).toISOString().slice(0, 10)
+            : null,
+      }),
+    });
+
+    setOpen(true);
+    setSeverity(severityEnum.SUCCESS);
+    setMessage(`Motivet ${motive.title} ble oppdatert`);
+  } catch (e) {
+    setOpen(true);
+    setSeverity(severityEnum.ERROR);
+    setMessage(String(e));
+  }
+};
 
   const handleDialogClose = (value: boolean) => {
     setOpenDeleteDialog(false);
@@ -219,27 +235,27 @@ const EditMotive = () => {
                   />
                 )}
               />
-              <TextField
-                label="Endre dato"
-                type="date"
-                value={
-                  motive?.dateCreated
-                    ? new Date(motive.dateCreated).toISOString().slice(0, 10)
-                    : ""
-                }
-                onChange={(e) => {
-                  const isoDate = e.target.value; 
-                  if (!isoDate) {
-              
-                    return;
-                  }
-                  const newDate = new Date(`${isoDate}T12:00:00`);
-                  setMotive({ ...motive, dateCreated: newDate });
-                }}
-                margin="normal"
-                fullWidth
-                InputLabelProps={{ shrink: true }}
-            />
+<TextField
+  label="Endre dato"
+  type="date"
+  value={
+    motive?.dateCreated
+      ? new Date(motive.dateCreated).toISOString().slice(0, 10)
+      : ""
+  }
+  onChange={(e) => {
+    const isoDate = e.target.value;
+    if (!isoDate) return;
+
+    setMotive({
+      ...motive,
+      dateCreated: isoDate as any,
+    });
+  }}
+  margin="normal"
+  fullWidth
+  InputLabelProps={{ shrink: true }}
+/>
             </Grid>
 
             <Grid item xs={12} sm={6}>

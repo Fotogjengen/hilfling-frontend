@@ -7,7 +7,7 @@ import styles from "./PhotoUpload.module.css";
 
 const initialValues: PhotoUploadFormIV = {
   album: "",
-  date: new Date(Date.now()),
+  dateCreated: new Date(Date.now()),
   motive: "",
   tags: [],
   category: "",
