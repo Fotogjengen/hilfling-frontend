@@ -42,15 +42,18 @@ export const PhotoApi = {
     return api.post("/photos", photo);
   },
 
-  batchUpload: async function (
-    photos: FormData,
-    onUploadProgress?: (progressEvent: AxiosProgressEvent) => void,
-  ): Promise<any> {
-    console.log(photos);
-    return api.post("/photos/upload", photos, {
-      onUploadProgress,
-    });
-  },
+batchUpload: async function (
+  photos: FormData,
+  onUploadProgress?: (progressEvent: AxiosProgressEvent) => void,
+): Promise<any> {
+
+  return api.post("/photos/upload", photos, {
+    onUploadProgress,
+    headers: {
+      "Content-Type": undefined,
+    },
+  });
+},
 
   getGoodPhotos: async function (
     page?: string,
