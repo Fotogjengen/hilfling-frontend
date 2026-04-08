@@ -7,6 +7,11 @@ interface AuthenticationContext {
   setPosition: Dispatch<SetStateAction<string>>;
 }
 
+export interface AuthState {
+  isAuthenticated: boolean;
+  position: string;
+}
+
 const defaultState = {} as AuthenticationContext;
 
 export const AuthenticationContext =

@@ -10,10 +10,12 @@ export type FormFieldProps<T> = Omit<
 
 export type OnChange<T = string> = (fieldName: string, value: T | null) => void;
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export type Validate<T extends { [key: string]: any } = {}> = (fields: T) => {
   [k in keyof T]?: string;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export type Errors<T extends { [key: string]: any } = {}> = {
   [k in string | keyof T]?: string | null;
 };

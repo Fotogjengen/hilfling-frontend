@@ -1,4 +1,3 @@
-import React, { FC, ReactNode } from "react";
 import styles from "./TitleBanner.module.css";
 import { PhotoDto } from "../../../generated";
 

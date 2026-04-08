@@ -6,7 +6,7 @@ import CreditPopUp from "../CreditPopUp/CreditPopUp";
 
 interface Props {
   currentIndex: any;
-  isAuthenticated: Boolean;
+  isAuthenticated: boolean;
 }
 
 const DownloadButton = ({ currentIndex, isAuthenticated }: Props) => {

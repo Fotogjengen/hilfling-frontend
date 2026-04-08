@@ -1,0 +1,217 @@
+.randomPictureImg {
+  /* height: 225px;
+    width: 225px; */
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.card3 {
+  /* Contains a random picture at the moment*/
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+
+  gap: 20px;
+  margin: 0px;
+  flex-wrap: wrap;
+}
+
+.admissionSemesterText {
+  display: flex;
+  font-size: 96px;
+  font-style: normal;
+  font-weight: normal;
+  margin-top: 0px;
+  margin-left: 35px;
+}
+
+.admissionSemesterHeader {
+  display: flex;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: normal;
+  margin-top: 0px;
+  margin-left: 35px;
+  margin: 0px;
+}
+
+.admissionSemester {
+  display: flex;
+  flex-direction: column;
+  background-color: #be3144;
+  height: 272px;
+  width: 577px;
+  border-radius: 5px;
+  padding-left: 20px;
+  margin: 0px;
+  overflow: hidden;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.positionsList {
+  display: flex;
+  flex-direction: column;
+  font-size: 30px;
+  font-style: normal;
+  font-weight: normal;
+  margin-top: 0px;
+  margin-left: 35px;
+  margin: 0px;
+}
+
+.positionsHeader {
+  display: flex;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: normal;
+  margin-top: 0px;
+  margin-left: 35px;
+  margin: 0px;
+}
+
+.positions {
+  display: flex;
+  flex-direction: column;
+  background-color: #872341;
+  height: 272px;
+  width: 271px;
+  border-radius: 5px;
+  padding-left: 20px;
+  overflow: hidden;
+  margin-right: 16px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.card2 {
+  /* Contains position and admission semester*/
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+
+  gap: 20px;
+  margin: 0px;
+  flex-wrap: wrap;
+}
+.personalInformationList {
+  display: flex;
+  flex-direction: column;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: normal;
+  margin: 0;
+  margin-left: 20px;
+}
+
+.personalInformationHeader {
+  display: flex;
+  font-size: 40px;
+  font-style: normal;
+  font-weight: normal;
+  margin: 0px;
+  margin-left: 10px;
+}
+
+.personalInformation {
+  display: flex;
+  flex-direction: column;
+  background-color: #e17564;
+  height: 225px;
+  width: 577px;
+  border-radius: 5px;
+  /* padding-left: 20px;  */
+  margin: 0px;
+  overflow: hidden;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.profilePictureImg {
+  height: 225px;
+  width: 225px;
+  object-fit: cover;
+
+  align-content: center;
+  align-items: center;
+}
+
+.newProfilePictureButton {
+  position: relative;
+  /* left: 30%;
+    top: 40%; */
+  display: flex;
+  border: 0;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  margin: auto;
+  /* width: 100px; */
+  /* z-index: 2;   */
+  background-color: transparent;
+  color: #7e7e7e;
+  font-size: 20px;
+  font-family: "Raleway";
+  font-weight: 200;
+  width: 70%;
+}
+/* .profile_picture_img:hover {
+    opacity: 20%;
+
+} */
+
+.profilePicture {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  background-color: white;
+  width: 225px;
+  height: 225px;
+  border-radius: 50%;
+  margin-right: 48px;
+  margin-left: 16px;
+  overflow: hidden;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.card1 {
+  /* Contains profile picture and personal info*/
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  gap: 20px;
+  margin: 0px;
+  flex-wrap: wrap;
+}
+
+.infoCard {
+  /* Contains profile picture and personal info*/
+  display: flex;
+  flex-direction: row;
+  align-content: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.nameDisplay {
+  display: flex;
+  flex-direction: column;
+  font-size: 73px;
+  font-style: normal;
+  font-weight: normal;
+  margin-top: 0px;
+  padding: 0px;
+}
+
+.roleDisplay {
+  display: flex;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: normal;
+  margin-top: 0px;
+  margin-left: 35px;
+}
+
+.mainCard {
+  display: flex;
+  flex-direction: column;
+}

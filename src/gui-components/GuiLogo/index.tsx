@@ -1,4 +1,3 @@
-import React, { FC } from "react";
 import styles from "./GuiLogo.module.css";
 import { LogoSvg } from "../Guiicons";
 import { DefaultProps } from "../../types";
@@ -11,7 +10,7 @@ interface Props extends DefaultProps {
   onClick?: () => void;
 }
 
-const GuiLogo: FC<Props> = ({ size, onClick, className, ...rest }: Props) => {
+export default function GuiLogo({ size, onClick, className, ...rest }: Props) {
   return (
     <div
       style={{ height: size }}
@@ -25,6 +24,4 @@ const GuiLogo: FC<Props> = ({ size, onClick, className, ...rest }: Props) => {
       </p>
     </div>
   );
-};
-
-export default GuiLogo;
+}

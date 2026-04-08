@@ -1,0 +1,350 @@
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import {
+  Autocomplete,
+  Button,
+  Grid,
+  IconButton,
+  TextField,
+  Typography,
+} from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import React, { useContext, useEffect, useState } from "react";
+import {
+  AlbumDto,
+  CategoryDto,
+  EventOwnerDto,
+  MotiveDto,
+  PhotoDto,
+} from "@/../generated";
+import { AlbumApi } from "@/utils/api/AlbumApi";
+import { CategoryApi } from "@/utils/api/CategoryApi";
+import { EventOwnerApi } from "@/utils/api/EventOwnerApi";
+import { MotiveApi } from "@/utils/api/MotiveApi";
+import styles from "./motiveEdit.module.css";
+import MotiveCard from "@/components/MotiveCard/MotiveCard";
+import { AlertContext, severityEnum } from "@/contexts/AlertContext";
+import DeleteDialog from "@/components/DeleteDialog/DeleteDialog";
+import { PhotoApi } from "@/utils/api/PhotoApi";
+import { createImgUrl } from "@/utils/createImgUrl/createImgUrl";
+
+
+export const Route = createFileRoute(
+  "/_authenticated/_fgAuthenticated/fg/motive/edit/$motiveId",
+)({
+  component: EditMotive,
+});
+
+function EditMotive() {
+  const [motive, setMotive] = useState<MotiveDto>({} as MotiveDto);
+  const [albums, setAlbums] = useState<AlbumDto[]>([]);
+  const [categories, setCategories] = useState<CategoryDto[]>([]);
+  const [eventOwners, setEventOwners] = useState<EventOwnerDto[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
+  const [, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [photos, setPhotos] = useState<PhotoDto[]>([]);
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const { setMessage, setSeverity, setOpen } = useContext(AlertContext);
+
+  const navigate = useNavigate();
+
+  const { motiveId: id } = Route.useParams();
+
+  useEffect(() => {
+    if (id) {
+      MotiveApi.getById(id)
+        .then((res) => setMotive(res))
+        .catch((e) => {
+          setOpen(true);
+          setSeverity(severityEnum.ERROR);
+          setMessage(e);
+        });
+      AlbumApi.getAll()
+        .then((res) => setAlbums(res.data.currentList))
+        .catch((e) => {
+          setOpen(true);
+          setSeverity(severityEnum.ERROR);
+          setMessage(e);
+        });
+      CategoryApi.getAll()
+        .then((res) => setCategories(res.data.currentList))
+        .catch((e) => {
+          setOpen(true);
+          setSeverity(severityEnum.ERROR);
+          setMessage(e);
+        });
+      EventOwnerApi.getAll()
+        .then((res) => setEventOwners(res.data.currentList))
+        .catch((e) => {
+          setOpen(true);
+          setSeverity(severityEnum.ERROR);
+          setMessage(e);
+        });
+      PhotoApi.getAllByMotiveId(id)
+        .then((res) => {
+          console.log(res);
+          setPhotos(res);
+        })
+        .catch((e) => {
+          setOpen(true);
+          setSeverity(severityEnum.ERROR);
+          setMessage(String(e));
+        });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (motive && albums && categories && eventOwners) {
+      setLoading(false);
+    }
+  }, [motive, albums, categories, eventOwners]);
+
+  const handleClickPatch = () => {
+    MotiveApi.patch(motive)
+      .then(() => {
+        void navigate({
+          to: "/fg/motive",
+        });
+        setOpen(true);
+        setSeverity(severityEnum.SUCCESS);
+        setMessage(`Motivet ${motive.title} ble oppdatert`);
+      })
+      .catch((e) => {
+        setOpen(true);
+        setSeverity(severityEnum.ERROR);
+        setMessage(String(e));
+      });
+  };
+
+  const handleDialogClose = (value: boolean) => {
+    setOpenDeleteDialog(false);
+    if (value == true) {
+      handleDelete();
+    }
+  };
+
+  const handleBeforeDelete = () => {
+    handleClose();
+    setOpenDeleteDialog(true);
+  };
+
+  const handleDelete = () => {
+    // TODO: We don't have an endpoint for deleting motives yet
+    console.log("deleted");
+    void navigate({
+      to: "/fg/motive",
+    });
+    /* MotiveApi.delete(motive.motiveId.id)
+      .then(() => {
+        navigate("/intern/motive");
+        setOpen(true);
+        setSeverity(severityEnum.SUCCESS);
+        setMessage(`Motivet ${motive.title} ble slettet`);
+      })
+      .catch((e) => {
+        setOpen(true);
+        setSeverity(severityEnum.ERROR);
+        setMessage(e);
+      }); */
+  };
+
+  return (
+    <div className={styles.editMotive}>
+      <h2>Rediger {motive?.title}</h2>
+      <Grid container spacing={2} alignItems="center">
+        {loading ? (
+          <p>Loading...</p>
+        ) : (
+          <>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                value={motive.title || ""}
+                onChange={(e) =>
+                  setMotive({ ...motive, title: e.target.value })
+                }
+                label="Endre navn på motiv"
+                margin="normal"
+                fullWidth
+              />
+              <Autocomplete
+                disablePortal
+                getOptionLabel={(categories: CategoryDto) =>
+                  categories?.name || ""
+                }
+                options={categories.map((category) => category)}
+                // Used to suppress a warning idk why
+                isOptionEqualToValue={(option, value) =>
+                  option.categoryId.id === value.categoryId.id
+                }
+                value={motive?.categoryDto ?? null}
+                onChange={(e, value) => {
+                  if (value) {
+                    setMotive({
+                      ...motive,
+                      categoryDto: {
+                        ...motive.categoryDto,
+                        name: value.name,
+                        categoryId: {
+                          ...motive.categoryDto?.categoryId,
+                          id: value.categoryId.id,
+                        },
+                      },
+                    });
+                  }
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    fullWidth
+                    label="Endre kategori"
+                    margin="normal"
+                  />
+                )}
+              />
+
+              <Autocomplete
+                disablePortal
+                getOptionLabel={(eventOwners: EventOwnerDto) =>
+                  eventOwners?.name || ""
+                }
+                options={eventOwners.map((eventOwner) => eventOwner)}
+                isOptionEqualToValue={(option, value) =>
+                  option.eventOwnerId.id === value.eventOwnerId.id
+                }
+                value={motive?.eventOwnerDto ?? null}
+                onChange={(e, value) => {
+                  if (value) {
+                    setMotive({
+                      ...motive,
+                      eventOwnerDto: {
+                        ...motive.eventOwnerDto,
+                        name: value.name,
+                        eventOwnerId: {
+                          ...motive.eventOwnerDto?.eventOwnerId,
+                          id: value.eventOwnerId.id,
+                        },
+                      },
+                    });
+                  }
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    fullWidth
+                    label="Endre eier"
+                    margin="normal"
+                  />
+                )}
+              />
+              <TextField
+                label="Endre dato"
+                type="date"
+                value={
+                  motive?.dateCreated
+                    ? new Date(motive.dateCreated).toISOString().slice(0, 10)
+                    : ""
+                }
+                onChange={(e) => {
+                  const isoDate = e.target.value;
+                  if (!isoDate) return;
+
+                  setMotive({
+                    ...motive,
+                    dateCreated: isoDate as any,
+                  });
+                }}
+                margin="normal"
+                fullWidth
+                InputLabelProps={{ shrink: true }}
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <Typography variant="h6">Slik vil motivet se ut</Typography>
+              <MotiveCard key={1} motive={motive}>
+                <Grid container spacing={2} alignItems="center">
+                  <Grid item xs={12} sm={10}>
+                    {motive?.title == "" ? (
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        endIcon={<EditIcon />}
+                        disabled
+                        fullWidth
+                      >
+                        Endre motivet
+                      </Button>
+                    ) : (
+                      <Button
+                        size="small"
+                        endIcon={<EditIcon />}
+                        onClick={() => {
+                          handleClickPatch();
+                        }}
+                        variant="outlined"
+                        fullWidth
+                      >
+                        Endre motivet
+                      </Button>
+                    )}
+                  </Grid>
+                  <Grid item xs={12} sm={2}>
+                    <IconButton
+                      color="primary"
+                      aria-label="upload picture"
+                      component="label"
+                      onClick={() => handleBeforeDelete()}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </Grid>
+                </Grid>
+              </MotiveCard>
+            </Grid>
+          </>
+        )}
+      </Grid>
+
+      <h3 style={{ marginTop: 24 }}>Bilder i motivet</h3>
+
+      {photos.length === 0 ? (
+        <p>Ingen bilder funnet.</p>
+      ) : (
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
+            gap: 12,
+            marginTop: 12,
+          }}
+        >
+          {photos.map((photo) => (
+            <Link
+              key={photo.photoId.id}
+              to={"/fg/photo/edit/$photoId"}
+              style={{ display: "block" }}
+            >
+              <img
+                src={createImgUrl(photo)}
+                alt=""
+                style={{ width: "100%", borderRadius: 6, display: "block" }}
+              />
+            </Link>
+          ))}
+        </div>
+      )}
+      <DeleteDialog
+        open={openDeleteDialog}
+        onClose={handleDialogClose}
+        name={motive.title}
+      />
+    </div>
+  );
+}
+
+export default EditMotive;

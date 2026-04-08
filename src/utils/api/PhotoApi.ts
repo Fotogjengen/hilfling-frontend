@@ -39,7 +39,7 @@ export const PhotoApi = {
     return api.patch("/photos", photo);
   },
 
-  getPhotoCount: async function (): Promise<Number> {
+  getPhotoCount: async function (): Promise<number> {
     return api
       .get("/photos/count")
       .then((res) => res.data.PromiseResult)
