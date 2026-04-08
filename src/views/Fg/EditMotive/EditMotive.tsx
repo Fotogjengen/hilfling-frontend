@@ -78,10 +78,16 @@ const EditMotive = () => {
           setSeverity(severityEnum.ERROR);
           setMessage(e);
         });
-      PhotoApi.getAllByMotiveId(id).then((res) => {
-        console.log(res);
-        setPhotos(res);
-      });
+      PhotoApi.getAllByMotiveId(id)
+        .then((res) => {
+          console.log(res);
+          setPhotos(res);
+        })
+        .catch((e) => {
+          setOpen(true);
+          setSeverity(severityEnum.ERROR);
+          setMessage(String(e));
+        });
     }
   }, []);
 
@@ -175,8 +181,10 @@ const EditMotive = () => {
                 }
                 options={categories.map((category) => category)}
                 // Used to suppress a warning idk why
-                isOptionEqualToValue={(option, value) => option !== value}
-                value={motive?.categoryDto || ""}
+                isOptionEqualToValue={(option, value) =>
+                  option.categoryId.id === value.categoryId.id
+                }
+                value={motive?.categoryDto ?? null}
                 onChange={(e, value) => {
                   if (value) {
                     setMotive({
@@ -208,8 +216,10 @@ const EditMotive = () => {
                   eventOwners?.name || ""
                 }
                 options={eventOwners.map((eventOwner) => eventOwner)}
-                isOptionEqualToValue={(option, value) => option !== value}
-                value={motive?.eventOwnerDto || ""}
+                isOptionEqualToValue={(option, value) =>
+                  option.eventOwnerId.id === value.eventOwnerId.id
+                }
+                value={motive?.eventOwnerDto ?? null}
                 onChange={(e, value) => {
                   if (value) {
                     setMotive({
@@ -276,7 +286,9 @@ const EditMotive = () => {
                       <Button
                         size="small"
                         endIcon={<EditIcon />}
-                        onClick={handleClickPatch}
+                        onClick={() => {
+                          void handleClickPatch();
+                        }}
                         variant="outlined"
                         fullWidth
                       >
