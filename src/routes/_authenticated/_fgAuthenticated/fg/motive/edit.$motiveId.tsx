@@ -326,7 +326,8 @@ function EditMotive() {
           {photos.map((photo) => (
             <Link
               key={photo.photoId.id}
-              to={"/fg/photo/edit/$photoId"}
+              to="/fg/photo/edit/$photoId"
+              params={{ photoId: photo.photoId.id }}
               style={{ display: "block" }}
             >
               <img
