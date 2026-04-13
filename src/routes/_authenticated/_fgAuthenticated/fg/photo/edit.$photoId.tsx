@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { PhotoApi } from "@/utils/api/PhotoApi";
-import PhotoUploadForm, {
-  PhotoUploadFormIV,
-} from "@/forms/PhotoUploadForm";
+import PhotoUploadForm, { PhotoUploadFormIV } from "@/forms/PhotoUploadForm";
 
 export const Route = createFileRoute(
   "/_authenticated/_fgAuthenticated/fg/photo/edit/$photoId",

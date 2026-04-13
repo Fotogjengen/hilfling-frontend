@@ -28,7 +28,6 @@ import DeleteDialog from "@/components/DeleteDialog/DeleteDialog";
 import { PhotoApi } from "@/utils/api/PhotoApi";
 import { createImgUrl } from "@/utils/createImgUrl/createImgUrl";
 
-
 export const Route = createFileRoute(
   "/_authenticated/_fgAuthenticated/fg/motive/edit/$motiveId",
 )({
