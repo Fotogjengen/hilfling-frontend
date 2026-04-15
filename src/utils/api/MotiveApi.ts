@@ -1,6 +1,6 @@
 import { api } from "./api";
 import { MotiveDto, PhotoGangBangerDto } from "../../../generated";
-import { PaginatedResult } from "./types";
+import {PaginatedResult } from "./types";
 
 export const MotiveApi = {
   getAll: async function (): Promise<PaginatedResult<MotiveDto>> {
@@ -17,6 +17,12 @@ export const MotiveApi = {
       .patch(`/motives`, motive)
       .then((res) => res.data)
       .catch((e) => console.log(e));
+  },
+  deleteById: async function (id: string): Promise<Number> {
+    return api
+    .delete(`/motives/${id}`)
+    .then((res) => res.data)
+    .catch((e) => console.log(e));
   },
 };
 
