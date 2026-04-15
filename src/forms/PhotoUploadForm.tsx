@@ -10,7 +10,6 @@ import LinearProgress from "@mui/material/LinearProgress";
 import DatePickerField from "../components/Form/DatePicker";
 import Select from "../components/Form/Select";
 // import ChipField from "../components/Form/ChipField";
-import TextField from "../components/Form/TextField";
 import Form from "../components/Form/Form";
 import { Errors, Validate } from "../components/Form/types";
 import { DragNDropFile } from "../types";
@@ -82,7 +81,7 @@ const PhotoUploadForm: FC<Props> = ({
   const [securityLevels, setSecurityLevels] = useState<SecurityLevelDto[]>([]); // stores api fetch data from dropdowns
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [motives, setMotives] = useState<MotiveDto[]>([]);
-  const [photoUrl, setPhotoUrl] = useState<string | null>(
+  const [photoUrl] = useState<string | null>(
     initialPhotoUrl ?? null,
   );
 

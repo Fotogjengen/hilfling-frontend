@@ -17,10 +17,13 @@ function EditPicture() {
 
   const { photoId: id } = Route.useParams();
 
-  useEffect(() => {
-    if (!id) return;
+useEffect(() => {
+  if (!id) return;
 
-    PhotoApi.getById(id).then((photo) => {
+  const fetchPhoto = async () => {
+    try {
+      const photo = await PhotoApi.getById(id);
+
       const values = {
         album: photo.albumDto?.albumId?.id ?? "",
         date: undefined,
@@ -37,8 +40,13 @@ function EditPicture() {
 
       setInitialValues(values);
       setPhotoUrl(photo.largeUrl ?? photo.mediumUrl ?? photo.smallUrl ?? null);
-    });
-  }, [id]);
+    } catch (error) {
+      console.error("Failed to fetch photo:", error);
+    }
+  };
+
+  void fetchPhoto();
+}, [id]);
 
   if (!initialValues) return <div>Laster inn</div>;
 
