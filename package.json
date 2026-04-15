@@ -21,7 +21,7 @@
     "@mui/material": "^5.14.7",
     "@mui/x-data-grid": "^6.12.1",
     "@mui/x-date-pickers": "^6.1.0",
-    "@tanstack/react-router": "^1.166.7",
+    "@tanstack/react-router": "^1.168.22",
     "@tanstack/react-router-devtools": "^1.166.7",
     "axios": "^1.13.2",
     "classnames": "2.5.1",
