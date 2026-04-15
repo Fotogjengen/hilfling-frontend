@@ -17,36 +17,38 @@ function EditPicture() {
 
   const { photoId: id } = Route.useParams();
 
-useEffect(() => {
-  if (!id) return;
+  useEffect(() => {
+    if (!id) return;
 
-  const fetchPhoto = async () => {
-    try {
-      const photo = await PhotoApi.getById(id);
+    const fetchPhoto = async () => {
+      try {
+        const photo = await PhotoApi.getById(id);
 
-      const values = {
-        album: photo.albumDto?.albumId?.id ?? "",
-        date: undefined,
-        motive: photo.motive?.motiveId?.id ?? "",
-        tags: [],
-        category: photo.categoryDto?.categoryId?.id ?? "",
-        place: photo.placeDto?.placeId?.id ?? "",
-        securityLevel: photo.securityLevel?.securityLevelId?.id ?? "",
-        eventOwner: photo.motive?.eventOwnerDto?.eventOwnerId?.id ?? "",
-      };
+        const values = {
+          album: photo.albumDto?.albumId?.id ?? "",
+          date: undefined,
+          motive: photo.motive?.motiveId?.id ?? "",
+          tags: [],
+          category: photo.categoryDto?.categoryId?.id ?? "",
+          place: photo.placeDto?.placeId?.id ?? "",
+          securityLevel: photo.securityLevel?.securityLevelId?.id ?? "",
+          eventOwner: photo.motive?.eventOwnerDto?.eventOwnerId?.id ?? "",
+        };
 
-      console.log("photo:", photo);
-      console.log("values:", values);
+        console.log("photo:", photo);
+        console.log("values:", values);
 
-      setInitialValues(values);
-      setPhotoUrl(photo.largeUrl ?? photo.mediumUrl ?? photo.smallUrl ?? null);
-    } catch (error) {
-      console.error("Failed to fetch photo:", error);
-    }
-  };
+        setInitialValues(values);
+        setPhotoUrl(
+          photo.largeUrl ?? photo.mediumUrl ?? photo.smallUrl ?? null,
+        );
+      } catch (error) {
+        console.error("Failed to fetch photo:", error);
+      }
+    };
 
-  void fetchPhoto();
-}, [id]);
+    void fetchPhoto();
+  }, [id]);
 
   if (!initialValues) return <div>Laster inn</div>;
 

@@ -81,9 +81,7 @@ const PhotoUploadForm: FC<Props> = ({
   const [securityLevels, setSecurityLevels] = useState<SecurityLevelDto[]>([]); // stores api fetch data from dropdowns
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [motives, setMotives] = useState<MotiveDto[]>([]);
-  const [photoUrl] = useState<string | null>(
-    initialPhotoUrl ?? null,
-  );
+  const [photoUrl] = useState<string | null>(initialPhotoUrl ?? null);
 
   const [isLoading, setIsLoading] = useState(false); // Track if a file is being uploaded
   const [progress, setProgress] = useState(0); // Tracks upload progress percentage'
