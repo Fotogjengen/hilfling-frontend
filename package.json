@@ -20,7 +20,7 @@
     "@mui/icons-material": "^5.10.6",
     "@mui/material": "^5.14.7",
     "@mui/x-data-grid": "^6.12.1",
-    "@mui/x-date-pickers": "^6.1.0",
+    "@mui/x-date-pickers": "^9.0.0",
     "@tanstack/react-router": "^1.166.7",
     "@tanstack/react-router-devtools": "^1.166.7",
     "axios": "^1.13.2",
