@@ -4,7 +4,7 @@ import {
   PhotoGangBangerDto,
   PhotoGangBangerPublicDto,
 } from "../../../generated";
-import { PaginatedResult, PaginatedResultData } from "./types";
+import { PaginatedResultData } from "./types";
 
 export const PhotoGangBangerApi = {
   getAll: async function (): Promise<PaginatedResultData<PhotoGangBangerDto>> {
