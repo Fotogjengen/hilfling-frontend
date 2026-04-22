@@ -205,9 +205,7 @@ const ArchiveBossCreateUsers = ({ setCreateUser }: Props) => {
           className={styles.input}
           required
           value={user?.samfundetUser?.phoneNumber}
-          error={
-            user.samfundetUser?.phoneNumber !== "" && !isPhoneNumberValid
-          }
+          error={user.samfundetUser?.phoneNumber !== "" && !isPhoneNumberValid}
           helperText={phoneNumberError}
           onChange={(e) =>
             setUser({

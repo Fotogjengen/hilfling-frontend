@@ -170,8 +170,7 @@ function ArchiveBossEditUser() {
               required
               value={user?.samfundetUser?.phoneNumber}
               error={
-                user?.samfundetUser?.phoneNumber !== "" &&
-                !isPhoneNumberValid
+                user?.samfundetUser?.phoneNumber !== "" && !isPhoneNumberValid
               }
               helperText={phoneNumberError}
               onChange={(e) =>

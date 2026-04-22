@@ -2,7 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-
 import type { KClassPosition } from "./KClassPosition";
 import { PositionId } from "./PositionId";
 

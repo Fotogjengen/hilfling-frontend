@@ -2,7 +2,6 @@
 /* tslint:disable */
 /* eslint-disable */
 
-
 import type { PurchaseOrderId } from "./PurchaseOrderId";
 import type { ZipCode } from "./ZipCode";
 
