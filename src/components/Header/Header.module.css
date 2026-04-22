@@ -30,12 +30,13 @@
 }
 
 .menuLink {
-  padding: 0.2rem 0.5rem;
+  padding: 0.75rem 0.5rem;
   margin-top: 0.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  min-height: 44px;
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 3px 0px;
 }
 
@@ -64,21 +65,21 @@
 }
 
 .navList {
-  width: 60vw;
+  width: 100%;
   display: flex;
   justify-content: left;
   align-items: center;
 }
 
 .navList > * {
-  margin-right: 3vw;
+  margin-right: 1.5rem;
 }
 
 .navList > *:hover {
   transform: scale(1.05);
 }
 
-@media screen and (min-width: 50rem) {
+@media screen and (min-width: 900px) {
   .navContainer {
     display: grid;
   }
