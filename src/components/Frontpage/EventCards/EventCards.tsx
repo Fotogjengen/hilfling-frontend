@@ -14,7 +14,7 @@ interface Props {
 const EventCards: FC<Props> = ({
   event,
   eventCardResponse,
-  minWidth = 400,
+  minWidth = 250,
   titleSize = 2,
 }) => {
   if (!eventCardResponse || eventCardResponse.length === 0) {

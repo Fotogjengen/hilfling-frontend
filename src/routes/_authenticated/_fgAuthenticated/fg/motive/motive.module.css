@@ -1,6 +1,7 @@
 .motives {
   background-color: white;
-  padding: 2rem;
+  padding: var(--hilfling-default-padding);
+  overflow-x: auto;
 }
 .motives h2 {
   text-align: center;
