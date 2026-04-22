@@ -1,7 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useCallback, useMemo } from "react";
 import SearchField from "../components/SearchComponent/SearchField";
-import { SearchContext } from "@/components/Search/SearchContext";
 import SearchMotiveGrid from "@/components/Search/SearchMotiveGrid";
 import { useAdBanner } from "../hooks/useAdBanner";
 import ImagesAdvertisementPopup from "../components/ImagesAdvertisementPopup/ImagesAdvertisementPopup";
@@ -18,13 +17,11 @@ export const Route = createFileRoute("/search")({
     };
   },
 });
-
 function RouteComponent() {
   const { query } = Route.useSearch();
-
-  // update the url whenever the sarch query changes
   const navigate = useNavigate({ from: "/search" });
-  const setSearchQuery = useCallback(
+
+  const setQuery = useCallback(
     (value: string) => {
       void navigate({
         search: (prev) => ({ ...prev, query: value || undefined }),
@@ -34,19 +31,12 @@ function RouteComponent() {
     [navigate],
   );
 
-  const searchContextValue = useMemo(
-    () => ({ searchQuery: query ?? "", setSearchQuery }),
-    [query, setSearchQuery],
-  );
-
   const { showAdBanner, dismissAdBanner } = useAdBanner();
 
   return (
     <div>
-      <SearchContext.Provider value={searchContextValue}>
-        <SearchField initialValue={query} />
-        <SearchMotiveGrid />
-      </SearchContext.Provider>
+      <SearchField initialValue={query} onChange={setQuery} />
+      <SearchMotiveGrid query={query ?? ""} />
       {showAdBanner && <ImagesAdvertisementPopup onClose={dismissAdBanner} />}
     </div>
   );

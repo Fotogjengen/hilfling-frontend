@@ -1,15 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useSearchContext } from "./SearchContext";
 import { EventCardApi } from "../../utils/api/EventCardApi";
 import { EventCardDto } from "../../../generated";
 import { PaginatedResultData } from "../../utils/api/types";
 import EventCards from "../Frontpage/EventCards/EventCards";
 
-const SearchMotiveGrid = () => {
+const SearchMotiveGrid = ({ query }: { query: string }) => {
   const PAGE_SIZE = 10;
   const BUFFER_PX = 300;
 
-  const { searchQuery } = useSearchContext();
   const [motives, setMotives] = useState<PaginatedResultData<EventCardDto>>();
   const [page, setPage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
@@ -29,7 +27,7 @@ const SearchMotiveGrid = () => {
 
       try {
         const newMotives = await EventCardApi.searchAllEventCards(
-          searchQuery,
+          query,
           currentPage,
           PAGE_SIZE,
         );
@@ -56,12 +54,10 @@ const SearchMotiveGrid = () => {
         loadingRef.current = false;
       }
     },
-    [searchQuery],
+    [query],
   );
 
   useEffect(() => {
-    if (!searchQuery || searchQuery.trim() === "") return;
-
     setMotives(undefined);
     setPage(0);
     setHasMore(true);
@@ -70,7 +66,7 @@ const SearchMotiveGrid = () => {
     loadingRef.current = false;
 
     void loadMotives(0, true);
-  }, [searchQuery]);
+  }, [query]);
 
   useEffect(() => {
     if (page === 0 && isInitialLoad) {
@@ -141,7 +137,7 @@ const SearchMotiveGrid = () => {
       {/* No results message */}
       {!hasMore && motives && motives.currentList.length === 0 && (
         <p style={{ textAlign: "center", padding: "20px" }}>
-          Ingen resultater funnet for {searchQuery}
+          Ingen resultater funnet for {query}
         </p>
       )}
       {hasMore && !isInitialLoad && (

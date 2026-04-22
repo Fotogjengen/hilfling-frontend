@@ -3,14 +3,22 @@ import { IconButton, InputAdornment, MenuItem, TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { SearchSuggestionsApi } from "../../utils/api/searchSuggestionsApi";
 import styles from "./Search.module.css";
-import { useSearchContext } from "@/components/Search/SearchContext";
 
-const SearchField = ({ initialValue }: { initialValue?: string }) => {
+const SearchField = ({
+  initialValue,
+  onChange,
+}: {
+  initialValue?: string;
+  onChange?: (query: string) => void;
+}) => {
   const [search, setSearch] = useState(initialValue ?? "");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
-  const { setSearchQuery } = useSearchContext();
+  // Sync input value if the URL query param changes externally (e.g. browser back/forward)
+  useEffect(() => {
+    setSearch(initialValue ?? "");
+  }, [initialValue]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
@@ -33,18 +41,11 @@ const SearchField = ({ initialValue }: { initialValue?: string }) => {
   const handleSearch = useCallback(
     (s: string) => {
       setSearch(s);
-
-      const query = s ?? search;
-
-      //setSearchQuery(s);
       setSuggestions([]);
       setSelectedIndex(-1);
-
-      setTimeout(() => {
-        setSearchQuery(query);
-      }, 0);
+      onChange?.(s);
     },
-    [search, setSearchQuery],
+    [onChange],
   );
 
   useEffect(() => {
