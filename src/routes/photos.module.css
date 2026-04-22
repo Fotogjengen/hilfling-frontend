@@ -25,7 +25,7 @@
   grid-column: 1 / -1;
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 900px) {
   .grid {
     grid-template-columns: repeat(6, 1fr);
   }
@@ -42,9 +42,10 @@
 }
 
 /* Mobil */
-@media (max-width: 640px) {
+@media (max-width: 600px) {
   .grid {
     grid-template-columns: repeat(1, 1fr);
+    gap: 4px;
   }
 
   .w4,
@@ -69,17 +70,13 @@
 /* Helrad-bilder litt lavere → roligere layout */
 .w12.item {
   min-height: 700px;
-
-  min-width: 1000px;
 }
 
 .w6.item {
-  min-width: 500px;
   max-width: 700px;
 }
 
 .w4.item {
-  min-width: 300px;
   max-width: 500px;
 }
 
