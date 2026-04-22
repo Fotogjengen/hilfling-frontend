@@ -291,7 +291,6 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
             </LocalizationProvider>
             <div className={styles.formTextField}>
               <Autocomplete
-                fullWidth
                 disablePortal
                 ListboxProps={{
                   style: {
