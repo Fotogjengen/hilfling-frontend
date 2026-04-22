@@ -1,12 +1,12 @@
-import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { IconButton, InputAdornment, MenuItem, TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { SearchSuggestionsApi } from "../../utils/api/searchSuggestionsApi";
 import styles from "./Search.module.css";
-import { useSearchContext } from "../../views/Search/SearchContext";
+import { useSearchContext } from "@/components/Search/SearchContext";
 
-const SearchField: FC = () => {
-  const [search, setSearch] = useState("");
+const SearchField = ({ initialValue }: { initialValue?: string }) => {
+  const [search, setSearch] = useState(initialValue ?? "");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
 

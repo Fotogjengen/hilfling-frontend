@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { GuiCard, GuiCardTitle } from "../../../gui-components";
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 
 interface Props {
   title: string;

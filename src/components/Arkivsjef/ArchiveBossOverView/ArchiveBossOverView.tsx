@@ -3,7 +3,7 @@ import { PhotoGangBanger } from "../../../../generated";
 import { Button, Paper } from "@mui/material";
 import styles from "./ArchiveBossOverView.module.css";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { Link } from "react-router-dom";
+import { Link } from "@tanstack/react-router";
 import { PhotoGangBangerApi } from "../../../utils/api/PhotoGangBangerApi";
 
 interface Props {
@@ -105,7 +105,12 @@ const ArchiveBossOverView = ({ setOverview }: Props) => {
       width: 100,
       headerClassName: styles.headerCell,
       renderCell: (params) => (
-        <Link to={`/fg/archiveBoss/editUser/${params.row.id}`}>
+        <Link
+          to="/fg/archiveBoss/editUser/$userId"
+          params={{
+            userId: params.row.id,
+          }}
+        >
           <Button>Edit</Button>
         </Link>
       ),

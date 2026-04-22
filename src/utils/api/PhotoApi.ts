@@ -25,7 +25,7 @@ export const PhotoApi = {
     return api.get("/photos").then((res) => res.data.currentList);
   },
 
-  getPhotoCount: async function (): Promise<Number> {
+  getPhotoCount: async function (): Promise<number> {
     return api
       .get("/photos/count")
       .then((res) => res.data.PromiseResult)
