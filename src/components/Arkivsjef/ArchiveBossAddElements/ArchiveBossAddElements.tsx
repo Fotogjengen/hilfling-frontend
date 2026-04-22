@@ -73,7 +73,7 @@ const ArchiveBossAddElements = () => {
         });
       setUpdate(true);
     } else if (values.type == "Album") {
-      AlbumApi.post({ title: values.name, isAnalog: values.albumType })
+      AlbumApi.post({ title: values.name, analog: values.albumType })
         .then(() => {
           setOpen(true);
           setSeverity(severityEnum.SUCCESS);

@@ -11,7 +11,7 @@ export interface PhotoSearch {
   category?: string;
   tag?: string[];
   isGoodPic?: boolean;
-  isAnalog?: boolean;
+  analog?: boolean;
   fromDate?: string;
   toDate?: string;
   page?: string;

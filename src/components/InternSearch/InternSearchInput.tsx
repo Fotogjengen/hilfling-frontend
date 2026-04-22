@@ -61,7 +61,7 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
   const [maxDate] = React.useState<Dayjs | undefined>(dayjs());
   const [dateTo, setDateTo] = React.useState<Dayjs | undefined>(dayjs());
   const [isGoodPic, setIsGoodPic] = useState(false);
-  const [isAnalog, setIsAnalog] = useState(false);
+  const [analog, setanalog] = useState(false);
   const [securityLevel, setSecurityLevel] = useState<string>("");
   const [photoSearch, setPhotoSearch] = useState<PhotoSearch>({});
 
@@ -189,7 +189,7 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
       page: "0",
       pageSize: "10",
       category: category,
-      isAnalog: isAnalog,
+      analog: analog,
       isGoodPic: isGoodPic,
       securityLevel: securityLevel,
 
@@ -391,9 +391,9 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
                 <FormControlLabel
                   control={
                     <Checkbox
-                      checked={isAnalog}
+                      checked={analog}
                       onChange={() => {
-                        setIsAnalog(!isAnalog);
+                        setanalog(!analog);
                       }}
                     />
                   }
