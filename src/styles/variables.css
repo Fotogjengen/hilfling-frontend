@@ -9,7 +9,7 @@
   --hilfling-header-color: #7e7e7e;
   --hilfling-link-color: #ad2f33;
   --hilfling-max-width: 1500px;
-  --hilfling-default-padding: 2rem;
+  --hilfling-default-padding: 0.75rem;
   --hilfling-card-background-color: #f3f3f3;
 
   --hilfling-samfundet-red: #ba202c;
@@ -59,4 +59,16 @@
 
   --box-shadow-1:
     rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}
+
+@media (min-width: 600px) {
+  :root {
+    --hilfling-default-padding: 1rem;
+  }
+}
+
+@media (min-width: 900px) {
+  :root {
+    --hilfling-default-padding: 2rem;
+  }
 }
