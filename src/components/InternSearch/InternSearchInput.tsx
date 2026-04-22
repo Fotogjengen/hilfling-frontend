@@ -45,7 +45,7 @@ interface internSearchInputprop {
 const InternSearchInput: React.FC<internSearchInputprop> = ({
   handleSearch,
 }) => {
-  const boxwidth = 300;
+  const boxwidth = { xs: "100%", md: 300 };
   // Variables for API data
   const [motives, setMotives] = useState<MotiveDto[]>([]);
   const [albums, setAlbums] = useState<AlbumDto[]>([]);
@@ -263,28 +263,30 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
                 nbNO.components.MuiLocalizationProvider.defaultProps.localeText
               }
             >
-              <div className={styles.formTextField}>
-                <DatePicker
-                  label={"Dato fra"}
-                  minDate={minDate}
-                  value={dateFrom}
-                  onChange={(newValue) => {
-                    setDateFrom(newValue ?? undefined);
-                    setDateFromChanged(true);
-                  }}
-                  format="DD/MM/YYYY"
-                  sx={{ width: boxwidth }}
-                />
-              </div>
-              <div className={styles.formTextField}>
-                <DatePicker
-                  label={"Dato til"}
-                  maxDate={maxDate}
-                  value={dateTo}
-                  onChange={(newValue) => setDateTo(newValue ?? undefined)}
-                  format="DD/MM/YYYY"
-                  sx={{ width: boxwidth }}
-                />
+              <div className={styles.datePickerRow}>
+                <div className={styles.formTextField}>
+                  <DatePicker
+                    label={"Dato fra"}
+                    minDate={minDate}
+                    value={dateFrom}
+                    onChange={(newValue) => {
+                      setDateFrom(newValue ?? undefined);
+                      setDateFromChanged(true);
+                    }}
+                    format="DD/MM/YYYY"
+                    sx={{ width: "100%" }}
+                  />
+                </div>
+                <div className={styles.formTextField}>
+                  <DatePicker
+                    label={"Dato til"}
+                    maxDate={maxDate}
+                    value={dateTo}
+                    onChange={(newValue) => setDateTo(newValue ?? undefined)}
+                    format="DD/MM/YYYY"
+                    sx={{ width: "100%" }}
+                  />
+                </div>
               </div>
             </LocalizationProvider>
             <div className={styles.formTextField}>

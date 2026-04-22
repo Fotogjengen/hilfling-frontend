@@ -6,6 +6,11 @@
   padding: 0.4rem;
 }
 
+.datePickerRow {
+  display: flex;
+  gap: 0.4rem;
+}
+
 .gridDivContainer {
   flex: 1;
   min-width: 0;
