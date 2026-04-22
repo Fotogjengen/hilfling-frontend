@@ -8,6 +8,10 @@
   .internSearch {
     flex-direction: row;
   }
+
+  .filterSection {
+    flex-shrink: 0;
+  }
 }
 .formTextField {
   padding: 0.4rem;
@@ -16,7 +20,12 @@
 .gridDivContainer {
   flex: 1;
   min-width: 0;
-  order: 2;
+}
+
+.filterSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .gridContainer {
@@ -69,4 +78,8 @@
 .scanButtons {
   display: flex;
   flex-direction: column;
+}
+
+.filterToggle {
+  margin-bottom: 0.5rem;
 }
