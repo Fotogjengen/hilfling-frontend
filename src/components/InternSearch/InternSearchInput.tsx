@@ -214,9 +214,10 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
           justifyContent: "left",
           flexWrap: "wrap",
           listStyle: "none",
-          p: 0.5,
+          p: { xs: 1, md: 0.5 },
           m: 0,
           overflow: "hidden",
+          width: "100%",
         }}
         component="ul"
       >
