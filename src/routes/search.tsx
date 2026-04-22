@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
 import SearchField from "../components/SearchComponent/SearchField";
 import SearchMotiveGrid from "@/components/Search/SearchMotiveGrid";
 import { useAdBanner } from "../hooks/useAdBanner";
