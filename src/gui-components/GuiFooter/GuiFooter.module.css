@@ -10,22 +10,33 @@
 
 .footerContent {
   display: flex;
+  flex-direction: column;
   padding: 20px 0;
   width: 100%;
   max-width: var(--hilfling-max-width);
   margin: 0 auto;
-  flex-wrap: wrap;
 }
 
 .section {
   flex: 1;
   text-align: center;
-  padding: 20px 60px 20px 60px;
+  padding: 20px var(--hilfling-default-padding);
 }
 
 .follow {
   display: flex;
-  margin-left: 32%;
+  justify-content: center;
+}
+
+@media (min-width: 900px) {
+  .footerContent {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .section {
+    padding: 20px 60px;
+  }
 }
 
 .media {
