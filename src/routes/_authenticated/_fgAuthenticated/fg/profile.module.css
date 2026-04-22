@@ -40,7 +40,8 @@
   flex-direction: column;
   background-color: #be3144;
   height: 272px;
-  width: 577px;
+  width: 100%;
+  max-width: 577px;
   border-radius: 5px;
   padding-left: 20px;
   margin: 0px;
@@ -74,7 +75,8 @@
   flex-direction: column;
   background-color: #872341;
   height: 272px;
-  width: 271px;
+  width: 100%;
+  max-width: 271px;
   border-radius: 5px;
   padding-left: 20px;
   overflow: hidden;
@@ -116,7 +118,8 @@
   flex-direction: column;
   background-color: #e17564;
   height: 225px;
-  width: 577px;
+  width: 100%;
+  max-width: 577px;
   border-radius: 5px;
   /* padding-left: 20px;  */
   margin: 0px;
@@ -164,13 +167,20 @@
   align-items: center;
   align-content: center;
   background-color: white;
-  width: 225px;
-  height: 225px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
-  margin-right: 48px;
-  margin-left: 16px;
   overflow: hidden;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+@media (min-width: 900px) {
+  .profilePicture {
+    width: 225px;
+    height: 225px;
+    margin-right: 48px;
+    margin-left: 16px;
+  }
 }
 
 .card1 {
@@ -186,16 +196,24 @@
 .infoCard {
   /* Contains profile picture and personal info*/
   display: flex;
-  flex-direction: row;
-  align-content: flex-start;
+  flex-direction: column;
+  align-items: center;
   gap: 20px;
-  flex-wrap: wrap;
+}
+
+@media (min-width: 900px) {
+  .infoCard {
+    flex-direction: row;
+    align-content: flex-start;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
 }
 
 .nameDisplay {
   display: flex;
   flex-direction: column;
-  font-size: 73px;
+  font-size: clamp(2rem, 8vw, 73px);
   font-style: normal;
   font-weight: normal;
   margin-top: 0px;
