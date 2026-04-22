@@ -1,6 +1,6 @@
 .photoUpload {
   background-color: white;
-  padding: 2rem;
+  padding: var(--hilfling-default-padding);
 }
 
 .photoUpload h2 {
