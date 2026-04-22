@@ -1,6 +1,13 @@
 .internSearch {
   display: flex;
+  flex-direction: column;
   gap: 1rem;
+}
+
+@media (min-width: 900px) {
+  .internSearch {
+    flex-direction: row;
+  }
 }
 .formTextField {
   padding: 0.4rem;
@@ -16,6 +23,7 @@
   padding: 0.5rem;
   background-color: whitesmoke;
   border-radius: 1rem;
+  overflow-x: auto;
 }
 
 .toggleHeader {
@@ -36,8 +44,14 @@
 }
 
 .toggleComponent {
-  width: 15%;
+  width: 100%;
   padding: 1rem;
+}
+
+@media (min-width: 900px) {
+  .toggleComponent {
+    width: 15%;
+  }
 }
 
 .thumbnailImage {
