@@ -92,7 +92,7 @@ function RootComponent() {
                 severity={severity}
               />
             )}
-            <Box sx={{ m: "2rem" }}>
+            <Box sx={{ m: { xs: "0.75rem", sm: "1rem", md: "2rem" } }}>
               <HeaderComponent />
               <Outlet />
             </Box>
