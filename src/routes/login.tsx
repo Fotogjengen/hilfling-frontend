@@ -44,12 +44,12 @@ function MobileLogin() {
 
   if (isAuthenticated) {
     return (
-      <div>
+      <div style={{ maxWidth: "500px", margin: "0 auto" }}>
         <h2>Du er logget inn</h2>
         <Button
           variant="contained"
           color="primary"
-          sx={{ mt: 3, width: "80%" }}
+          sx={{ mt: 3, width: "100%" }}
           onClick={handleLogout}
         >
           Logg ut
@@ -59,8 +59,8 @@ function MobileLogin() {
   }
 
   return (
-    <div>
-      <FormControl sx={{ m: 1, width: "80%" }} variant="standard">
+    <div style={{ maxWidth: "500px", margin: "0 auto" }}>
+      <FormControl sx={{ m: 1, width: "100%" }} variant="standard">
         <TextField
           label="Username"
           type="text"
@@ -69,7 +69,7 @@ function MobileLogin() {
           variant="standard"
         />
       </FormControl>
-      <FormControl sx={{ m: 1, width: "80%" }} variant="standard">
+      <FormControl sx={{ m: 1, width: "100%" }} variant="standard">
         <InputLabel htmlFor="password">Password</InputLabel>
         <Input
           id="password"
@@ -91,7 +91,7 @@ function MobileLogin() {
       <Button
         variant="contained"
         color="primary"
-        sx={{ mt: 3, width: "80%" }}
+        sx={{ mt: 3, width: "100%" }}
         onClick={handleLogin}
       >
         LOGG INN
