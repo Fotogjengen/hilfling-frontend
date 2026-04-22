@@ -5,7 +5,7 @@
 .contentContainer {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2.5rem;
+  gap: 1.5rem;
 }
 
 .CaroContainer {
@@ -35,7 +35,7 @@
   margin-bottom: 1rem;
 }
 
-@media screen and (min-width: 50rem) {
+@media screen and (min-width: 900px) {
   .contentContainer {
     grid-template-columns: 10fr 4fr;
   }
