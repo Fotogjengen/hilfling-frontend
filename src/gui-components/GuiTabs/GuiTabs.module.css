@@ -4,7 +4,8 @@
 .tab {
   color: white;
   height: 41px;
-  min-width: 115px;
+  min-width: 70px;
+  flex: 1;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   border-bottom-right-radius: 0px;

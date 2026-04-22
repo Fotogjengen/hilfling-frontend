@@ -18,7 +18,7 @@ interface Props extends DefaultProps {
 const GuiTabs: FC<Props> = ({ activeTab = "isfit" }: Props) => {
   const [current, setCurrent] = useState<string>(activeTab);
   return (
-    <div>
+    <div style={{ display: "flex", width: "100%" }}>
       <GuiTab
         onClick={setCurrent}
         type={"samfundet"}
