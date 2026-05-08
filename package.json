@@ -23,7 +23,7 @@
     "@mui/x-date-pickers": "^6.1.0",
     "@tanstack/react-router": "^1.166.7",
     "@tanstack/react-router-devtools": "^1.166.7",
-    "axios": "^1.13.2",
+    "axios": "^1.15.2",
     "classnames": "2.5.1",
     "crypto-js": "^4.2.0",
     "dayjs": "^1.11.18",
