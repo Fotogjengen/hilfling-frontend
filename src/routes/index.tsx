@@ -3,7 +3,6 @@ import styles from "./index.module.css";
 import EventCardsDisplayer from "../components/Frontpage/EventCardsDisplayer/EventCardsDisplayer";
 import CardInformationFotogjengen from "../components/Frontpage/CardInformationFotogjengen/CardInformationFotogjengen";
 import Carousel from "../components/Frontpage/Carousel/Carousel";
-import { AuthAPi } from "@/utils/api/AuthApi";
 
 export const Route = createFileRoute("/")({
   component: RouteComponent,
