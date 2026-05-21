@@ -159,7 +159,10 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
           "6a89444f-25f6-44d9-8a73-94587d72b839",
         ); // TODO: Use actual user Id
         if (values["tags"]) formData.append("tag", values["tags"]);
-        formData.append("is_good_picture", String(files[i].isGoodPicture ?? false));
+        formData.append(
+          "is_good_picture",
+          String(files[i].isGoodPicture ?? false),
+        );
         formData.append("media", acceptedFiles[i]);
         await PhotoApi.batchUpload(formData, handleUploadProgress);
       }
@@ -301,10 +304,7 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
               <Grid item xs={12}>
                 <Select name="album" label="Album" fullWidth required>
                   {albums.map((album, index) => (
-                    <MenuItem
-                      key={`album-item-${index}`}
-                      value={album?.title}
-                    >
+                    <MenuItem key={`album-item-${index}`} value={album?.title}>
                       {album.title}
                     </MenuItem>
                   ))}

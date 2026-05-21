@@ -3,6 +3,5 @@
 /* tslint:disable */
 /* eslint-disable */
 export type PhotoId = {
-    id: string;
+  id: string;
 };
-

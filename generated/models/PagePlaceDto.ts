@@ -2,12 +2,11 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { PlaceDto } from './PlaceDto';
+import type { PlaceDto } from "./PlaceDto";
 export type PagePlaceDto = {
-    totalRecords: number;
-    pageSize: number;
-    page: number;
-    totalPages: number;
-    currentList: Array<PlaceDto>;
+  totalRecords: number;
+  pageSize: number;
+  page: number;
+  totalPages: number;
+  currentList: Array<PlaceDto>;
 };
-

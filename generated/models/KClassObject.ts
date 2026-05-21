@@ -2,37 +2,36 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { KCallableObject } from './KCallableObject';
-import type { KFunctionObject } from './KFunctionObject';
-import type { KType } from './KType';
-import type { KTypeParameter } from './KTypeParameter';
+import type { KCallableObject } from "./KCallableObject";
+import type { KFunctionObject } from "./KFunctionObject";
+import type { KType } from "./KType";
+import type { KTypeParameter } from "./KTypeParameter";
 export type KClassObject = {
-    visibility?: KClassObject.visibility;
-    isFun: boolean;
-    sealedSubclasses: Array<KClassObject>;
-    isInner: boolean;
-    isCompanion: boolean;
-    isValue: boolean;
-    qualifiedName?: string;
-    members: Array<KCallableObject>;
-    objectInstance?: any;
-    supertypes: Array<KType>;
-    isData: boolean;
-    typeParameters: Array<KTypeParameter>;
-    simpleName?: string;
-    isFinal: boolean;
-    isOpen: boolean;
-    constructors: Array<KFunctionObject>;
-    isSealed: boolean;
-    isAbstract: boolean;
-    annotations: Array<any>;
+  visibility?: KClassObject.visibility;
+  isFun: boolean;
+  sealedSubclasses: Array<KClassObject>;
+  isInner: boolean;
+  isCompanion: boolean;
+  isValue: boolean;
+  qualifiedName?: string;
+  members: Array<KCallableObject>;
+  objectInstance?: any;
+  supertypes: Array<KType>;
+  isData: boolean;
+  typeParameters: Array<KTypeParameter>;
+  simpleName?: string;
+  isFinal: boolean;
+  isOpen: boolean;
+  constructors: Array<KFunctionObject>;
+  isSealed: boolean;
+  isAbstract: boolean;
+  annotations: Array<any>;
 };
 export namespace KClassObject {
-    export enum visibility {
-        PUBLIC = 'PUBLIC',
-        PROTECTED = 'PROTECTED',
-        INTERNAL = 'INTERNAL',
-        PRIVATE = 'PRIVATE',
-    }
+  export enum visibility {
+    PUBLIC = "PUBLIC",
+    PROTECTED = "PROTECTED",
+    INTERNAL = "INTERNAL",
+    PRIVATE = "PRIVATE",
+  }
 }
-

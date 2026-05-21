@@ -2,12 +2,11 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { PurchaseOrderDto } from './PurchaseOrderDto';
+import type { PurchaseOrderDto } from "./PurchaseOrderDto";
 export type PagePurchaseOrderDto = {
-    totalRecords: number;
-    pageSize: number;
-    page: number;
-    totalPages: number;
-    currentList: Array<PurchaseOrderDto>;
+  totalRecords: number;
+  pageSize: number;
+  page: number;
+  totalPages: number;
+  currentList: Array<PurchaseOrderDto>;
 };
-

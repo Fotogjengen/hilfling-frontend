@@ -3,36 +3,21 @@
 /* tslint:disable */
 /* eslint-disable */
 export type NotImplementedError = {
-    message?: string;
-    cause?: {
-        stackTrace?: Array<{
-            classLoaderName?: string;
-            moduleName?: string;
-            moduleVersion?: string;
-            methodName?: string;
-            fileName?: string;
-            lineNumber?: number;
-            className?: string;
-            nativeMethod?: boolean;
-        }>;
-        message?: string;
-        suppressed?: Array<{
-            stackTrace?: Array<{
-                classLoaderName?: string;
-                moduleName?: string;
-                moduleVersion?: string;
-                methodName?: string;
-                fileName?: string;
-                lineNumber?: number;
-                className?: string;
-                nativeMethod?: boolean;
-            }>;
-            message?: string;
-            localizedMessage?: string;
-        }>;
-        localizedMessage?: string;
-    };
+  message?: string;
+  cause?: {
     stackTrace?: Array<{
+      classLoaderName?: string;
+      moduleName?: string;
+      moduleVersion?: string;
+      methodName?: string;
+      fileName?: string;
+      lineNumber?: number;
+      className?: string;
+      nativeMethod?: boolean;
+    }>;
+    message?: string;
+    suppressed?: Array<{
+      stackTrace?: Array<{
         classLoaderName?: string;
         moduleName?: string;
         moduleVersion?: string;
@@ -41,21 +26,35 @@ export type NotImplementedError = {
         lineNumber?: number;
         className?: string;
         nativeMethod?: boolean;
-    }>;
-    suppressed?: Array<{
-        stackTrace?: Array<{
-            classLoaderName?: string;
-            moduleName?: string;
-            moduleVersion?: string;
-            methodName?: string;
-            fileName?: string;
-            lineNumber?: number;
-            className?: string;
-            nativeMethod?: boolean;
-        }>;
-        message?: string;
-        localizedMessage?: string;
+      }>;
+      message?: string;
+      localizedMessage?: string;
     }>;
     localizedMessage?: string;
+  };
+  stackTrace?: Array<{
+    classLoaderName?: string;
+    moduleName?: string;
+    moduleVersion?: string;
+    methodName?: string;
+    fileName?: string;
+    lineNumber?: number;
+    className?: string;
+    nativeMethod?: boolean;
+  }>;
+  suppressed?: Array<{
+    stackTrace?: Array<{
+      classLoaderName?: string;
+      moduleName?: string;
+      moduleVersion?: string;
+      methodName?: string;
+      fileName?: string;
+      lineNumber?: number;
+      className?: string;
+      nativeMethod?: boolean;
+    }>;
+    message?: string;
+    localizedMessage?: string;
+  }>;
+  localizedMessage?: string;
 };
-

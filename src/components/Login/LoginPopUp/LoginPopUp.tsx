@@ -41,7 +41,9 @@ const LoginPopUp = ({ setLoginForm }: Props) => {
       const payload = JSON.parse(atob(response.token.split(".")[1]));
       const role: string = payload.role ?? "HUSFOLK";
       Cookies.set("fgToken", response.token, { expires: 1 });
-      Cookies.set("fgBasicAuth", btoa(`${username}:${password}`), { expires: 1 });
+      Cookies.set("fgBasicAuth", btoa(`${username}:${password}`), {
+        expires: 1,
+      });
       setIsAuthenticated(true);
       setPosition(role);
       setLoginForm(false);

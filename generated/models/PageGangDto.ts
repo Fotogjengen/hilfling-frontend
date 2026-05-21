@@ -2,12 +2,11 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { GangDto } from './GangDto';
+import type { GangDto } from "./GangDto";
 export type PageGangDto = {
-    totalRecords: number;
-    pageSize: number;
-    page: number;
-    totalPages: number;
-    currentList: Array<GangDto>;
+  totalRecords: number;
+  pageSize: number;
+  page: number;
+  totalPages: number;
+  currentList: Array<GangDto>;
 };
-

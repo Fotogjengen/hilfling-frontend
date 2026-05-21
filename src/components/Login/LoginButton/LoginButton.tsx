@@ -20,10 +20,7 @@ const LoginButton = () => {
   return (
     <>
       {isAuthenticated ? (
-        <button
-          className={styles.button}
-          onClick={handleLogout}
-        >
+        <button className={styles.button} onClick={handleLogout}>
           Logg ut
         </button>
       ) : (

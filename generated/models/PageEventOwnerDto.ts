@@ -2,12 +2,11 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { EventOwnerDto } from './EventOwnerDto';
+import type { EventOwnerDto } from "./EventOwnerDto";
 export type PageEventOwnerDto = {
-    totalRecords: number;
-    pageSize: number;
-    page: number;
-    totalPages: number;
-    currentList: Array<EventOwnerDto>;
+  totalRecords: number;
+  pageSize: number;
+  page: number;
+  totalPages: number;
+  currentList: Array<EventOwnerDto>;
 };
-

@@ -3,10 +3,9 @@
 /* tslint:disable */
 /* eslint-disable */
 export type EventCardDto = {
-    motiveId?: string;
-    motiveTitle?: string;
-    date_created?: string;
-    frontPageSmallPhotoUrl?: string;
-    eventOwnerName?: string;
+  motiveId?: string;
+  motiveTitle?: string;
+  date_created?: string;
+  frontPageSmallPhotoUrl?: string;
+  eventOwnerName?: string;
 };
-

@@ -3,6 +3,5 @@
 /* tslint:disable */
 /* eslint-disable */
 export type MotiveId = {
-    id: string;
+  id: string;
 };
-

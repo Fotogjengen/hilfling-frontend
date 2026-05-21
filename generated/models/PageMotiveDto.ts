@@ -2,12 +2,11 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { MotiveDto } from './MotiveDto';
+import type { MotiveDto } from "./MotiveDto";
 export type PageMotiveDto = {
-    totalRecords: number;
-    pageSize: number;
-    page: number;
-    totalPages: number;
-    currentList: Array<MotiveDto>;
+  totalRecords: number;
+  pageSize: number;
+  page: number;
+  totalPages: number;
+  currentList: Array<MotiveDto>;
 };
-

@@ -3,7 +3,6 @@
 /* tslint:disable */
 /* eslint-disable */
 export type PreValidatePhotoUploadResponse = {
-    isValid: boolean;
-    errors: Array<string>;
+  isValid: boolean;
+  errors: Array<string>;
 };
-

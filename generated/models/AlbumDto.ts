@@ -2,10 +2,9 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { AlbumId } from './AlbumId';
+import type { AlbumId } from "./AlbumId";
 export type AlbumDto = {
-    albumId: AlbumId;
-    title: string;
-    isAnalog: boolean;
+  albumId: AlbumId;
+  title: string;
+  isAnalog: boolean;
 };
-
