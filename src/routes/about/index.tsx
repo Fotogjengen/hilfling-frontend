@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import styles from "./about.module.css";
-import { PhotoGangBangerPublicDto } from "../../../generated";
+import { PhotoGangBangerDto } from "../../../generated";
 import { PhotoGangBangerApi } from "../../utils/api/PhotoGangBangerApi";
 import PhotoGangBangerPublic from "../../components/About/PhotoGangBangerPublic";
 
@@ -11,11 +11,9 @@ export const Route = createFileRoute("/about/")({
 
 function AboutTab() {
   const [activeGangBangers, setActiveGangBangers] = useState<
-    PhotoGangBangerPublicDto[]
+    PhotoGangBangerDto[]
   >([]);
-  const [activePangs, setActivePangs] = useState<PhotoGangBangerPublicDto[]>(
-    [],
-  );
+  const [activePangs, setActivePangs] = useState<PhotoGangBangerDto[]>([]);
 
   useEffect(() => {
     PhotoGangBangerApi.getAllActivesPublic()
@@ -31,15 +29,16 @@ function AboutTab() {
     //     .catch((err) => console.log(err));
   }, []);
 
-  const mapUsers = (photoGangBangerPublicDtos: PhotoGangBangerPublicDto[]) => {
-    return photoGangBangerPublicDtos.map(
-      (photoGangBanger: PhotoGangBangerPublicDto, index: number) => (
+  const mapUsers = (photoGangBangerDtos: PhotoGangBangerDto[]) => {
+    return photoGangBangerDtos.map(
+      (photoGangBanger: PhotoGangBangerDto, index: number) => (
         <PhotoGangBangerPublic
-          firstName={photoGangBanger.samfundetUser?.firstName || ""}
-          lastName={photoGangBanger.samfundetUser?.lastName || ""}
-          position={photoGangBanger.position?.title || ""}
-          email={photoGangBanger.samfundetUser?.email?.value || ""}
-          image={photoGangBanger.samfundetUser?.profilePicturePath || ""}
+          firstName={photoGangBanger?.firstName || ""}
+          lastName={photoGangBanger?.lastName || ""}
+          //TODO: FIX POSITIONS! They are returned from the backend, but not correct in the api
+          position={""}
+          email={photoGangBanger?.email || ""}
+          image={photoGangBanger?.profilePicture || ""}
           key={`photo-gang-banger-public-key-${index}`}
         />
       ),

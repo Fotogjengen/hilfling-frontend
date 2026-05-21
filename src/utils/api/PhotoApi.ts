@@ -1,5 +1,5 @@
 import { api } from "./api";
-import { Photo, PhotoDto } from "../../../generated";
+import { PhotoDto } from "../../../generated";
 import { PaginatedResult } from "./types";
 import { AxiosProgressEvent } from "axios";
 
@@ -38,7 +38,7 @@ export const PhotoApi = {
     return api.get(`/photos/motive/${id}`).then((res) => res.data.currentList);
   },
 
-  post: async function (photo: Photo): Promise<Photo> {
+  post: async function (photo: PhotoDto): Promise<PhotoDto> {
     return api.post("/photos", photo);
   },
 

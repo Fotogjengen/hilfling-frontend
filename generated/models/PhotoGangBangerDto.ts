@@ -3,10 +3,10 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { PhotoGangBangerId } from "./PhotoGangBangerId";
+import type { PositionDto } from "./PositionDto";
 import type { SemesterStart } from "./SemesterStart";
 export type PhotoGangBangerDto = {
   photoGangBangerId: PhotoGangBangerId;
-  relationShipStatus: PhotoGangBangerDto.relationShipStatus;
   semesterStart: SemesterStart;
   isActive: boolean;
   isPang: boolean;
@@ -16,12 +16,5 @@ export type PhotoGangBangerDto = {
   email: string;
   profilePicture: string;
   phoneNumber: string;
-  pang?: boolean;
+  positions?: PositionDto[];
 };
-export namespace PhotoGangBangerDto {
-  export enum relationShipStatus {
-    SINGLE = "single",
-    RELATIONSHIP = "relationship",
-    MARRIED = "married",
-  }
-}

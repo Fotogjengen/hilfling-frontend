@@ -1,9 +1,5 @@
 import { api } from "./api";
-import {
-  PhotoGangBanger,
-  PhotoGangBangerDto,
-  PhotoGangBangerPublicDto,
-} from "../../../generated";
+import { PhotoGangBangerDto } from "../../../generated";
 import { PaginatedResult, PaginatedResultData } from "./types";
 
 export const PhotoGangBangerApi = {
@@ -17,23 +13,19 @@ export const PhotoGangBangerApi = {
   getById: async function (id: string): Promise<PhotoGangBangerDto> {
     return api.get(`/photo_gang_bangers/${id}`).then((res) => res.data);
   },
-  getAllActivesPublic: async function (): Promise<PhotoGangBangerPublicDto[]> {
+  getAllActivesPublic: async function (): Promise<PhotoGangBangerDto[]> {
     return api
       .get("/photo_gang_bangers/actives")
       .then((res) => res.data.currentList);
   },
 
-  getAllActivePangsPublic: async function (): Promise<
-    PhotoGangBangerPublicDto[]
-  > {
+  getAllActivePangsPublic: async function (): Promise<PhotoGangBangerDto[]> {
     return api
       .get("/photo_gang_bangers/active_pangs")
       .then((res) => res.data.currentList);
   },
 
-  getAllInactivePangsPublic: async function (): Promise<
-    PhotoGangBangerPublicDto[]
-  > {
+  getAllInactivePangsPublic: async function (): Promise<PhotoGangBangerDto[]> {
     return api
       .get("/photo_gang_bangers/inactive_pangs")
       .then((res) => res.data.currentList);
@@ -46,7 +38,7 @@ export const PhotoGangBangerApi = {
       .then((res) => res.data)
       .catch((e) => console.log(e));
   },
-  post: async function (user: PhotoGangBanger): Promise<PhotoGangBanger> {
+  post: async function (user: PhotoGangBangerDto): Promise<PhotoGangBangerDto> {
     return api
       .post("/photo_gang_bangers", user)
       .then((res) => res.data)

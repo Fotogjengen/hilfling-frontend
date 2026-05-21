@@ -29,7 +29,7 @@ const GridImageViewer = ({ photos }: GridImageViewerProps) => {
         index={index}
         updateIndex={() => updateIndex(index)}
         title={image.motive.title}
-        date={image.motive.dateCreated}
+        date={new Date(image.motive.dateCreated ?? 0)}
       />
     );
   });

@@ -6,7 +6,6 @@ import type { PhotoGangBangerId } from "./PhotoGangBangerId";
 import type { SemesterStart } from "./SemesterStart";
 export type PhotoGangBangerPatchRequestDto = {
   photoGangBangerId: PhotoGangBangerId;
-  relationshipStatus?: PhotoGangBangerPatchRequestDto.relationshipStatus;
   semesterStart?: SemesterStart;
   isActive?: boolean;
   isPang?: boolean;
@@ -17,10 +16,3 @@ export type PhotoGangBangerPatchRequestDto = {
   profilePicture?: string;
   phoneNumber?: string;
 };
-export namespace PhotoGangBangerPatchRequestDto {
-  export enum relationshipStatus {
-    SINGLE = "single",
-    RELATIONSHIP = "relationship",
-    MARRIED = "married",
-  }
-}

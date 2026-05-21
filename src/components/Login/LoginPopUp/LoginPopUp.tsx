@@ -88,7 +88,9 @@ const LoginPopUp = ({ setLoginForm }: Props) => {
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                onKeyDown={(e) => { if (e.key === "Enter") void handleLogin(); }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") void handleLogin();
+                }}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton

@@ -23,7 +23,7 @@ export const Route = createFileRoute(
 
 function ArchiveBossEditUser() {
   const { setMessage, setSeverity, setOpen } = useContext(AlertContext);
-  const [user, setUser] = useState<PhotoGangBangerDto>({});
+  const [user, setUser] = useState<PhotoGangBangerDto | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [emailError, setEmailError] = useState("");
@@ -31,18 +31,10 @@ function ArchiveBossEditUser() {
   const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(false);
   const router = useRouter();
 
-  // Email validation regex pattern
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   const phoneNumberRegex = /^[1-9]\d{7}$/;
 
   const { userId: id } = Route.useParams();
-
-  useEffect(() => {
-    const phoneNumberLength = 8;
-    setIsPhoneNumberValid(
-      user.samfundetUser?.phoneNumber?.value?.length === phoneNumberLength,
-    );
-  }, [user.samfundetUser?.phoneNumber?.value]);
 
   useEffect(() => {
     PhotoGangBangerApi.getById(id || "")
@@ -56,32 +48,38 @@ function ArchiveBossEditUser() {
   }, []);
 
   useEffect(() => {
-    if (!user.samfundetUser?.email?.value) {
+    if (!user?.email) {
       setIsEmailValid(false);
       setEmailError("");
-    } else if (!emailRegex.test(user.samfundetUser?.email.value)) {
+    } else if (!emailRegex.test(user.email)) {
       setIsEmailValid(false);
       setEmailError("Ugyldig e-postadresse");
     } else {
       setIsEmailValid(true);
       setEmailError("");
     }
-  }, [user.samfundetUser?.email?.value]);
+  }, [user?.email]);
 
   useEffect(() => {
-    if (!user.samfundetUser?.phoneNumber?.value) {
+    const phoneNumberLength = 8;
+    if (!user?.phoneNumber) {
       setIsPhoneNumberValid(false);
       setPhoneNumberError("");
-    } else if (!phoneNumberRegex.test(user.samfundetUser?.phoneNumber.value)) {
+    } else if (
+      !phoneNumberRegex.test(user.phoneNumber) ||
+      user.phoneNumber.length !== phoneNumberLength
+    ) {
       setIsPhoneNumberValid(false);
       setPhoneNumberError("Ugyldig telefonnummer");
     } else {
       setIsPhoneNumberValid(true);
       setPhoneNumberError("");
     }
-  }, [user.samfundetUser?.phoneNumber?.value]);
+  }, [user?.phoneNumber]);
 
   const handleEditUserClick = () => {
+    if (!user) return;
+
     if (isPhoneNumberValid && isEmailValid) {
       PhotoGangBangerApi.patch(user)
         .then(() => {
@@ -100,30 +98,21 @@ function ArchiveBossEditUser() {
       setSeverity(severityEnum.ERROR);
 
       let errorMessage = "Kan ikke opprette bruker: ";
-      if (!isPhoneNumberValid) {
-        errorMessage += "Telefonnummeret er ugyldig.";
-      }
-      if (!isEmailValid) {
-        errorMessage += "E-postadressen er ugyldig.";
-      }
+      if (!isPhoneNumberValid) errorMessage += "Telefonnummeret er ugyldig.";
+      if (!isEmailValid) errorMessage += "E-postadressen er ugyldig.";
 
       setMessage(errorMessage);
     }
   };
+
   const handleBackClick = () => {
     router.history.back();
   };
 
   return (
     <div className={styles.container}>
-      {!isLoading ? (
-        <Paper
-          className={styles.form}
-          sx={{
-            width: "70%",
-          }}
-        >
-          {/* <Button>sjekk</Button> */}
+      {!isLoading && user ? (
+        <Paper className={styles.form} sx={{ width: "70%" }}>
           <FormControl
             sx={{
               display: "flex",
@@ -134,83 +123,44 @@ function ArchiveBossEditUser() {
           >
             <FormLabel>Fornavn:</FormLabel>
             <TextField
-              // className={styles.input}
               required
-              value={user?.samfundetUser?.firstName}
-              onChange={(e) =>
-                setUser({
-                  ...user,
-                  samfundetUser: {
-                    ...user.samfundetUser,
-                    firstName: e.target.value,
-                  },
-                })
-              }
+              value={user.firstName}
+              onChange={(e) => setUser({ ...user, firstName: e.target.value })}
             />
 
             <FormLabel>Etternavn:</FormLabel>
             <TextField
-              // className={styles.input}
               required
-              value={user?.samfundetUser?.lastName}
-              onChange={(e) =>
-                setUser({
-                  ...user,
-                  samfundetUser: {
-                    ...user.samfundetUser,
-                    lastName: e.target.value,
-                  },
-                })
-              }
+              value={user.lastName}
+              onChange={(e) => setUser({ ...user, lastName: e.target.value })}
             />
 
             <FormLabel>Telefonnummer:</FormLabel>
             <TextField
-              // className={styles.input}
               required
-              value={user?.samfundetUser?.phoneNumber?.value}
-              error={
-                user?.samfundetUser?.phoneNumber?.value !== "" &&
-                !isPhoneNumberValid
-              }
+              value={user.phoneNumber}
+              error={user.phoneNumber !== "" && !isPhoneNumberValid}
               helperText={phoneNumberError}
               onChange={(e) =>
-                setUser({
-                  ...user,
-                  samfundetUser: {
-                    ...user.samfundetUser,
-                    phoneNumber: { value: e.target.value },
-                  },
-                })
+                setUser({ ...user, phoneNumber: e.target.value })
               }
             />
 
             <FormLabel>Email:</FormLabel>
             <TextField
-              // className={styles.input}
               required
-              value={user?.samfundetUser?.email?.value}
-              error={user?.samfundetUser?.email?.value !== "" && !isEmailValid}
+              value={user.email}
+              error={user.email !== "" && !isEmailValid}
               helperText={emailError}
-              onChange={(e) =>
-                setUser({
-                  ...user,
-                  samfundetUser: {
-                    ...user.samfundetUser,
-                    email: { value: e.target.value },
-                  },
-                })
-              }
+              onChange={(e) => setUser({ ...user, email: e.target.value })}
             />
+
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={user?.isActive || false}
+                  checked={user.isActive}
                   onChange={(e) =>
-                    setUser({
-                      ...user,
-                      isActive: e.target.checked,
-                    })
+                    setUser({ ...user, isActive: e.target.checked })
                   }
                 />
               }
@@ -221,26 +171,22 @@ function ArchiveBossEditUser() {
             <FormControlLabel
               control={
                 <Checkbox
-                  checked={user?.isPang || false}
+                  checked={user.isPang}
                   onChange={(e) =>
-                    setUser({
-                      ...user,
-                      isPang: e.target.checked,
-                    })
+                    setUser({ ...user, isPang: e.target.checked })
                   }
                 />
               }
               label="Er Pang"
               sx={{ marginTop: 1, marginBottom: 2 }}
             />
+
             <div className={styles.action_buttons}>
               <Button
                 onClick={handleEditUserClick}
                 type="button"
                 variant="contained"
                 color="primary"
-
-                // className={styles.submitButton}
               >
                 Oppdater bruker
               </Button>
