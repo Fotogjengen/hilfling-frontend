@@ -88,7 +88,7 @@ const LoginPopUp = ({ setLoginForm }: Props) => {
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleLogin()}
+                onKeyDown={(e) => { if (e.key === "Enter") void handleLogin(); }}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
@@ -112,7 +112,7 @@ const LoginPopUp = ({ setLoginForm }: Props) => {
           <Grid item>
             <Button
               variant="contained"
-              onClick={handleLogin}
+              onClick={() => void handleLogin()}
               disabled={isLoading}
               fullWidth
             >
