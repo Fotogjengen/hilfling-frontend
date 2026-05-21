@@ -1,14 +1,13 @@
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
-import type { PhotoTagDto } from "./PhotoTagDto";
-
+import type { PhotoTagDto } from './PhotoTagDto';
 export type PagePhotoTagDto = {
-  offset?: number;
-  limit?: number;
-  totalRecords?: number;
-  pageSize?: number;
-  totalPages?: number;
-  currentList?: Array<PhotoTagDto>;
+    totalRecords: number;
+    pageSize: number;
+    page: number;
+    totalPages: number;
+    currentList: Array<PhotoTagDto>;
 };
+

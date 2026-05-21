@@ -9,7 +9,6 @@ import {
 import LinearProgress from "@mui/material/LinearProgress";
 import DatePickerField from "../components/Form/DatePicker";
 import Select from "../components/Form/Select";
-// import ChipField from "../components/Form/ChipField";
 import TextField from "../components/Form/TextField";
 import Form from "../components/Form/Form";
 import { Errors, Validate } from "../components/Form/types";
@@ -27,7 +26,6 @@ import {
   SecurityLevelDto,
 } from "../../generated";
 import { PlaceApi } from "../utils/api/PlaceApi";
-import { SecurityLevelApi } from "../utils/api/SecurityLevelApi";
 import { AlbumApi } from "../utils/api/AlbumApi";
 import { PhotoApi } from "../utils/api/PhotoApi";
 import { EventOwnerApi } from "../utils/api/EventOwnerApi";
@@ -63,7 +61,6 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
   const [categories, setCategories] = useState<CategoryDto[]>([]); // stores api fetch data from dropdowns
   const [eventOwners, setEventOwners] = useState<EventOwnerDto[]>([]); // stores api fetch data from dropdowns
   const [places, setPlaces] = useState<PlaceDto[]>([]); // stores api fetch data from dropdowns
-  const [securityLevels, setSecurityLevels] = useState<SecurityLevelDto[]>([]); // stores api fetch data from dropdowns
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false); // Track if a file is being uploaded
@@ -107,14 +104,6 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
         setSeverity(severityEnum.ERROR);
         setMessage(err.message);
       });
-
-    SecurityLevelApi.getAll()
-      .then((res) => setSecurityLevels(res.data.currentList))
-      .catch((err) => {
-        setOpen(true);
-        setSeverity(severityEnum.ERROR);
-        setMessage(err.message);
-      });
   }, []);
 
   useEffect(() => {
@@ -148,67 +137,36 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
         ? new Date(values["date"]).toISOString().split("T")[0]
         : "";
 
-      const formData = new FormData();
-      formData.append("motiveTitle", values["motive"]);
-      formData.append("securityLevelId", values["securityLevel"]);
-      formData.append("placeName", values["place"]);
-      formData.append("albumId", values["album"]);
-      formData.append("categoryName", values["category"]);
-      formData.append("eventOwnerName", values["eventOwner"]);
-      formData.append("dateTaken", formattedDate);
-      formData.append(
-        "photoGangBangerId",
-        "6a89444f-25f6-44d9-8a73-94587d72b839",
-      ); // TODO: Use actual user Id
-      formData.append("tagList", values["tags"]);
-
-      files.forEach((dragNDropFile, index) => {
-        formData.append(
-          "isGoodPhotoList",
-          JSON.stringify(dragNDropFile.isGoodPicture),
-        );
-
-        formData.append("photoFileList", acceptedFiles[index]);
-      });
-
-      console.log(formData);
-
       const handleUploadProgress = (progressEvent: AxiosProgressEvent) => {
         if (progressEvent.total) {
-          const percentCompleted = Math.round(
-            (progressEvent.loaded * 100) / progressEvent.total,
+          setProgress(
+            Math.round((progressEvent.loaded * 100) / progressEvent.total),
           );
-          console.log(`Upload progress: ${percentCompleted}%`);
-          console.log(
-            `Loaded: ${progressEvent.loaded}, Total: ${progressEvent.total}`,
-          );
-          setProgress(percentCompleted);
-        } else {
-          // Fallback when Content-Length (total) is not available
-          console.log(`Uploaded ${progressEvent.loaded} bytes`);
-          setProgress(0);
         }
       };
 
-      await PhotoApi.batchUpload(formData, handleUploadProgress);
+      for (let i = 0; i < files.length; i++) {
+        const formData = new FormData();
+        formData.append("motive", values["motive"]);
+        formData.append("security_level", values["securityLevel"]);
+        formData.append("place", values["place"]);
+        formData.append("album", values["album"]);
+        formData.append("category", values["category"]);
+        formData.append("event_owner", values["eventOwner"]);
+        formData.append("date", formattedDate);
+        formData.append(
+          "photographer_id",
+          "6a89444f-25f6-44d9-8a73-94587d72b839",
+        ); // TODO: Use actual user Id
+        if (values["tags"]) formData.append("tag", values["tags"]);
+        formData.append("is_good_picture", String(files[i].isGoodPicture ?? false));
+        formData.append("media", acceptedFiles[i]);
+        await PhotoApi.batchUpload(formData, handleUploadProgress);
+      }
       setFiles([]);
       setOpen(true);
       setSeverity(severityEnum.SUCCESS);
       setMessage("Photos uploaded successfully!");
-
-      // PhotoApi.batchUpload(formData, handleUploadProgress)
-      //   .then((res) => {
-      //     console.log(res);
-      //     setFiles([]);
-      //   })
-      //   .catch((err) => {
-      //     setOpen(true);
-      //     setSeverity(severityEnum.ERROR);
-      //     setMessage(err.message);
-      //   })
-      //   .finally(() => {
-      //     setIsLoading(false);
-      //   });
       setSuccess(true);
       setFormSubmitted(true); // Indicate successful submission
 
@@ -345,7 +303,7 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
                   {albums.map((album, index) => (
                     <MenuItem
                       key={`album-item-${index}`}
-                      value={album?.albumId?.id}
+                      value={album?.title}
                     >
                       {album.title}
                     </MenuItem>
@@ -412,14 +370,16 @@ const PhotoUploadForm: FC<Props> = ({ initialValues }) => {
                   fullWidth
                   required
                 >
-                  {securityLevels.map((securityLevel, index) => (
-                    <MenuItem
-                      key={`security-level-item-${index}`}
-                      value={securityLevel?.securityLevelId?.id}
-                    >
-                      {securityLevel.securityLevelType}
-                    </MenuItem>
-                  ))}
+                  {Object.values(SecurityLevelDto.securityLevelType).map(
+                    (securityLevel, index) => (
+                      <MenuItem
+                        key={`security-level-item-${index}`}
+                        value={securityLevel}
+                      >
+                        {securityLevel}
+                      </MenuItem>
+                    ),
+                  )}
                 </Select>
               </Grid>
               <Grid item xs={12}>

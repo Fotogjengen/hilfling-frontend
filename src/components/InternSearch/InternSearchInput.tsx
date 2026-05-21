@@ -25,7 +25,6 @@ import { AlbumApi } from "../../utils/api/AlbumApi";
 import { PlaceApi } from "../../utils/api/PlaceApi";
 import { CategoryApi } from "../../utils/api/CategoryApi";
 import { MotiveApi } from "../../utils/api/MotiveApi";
-import { SecurityLevelApi } from "../../utils/api/SecurityLevelApi";
 import { PhotoTagApi } from "../../utils/api/PhotoTagApi";
 import { AlertContext, severityEnum } from "../../contexts/AlertContext";
 import { PhotoSearch } from "../../utils/api/PhotoApi";
@@ -51,7 +50,6 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
   const [albums, setAlbums] = useState<AlbumDto[]>([]);
   const [places, setPlaces] = useState<PlaceDto[]>([]);
   const [categories, setCategories] = useState<CategoryDto[]>([]);
-  const [securityLevels, setSecurityLevels] = useState<SecurityLevelDto[]>([]);
   const [, setPhotoTags] = useState<PhotoTagDto[]>([]);
   const [minDate] = React.useState<Dayjs | undefined>(dayjs("1910-09-30"));
   const [dateFrom, setDateFrom] = React.useState<Dayjs | undefined>(
@@ -99,7 +97,6 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
       { api: PlaceApi.getAll, setter: setPlaces },
       { api: CategoryApi.getAll, setter: setCategories },
       { api: MotiveApi.getAll, setter: setMotives },
-      { api: SecurityLevelApi.getAll, setter: setSecurityLevels },
       { api: PhotoTagApi.getAll, setter: setPhotoTags },
     ];
 
@@ -410,8 +407,8 @@ const InternSearchInput: React.FC<internSearchInputprop> = ({
                     overflowY: "auto",
                   },
                 }}
-                options={securityLevels.map(
-                  (securityLevel) => securityLevel.securityLevelType,
+                options={Object.values(SecurityLevelDto.securityLevelType).map(
+                  (securityLevel) => securityLevel,
                 )}
                 onChange={handleSecurityLevelChange}
                 sx={{ width: boxwidth }}

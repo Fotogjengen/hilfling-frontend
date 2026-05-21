@@ -1,14 +1,13 @@
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
-import type { PositionDto } from "./PositionDto";
-
+import type { PositionDto } from './PositionDto';
 export type PagePositionDto = {
-  offset?: number;
-  limit?: number;
-  totalRecords?: number;
-  pageSize?: number;
-  totalPages?: number;
-  currentList?: Array<PositionDto>;
+    totalRecords: number;
+    pageSize: number;
+    page: number;
+    totalPages: number;
+    currentList: Array<PositionDto>;
 };
+

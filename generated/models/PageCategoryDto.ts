@@ -1,14 +1,13 @@
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
-import type { CategoryDto } from "./CategoryDto";
-
+import type { CategoryDto } from './CategoryDto';
 export type PageCategoryDto = {
-  offset?: number;
-  limit?: number;
-  totalRecords?: number;
-  pageSize?: number;
-  totalPages?: number;
-  currentList?: Array<CategoryDto>;
+    totalRecords: number;
+    pageSize: number;
+    page: number;
+    totalPages: number;
+    currentList: Array<CategoryDto>;
 };
+

@@ -46,8 +46,8 @@ export const PhotoApi = {
     photos: FormData,
     onUploadProgress?: (progressEvent: AxiosProgressEvent) => void,
   ): Promise<any> {
-    console.log(photos);
     return api.post("/photos/upload", photos, {
+      headers: { "Content-Type": "multipart/form-data" },
       onUploadProgress,
     });
   },

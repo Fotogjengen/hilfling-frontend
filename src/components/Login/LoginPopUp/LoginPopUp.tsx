@@ -10,101 +10,114 @@ import {
   InputAdornment,
   InputLabel,
   TextField,
+  Typography,
 } from "@mui/material";
 import { CloseSharp, Visibility, VisibilityOff } from "@mui/icons-material";
+import { AuthAPi } from "../../../utils/api/AuthApi";
+import Cookies from "js-cookie";
 
-/*
-We haven’t decided yet whether the "power user" role will be part of the final system. 
-To avoid losing the implementation work already done, we’ve left the supporting logic 
-in place but temporarily disabled its visibility in the user interface. 
-Once the decision about power users is finalized, we can either re-enable the code for power users or remove it entirely.
-*/
 interface Props {
   setLoginForm: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const LoginPopUp = ({ setLoginForm }: Props) => {
-  const [activeForm, setActiveForm] = useState<"husfolk" | "power" | null>(
-    null,
-  );
   const [showPassword, setShowPassword] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
   const { setIsAuthenticated, setPosition } = useContext(AuthenticationContext);
 
-  const handleLogin = (position: string) => {
-    setIsAuthenticated(true);
-    setPosition(position);
-    setLoginForm(false);
+  const handleLogin = async () => {
+    if (!username || !password) {
+      setError("Brukernavn og passord er påkrevd");
+      return;
+    }
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await AuthAPi.login(username, password);
+      const payload = JSON.parse(atob(response.token.split(".")[1]));
+      const role: string = payload.role ?? "HUSFOLK";
+      Cookies.set("fgToken", response.token, { expires: 1 });
+      Cookies.set("fgBasicAuth", btoa(`${username}:${password}`), { expires: 1 });
+      setIsAuthenticated(true);
+      setPosition(role);
+      setLoginForm(false);
+    } catch {
+      setError("Innlogging feilet. Sjekk brukernavn og passord.");
+    } finally {
+      setIsLoading(false);
+    }
   };
-
-  const renderForm = (title: string, position: string) => (
-    <Grid item xs={12} className={styles.gridItem}>
-      <h3>{title}</h3>
-      <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
-        <TextField
-          id="standard-username"
-          label="Username"
-          type="text"
-          variant="standard"
-        />
-      </FormControl>
-      <FormControl sx={{ m: 1, width: "25ch" }} variant="standard">
-        <InputLabel htmlFor="password">Password</InputLabel>
-        <Input
-          id="password"
-          type={showPassword ? "text" : "password"}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                aria-label="toggle password visibility"
-                onClick={() => setShowPassword(!showPassword)}
-                edge="end"
-              >
-                {showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
-          }
-        />
-      </FormControl>
-      <Button type="submit" onClick={() => handleLogin(position)}>
-        Logg inn
-      </Button>
-    </Grid>
-  );
 
   return (
     <div className={styles.popup}>
       <div className={styles.popupInner}>
         <Grid container>
-          {/* <Grid item xs={5}>
-            <Button
-              className={styles.gridItem}
-              onClick={() => setActiveForm("power")}
-
-            >
-              Login PowerBruker
-            </Button>
-          </Grid> */}
           <Grid item xs={10}>
-            <Button
-              className={styles.gridItem}
-              onClick={() => setActiveForm("husfolk")}
-            >
-              Logg inn som intern
-            </Button>
+            <Typography variant="h6">LOGG INN SOM INTERN</Typography>
           </Grid>
           <Grid item xs={2}>
-            <IconButton
-              onClick={() => setLoginForm(false)}
-              className={styles.gridItem}
-            >
+            <IconButton onClick={() => setLoginForm(false)}>
               <CloseSharp />
             </IconButton>
           </Grid>
         </Grid>
 
-        {activeForm === "husfolk" && renderForm("LOGG INN SOM INTERN", "FG")}
-        {activeForm === "power" &&
-          renderForm("LOGG INN SOM POWERBRUKER", "PROFILE")}
+        <Grid container direction="column" spacing={2} sx={{ mt: 1 }}>
+          <Grid item>
+            <FormControl fullWidth variant="standard">
+              <TextField
+                label="Brukernavn"
+                type="text"
+                variant="standard"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+            </FormControl>
+          </Grid>
+          <Grid item>
+            <FormControl fullWidth variant="standard">
+              <InputLabel htmlFor="password">Passord</InputLabel>
+              <Input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleLogin()}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowPassword(!showPassword)}
+                      edge="end"
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+          </Grid>
+          {error && (
+            <Grid item>
+              <Typography color="error" variant="body2">
+                {error}
+              </Typography>
+            </Grid>
+          )}
+          <Grid item>
+            <Button
+              variant="contained"
+              onClick={handleLogin}
+              disabled={isLoading}
+              fullWidth
+            >
+              {isLoading ? "Logger inn..." : "Logg inn"}
+            </Button>
+          </Grid>
+        </Grid>
       </div>
     </div>
   );
