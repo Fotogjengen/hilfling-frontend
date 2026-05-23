@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import React, { useContext, useState } from "react";
-import { AuthenticationContext } from "@/contexts/AuthenticationContext";
+import React, { useState } from "react";
+import { useAuth } from "@/contexts/AuthenticationContext";
 import {
   Button,
   FormControl,
@@ -24,16 +24,13 @@ When more styling is added it should be in its own file.
 */
 
 function MobileLogin() {
-  const { isAuthenticated, setIsAuthenticated, setPosition } = useContext(
-    AuthenticationContext,
-  );
+  const { isAuthenticated, setIsAuthenticated } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
     setIsAuthenticated(true);
-    setPosition("FG");
   };
 
   const handleLogout = () => {
