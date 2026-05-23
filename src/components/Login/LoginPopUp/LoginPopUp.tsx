@@ -39,7 +39,9 @@ const LoginPopUp = ({ setLoginForm }: Props) => {
     setError(null);
     try {
       const response = await AuthAPi.login(username, password);
-      const payload = JSON.parse(atob(response.token.split(".")[1])) as JwtTokenPayload;
+      const payload = JSON.parse(
+        atob(response.token.split(".")[1]),
+      ) as JwtTokenPayload;
       Cookies.set("fgToken", response.token, { expires: 1 });
       Cookies.set("fgBasicAuth", btoa(`${username}:${password}`), {
         expires: 1,

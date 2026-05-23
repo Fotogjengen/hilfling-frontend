@@ -123,7 +123,9 @@ export function HeaderComponent() {
           <Link to="/about">OM OSS</Link>
           <Link to="/search">SØK</Link>
           {isAuthenticated && <Link to="/intern/search">INTERNSØK</Link>}
-          {isAuthenticated && jwtPayload?.securityLevel === "FG" && <Link to="/fg">FG</Link>}
+          {isAuthenticated && jwtPayload?.securityLevel === "FG" && (
+            <Link to="/fg">FG</Link>
+          )}
         </div>
         <div className={styles.loggContainer}>
           <LoginButton />

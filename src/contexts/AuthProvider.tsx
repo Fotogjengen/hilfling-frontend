@@ -13,7 +13,9 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const token = Cookies.get("fgToken");
     if (token) {
       try {
-        const payload = JSON.parse(atob(token.split(".")[1])) as JwtTokenPayload;
+        const payload = JSON.parse(
+          atob(token.split(".")[1]),
+        ) as JwtTokenPayload;
         setIsAuthenticated(true);
         setJwtPayload(payload);
       } catch {
