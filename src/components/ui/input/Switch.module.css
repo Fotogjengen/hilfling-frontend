@@ -1,0 +1,92 @@
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--size-space-400);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-050);
+}
+
+.label {
+  font-size: var(--typography-body-size-medium);
+  font-weight: var(--typography-body-font-weight-strong);
+  color: var(--color-text-default-default);
+  cursor: pointer;
+}
+
+.description {
+  font-size: var(--typography-body-size-small);
+  color: var(--color-text-default-secondary);
+}
+
+.root {
+  all: unset;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 44px;
+  height: 24px;
+  border-radius: var(--size-radius-full);
+  background-color: var(--color-background-default-default);
+  border: var(--size-stroke-border) solid var(--color-border-default-default);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease;
+}
+
+.root:focus-visible {
+  outline: var(--size-stroke-focus-ring) solid var(--color-border-brand-default);
+  outline-offset: 2px;
+}
+
+.root[data-state="checked"] {
+  background-color: var(--color-background-brand-default);
+  border-color: var(--color-background-brand-default);
+}
+
+.root[data-state="unchecked"] {
+  background-color: var(--color-background-default-default);
+  border-color: var(--color-border-default-default);
+}
+
+.root[data-disabled] {
+  background-color: var(--color-background-disabled-default);
+  border-color: var(--color-border-disabled-default);
+  cursor: not-allowed;
+}
+
+.wrapper:has([data-disabled]) .label,
+.wrapper:has([data-disabled]) .description {
+  color: var(--color-text-disabled-default);
+  cursor: not-allowed;
+}
+
+.thumb {
+  display: block;
+  width: 18px;
+  height: 18px;
+  border-radius: var(--size-radius-full);
+  background-color: var(--color-background-brand-default);
+  transform: translateX(2px);
+  transition:
+    transform 120ms ease,
+    background-color 120ms ease;
+  will-change: transform;
+}
+
+.root[data-state="checked"] .thumb {
+  transform: translateX(22px);
+  background-color: var(--color-white-1000);
+}
+
+.root[data-disabled][data-state="unchecked"] .thumb,
+.root[data-disabled][data-state="checked"] .thumb {
+  background-color: var(--color-gray-400);
+}

@@ -1,0 +1,15 @@
+.content {
+  min-width: var(--radix-popover-trigger-width);
+  background-color: var(--color-background-default-default);
+  border: var(--size-stroke-border) solid var(--color-border-default-default);
+  border-radius: var(--size-radius-200);
+  box-shadow: 0 var(--size-depth-100) var(--size-depth-200)
+    var(--color-black-200);
+  overflow: hidden;
+  z-index: 50;
+}
+
+.scrollArea {
+  max-height: 200px;
+  overflow-y: auto;
+}

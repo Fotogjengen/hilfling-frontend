@@ -1,5 +1,3 @@
-@import "../../../styles/variables.css";
-
 .mainContainerStyle {
   display: flex;
   flex-direction: column;
@@ -33,7 +31,19 @@
   padding: 0.5rem;
 }
 
-.extiButton:hover {
+.closeButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--size-space-100);
+  border-radius: var(--size-radius-full);
+  color: var(--color-icon-default-default);
+}
+
+.closeButton:hover {
   color: var(--hilfling-link-color);
 }
 

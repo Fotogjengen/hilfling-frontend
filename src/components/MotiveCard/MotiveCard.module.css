@@ -1,3 +1,19 @@
+.category {
+  font-size: var(--typography-scale-02);
+  color: var(--color-text-default-secondary);
+  margin: 0 0 var(--size-space-100);
+}
+
+.title {
+  color: #ad2f33;
+  margin: 0 0 var(--size-space-200);
+}
+
+.meta {
+  font-size: var(--typography-body-size-small);
+  margin: 0;
+}
+
 .container {
   box-shadow:
     rgba(50, 50, 93, 0.25) 0px 2px 5px -1px,

@@ -1,6 +1,5 @@
-import React, { FC } from "react";
 import styles from "./PhotoGangBangerPublic.module.css";
-import { GuiProfileImage } from "../../gui-components";
+import { ProfileImage } from "@/components/ui/display/ProfileImage";
 
 interface Props {
   image: string;
@@ -10,7 +9,7 @@ interface Props {
   email: string;
 }
 
-const PhotoGangBangerPublic: FC<Props> = ({
+const PhotoGangBangerPublic = ({
   firstName,
   lastName,
   position,
@@ -25,7 +24,7 @@ const PhotoGangBangerPublic: FC<Props> = ({
   return (
     <div className={styles.profile}>
       <div className={styles.profileImage}>
-        <GuiProfileImage alt={firstName} src={image} onClick={onClick} />
+        <ProfileImage alt={firstName} src={image} onClick={onClick} />
       </div>
       <div>
         <p className={styles.profileInformation}>

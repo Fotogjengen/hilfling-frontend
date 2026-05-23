@@ -9,13 +9,21 @@
   align-items: center;
 }
 
+.navHeadActions {
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-100);
+}
+
 .hamburger {
   cursor: pointer;
-  position: relative;
-  top: 0.4rem;
+  background: none;
+  border: none;
   display: flex;
   justify-content: center;
   align-items: center;
+  color: inherit;
+  padding: var(--size-space-100);
 }
 
 .hamburger:hover {
@@ -23,10 +31,20 @@
 }
 
 .navMenuList {
-  font-size: larger;
   display: flex;
   align-items: center;
   flex-direction: column;
+  overflow: hidden;
+}
+
+.navMenuListOpen {
+  max-height: 100vh;
+  transition: max-height 0.3s ease-in;
+}
+
+.navMenuListClosed {
+  max-height: 0;
+  transition: max-height 0.2s ease-out;
 }
 
 .menuLink {
@@ -37,6 +55,7 @@
   justify-content: space-between;
   width: 100%;
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 3px 0px;
+  font-size: var(--typography-body-size-medium);
 }
 
 .menuLink:hover {
@@ -78,11 +97,18 @@
   transform: scale(1.05);
 }
 
+.navLink {
+  font-size: var(--typography-body-size-medium);
+}
+
 @media screen and (min-width: 50rem) {
   .navContainer {
     display: grid;
   }
   .hamburger {
+    display: none;
+  }
+  .mobileThemeToggle {
     display: none;
   }
 }

@@ -4,7 +4,7 @@ export const Route = createFileRoute("/_authenticated/intern/search")({
   component: RouteComponent,
 });
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./internSearch.module.css";
 import InternSearchInput from "@/components/InternSearch/InternSearchInput";
 import CustomDataGrid from "@/components/InternSearch/CustomTable";

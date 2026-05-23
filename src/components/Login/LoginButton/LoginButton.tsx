@@ -1,5 +1,4 @@
-//Button for opening login pop up
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import LoginPopUp from "../LoginPopUp/LoginPopUp";
 import { AuthenticationContext } from "../../../contexts/AuthenticationContext";
 import styles from "./LoginButton.module.css";
@@ -28,7 +27,7 @@ const LoginButton = () => {
           Logg inn
         </button>
       )}
-      {loginForm && <LoginPopUp setLoginForm={setLoginForm} />}
+      <LoginPopUp open={loginForm} onOpenChange={setLoginForm} />
     </>
   );
 };

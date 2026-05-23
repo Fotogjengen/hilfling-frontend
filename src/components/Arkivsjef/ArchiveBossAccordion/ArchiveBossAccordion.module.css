@@ -1,3 +1,14 @@
-.archiveBossAccordion {
+.accordion {
   margin-top: 0.5rem;
+}
+
+.trigger {
+  background-color: var(--accordion-color);
+  color: white;
+  font-size: var(--typography-body-size-large);
+}
+
+.trigger:hover {
+  background-color: var(--accordion-color);
+  opacity: 0.9;
 }

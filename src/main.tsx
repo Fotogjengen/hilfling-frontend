@@ -9,6 +9,7 @@ import "./index.css";
 import Cookies from "js-cookie";
 import { decryptData, encryptData } from "./utils/encryption/encrypt";
 import { AuthenticationContext } from "@/contexts/AuthenticationContext";
+import { ThemeProvider } from "@/components/ThemeProvider/ThemeProvider";
 import NotFound from "./components/NotFound/NotFound";
 
 // Create a new router instance
@@ -107,7 +108,9 @@ if (rootElement && !rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
-      <RouterWrapper />
+      <ThemeProvider>
+        <RouterWrapper />
+      </ThemeProvider>
     </StrictMode>,
   );
 }

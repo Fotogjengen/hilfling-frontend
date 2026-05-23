@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styles from "./archiveBoss.module.css";
 import ArchiveBossAccordion from "@/components/Arkivsjef/ArchiveBossAccordion/ArchiveBossAccordion";
-import { Box, Button, Grid, Pagination, Typography } from "@mui/material";
 import { AlbumDto, PlaceDto, CategoryDto } from "@/../generated";
 import { AlbumApi } from "@/utils/api/AlbumApi";
 import { PlaceApi } from "@/utils/api/PlaceApi";
@@ -13,6 +12,8 @@ import { AlertContext, severityEnum } from "@/contexts/AlertContext";
 import ArchiveBossCreateUsers from "@/components/Arkivsjef/ArchiveBossCreateUser/ArchiveBossCreateUsers";
 import ArchiveBossOverView from "@/components/Arkivsjef/ArchiveBossOverView/ArchiveBossOverView";
 import { createFileRoute } from "@tanstack/react-router";
+import { Button } from "@/components/ui/input/Button";
+import { Pagination } from "@/components/ui/navigation/Pagination";
 
 export const Route = createFileRoute(
   "/_authenticated/_fgAuthenticated/fg/archiveBoss/",
@@ -37,11 +38,7 @@ function ArchiveBoss() {
   const [createUser, setCreateUser] = useState(false);
   const [overview, setOverview] = useState(false);
 
-  const [loading, setLoading] = useState<{
-    albums: boolean;
-    places: boolean;
-    categories: boolean;
-  }>({
+  const [loading, setLoading] = useState({
     albums: false,
     places: false,
     categories: false,
@@ -58,80 +55,50 @@ function ArchiveBoss() {
 
   const fetchAlbums = async (page: number) => {
     setLoading((prev) => ({ ...prev, albums: true }));
-    await AlbumApi.getAll({
-      page: page - 1,
-      pageSize: itemsPerPage,
-    })
-      .then((res) => {
-        setAlbums(res.data.currentList);
-        setAlbumsTotalPages(res.data.totalPages);
-      })
-      .catch((err) => {
-        setError(err as string);
-      })
-      .finally(() => {
-        setLoading((prev) => ({ ...prev, albums: false }));
+    try {
+      const res = await AlbumApi.getAll({
+        page: page - 1,
+        pageSize: itemsPerPage,
       });
+      setAlbums(res.data.currentList);
+      setAlbumsTotalPages(res.data.totalPages);
+    } catch (err) {
+      setError(err as string);
+    } finally {
+      setLoading((prev) => ({ ...prev, albums: false }));
+    }
   };
 
   const fetchPlaces = async (page: number) => {
     setLoading((prev) => ({ ...prev, places: true }));
-    await PlaceApi.getAll({
-      page: page - 1,
-      pageSize: itemsPerPage,
-    })
-      .then((res) => {
-        setPlaces(res.data.currentList);
-        setPlacesTotalPages(res.data.totalPages);
-      })
-      .catch((err) => {
-        setError(err as string);
-      })
-      .finally(() => {
-        setLoading((prev) => ({ ...prev, places: false }));
+    try {
+      const res = await PlaceApi.getAll({
+        page: page - 1,
+        pageSize: itemsPerPage,
       });
+      setPlaces(res.data.currentList);
+      setPlacesTotalPages(res.data.totalPages);
+    } catch (err) {
+      setError(err as string);
+    } finally {
+      setLoading((prev) => ({ ...prev, places: false }));
+    }
   };
 
   const fetchCategories = async (page: number) => {
     setLoading((prev) => ({ ...prev, categories: true }));
-    await CategoryApi.getAll({
-      page: page - 1,
-      pageSize: itemsPerPage,
-    })
-      .then((res) => {
-        setCategories(res.data.currentList);
-        setCategoriesTotalPages(res.data.totalPages);
-      })
-      .catch((err) => {
-        setError(err as string);
-      })
-      .finally(() => {
-        setLoading((prev) => ({ ...prev, categories: false }));
+    try {
+      const res = await CategoryApi.getAll({
+        page: page - 1,
+        pageSize: itemsPerPage,
       });
-  };
-
-  const handleAlbumsPageChange = (
-    event: React.ChangeEvent<unknown>,
-    value: number,
-  ) => {
-    setAlbumsPage(value);
-    void fetchAlbums(value);
-  };
-
-  const handlePlacesPageChange = (
-    event: React.ChangeEvent<unknown>,
-    value: number,
-  ) => {
-    setPlacesPage(value);
-    void fetchPlaces(value);
-  };
-
-  const handleCategoriesPageChange = (
-    event: React.ChangeEvent<unknown>,
-    value: number,
-  ) => {
-    setCategoriesPage(value);
-    void fetchCategories(value);
+      setCategories(res.data.currentList);
+      setCategoriesTotalPages(res.data.totalPages);
+    } catch (err) {
+      setError(err as string);
+    } finally {
+      setLoading((prev) => ({ ...prev, categories: false }));
+    }
   };
 
   useEffect(() => {
@@ -150,145 +117,130 @@ function ArchiveBoss() {
   }, [update, albumsPage, placesPage, categoriesPage]);
 
   return (
-    <>
-      <ArchiveBossContext.Provider
-        value={{
-          setAlbums,
-          albums,
-          setCategories,
-          categories,
-          places,
-          setPlaces,
-          update,
-          setUpdate,
-        }}
-      >
-        <div className={styles.archiveBoss}>
-          <h2> Arkivsjef </h2>
+    <ArchiveBossContext.Provider
+      value={{
+        setAlbums,
+        albums,
+        setCategories,
+        categories,
+        places,
+        setPlaces,
+        update,
+        setUpdate,
+      }}
+    >
+      <div className={styles.archiveBoss}>
+        <h2>Arkivsjef</h2>
 
-          <div className={styles.users}>
-            <Button onClick={() => setCreateUser(true)}>Lag bruker</Button>
-            {createUser && (
-              <ArchiveBossCreateUsers setCreateUser={setCreateUser} />
-            )}
-            <Button onClick={() => setOverview(true)}>Brukere</Button>
-            {overview && <ArchiveBossOverView setOverview={setOverview} />}
-          </div>
-
-          <div className={styles.description}>
-            <Grid
-              container
-              direction="row"
-              display="flex"
-              justifyContent="start"
-              alignItems="center"
-              spacing={"2rem"}
-              flexWrap="wrap"
-              padding={"1rem"}
-            >
-              <Grid item xs={12} sm={4} md="auto">
-                <ArchiveBossAddElements />
-              </Grid>
-
-              <Grid item xs={12} sm={9}>
-                <Typography>
-                  Denne siden er for fotogjengens Arkivsjef. Her kan du legge
-                  til, slette, eller endre Album, Kategorier, Steder eller
-                  Medium. Vær meget forsiktig med å forandre albumnavn dersom
-                  albumet har bilder liggende i seg - det ødelegger
-                  mappestrukturen til bildene.
-                </Typography>
-              </Grid>
-            </Grid>
-          </div>
-
-          <ArchiveBossAccordion color="#BE3144" name="Album">
-            {loading.albums ? (
-              <Typography>Laster album...</Typography>
-            ) : (
-              <>
-                <Grid container spacing={2}>
-                  {albums.map((album: AlbumDto, index: number) => (
-                    <Grid item key={index} xs={12} sm={4}>
-                      <ArchiveBossElement
-                        text={album.title}
-                        id={album.albumId.id}
-                        key={index}
-                        type="album"
-                      />
-                    </Grid>
-                  ))}
-                </Grid>
-                <Box display="flex" justifyContent="center" mt={2}>
-                  <Pagination
-                    count={albumsTotalPages}
-                    page={albumsPage}
-                    onChange={handleAlbumsPageChange}
-                    color="primary"
-                  />
-                </Box>
-              </>
-            )}
-          </ArchiveBossAccordion>
-          <ArchiveBossAccordion color="#8F4650" name="Sted">
-            {loading.places ? (
-              <Typography>Laster steder...</Typography>
-            ) : (
-              <>
-                <Grid container spacing={2}>
-                  {places.map((place: PlaceDto, index: number) => (
-                    <Grid item key={index} xs={12} sm={4}>
-                      <ArchiveBossElement
-                        text={place.name}
-                        id={place.placeId.id}
-                        type="place"
-                        key={index}
-                      />
-                    </Grid>
-                  ))}
-                </Grid>
-                <Box display="flex" justifyContent="center" mt={2}>
-                  <Pagination
-                    count={placesTotalPages}
-                    page={placesPage}
-                    onChange={handlePlacesPageChange}
-                    color="primary"
-                  />
-                </Box>
-              </>
-            )}
-          </ArchiveBossAccordion>
-          <ArchiveBossAccordion color="#605C5C" name="Kategori">
-            {loading.categories ? (
-              <Typography>Laster kategorier...</Typography>
-            ) : (
-              <>
-                <Grid container spacing={2}>
-                  {categories.map((category: CategoryDto, index: number) => (
-                    <Grid item key={index} xs={12} sm={4}>
-                      <ArchiveBossElement
-                        text={category.name}
-                        id={category.categoryId.id}
-                        type="category"
-                        key={index}
-                      />
-                    </Grid>
-                  ))}
-                </Grid>
-                <Box display="flex" justifyContent="center" mt={2}>
-                  <Pagination
-                    count={categoriesTotalPages}
-                    page={categoriesPage}
-                    onChange={handleCategoriesPageChange}
-                    color="primary"
-                  />
-                </Box>
-              </>
-            )}
-          </ArchiveBossAccordion>
+        <div className={styles.users}>
+          <Button onClick={() => setCreateUser(true)}>Lag bruker</Button>
+          {createUser && (
+            <ArchiveBossCreateUsers setCreateUser={setCreateUser} />
+          )}
+          <Button onClick={() => setOverview(true)}>Brukere</Button>
+          {overview && <ArchiveBossOverView setOverview={setOverview} />}
         </div>
-      </ArchiveBossContext.Provider>
-    </>
+
+        <div className={styles.description}>
+          <div className={styles.descriptionInner}>
+            <ArchiveBossAddElements />
+            <p>
+              Denne siden er for fotogjengens Arkivsjef. Her kan du legge til,
+              slette, eller endre Album, Kategorier, Steder eller Medium. Vær
+              meget forsiktig med å forandre albumnavn dersom albumet har bilder
+              liggende i seg - det ødelegger mappestrukturen til bildene.
+            </p>
+          </div>
+        </div>
+
+        <ArchiveBossAccordion color="#BE3144" name="Album">
+          {loading.albums ? (
+            <p>Laster album...</p>
+          ) : (
+            <>
+              <div className={styles.grid}>
+                {albums.map((album, index) => (
+                  <ArchiveBossElement
+                    key={index}
+                    text={album.title}
+                    id={album.albumId.id}
+                    type="album"
+                  />
+                ))}
+              </div>
+              <div className={styles.pagination}>
+                <Pagination
+                  currentPage={albumsPage}
+                  totalPages={albumsTotalPages}
+                  onPageChange={(page) => {
+                    setAlbumsPage(page);
+                    void fetchAlbums(page);
+                  }}
+                />
+              </div>
+            </>
+          )}
+        </ArchiveBossAccordion>
+
+        <ArchiveBossAccordion color="#8F4650" name="Sted">
+          {loading.places ? (
+            <p>Laster steder...</p>
+          ) : (
+            <>
+              <div className={styles.grid}>
+                {places.map((place, index) => (
+                  <ArchiveBossElement
+                    key={index}
+                    text={place.name}
+                    id={place.placeId.id}
+                    type="place"
+                  />
+                ))}
+              </div>
+              <div className={styles.pagination}>
+                <Pagination
+                  currentPage={placesPage}
+                  totalPages={placesTotalPages}
+                  onPageChange={(page) => {
+                    setPlacesPage(page);
+                    void fetchPlaces(page);
+                  }}
+                />
+              </div>
+            </>
+          )}
+        </ArchiveBossAccordion>
+
+        <ArchiveBossAccordion color="#605C5C" name="Kategori">
+          {loading.categories ? (
+            <p>Laster kategorier...</p>
+          ) : (
+            <>
+              <div className={styles.grid}>
+                {categories.map((category, index) => (
+                  <ArchiveBossElement
+                    key={index}
+                    text={category.name}
+                    id={category.categoryId.id}
+                    type="category"
+                  />
+                ))}
+              </div>
+              <div className={styles.pagination}>
+                <Pagination
+                  currentPage={categoriesPage}
+                  totalPages={categoriesTotalPages}
+                  onPageChange={(page) => {
+                    setCategoriesPage(page);
+                    void fetchCategories(page);
+                  }}
+                />
+              </div>
+            </>
+          )}
+        </ArchiveBossAccordion>
+      </div>
+    </ArchiveBossContext.Provider>
   );
 }
 

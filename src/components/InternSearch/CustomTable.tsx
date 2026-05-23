@@ -1,20 +1,14 @@
-import React, { FC, useContext, useState } from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import Pagination from "@mui/material/Pagination";
+import { useContext, useState } from "react";
+import { Pencil } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import styles from "./internSearch.module.css";
-import ToggleComponent from "./ToggleComponent";
+import tableStyles from "./CustomTable.module.css";
+import { Button } from "@/components/ui/input/Button";
+import { LayoutGrid, List } from "lucide-react";
 import { PhotoDto } from "../../../generated";
 import { createImgUrl } from "../../utils/createImgUrl/createImgUrl";
 import { ImageContext } from "../../contexts/ImageContext";
-import { Link } from "@tanstack/react-router";
-import { Button } from "@mui/material";
-import { Edit } from "@mui/icons-material";
+import { Pagination } from "../ui/navigation/Pagination";
 
 interface Props {
   photos: PhotoDto[];
@@ -24,139 +18,139 @@ interface Props {
   pageSize: number;
 }
 
-// Add security access
-
 const columns = [
   { id: "albumDto", label: "Album", width: "10%" },
   { id: "motive", label: "Motiv", width: "10%" },
-  { id: "date", label: "date", width: "10%" },
-  { id: "placeDto", label: "Place", width: "10%" },
-  { id: "securityLevel", label: "Security Level", width: "10%" },
-  // { id: "gang", label: "Gang" },
-  { id: "categoryDto", label: "Category", width: "10%" },
-  // { id: "photoGangBangerDto", label: "Photo Gang Banger" },
-  // { id: "photoTags", label: "Photo Tags" },
-  { id: "isGoodPicture", label: "Good Picture", width: "10%" },
+  { id: "date", label: "Dato", width: "10%" },
+  { id: "placeDto", label: "Sted", width: "10%" },
+  { id: "securityLevel", label: "Sikkerhetsnivå", width: "10%" },
+  { id: "categoryDto", label: "Kategori", width: "10%" },
+  { id: "isGoodPicture", label: "Høydepunkt", width: "10%" },
   { id: "scan", label: "Scan", width: "10%" },
-  { id: "small_url", label: "Minature", width: "15%" },
-  { id: "edit", label: "Edit", width: "5%" },
+  { id: "small_url", label: "Miniatyr", width: "15%" },
+  { id: "edit", label: "Rediger", width: "5%" },
 ];
 
-const CustomTable: FC<Props> = ({
+const CustomTable = ({
   photos,
   handlePageChange,
   page,
   photosCount,
   pageSize,
-}) => {
+}: Props) => {
   const { setPhotos, setPhotoIndex, setIsOpen } = useContext(ImageContext);
-  const handleChangePage = (event: any, newPage: any) => {
-    handlePageChange(newPage);
-  };
   const [isGrid, setIsGrid] = useState(true);
-  const handleChange = () => {
-    setIsGrid(!isGrid);
-  };
 
   const updateIndex = (index: number) => {
     setPhotos(photos);
     setPhotoIndex(index);
     setIsOpen(true);
   };
+
+  const totalPages = Math.ceil(photosCount / pageSize);
+
   return (
-    <Paper>
+    <div>
       <div className={styles.toggleHeader}>
         <div className={styles.pagination}>
           <Pagination
-            count={Math.ceil(photosCount / pageSize)}
-            page={page}
-            onChange={handleChangePage}
-            color="primary"
+            currentPage={page}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
           />
         </div>
         <div className={styles.toggleComponent}>
-          <ToggleComponent
-            value={isGrid ? "Grid" : "List"}
-            onChange={handleChange}
-          />
+          <Button
+            variant={isGrid ? "primary" : "subtle"}
+            size="sm"
+            onClick={() => setIsGrid(true)}
+          >
+            <LayoutGrid size={16} />
+          </Button>
+          <Button
+            variant={!isGrid ? "primary" : "subtle"}
+            size="sm"
+            onClick={() => setIsGrid(false)}
+          >
+            <List size={16} />
+          </Button>
         </div>
       </div>
-      <TableContainer>
-        <Table sx={{ tableLayout: "fixed", width: "100%" }}>
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell key={column.id} sx={{ width: column.width }}>
-                  {column.label}
-                </TableCell>
-              ))}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {photos
-              //.slice((page - 1) * rowsPerPage, page * rowsPerPage)
-              .map((photo, index: number) => (
-                <TableRow key={photo.photoId.id}>
-                  {columns.map((column) => (
-                    <TableCell key={column.id}>
-                      {/* Rendering logic based on column.id */}
-                      {column.id === "albumDto" && photo.albumDto.title}
-                      {column.id === "motive" && photo.motive.title}
-                      {column.id === "date" && `${photo.dateTaken}`}
-                      {column.id === "placeDto" && photo.placeDto.name}
-                      {column.id === "securityLevel" &&
-                        photo.securityLevel.securityLevelType}
-                      {/* {column.id === "gang" && photo.gang.name} */}
-                      {column.id === "categoryDto" && photo.categoryDto.name}
-                      {/* {column.id === "photoGangBangerDto" &&
-                        photo.photoGangBangerDto.samfundetUser?.firstName}
-                      {column.id === ""} */}
 
-                      {/* 
-                      {column.id === "photoTags" && 
-                        photo.photoTags.map((tag) => tag.name).join(", ")}
-                      */}
-                      {column.id === "isGoodPicture" &&
-                        `${photo.isGoodPicture}`}
-                      {column.id === "scan" && (
-                        <div className={styles.scanButtons}>
-                          <Button>Web</Button>
-                          <Button>Prod</Button>
-                        </div>
-                      )}
-                      {column.id === "small_url" && (
+      <div className={tableStyles.tableContainer}>
+        <table className={tableStyles.table}>
+          <thead>
+            <tr>
+              {columns.map((column) => (
+                <th
+                  key={column.id}
+                  className={tableStyles.th}
+                  style={{ width: column.width }}
+                >
+                  {column.label}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {photos.map((photo, index) => (
+              <tr key={photo.photoId.id} className={tableStyles.tr}>
+                {columns.map((column) => (
+                  <td key={column.id} className={tableStyles.td}>
+                    {column.id === "albumDto" && photo.albumDto.title}
+                    {column.id === "motive" && photo.motive.title}
+                    {column.id === "date" && `${photo.dateTaken}`}
+                    {column.id === "placeDto" && photo.placeDto.name}
+                    {column.id === "securityLevel" &&
+                      photo.securityLevel.securityLevelType}
+                    {column.id === "categoryDto" && photo.categoryDto.name}
+                    {column.id === "isGoodPicture" && `${photo.isGoodPicture}`}
+                    {column.id === "scan" && (
+                      <div className={styles.scanButtons}>
+                        <Button size="sm" variant="subtle">
+                          Web
+                        </Button>
+                        <Button size="sm" variant="subtle">
+                          Prod
+                        </Button>
+                      </div>
+                    )}
+                    {column.id === "small_url" && (
+                      <Button
+                        variant="subtle"
+                        size="sm"
+                        onClick={() => updateIndex(index)}
+                        className={tableStyles.thumbnailButton}
+                      >
                         <img
                           src={createImgUrl(photo)}
                           className={styles.thumbnailImage}
-                          onClick={() => updateIndex(index)}
+                          alt={photo.motive.title}
                         />
-                      )}
-                      {column.id === "edit" && (
-                        <Button
-                          className={styles.editButton}
-                          color="error"
-                          component={Link}
-                          to={`/fg/editPhoto/${photo.photoId.id}`}
-                        >
-                          <Edit />
-                        </Button>
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <div className={styles.pagination2}>
-        <Pagination
-          count={Math.ceil(photosCount / pageSize)}
-          page={page}
-          onChange={handleChangePage}
-          color="primary"
-        />
+                      </Button>
+                    )}
+                    {column.id === "edit" && (
+                      <Button
+                        size="sm"
+                        variant="subtle"
+                        asChild
+                        className={styles.editButton}
+                      >
+                        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+                        {/* @ts-expect-error route not yet registered */}
+                        <Link to={`/fg/editPhoto/${photo.photoId.id}`}>
+                          <Pencil size={16} />
+                        </Link>
+                      </Button>
+                    )}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
-    </Paper>
+    </div>
   );
 };
 

@@ -1,0 +1,127 @@
+.button {
+  border-radius: var(--size-radius-full);
+  border-width: var(--size-stroke-border);
+  border-style: solid;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.sm {
+  width: var(--size-icon-small);
+  height: var(--size-icon-small);
+}
+
+.md {
+  width: var(--size-icon-medium);
+  height: var(--size-icon-medium);
+}
+
+.lg {
+  width: var(--size-icon-large);
+  height: var(--size-icon-large);
+}
+
+.primary {
+  background-color: var(--color-background-brand-default);
+  color: var(--color-text-brand-on-brand);
+  border-color: var(--color-border-brand-default);
+}
+
+.primary:hover {
+  background-color: var(--color-background-brand-hover);
+}
+
+.primary:disabled {
+  background-color: var(--color-background-disabled-default);
+  color: var(--color-text-disabled-on-disabled);
+  border-color: var(--color-border-disabled-default);
+  cursor: not-allowed;
+}
+
+.neutral {
+  background-color: var(--color-background-default-default);
+  color: var(--color-text-default-default);
+  border-color: var(--color-border-default-default);
+}
+
+.neutral:hover {
+  background-color: var(--color-background-default-hover);
+}
+
+.neutral:disabled {
+  background-color: var(--color-background-disabled-default);
+  color: var(--color-text-disabled-on-disabled);
+  border-color: var(--color-border-disabled-default);
+  cursor: not-allowed;
+}
+
+.subtle {
+  background-color: transparent;
+  color: var(--color-text-neutral-default);
+  border-color: transparent;
+}
+
+.subtle:hover {
+  border-color: var(--color-border-default-default);
+}
+
+.subtle:disabled {
+  background-color: var(--color-background-disabled-default);
+  color: var(--color-text-disabled-on-disabled);
+  cursor: not-allowed;
+}
+
+.transparent {
+  background-color: var(--color-background-transparent-default);
+  color: var(--color-text-transparent-on-transparent);
+  border-color: var(--color-border-transparent-default);
+}
+
+.transparent:hover {
+  background-color: var(--color-background-transparent-hover);
+}
+
+.transparent:disabled {
+  background-color: var(--color-background-transparent-default);
+  color: var(--color-text-disabled-on-disabled);
+  border-color: var(--color-border-transparent-default);
+  cursor: not-allowed;
+}
+
+.danger {
+  background-color: var(--color-background-danger-default);
+  color: var(--color-text-danger-on-danger);
+  border-color: var(--color-border-danger-default);
+}
+
+.danger:hover {
+  background-color: var(--color-background-danger-hover);
+}
+
+.danger:disabled {
+  background-color: var(--color-background-disabled-default);
+  color: var(--color-text-disabled-on-disabled);
+  border-color: var(--color-border-disabled-default);
+  cursor: not-allowed;
+}
+
+.subtle-danger {
+  background-color: transparent;
+  color: var(--color-text-danger-default);
+  border-color: transparent;
+}
+
+.subtle-danger:hover {
+  border-color: var(--color-border-danger-default);
+  background-color: var(--color-background-danger-tertiary-hover);
+}
+
+.subtle-danger:disabled {
+  background-color: var(--color-background-disabled-default);
+  color: var(--color-text-disabled-on-disabled);
+  cursor: not-allowed;
+}

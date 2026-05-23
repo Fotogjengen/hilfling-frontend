@@ -1,16 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
-import {
-  Autocomplete,
-  Button,
-  Grid,
-  IconButton,
-  TextField,
-  Typography,
-} from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { Pencil, Trash2 } from "lucide-react";
+import { useContext, useEffect, useState } from "react";
 import {
   AlbumDto,
   CategoryDto,
@@ -25,6 +15,9 @@ import styles from "./motiveEdit.module.css";
 import MotiveCard from "@/components/MotiveCard/MotiveCard";
 import { AlertContext, severityEnum } from "@/contexts/AlertContext";
 import DeleteDialog from "@/components/DeleteDialog/DeleteDialog";
+import { TextInput } from "@/components/ui/input/TextInput";
+import { Combobox } from "@/components/ui/input/Combobox";
+import { Button } from "@/components/ui/input/Button";
 
 export const Route = createFileRoute(
   "/_authenticated/_fgAuthenticated/fg/motive/edit/$motiveId",
@@ -37,268 +30,116 @@ function EditMotive() {
   const [albums, setAlbums] = useState<AlbumDto[]>([]);
   const [categories, setCategories] = useState<CategoryDto[]>([]);
   const [eventOwners, setEventOwners] = useState<EventOwnerDto[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
-  const [, setAnchorEl] = useState<null | HTMLElement>(null);
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const [loading, setLoading] = useState(true);
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
   const { setMessage, setSeverity, setOpen } = useContext(AlertContext);
-
   const navigate = useNavigate();
-
   const { motiveId: id } = Route.useParams();
 
+  const setError = (e: unknown) => {
+    setOpen(true);
+    setSeverity(severityEnum.ERROR);
+    setMessage(String(e));
+  };
+
   useEffect(() => {
-    if (id) {
-      MotiveApi.getById(id)
-        .then((res) => setMotive(res))
-        .catch((e) => {
-          setOpen(true);
-          setSeverity(severityEnum.ERROR);
-          setMessage(e);
-        });
-      AlbumApi.getAll()
-        .then((res) => setAlbums(res.data.currentList))
-        .catch((e) => {
-          setOpen(true);
-          setSeverity(severityEnum.ERROR);
-          setMessage(e);
-        });
-      CategoryApi.getAll()
-        .then((res) => setCategories(res.data.currentList))
-        .catch((e) => {
-          setOpen(true);
-          setSeverity(severityEnum.ERROR);
-          setMessage(e);
-        });
-      EventOwnerApi.getAll()
-        .then((res) => setEventOwners(res.data.currentList))
-        .catch((e) => {
-          setOpen(true);
-          setSeverity(severityEnum.ERROR);
-          setMessage(e);
-        });
-    }
+    if (!id) return;
+    Promise.all([
+      MotiveApi.getById(id).then(setMotive),
+      AlbumApi.getAll().then((res) => setAlbums(res.data.currentList)),
+      CategoryApi.getAll().then((res) => setCategories(res.data.currentList)),
+      EventOwnerApi.getAll().then((res) =>
+        setEventOwners(res.data.currentList),
+      ),
+    ])
+      .catch(setError)
+      .finally(() => setLoading(false));
   }, []);
 
-  useEffect(() => {
-    if (motive && albums && categories && eventOwners) {
-      setLoading(false);
-    }
-  }, [motive, albums, categories, eventOwners]);
-
   const handleClickPatch = () => {
-    MotiveApi.patch(motive)
+    void MotiveApi.patch(motive)
       .then(() => {
-        void navigate({
-          to: "/fg/motive",
-        });
+        void navigate({ to: "/fg/motive" });
         setOpen(true);
         setSeverity(severityEnum.SUCCESS);
         setMessage(`Motivet ${motive.title} ble oppdatert`);
       })
-      .catch((e) => {
-        setOpen(true);
-        setSeverity(severityEnum.ERROR);
-        setMessage(e);
-      });
-  };
-
-  const handleDialogClose = (value: boolean) => {
-    setOpenDeleteDialog(false);
-    if (value == true) {
-      handleDelete();
-    }
-  };
-
-  const handleBeforeDelete = () => {
-    handleClose();
-    setOpenDeleteDialog(true);
+      .catch(setError);
   };
 
   const handleDelete = () => {
-    // TODO: We don't have an endpoint for deleting motives yet
-    console.log("deleted");
-    void navigate({
-      to: "/fg/motive",
-    });
-    /* MotiveApi.delete(motive.motiveId.id)
-      .then(() => {
-        navigate("/intern/motive");
-        setOpen(true);
-        setSeverity(severityEnum.SUCCESS);
-        setMessage(`Motivet ${motive.title} ble slettet`);
-      })
-      .catch((e) => {
-        setOpen(true);
-        setSeverity(severityEnum.ERROR);
-        setMessage(e);
-      }); */
+    // TODO: No delete endpoint yet
+    void navigate({ to: "/fg/motive" });
   };
 
   return (
     <div className={styles.editMotive}>
       <h2>Rediger {motive?.title}</h2>
-      <Grid container spacing={2} alignItems="center">
-        {loading ? (
-          <p>Loading...</p>
-        ) : (
-          <>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                value={motive.title || ""}
-                onChange={(e) =>
-                  setMotive({ ...motive, title: e.target.value })
-                }
-                label="Endre navn på motiv"
-                margin="normal"
-                fullWidth
-              />
-              <Autocomplete
-                disablePortal
-                getOptionLabel={(categories: CategoryDto) =>
-                  categories?.name || ""
-                }
-                options={categories.map((category) => category)}
-                // Used to suppress a warning idk why
-                isOptionEqualToValue={(option, value) => option !== value}
-                value={motive?.categoryDto || ""}
-                onChange={(e, value) => {
-                  if (value) {
-                    setMotive({
-                      ...motive,
-                      categoryDto: {
-                        ...motive.categoryDto,
-                        name: value.name,
-                        categoryId: {
-                          ...motive.categoryDto?.categoryId,
-                          id: value.categoryId.id,
-                        },
-                      },
-                    });
-                  }
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    fullWidth
-                    label="Endre kategori"
-                    margin="normal"
-                  />
-                )}
-              />
-              <Autocomplete
-                disablePortal
-                getOptionLabel={(albums: AlbumDto) => albums?.title || ""}
-                options={albums.map((album) => album || "")}
-                isOptionEqualToValue={(option, value) => option !== value}
-                value={motive?.albumDto || ""}
-                onChange={(e, value) => {
-                  if (value) {
-                    setMotive({
-                      ...motive,
-                      albumDto: {
-                        ...motive.albumDto,
-                        title: value.title,
-                        albumId: {
-                          ...motive.albumDto?.albumId,
-                          id: value.albumId.id,
-                        },
-                      },
-                    });
-                  }
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    fullWidth
-                    label="Endre album"
-                    margin="normal"
-                  />
-                )}
-              />
-              <Autocomplete
-                disablePortal
-                getOptionLabel={(eventOwners: EventOwnerDto) =>
-                  eventOwners?.name || ""
-                }
-                options={eventOwners.map((eventOwner) => eventOwner)}
-                isOptionEqualToValue={(option, value) => option !== value}
-                value={motive?.eventOwnerDto || ""}
-                onChange={(e, value) => {
-                  if (value) {
-                    setMotive({
-                      ...motive,
-                      eventOwnerDto: {
-                        ...motive.eventOwnerDto,
-                        name: value.name,
-                        eventOwnerId: {
-                          ...motive.eventOwnerDto?.eventOwnerId,
-                          id: value.eventOwnerId.id,
-                        },
-                      },
-                    });
-                  }
-                }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    fullWidth
-                    label="Endre eier"
-                    margin="normal"
-                  />
-                )}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <Typography variant="h6">Slik vil motivet se ut</Typography>
-              <MotiveCard key={1} motive={motive}>
-                <Grid container spacing={2} alignItems="center">
-                  <Grid item xs={12} sm={10}>
-                    {motive?.title == "" ? (
-                      <Button
-                        size="small"
-                        variant="outlined"
-                        endIcon={<EditIcon />}
-                        disabled
-                        fullWidth
-                      >
-                        Endre motivet
-                      </Button>
-                    ) : (
-                      <Button
-                        size="small"
-                        endIcon={<EditIcon />}
-                        onClick={handleClickPatch}
-                        variant="outlined"
-                        fullWidth
-                      >
-                        Endre motivet
-                      </Button>
-                    )}
-                  </Grid>
-                  <Grid item xs={12} sm={2}>
-                    <IconButton
-                      color="primary"
-                      aria-label="upload picture"
-                      component="label"
-                      onClick={() => handleBeforeDelete()}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </Grid>
-                </Grid>
-              </MotiveCard>
-            </Grid>
-          </>
-        )}
-      </Grid>
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <div className={styles.grid}>
+          <div className={styles.fields}>
+            <TextInput
+              label="Endre navn på motiv"
+              value={motive.title ?? ""}
+              onChange={(e) => setMotive({ ...motive, title: e.target.value })}
+            />
+            <Combobox
+              label="Endre kategori"
+              options={categories}
+              value={motive.categoryDto ?? null}
+              getOptionLabel={(c) => c.name ?? ""}
+              onChange={(c) => setMotive({ ...motive, categoryDto: c })}
+            />
+            <Combobox
+              label="Endre album"
+              options={albums}
+              value={motive.albumDto ?? null}
+              getOptionLabel={(a) => a.title ?? ""}
+              onChange={(a) => setMotive({ ...motive, albumDto: a })}
+            />
+            <Combobox
+              label="Endre eier"
+              options={eventOwners}
+              value={motive.eventOwnerDto ?? null}
+              getOptionLabel={(e) => e.name ?? ""}
+              onChange={(e) => setMotive({ ...motive, eventOwnerDto: e })}
+            />
+          </div>
+
+          <div className={styles.preview}>
+            <h6>Slik vil motivet se ut</h6>
+            <MotiveCard motive={motive}>
+              <div className={styles.cardActions}>
+                <Button
+                  variant="neutral"
+                  size="sm"
+                  disabled={!motive.title}
+                  onClick={handleClickPatch}
+                >
+                  <Pencil size={14} />
+                  Endre motivet
+                </Button>
+                <Button
+                  variant="danger"
+                  size="sm"
+                  onClick={() => setOpenDeleteDialog(true)}
+                >
+                  <Trash2 size={14} />
+                </Button>
+              </div>
+            </MotiveCard>
+          </div>
+        </div>
+      )}
       <DeleteDialog
         open={openDeleteDialog}
-        onClose={handleDialogClose}
+        onClose={(confirmed) => {
+          setOpenDeleteDialog(false);
+          if (confirmed) handleDelete();
+        }}
         name={motive.title}
       />
     </div>

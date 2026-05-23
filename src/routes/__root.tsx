@@ -1,11 +1,8 @@
 import { useState, useMemo, useContext } from "react";
-import { Box, ThemeProvider, CssBaseline } from "@mui/material";
-import { GuiFooter } from "../gui-components";
+import Footer from "@/components/Footer/Footer";
 import HeaderComponent from "../components/Header/Header";
-import { theme } from "../styles/muiStyles";
 import { AlertContext, severityEnum } from "../contexts/AlertContext";
 import { ImageContext } from "../contexts/ImageContext";
-import Alert from "../components/Alert/Alert";
 import { PhotoSlider } from "react-photo-view";
 import "react-photo-view/dist/react-photo-view.css";
 import { PhotoDto } from "../../generated";
@@ -13,13 +10,20 @@ import { createImgUrl } from "../utils/createImgUrl/createImgUrl";
 import DownloadButton from "../components/DownloadImages/DownloadButton/DownloadButton";
 import { AdBannerContext } from "../contexts/AdBannerContext";
 import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
+import styles from "./__root.module.css";
 import {
   AuthenticationContext,
   AuthState,
 } from "../contexts/AuthenticationContext";
 import TitleBanner from "@/components/TitleBanner/TitleBanner";
+import {
+  Toast,
+  ToastClose,
+  ToastProvider,
+  ToastViewport,
+} from "@/components/ui/overlay/Toast";
+import { X } from "lucide-react";
 
-// What state we want to pass along with the router context.
 interface RouterContext {
   auth: AuthState;
 }
@@ -28,41 +32,42 @@ export const Route = createRootRouteWithContext<RouterContext>()({
   component: RootComponent,
 });
 
+function SliderToolbar({
+  currentIndex,
+  isAuthenticated,
+}: {
+  currentIndex: unknown;
+  isAuthenticated: boolean;
+}) {
+  return (
+    <DownloadButton
+      currentIndex={currentIndex}
+      isAuthenticated={isAuthenticated}
+    />
+  );
+}
+
+function SliderOverlay({ photo }: { photo: PhotoDto }) {
+  return <TitleBanner photo={photo} />;
+}
+
 function RootComponent() {
-  // Hooks for the Alert component
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [severity, setSeverity] = useState(severityEnum.INFO);
   const [photos, setPhotos] = useState<PhotoDto[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [photoIndex, setPhotoIndex] = useState(0);
-
-  // Hooks for Ad Banner
   const [showAdBanner, setShowAdBanner] = useState(false);
   const [shouldShowAdBanner, setShouldShowAdBanner] = useState(true);
 
-  // Memoized context values to avoid unnecessary re-renders
   const alertContextValue = useMemo(
-    () => ({
-      open,
-      setOpen,
-      setMessage,
-      message,
-      setSeverity,
-      severity,
-    }),
+    () => ({ open, setOpen, setMessage, message, setSeverity, severity }),
     [open, message, severity],
   );
 
   const imageContextValue = useMemo(
-    () => ({
-      isOpen,
-      setIsOpen,
-      photoIndex,
-      setPhotoIndex,
-      photos,
-      setPhotos,
-    }),
+    () => ({ isOpen, setIsOpen, photoIndex, setPhotoIndex, photos, setPhotos }),
     [isOpen, photoIndex, photos],
   );
 
@@ -79,24 +84,15 @@ function RootComponent() {
   const { isAuthenticated } = useContext(AuthenticationContext);
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
+    <ToastProvider>
       <AdBannerContext.Provider value={adBannerContextValue}>
         <ImageContext.Provider value={imageContextValue}>
           <AlertContext.Provider value={alertContextValue}>
-            {open && (
-              <Alert
-                open={open}
-                setOpen={setOpen}
-                message={message}
-                severity={severity}
-              />
-            )}
-            <Box sx={{ m: "2rem" }}>
+            <div className={styles.main}>
               <HeaderComponent />
               <Outlet />
-            </Box>
-            <GuiFooter />
+            </div>
+            <Footer />
           </AlertContext.Provider>
 
           <PhotoSlider
@@ -109,15 +105,28 @@ function RootComponent() {
             onClose={() => setIsOpen(false)}
             onIndexChange={(newIndex) => setPhotoIndex(newIndex)}
             toolbarRender={(photoIndex) => (
-              <DownloadButton
+              <SliderToolbar
                 currentIndex={photoIndex}
                 isAuthenticated={isAuthenticated}
               />
             )}
-            overlayRender={() => <TitleBanner photo={photos[photoIndex]} />}
+            overlayRender={() => <SliderOverlay photo={photos[photoIndex]} />}
           />
         </ImageContext.Provider>
       </AdBannerContext.Provider>
-    </ThemeProvider>
+
+      <Toast
+        open={open}
+        onOpenChange={setOpen}
+        duration={4000}
+        severity={severity}
+      >
+        <span>{message}</span>
+        <ToastClose aria-label="Lukk">
+          <X size={16} />
+        </ToastClose>
+      </Toast>
+      <ToastViewport />
+    </ToastProvider>
   );
 }

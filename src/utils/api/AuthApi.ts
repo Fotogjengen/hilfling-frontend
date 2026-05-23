@@ -18,8 +18,6 @@ export const AuthAPi = {
       },
     );
 
-    console.log("Login response:", response.data);
-
     return response.data;
   },
 };

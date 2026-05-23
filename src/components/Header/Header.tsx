@@ -1,24 +1,25 @@
 import { useContext, useEffect, useState } from "react";
 import styles from "./Header.module.css";
-import { GuiLogo } from "../../gui-components";
-import { Grow, Collapse } from "@mui/material";
-import ImageIcon from "@mui/icons-material/Image";
-import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
-import InfoIcon from "@mui/icons-material/Info";
-import LockIcon from "@mui/icons-material/Lock";
-import SearchIcon from "@mui/icons-material/Search";
+import {
+  Image,
+  Menu,
+  X,
+  Info,
+  Lock,
+  Search,
+  ScanSearch,
+  Camera,
+  LogOut,
+} from "lucide-react";
 import { AuthenticationContext } from "../../contexts/AuthenticationContext";
 import LoginButton from "../Login/LoginButton/LoginButton";
-import ImageSearchIcon from "@mui/icons-material/ImageSearch";
-import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
-import LogoutIcon from "@mui/icons-material/Logout";
 import { Link } from "@tanstack/react-router";
+import Logo from "../Icons/Logo";
+import ThemeToggle from "./ThemeToggle/ThemeToggle";
 
 export function HeaderComponent() {
   const { isAuthenticated, position } = useContext(AuthenticationContext);
   const [showHamburgerMenu, setShowHamburgerMenu] = useState(false);
-
   useEffect(() => {
     const handleResize = () => setShowHamburgerMenu(false);
     window.addEventListener("resize", handleResize);
@@ -30,35 +31,33 @@ export function HeaderComponent() {
     {
       name: "BILDER",
       to: "/photos",
-      icon: ImageIcon,
+      icon: Image,
       noAuth: true,
     },
     {
       name: "OM OSS",
       to: "/about",
-      icon: InfoIcon,
+      icon: Info,
       noAuth: true,
     },
-
     {
       name: "SØK",
       to: "/search",
-      icon: SearchIcon,
+      icon: Search,
       noAuth: true,
     },
-
     ...(isAuthenticated && position === "FG"
       ? [
           {
             name: "INTERNSØK",
             to: "/intern/search",
-            icon: ImageSearchIcon,
+            icon: ScanSearch,
             noAuth: true,
           },
           {
             name: "FG",
             to: "/fg",
-            icon: PhotoCameraIcon,
+            icon: Camera,
             noAuth: true,
           },
         ]
@@ -66,13 +65,13 @@ export function HeaderComponent() {
     {
       name: "LOGG INN",
       to: "/login",
-      icon: LockIcon,
+      icon: Lock,
       noAuth: !isAuthenticated,
     },
     {
       name: "LOGG UT",
       to: "/login",
-      icon: LogoutIcon,
+      icon: LogOut,
       noAuth: isAuthenticated,
     },
   ];
@@ -81,51 +80,66 @@ export function HeaderComponent() {
     <nav className={styles.nav}>
       <div className={styles.navHead}>
         <Link to="/">
-          <GuiLogo size={50} />
+          <Logo size={50} />
         </Link>
-        <div className={styles.hamburger}>
-          {showHamburgerMenu ? (
-            <CloseIcon
-              onClick={() => setShowHamburgerMenu(false)}
-              fontSize="large"
-            />
-          ) : (
-            <MenuIcon
-              onClick={() => setShowHamburgerMenu(true)}
-              fontSize="large"
-            />
-          )}
+        <div className={styles.navHeadActions}>
+          <div className={styles.mobileThemeToggle}>
+            <ThemeToggle />
+          </div>
+          <button
+            className={styles.hamburger}
+            onClick={() => setShowHamburgerMenu((v) => !v)}
+            aria-label={showHamburgerMenu ? "Lukk meny" : "Åpne meny"}
+          >
+            {showHamburgerMenu ? <X size={28} /> : <Menu size={28} />}
+          </button>
         </div>
       </div>
-      <Collapse in={showHamburgerMenu} className={styles.navMenuList}>
-        <>
-          {menuLinks.map((link, index) => {
-            if (link.noAuth) {
-              return (
-                <Grow
-                  key={index}
-                  in={showHamburgerMenu}
-                  style={{ transformOrigin: "0 0 0" }}
-                  {...(showHamburgerMenu ? { timeout: index * 500 + 500 } : {})}
-                >
-                  <Link className={styles.menuLink} to={link.to}>
-                    {link.name} <link.icon />
-                  </Link>
-                </Grow>
-              );
-            }
-          })}
-        </>
-      </Collapse>
+      <div
+        className={[
+          styles.navMenuList,
+          showHamburgerMenu ? styles.navMenuListOpen : styles.navMenuListClosed,
+        ]
+          .filter(Boolean)
+          .join(" ")}
+      >
+        {menuLinks
+          .filter((link) => link.noAuth)
+          .map((link) => (
+            <Link
+              key={link.name}
+              className={styles.menuLink}
+              to={link.to}
+              onClick={() => setShowHamburgerMenu(false)}
+            >
+              {link.name} <link.icon size={18} />
+            </Link>
+          ))}
+      </div>
       <div className={styles.navContainer}>
         <div className={styles.navList}>
-          <Link to="/photos">BILDER</Link>
-          <Link to="/about">OM OSS</Link>
-          <Link to="/search">SØK</Link>
-          {isAuthenticated && <Link to="/intern/search">INTERNSØK</Link>}
-          {isAuthenticated && position === "FG" && <Link to="/fg">FG</Link>}
+          <Link className={styles.navLink} to="/photos">
+            BILDER
+          </Link>
+          <Link className={styles.navLink} to="/about">
+            OM OSS
+          </Link>
+          <Link className={styles.navLink} to="/search">
+            SØK
+          </Link>
+          {isAuthenticated && (
+            <Link className={styles.navLink} to="/intern/search">
+              INTERNSØK
+            </Link>
+          )}
+          {isAuthenticated && position === "FG" && (
+            <Link className={styles.navLink} to="/fg">
+              FG
+            </Link>
+          )}
         </div>
         <div className={styles.loggContainer}>
+          <ThemeToggle />
           <LoginButton />
         </div>
       </div>

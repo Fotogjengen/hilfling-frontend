@@ -1,41 +1,32 @@
-import React from "react";
+import { ReactNode } from "react";
 import {
   Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  Typography,
-} from "@mui/material";
-import { styled } from "@mui/material/styles";
-import { ExpandMore } from "@mui/icons-material";
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "@/components/ui/display/Accordion";
 import styles from "./ArchiveBossAccordion.module.css";
-import { DefaultProps } from "../../../types";
 
-interface Props extends DefaultProps {
+interface Props {
   color: string;
   name: string;
-  children?: React.ReactNode;
+  children?: ReactNode;
 }
-const StyledAccordionSummary = styled(AccordionSummary)<{
-  backgroundcolor: string;
-}>(({ backgroundcolor }) => ({
-  backgroundColor: backgroundcolor,
-  padding: "1rem",
-}));
 
-const ArchiveBossAccordion = ({ color, name, children }: Props) => {
+function ArchiveBossAccordion({ color, name, children }: Props) {
   return (
-    <div className={styles.archiveBossAccordion}>
-      <Accordion>
-        <StyledAccordionSummary
-          backgroundcolor={color}
-          expandIcon={<ExpandMore sx={{ color: "white", fontSize: 50 }} />}
+    <Accordion type="single" collapsible className={styles.accordion}>
+      <AccordionItem value="item">
+        <AccordionTrigger
+          className={styles.trigger}
+          style={{ "--accordion-color": color } as React.CSSProperties}
         >
-          <Typography color="white">{name}</Typography>
-        </StyledAccordionSummary>
-        <AccordionDetails>{children}</AccordionDetails>
-      </Accordion>
-    </div>
+          {name}
+        </AccordionTrigger>
+        <AccordionContent>{children}</AccordionContent>
+      </AccordionItem>
+    </Accordion>
   );
-};
+}
 
 export default ArchiveBossAccordion;

@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button, TextField, Stack } from "@mui/material";
+import { Button } from "@/components/ui/input/Button";
+import { TextInput } from "@/components/ui/input/TextInput";
 import { useState } from "react";
 import "./firstgame.css";
 import Wheel from "@/components/NewProjects/components/Wheel";
@@ -31,25 +32,21 @@ function Firstgame() {
       <h1 id="game1">Her er game 1</h1>
       <h2>Skriv inn navnet på deltakerne</h2>
 
-      <Stack spacing={2} alignItems="center" width="300px">
+      <div>
         {players.map((val, i) => (
-          <TextField
-            key={i}
+          <TextInput
+            key={val || i}
             label={`Deltaker ${i + 1}`}
             value={val}
             onChange={(e) => handleChange(i, e.target.value)}
           />
         ))}
-      </Stack>
+      </div>
       <div id="button-box">
-        <Button id="add-button" variant="contained" onClick={addInput}>
+        <Button id="add-button" onClick={addInput}>
           Legg til
         </Button>
-        <Button
-          id="play-button"
-          variant="contained"
-          onClick={() => setGameStarted(true)}
-        >
+        <Button id="play-button" onClick={() => setGameStarted(true)}>
           Start game
         </Button>
       </div>

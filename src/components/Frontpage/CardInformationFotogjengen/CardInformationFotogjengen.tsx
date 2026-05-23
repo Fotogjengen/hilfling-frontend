@@ -1,5 +1,4 @@
-import React, { FC } from "react";
-import { GuiCard, GuiCardTitle } from "../../../gui-components";
+import styles from "./CardInformationFotogjengen.module.css";
 import { Link } from "@tanstack/react-router";
 
 interface Props {
@@ -8,28 +7,22 @@ interface Props {
   link?: string;
 }
 
-const CardInformationFotogjengen: FC<Props> = ({
-  title,
-  description,
-  link,
-}) => {
+const CardInformationFotogjengen = ({ title, description, link }: Props) => {
   return (
-    <div>
-      <GuiCard>
-        <GuiCardTitle title={title} capitalized={true} />
-        <p style={{ whiteSpace: "pre-line" }}>{description}</p>
-        {link && (
-          <p>
-            <Link
-              style={{ color: "#ad2f33" }}
-              to={link}
-              onClick={() => window.scrollTo(0, 0)}
-            >
-              Les mer her.
-            </Link>
-          </p>
-        )}
-      </GuiCard>
+    <div className={styles.card}>
+      <h3 className={styles.title}>{title}</h3>
+      <p className={styles.description}>{description}</p>
+      {link && (
+        <p>
+          <Link
+            className={styles.link}
+            to={link}
+            onClick={() => window.scrollTo(0, 0)}
+          >
+            Les mer her.
+          </Link>
+        </p>
+      )}
     </div>
   );
 };

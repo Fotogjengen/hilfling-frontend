@@ -1,0 +1,12 @@
+.profileImage {
+  border-radius: 50%;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  object-fit: cover;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-background-default-default);
+  color: var(--color-text-neutral-default);
+}

@@ -1,16 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { AuthenticationContext } from "@/contexts/AuthenticationContext";
-import {
-  Button,
-  FormControl,
-  IconButton,
-  Input,
-  InputAdornment,
-  InputLabel,
-  TextField,
-} from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { TextInput } from "@/components/ui/input/TextInput";
+import { Button } from "@/components/ui/input/Button";
+import { Eye, EyeOff } from "lucide-react";
+import styles from "./login.module.css";
 
 export const Route = createFileRoute("/login")({
   component: MobileLogin,
@@ -46,12 +40,7 @@ function MobileLogin() {
     return (
       <div>
         <h2>Du er logget inn</h2>
-        <Button
-          variant="contained"
-          color="primary"
-          sx={{ mt: 3, width: "80%" }}
-          onClick={handleLogout}
-        >
+        <Button className={styles.button} onClick={handleLogout}>
           Logg ut
         </Button>
       </div>
@@ -59,44 +48,41 @@ function MobileLogin() {
   }
 
   return (
-    <div>
-      <FormControl sx={{ m: 1, width: "80%" }} variant="standard">
-        <TextField
-          label="Username"
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          variant="standard"
-        />
-      </FormControl>
-      <FormControl sx={{ m: 1, width: "80%" }} variant="standard">
-        <InputLabel htmlFor="password">Password</InputLabel>
-        <Input
-          id="password"
-          type={showPassword ? "text" : "password"}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          endAdornment={
-            <InputAdornment position="end">
-              <IconButton
-                onClick={() => setShowPassword(!showPassword)}
-                edge="end"
-              >
-                {showPassword ? <VisibilityOff /> : <Visibility />}
-              </IconButton>
-            </InputAdornment>
-          }
-        />
-      </FormControl>
-      <Button
-        variant="contained"
-        color="primary"
-        sx={{ mt: 3, width: "80%" }}
-        onClick={handleLogin}
-      >
+    <form
+      className={styles.form}
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleLogin();
+      }}
+    >
+      <TextInput
+        label="Username"
+        name="username"
+        type="text"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+      />
+      <TextInput
+        label="Password"
+        id="password"
+        type={showPassword ? "text" : "password"}
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        suffix={
+          <button
+            type="button"
+            className={styles.togglePassword}
+            onClick={() => setShowPassword(!showPassword)}
+            aria-label={showPassword ? "Skjul passord" : "Vis passord"}
+          >
+            {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+          </button>
+        }
+      />
+      <Button type="submit" className={styles.button}>
         LOGG INN
       </Button>
-    </div>
+    </form>
   );
 }
 

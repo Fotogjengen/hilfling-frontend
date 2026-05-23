@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import cx from "classnames";
 import styles from "./about.module.css";
-import cn from "classnames";
-import { Typography, Grid, Link } from "@mui/material";
 
 export const Route = createFileRoute("/about/history")({
   component: HistoryTab,
@@ -9,24 +8,24 @@ export const Route = createFileRoute("/about/history")({
 
 function HistoryTab() {
   return (
-    <Grid container spacing={4} padding={"0.5rem"}>
-      <Grid item xs={12} md={6}>
-        <Typography variant="h6">
+    <div className={styles.twoCol}>
+      <div>
+        <h3>
           <b>HVORFOR HAR VI FOTOGJENGEN PÅ SAMF?</b>
-        </Typography>
-        <Typography paragraph>
+        </h3>
+        <p>
           Fotogjengen er en gjeng ved{" "}
-          <Link href="https://www.samfundet.no/">Studentersamfundet</Link> i
+          <a href="https://www.samfundet.no/">Studentersamfundet</a> i
           Trondhjem. Vi har som oppgave å ta bilder av alt som skjer på
           Samfundet, under UKA og under ISFiT. Vi består av 12 fotofunksjonærer
           og webfunksjonærer. På denne siden finner du informasjon om oss og
           hvilke tjenester vi tilbyr.
-        </Typography>
+        </p>
         <br />
-        <Typography variant="h6">
+        <h3>
           <b>HISTORIE</b>
-        </Typography>
-        <Typography>
+        </h3>
+        <p>
           I Finansstyremøtet den 7. oktober 1958 ble det bestemt at Fotogjengen
           (FG) skulle være en «gjeng» i Huset, underlagt Finansstyret. Barnet
           var imidlertid nær konfirmasjonsalderen ved fødselen. Det første
@@ -34,31 +33,23 @@ function HistoryTab() {
           lørdagsmøtet 16. mars 1946. En liten gruppe utgått fra Studentenes
           Kameraklubb (S.K.) hadde fått Styrets tillatelse til å illustrere en
           reportasje fra studentlivet. Som{" "}
-          <Link href="https://fk.samfundet.no/">Forsterkerkomiteen</Link> (FK)
-          må også FG medgi at et avgjørende iniativ ble tatt av rastløse
-          entusiaster i{" "}
-          <Link href="https://www.ark.no/">Akademisk Radioklubb</Link> (ARK) i
-          en urtid.
-        </Typography>
-        <Grid container justifyContent="space-evenly" padding={"5vw 0"}>
-          <Grid>
-            <div className={cn(styles.redBackground, styles.round)}>
-              <b>1942</b>
-            </div>
-          </Grid>
-          <Grid>
-            <div className={cn(styles.blueBackground, styles.round)}>
-              <b>FG</b>
-            </div>
-          </Grid>
-          <Grid>
-            <div className={cn(styles.greenBackground, styles.round)}>
-              <b>Hilfling</b>
-            </div>
-          </Grid>
-        </Grid>
-
-        <Typography>
+          <a href="https://fk.samfundet.no/">Forsterkerkomiteen</a> (FK) må også
+          FG medgi at et avgjørende iniativ ble tatt av rastløse entusiaster i{" "}
+          <a href="https://www.ark.no/">Akademisk Radioklubb</a> (ARK) i en
+          urtid.
+        </p>
+        <div className={styles.circleRow}>
+          <div className={cx(styles.redBackground, styles.round)}>
+            <b>1942</b>
+          </div>
+          <div className={cx(styles.blueBackground, styles.round)}>
+            <b>FG</b>
+          </div>
+          <div className={cx(styles.greenBackground, styles.round)}>
+            <b>Hilfling</b>
+          </div>
+        </div>
+        <p>
           Så tidlig som i 1938 stiftet noen fotograferende amatørstudenter fra
           ARK Studentenes Kameraklubb, og showet var i gang. Men mye hadde
           skjedd enda tidligere. Helt tilbake til NTHs åpning i 1910 finnes
@@ -69,14 +60,14 @@ function HistoryTab() {
           stillbildefotografering. Plassen tillater dessverre ingen spontane
           skildringer fra FGs liv, og bildematerialet som vises er rent
           symbolsk.
-        </Typography>
-      </Grid>
+        </p>
+      </div>
 
-      <Grid item xs={12} md={6}>
-        <Typography variant="h6">
+      <div>
+        <h3>
           <b>HVEM VAR HILFLING</b>
-        </Typography>
-        <Typography paragraph>
+        </h3>
+        <p>
           Fotograf Hilfling, senere hans sønn, Hilfling jr., var
           Studentersamfundets (og UKAs) faste fotograf fra starten i 1910 til og
           med UKA-45, både av daglige og festlige begivenheter. Negativ-arkivet
@@ -93,12 +84,12 @@ function HistoryTab() {
           fylle dette savn». Studentersamfundet kunne imidlertid ikke ha følt
           savnet som sårt. Søknaden om lokale ble innvilget, men det ble ikke
           gjort noen avtale om fotografering.
-        </Typography>
+        </p>
         <br />
-        <Typography variant="h6">
+        <h3>
           <b>OPPSTART AV FG</b>
-        </Typography>
-        <Typography paragraph>
+        </h3>
+        <p>
           Høsten 1946 skrev redaktør Nic. Stabell i Under Dusken (UD) et åpent
           brev til S.K. hvor han etterlyste en kontinuerlig fotografering av
           begivenhetene i Studentersamfundet «til bruk både nå og i ettertid».
@@ -122,8 +113,8 @@ function HistoryTab() {
           seg samtidig et beskjedent økonomisk ansvar som satte FG i stand til å
           holde kontinuitet i bildearkivet fra Samfundets arrangementer. Urtida
           var over.
-        </Typography>
-      </Grid>
-    </Grid>
+        </p>
+      </div>
+    </div>
   );
 }

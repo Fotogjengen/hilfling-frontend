@@ -1,0 +1,95 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-200);
+}
+
+.label {
+  font-size: var(--typography-body-size-medium);
+  font-weight: var(--typography-body-font-weight-regular);
+  color: var(--color-text-default-default);
+}
+
+.labelDisabled {
+  color: var(--color-text-disabled-default);
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  padding: var(--size-space-400) var(--size-space-300);
+  background-color: var(--color-background-default-default);
+  border: var(--size-stroke-border) solid var(--color-border-default-default);
+  border-radius: var(--size-radius-200);
+  transition: border-color 0.15s ease;
+}
+
+.trigger:focus-within {
+  border-color: var(--color-border-default-secondary);
+}
+
+.triggerError {
+  border-color: var(--color-border-danger-default);
+}
+
+.triggerError:focus-within {
+  border-color: var(--color-border-danger-default);
+}
+
+.triggerDisabled {
+  background-color: var(--color-background-disabled-default);
+  border-color: var(--color-border-disabled-default);
+  cursor: not-allowed;
+}
+
+.input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: var(--typography-body-size-medium);
+  font-weight: var(--typography-body-font-weight-regular);
+  color: var(--color-text-default-default);
+  min-width: 0;
+}
+
+.input::placeholder {
+  color: var(--color-text-default-tertiary);
+}
+
+.input:disabled {
+  color: var(--color-text-disabled-default);
+  cursor: not-allowed;
+}
+
+.error {
+  font-size: var(--typography-body-size-small);
+  color: var(--color-text-danger-default);
+}
+
+.option {
+  display: block;
+  width: 100%;
+  padding: var(--size-space-300) var(--size-space-400);
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font-size: var(--typography-body-size-medium);
+  color: var(--color-text-default-default);
+}
+
+.option:hover {
+  background-color: var(--color-background-default-default-hover);
+}
+
+.selected {
+  background-color: var(--color-background-default-secondary);
+  font-weight: var(--typography-body-font-weight-strong);
+}
+
+.empty {
+  padding: var(--size-space-300) var(--size-space-400);
+  font-size: var(--typography-body-size-medium);
+  color: var(--color-text-default-secondary);
+}
