@@ -43,13 +43,13 @@
 }
 
 .neutral {
-  background-color: var(--color-background-default-default);
+  background-color: var(--color-background-default-secondary);
   color: var(--color-text-default-default);
   border-color: var(--color-border-default-default);
 }
 
 .neutral:hover {
-  background-color: var(--color-background-default-hover);
+  background-color: var(--color-background-neutral-hover);
 }
 
 .neutral:disabled {

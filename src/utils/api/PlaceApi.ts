@@ -25,7 +25,7 @@ export const PlaceApi = {
   deleteById: async function (id: string): Promise<DeletedResult> {
     return api.delete(`/places/${id}`);
   },
-  // eslint-disable-next-line
+
   post: async function (place: any): Promise<number> {
     return api
       .post("/places", place)

@@ -136,7 +136,7 @@ const CustomTable = ({
                         asChild
                         className={styles.editButton}
                       >
-                        {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+                        {}
                         {/* @ts-expect-error route not yet registered */}
                         <Link to={`/fg/editPhoto/${photo.photoId.id}`}>
                           <Pencil size={16} />

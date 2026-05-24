@@ -29,7 +29,7 @@ export const AlbumApi = {
   deleteById: async function (id: string): Promise<DeletedResult> {
     return api.delete(`/albums/${id}`);
   },
-  // eslint-disable-next-line
+
   post: async function (album: any): Promise<number> {
     return api
       .post("/albums", album)

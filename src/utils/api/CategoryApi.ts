@@ -24,7 +24,7 @@ export const CategoryApi = {
   deleteById: async function (id: string): Promise<DeletedResult> {
     return api.delete(`/categories/${id}`);
   },
-  // eslint-disable-next-line
+
   post: async function (category: any): Promise<number> {
     return api
       .post("/categories", category)
