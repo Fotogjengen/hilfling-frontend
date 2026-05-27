@@ -268,7 +268,7 @@ const PhotoUploadForm = () => {
                 <div style={{ position: "relative" }}>
                   <PhotoUploadPreview
                     file={file}
-                    isGoodPicture={goodPictures[index] ?? false}
+                    goodPicture={goodPictures[index] ?? false}
                     handleChange={() => handleGoodPictureChange(index)}
                   />
                   <button

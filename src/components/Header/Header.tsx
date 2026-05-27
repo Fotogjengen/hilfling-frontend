@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Header.module.css";
 import {
   Image,
@@ -11,14 +11,14 @@ import {
   Camera,
   LogOut,
 } from "lucide-react";
-import { AuthenticationContext } from "../../contexts/AuthenticationContext";
+import { useAuth } from "../../contexts/AuthenticationContext";
 import LoginButton from "../Login/LoginButton/LoginButton";
 import { Link } from "@tanstack/react-router";
-import Logo from "../Icons/Logo";
+import LogoIcon from "../Icons/LogoIcon";
 import ThemeToggle from "./ThemeToggle/ThemeToggle";
 
 export function HeaderComponent() {
-  const { isAuthenticated, position } = useContext(AuthenticationContext);
+  const { isAuthenticated, jwtPayload } = useAuth();
   const [showHamburgerMenu, setShowHamburgerMenu] = useState(false);
   useEffect(() => {
     const handleResize = () => setShowHamburgerMenu(false);
@@ -46,7 +46,8 @@ export function HeaderComponent() {
       icon: Search,
       noAuth: true,
     },
-    ...(isAuthenticated && position === "FG"
+
+    ...(isAuthenticated && jwtPayload?.securityLevel === "FG"
       ? [
           {
             name: "INTERNSØK",
@@ -80,7 +81,7 @@ export function HeaderComponent() {
     <nav className={styles.nav}>
       <div className={styles.navHead}>
         <Link to="/">
-          <Logo size={50} />
+          <LogoIcon size={40} />
         </Link>
         <div className={styles.navHeadActions}>
           <div className={styles.mobileThemeToggle}>
@@ -119,20 +120,20 @@ export function HeaderComponent() {
       <div className={styles.navContainer}>
         <div className={styles.navList}>
           <Link className={styles.navLink} to="/photos">
-            BILDER
-          </Link>
-          <Link className={styles.navLink} to="/about">
-            OM OSS
+            Bilder
           </Link>
           <Link className={styles.navLink} to="/search">
-            SØK
+            Søk
+          </Link>
+          <Link className={styles.navLink} to="/about">
+            Om oss
           </Link>
           {isAuthenticated && (
             <Link className={styles.navLink} to="/intern/search">
-              INTERNSØK
+              Internsøk
             </Link>
           )}
-          {isAuthenticated && position === "FG" && (
+          {isAuthenticated && jwtPayload?.securityLevel === "FG" && (
             <Link className={styles.navLink} to="/fg">
               FG
             </Link>

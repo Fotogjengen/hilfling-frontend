@@ -2,8 +2,8 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { MemberPositionDto } from "./MemberPositionDto";
 import type { PhotoGangBangerId } from "./PhotoGangBangerId";
-import type { PositionDto } from "./PositionDto";
 import type { SemesterStart } from "./SemesterStart";
 export type PhotoGangBangerDto = {
   photoGangBangerId: PhotoGangBangerId;
@@ -16,5 +16,5 @@ export type PhotoGangBangerDto = {
   email: string;
   profilePicture: string;
   phoneNumber: string;
-  positions?: PositionDto[];
+  positions: Array<MemberPositionDto>;
 };

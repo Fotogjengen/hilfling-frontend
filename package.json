@@ -12,10 +12,11 @@
     "preview": "vite preview",
     "lint": "eslint --ext .ts,.tsx .",
     "lint:fix": "eslint --fix --ext .ts,.tsx .",
-    "codegen": "openapi --exportSchemas false --exportCore false --exportServices false -i ../hilfling_backend/target/openapi.json --output ./generated"
+    "codegen": "npx openapi-typescript-codegen --exportSchemas false --exportCore false --exportServices false -i ../backend/target/openapi.json --output ./generated"
   },
   "dependencies": {
     "@tanstack/react-form": "^1.32.0",
+    "@tanstack/react-query": "^5.100.14",
     "@tanstack/react-router": "^1.166.7",
     "@tanstack/react-router-devtools": "^1.166.7",
     "axios": "^1.13.2",
@@ -23,6 +24,7 @@
     "crypto-js": "^4.2.0",
     "date-fns": "^4.2.1",
     "dayjs": "^1.11.18",
+    "framer-motion": "^12.40.0",
     "isbot": "^5",
     "js-cookie": "^3.0.5",
     "lodash": "^4.17.21",
@@ -31,7 +33,8 @@
     "react": "^18.3.1",
     "react-day-picker": "^10.0.1",
     "react-dom": "^18.3.1",
-    "react-dropzone": "^11.4.2",
+    "react-dropzone": "^15.0.0",
+    "react-intersection-observer": "^10.0.3",
     "react-photo-view": "^1.2.7",
     "typescript": "^5.0.0",
     "zod": "^4.4.3"

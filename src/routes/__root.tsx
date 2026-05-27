@@ -9,7 +9,11 @@ import { PhotoDto } from "../../generated";
 import { createImgUrl } from "../utils/createImgUrl/createImgUrl";
 import DownloadButton from "../components/DownloadImages/DownloadButton/DownloadButton";
 import { AdBannerContext } from "../contexts/AdBannerContext";
-import { createRootRouteWithContext, Outlet } from "@tanstack/react-router";
+import {
+  createRootRouteWithContext,
+  Outlet,
+  useRouterState,
+} from "@tanstack/react-router";
 import styles from "./__root.module.css";
 import {
   AuthenticationContext,
@@ -82,17 +86,29 @@ function RootComponent() {
   );
 
   const { isAuthenticated } = useContext(AuthenticationContext);
+  const isFullPage = useRouterState({
+    select: (s) => s.location.pathname.endsWith("/upload"),
+  });
 
   return (
     <ToastProvider>
       <AdBannerContext.Provider value={adBannerContextValue}>
         <ImageContext.Provider value={imageContextValue}>
           <AlertContext.Provider value={alertContextValue}>
-            <div className={styles.main}>
-              <HeaderComponent />
-              <Outlet />
-            </div>
-            <Footer />
+            {isFullPage ? (
+              <div className={styles.fullPage}>
+                <HeaderComponent />
+                <Outlet />
+              </div>
+            ) : (
+              <>
+                <HeaderComponent />
+                <div className={styles.main}>
+                  <Outlet />
+                </div>
+                <Footer />
+              </>
+            )}
           </AlertContext.Provider>
 
           <PhotoSlider

@@ -1,3 +1,14 @@
+export type SecurityLevelType = "FG" | "HUSFOLK" | "ALLE";
+
+export type JwtTokenPayload = {
+  username: string;
+  positionId: string | null;
+  securityLevel: SecurityLevelType;
+  sub: string;
+  iat: number;
+  exp: number;
+};
+
 export interface DefaultProps {
   /** Used to add style to components */
   className?: string;
@@ -10,7 +21,7 @@ export interface BaseCarouselItem {
 
 export interface DragNDropFile extends File {
   path: string;
-  isGoodPicture: boolean;
+  goodPicture: boolean;
 }
 
 export type UKA = "uka";

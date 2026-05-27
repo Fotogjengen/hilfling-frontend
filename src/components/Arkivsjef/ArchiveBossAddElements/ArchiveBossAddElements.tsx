@@ -36,7 +36,7 @@ function ArchiveBossAddElements() {
           await PlaceApi.post({ name: value.name });
           setMessage(`Stedet "${value.name}" ble lagt til`);
         } else {
-          await AlbumApi.post({ title: value.name, isAnalog: value.albumType });
+          await AlbumApi.post({ title: value.name, analog: value.albumType });
           setMessage(`Albumet "${value.name}" ble lagt til`);
         }
         setSeverity(severityEnum.SUCCESS);

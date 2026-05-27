@@ -11,13 +11,11 @@ import {
   AlbumDto,
   CategoryDto,
   SecurityLevelDto,
-  PhotoTagDto,
 } from "../../../generated";
 import { AlbumApi } from "../../utils/api/AlbumApi";
 import { PlaceApi } from "../../utils/api/PlaceApi";
 import { CategoryApi } from "../../utils/api/CategoryApi";
 import { MotiveApi } from "../../utils/api/MotiveApi";
-import { PhotoTagApi } from "../../utils/api/PhotoTagApi";
 import { AlertContext, severityEnum } from "../../contexts/AlertContext";
 import { PhotoSearch } from "../../utils/api/PhotoApi";
 
@@ -30,8 +28,6 @@ const InternSearchInput = ({ handleSearch }: internSearchInputprop) => {
   const [albums, setAlbums] = useState<AlbumDto[]>([]);
   const [places, setPlaces] = useState<PlaceDto[]>([]);
   const [categories, setCategories] = useState<CategoryDto[]>([]);
-  const [, setPhotoTags] = useState<PhotoTagDto[]>([]);
-
   const [dateFrom, setDateFrom] = useState<Date>(new Date("1910-09-30"));
   const [dateTo, setDateTo] = useState<Date>(new Date());
   const [isGoodPic, setIsGoodPic] = useState(false);
@@ -62,7 +58,6 @@ const InternSearchInput = ({ handleSearch }: internSearchInputprop) => {
       { api: PlaceApi.getAll, setter: setPlaces },
       { api: CategoryApi.getAll, setter: setCategories },
       { api: MotiveApi.getAll, setter: setMotives },
-      { api: PhotoTagApi.getAll, setter: setPhotoTags },
     ];
 
     apiStateMap.forEach(({ api, setter }) => {
@@ -82,7 +77,7 @@ const InternSearchInput = ({ handleSearch }: internSearchInputprop) => {
       page: "0",
       pageSize: "10",
       category: selectedCategory?.name ?? "",
-      isAnalog,
+      analog: isAnalog,
       isGoodPic,
       securityLevel: selectedSecurityLevel ?? "",
       fromDate: format(dateFrom, "yyyy-MM-dd"),

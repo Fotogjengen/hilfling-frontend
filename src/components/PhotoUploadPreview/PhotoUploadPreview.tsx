@@ -5,11 +5,11 @@ import { CheckboxField } from "../ui/input/Checkbox";
 
 interface Props {
   file: DragNDropFile;
-  isGoodPicture: boolean;
+  goodPicture: boolean;
   handleChange: () => void;
 }
 
-const PhotoUploadPreview = ({ file, isGoodPicture, handleChange }: Props) => {
+const PhotoUploadPreview = ({ file, goodPicture, handleChange }: Props) => {
   const fileSizeAsKb = Math.ceil(file.size / 1000);
   const objectUrl = useMemo(() => URL.createObjectURL(file), [file]);
 
@@ -29,7 +29,7 @@ const PhotoUploadPreview = ({ file, isGoodPicture, handleChange }: Props) => {
           <div>{file.type}</div>
           <CheckboxField
             label="Oppslagsbilde"
-            checked={isGoodPicture}
+            checked={goodPicture}
             onCheckedChange={handleChange}
           />
         </div>

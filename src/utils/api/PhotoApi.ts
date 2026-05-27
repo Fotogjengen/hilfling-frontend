@@ -11,7 +11,7 @@ export interface PhotoSearch {
   category?: string;
   tag?: string[];
   isGoodPic?: boolean;
-  isAnalog?: boolean;
+  analog?: boolean;
   fromDate?: string;
   toDate?: string;
   page?: string;
@@ -35,7 +35,7 @@ export const PhotoApi = {
   },
 
   getAllByMotiveId: async function (id: string): Promise<PhotoDto[]> {
-    return api.get(`/photos/motive/${id}`).then((res) => res.data.currentList);
+    return api.get(`/photos/motive/${id}`).then((res) => res.data);
   },
 
   post: async function (photo: PhotoDto): Promise<PhotoDto> {

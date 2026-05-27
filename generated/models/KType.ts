@@ -6,7 +6,7 @@ import type { KClassifier } from "./KClassifier";
 import type { KTypeProjection } from "./KTypeProjection";
 export type KType = {
   isMarkedNullable: boolean;
-  arguments: Array<KTypeProjection>;
   classifier?: KClassifier;
+  arguments: Array<KTypeProjection>;
   annotations: Array<any>;
 };

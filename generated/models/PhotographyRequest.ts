@@ -11,8 +11,8 @@ export type PhotographyRequest = {
   isIntern: boolean;
   intern?: boolean;
   phone: string;
-  description: string;
   type: string;
+  description: string;
   name: string;
   dateDeleted: string;
   dateCreated: string;

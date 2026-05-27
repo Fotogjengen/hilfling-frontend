@@ -100,8 +100,8 @@
   --size-space-100: 4px;
   --size-space-150: 6px;
   --size-space-200: 8px;
-  --size-space-300: 12px;
-  --size-space-400: 16px;
+  --size-space-300: 8px;
+  --size-space-400: 12px;
   --size-space-600: 24px;
   --size-space-800: 32px;
   --size-space-1200: 48px;
@@ -143,8 +143,8 @@
   --typography-family-mono: Roboto Mono;
   --typography-scale-01: 12px;
   --typography-scale-02: 14px;
-  --typography-scale-03: 16px;
-  --typography-scale-04: 20px;
+  --typography-scale-03: 14px;
+  --typography-scale-04: 16px;
   --typography-scale-05: 24px;
   --typography-scale-06: 32px;
   --typography-scale-07: 40px;

@@ -5,7 +5,7 @@ import { PhotoGangBangerApi } from "../../../utils/api/PhotoGangBangerApi";
 import { PhotoGangBangerDto, PositionDto } from "@/../generated";
 import { PositionApi } from "../../../utils/api/PositionApi";
 import { TextInput } from "@/components/ui/input/TextInput";
-import { SelectField } from "@/components/ui/input/Select";
+import { Select } from "@/components/ui/input/Select";
 import { Button } from "@/components/ui/input/Button";
 
 interface Props {
@@ -147,7 +147,7 @@ function ArchiveBossCreateUsers({ setCreateUser }: Props) {
           error={user.email !== "" && !isEmailValid ? emailError : undefined}
           onChange={(e) => setUser({ ...user, email: e.target.value })}
         />
-        <SelectField
+        <Select
           label="Startsemester"
           value={user.semesterStart.value}
           onValueChange={(value) =>
@@ -155,7 +155,7 @@ function ArchiveBossCreateUsers({ setCreateUser }: Props) {
           }
           options={availableSemesters.map((s) => ({ label: s, value: s }))}
         />
-        <SelectField
+        <Select
           label="Verv"
           value={positions.length > 0 ? selectedPositionId : ""}
           onValueChange={setSelectedPositionId}

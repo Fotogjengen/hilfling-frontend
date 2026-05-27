@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useContext, useState } from "react";
-import { AuthenticationContext } from "@/contexts/AuthenticationContext";
+import { useState } from "react";
+import { useAuth } from "@/contexts/AuthenticationContext";
 import { TextInput } from "@/components/ui/input/TextInput";
 import { Button } from "@/components/ui/input/Button";
 import { Eye, EyeOff } from "lucide-react";
@@ -18,16 +18,13 @@ When more styling is added it should be in its own file.
 */
 
 function MobileLogin() {
-  const { isAuthenticated, setIsAuthenticated, setPosition } = useContext(
-    AuthenticationContext,
-  );
+  const { isAuthenticated, setIsAuthenticated } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = () => {
     setIsAuthenticated(true);
-    setPosition("FG");
   };
 
   const handleLogout = () => {

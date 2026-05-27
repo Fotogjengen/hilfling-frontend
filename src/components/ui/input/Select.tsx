@@ -1,4 +1,4 @@
-import { Select } from "radix-ui";
+import { Select as SelectPrimitive } from "radix-ui";
 import { ChevronDown } from "lucide-react";
 import styles from "./Select.module.css";
 
@@ -18,7 +18,7 @@ interface SelectProps {
   className?: string;
 }
 
-export function SelectField({
+export function Select({
   options,
   value,
   onValueChange,
@@ -31,41 +31,45 @@ export function SelectField({
   return (
     <div className={[styles.wrapper, className].filter(Boolean).join(" ")}>
       {label && <label className={styles.label}>{label}</label>}
-      <Select.Root
+      <SelectPrimitive.Root
         value={value}
         onValueChange={onValueChange}
         disabled={disabled}
       >
-        <Select.Trigger
+        <SelectPrimitive.Trigger
           className={[styles.trigger, error ? styles.triggerError : null]
             .filter(Boolean)
             .join(" ")}
         >
-          <Select.Value placeholder={placeholder} />
-          <Select.Icon>
-            <ChevronDown size={16} className={styles.chevron} />
-          </Select.Icon>
-        </Select.Trigger>
-        <Select.Portal>
-          <Select.Content
+          <SelectPrimitive.Value placeholder={placeholder} />
+          <ChevronDown
+            size={16}
+            className={styles.chevron}
+            aria-hidden="true"
+          />
+        </SelectPrimitive.Trigger>
+        <SelectPrimitive.Portal>
+          <SelectPrimitive.Content
             className={styles.content}
             position="popper"
             sideOffset={4}
           >
-            <Select.Viewport>
+            <SelectPrimitive.Viewport>
               {options.map((option) => (
-                <Select.Item
+                <SelectPrimitive.Item
                   key={option.value}
                   value={option.value}
                   className={styles.item}
                 >
-                  <Select.ItemText>{option.label}</Select.ItemText>
-                </Select.Item>
+                  <SelectPrimitive.ItemText>
+                    {option.label}
+                  </SelectPrimitive.ItemText>
+                </SelectPrimitive.Item>
               ))}
-            </Select.Viewport>
-          </Select.Content>
-        </Select.Portal>
-      </Select.Root>
+            </SelectPrimitive.Viewport>
+          </SelectPrimitive.Content>
+        </SelectPrimitive.Portal>
+      </SelectPrimitive.Root>
       {error && (
         <span className={styles.error} role="alert">
           {error}

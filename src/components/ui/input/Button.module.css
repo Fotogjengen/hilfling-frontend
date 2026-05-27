@@ -6,6 +6,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: var(--size-space-100);
 }
 
 .md {
@@ -44,7 +45,7 @@
 }
 
 .neutral:hover {
-  background-color: var(--color-background-neutral-hover);
+  background-color: var(--color-background-default-secondary-hover);
 }
 
 .neutral:disabled {

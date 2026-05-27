@@ -1,5 +1,5 @@
 import { useFieldContext } from "@/utils/form/FormContext";
-import { SelectField } from "../input/Select";
+import { Select } from "../input/Select";
 
 interface FormSelectProps {
   options: { label: string; value: string }[];
@@ -11,7 +11,7 @@ export function FormSelect({ options, label, placeholder }: FormSelectProps) {
   const field = useFieldContext<string>();
 
   return (
-    <SelectField
+    <Select
       options={options}
       label={label}
       placeholder={placeholder}
