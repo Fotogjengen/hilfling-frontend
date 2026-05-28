@@ -23,6 +23,7 @@ function PhotoUpload() {
       >
         <MotiveSelector
           value={selectedMotive}
+          isCreatingNew={isCreatingNewMotive}
           onChange={(motive) => {
             setSelectedMotive(motive);
             setIsCreatingNewMotive(false);
@@ -40,6 +41,10 @@ function PhotoUpload() {
             setIsCreatingNewMotive(false);
           }}
           onCancel={() => setIsCreatingNewMotive(false)}
+          onCreateNew={() => {
+            setSelectedMotive(null);
+            setIsCreatingNewMotive(true);
+          }}
         />
       </div>
       <div className={styles.mainContent}>

@@ -1,23 +1,26 @@
 import { useMotives, useMotiveSearch } from "@/hooks/motive";
 import { MotiveDto } from "../../../generated";
-import { Spinner } from "../Icons/Spinner";
 import styles from "./MotiveSelector.module.css";
-import { Check, Plus, Search, X } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 import { Button } from "../ui/input/Button";
 import { SearchField } from "../ui/input/SearchField";
 import { useState, useEffect, useRef } from "react";
 import { useInView } from "react-intersection-observer";
+import { IconButton } from "../ui/input/IconButton";
+import { Spinner } from "../Icons/Spinner";
 
 type motiveSelectorProps = {
   value: MotiveDto | null;
   onChange: (motive: MotiveDto | null) => void;
   onCreateNew?: () => void;
+  isCreatingNew?: boolean;
 };
 
 export default function MotiveSelector({
   value,
   onChange,
   onCreateNew,
+  isCreatingNew,
 }: motiveSelectorProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -53,6 +56,11 @@ export default function MotiveSelector({
     return () => observer.disconnect();
   }, [value?.motiveId.id]);
 
+  useEffect(() => {
+    if (!isCreatingNew || !listRef.current) return;
+    listRef.current.scrollTo({ top: 0, behavior: "smooth" });
+  }, [isCreatingNew]);
+
   // infinite scroll
   const { ref: sentinelRef, inView } = useInView();
   useEffect(() => {
@@ -85,22 +93,54 @@ export default function MotiveSelector({
           <>
             <div>Arrangement</div>
             <div className={styles.headerButtonGroup}>
-              <Button variant="subtle" onClick={onCreateNew}>
+              <IconButton
+                variant="subtle"
+                onClick={onCreateNew}
+                aria-label="Lag nytt arrangement"
+              >
                 <Plus />
-              </Button>
-              <Button
+              </IconButton>
+              <IconButton
                 variant="subtle"
                 size="sm"
+                aria-label="Søk etter arrangement"
                 onClick={() => setIsSearchOpen(true)}
               >
                 <Search />
-              </Button>
+              </IconButton>
             </div>
           </>
         )}
       </div>
       <div ref={listRef} className={styles.selectorList}>
-        {isPending && <Spinner />}
+        {isCreatingNew && (
+          <Button
+            size="sm"
+            variant="subtle"
+            data-selected={true}
+            className={[
+              styles.motiveItem,
+              styles.selected,
+              styles.buttonWithIcon,
+            ].join(" ")}
+            onClick={() => onChange(null)}
+          >
+            <span className={styles.selectedTitle}>Nytt arrangement</span>
+          </Button>
+        )}
+        {isPending &&
+          Array.from({ length: 8 }).map((_, i) => (
+            <Button
+              key={i}
+              size="sm"
+              variant="subtle"
+              className={styles.motiveItem}
+            >
+              <div
+                className={`${styles.skeletonText} ${styles[`skeletonTextW${(i % 4) + 1}` as keyof typeof styles]} skeleton`}
+              />
+            </Button>
+          ))}
         {isError && <div>Kunne ikke hente motiv</div>}
         {motives.map((motive) => {
           const isSelected = value?.motiveId.id === motive.motiveId.id;
@@ -123,11 +163,9 @@ export default function MotiveSelector({
                 }
               }}
             >
-              {isSelected && <Check className={styles.checkIcon} />}
               <span className={isSelected ? styles.selectedTitle : ""}>
                 {motive.title}
               </span>
-              {isSelected && <X className={styles.deselectIcon} />}
             </Button>
           );
         })}

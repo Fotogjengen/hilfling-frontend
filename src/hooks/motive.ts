@@ -6,6 +6,7 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
+import { toast } from "@/components/ui/overlay/Toaster";
 
 export const useMotives = () => {
   return useInfiniteQuery({
@@ -41,6 +42,11 @@ export const useUpdateMotive = () => {
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ["motives"] });
     },
+    onError: (error) => {
+      toast.error("Kunne ikke oppdatere motivet.", {
+        description: `Feilkode: ${error instanceof Error ? error.message : "Unknown error"}`,
+      });
+    },
   });
 };
 
@@ -51,6 +57,11 @@ export const useCreateMotive = () => {
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ["motives"] });
     },
+    onError: (error) => {
+      toast.error("Kunne ikke opprette motivet.", {
+        description: `Feilkode: ${error instanceof Error ? error.message : "Unknown error"}`,
+      });
+    },
   });
 };
 
@@ -60,6 +71,11 @@ export const useDeleteMotive = () => {
     mutationFn: (id: string) => MotiveApi.delete(id),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ["motives"] });
+    },
+    onError: (error) => {
+      toast.error("Kunne ikke slette arrangementet.", {
+        description: `Feilkode: ${error instanceof Error ? error.message : "Unknown error"}`,
+      });
     },
   });
 };

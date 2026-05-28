@@ -23,14 +23,20 @@
 
 .controlBar {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--size-space-400);
+  flex-direction: column;
+  gap: var(--size-space-200);
   cursor: pointer;
   position: relative;
   z-index: 1;
   padding: var(--size-space-400);
+}
+
+.controlBarRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--size-space-400);
 }
 
 .controlBarEmpty {
@@ -40,7 +46,7 @@
 .controlBarLeft {
   display: flex;
   align-items: center;
-  gap: var(--size-space-300);
+  gap: var(--size-space-400);
 }
 
 .controlBarRight {
@@ -69,7 +75,6 @@
 
 .fileList {
   padding: var(--size-space-400);
-  margin-top: var(--size-space-400);
   border-top: var(--size-stroke-border) solid
     var(--color-border-default-default);
   max-height: 60vh;
@@ -141,7 +146,7 @@
   justify-content: center;
   gap: var(--size-space-300);
   border: 2px dashed var(--color-border-default-default);
-  border-radius: var(--size-radius-200);
+  border-radius: var(--size-radius-400);
   color: var(--color-text-default-secondary);
   font-size: var(--typography-subheading-size-medium);
   font-weight: var(--typography-subheading-font-weight);

@@ -2,10 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type PhotoUploadRequestDto = {
+export type PhotoGoodPictureToggleRequestDto = {
+  photoId: string;
   goodPicture: boolean;
-  analog: boolean;
-  motiveId: string;
-  gangId?: string;
-  dateTaken: string;
 };

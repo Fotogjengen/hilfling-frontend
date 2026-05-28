@@ -5,14 +5,14 @@
 import type { KClassPhotographyRequest } from "./KClassPhotographyRequest";
 export type PhotographyRequest = {
   email: string;
+  type: string;
   startTime: string;
+  description: string;
   endTime: string;
   place: string;
   isIntern: boolean;
   intern?: boolean;
   phone: string;
-  type: string;
-  description: string;
   name: string;
   dateDeleted: string;
   dateCreated: string;

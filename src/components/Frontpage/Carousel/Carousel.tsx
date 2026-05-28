@@ -63,14 +63,14 @@ const Carousel = () => {
     >
       {carouselPhotos.map((img, index) => (
         <img
-          key={img.mediumUrl}
+          key={img.imageWeb}
           className={[
             styles.img,
             currentSlide - 1 === index ? styles.imgActive : null,
           ]
             .filter(Boolean)
             .join(" ")}
-          src={img.mediumUrl}
+          src={img.imageWeb}
           alt={img.motive.title}
         />
       ))}

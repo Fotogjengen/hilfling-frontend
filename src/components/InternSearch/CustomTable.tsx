@@ -97,13 +97,10 @@ const CustomTable = ({
               <tr key={photo.photoId.id} className={tableStyles.tr}>
                 {columns.map((column) => (
                   <td key={column.id} className={tableStyles.td}>
-                    {column.id === "albumDto" && photo.albumDto.title}
                     {column.id === "motive" && photo.motive.title}
                     {column.id === "date" && `${photo.dateTaken}`}
-                    {column.id === "placeDto" && photo.placeDto.name}
                     {column.id === "securityLevel" &&
                       photo.securityLevel.securityLevelType}
-                    {column.id === "categoryDto" && photo.categoryDto.name}
                     {column.id === "goodPicture" && `${photo.goodPicture}`}
                     {column.id === "scan" && (
                       <div className={styles.scanButtons}>

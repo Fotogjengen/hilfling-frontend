@@ -6,7 +6,7 @@ import { CategoryApi } from "../../../utils/api/CategoryApi";
 import { PlaceApi } from "../../../utils/api/PlaceApi";
 import { AlbumApi } from "../../../utils/api/AlbumApi";
 import { ArchiveBossContext } from "../../../contexts/ArchiveBossContext";
-import { AlertContext, severityEnum } from "../../../contexts/AlertContext";
+import { toast } from "@/components/ui/overlay/Toaster";
 import { Dialog } from "@/components/ui/overlay/Dialog";
 import { Button } from "@/components/ui/input/Button";
 import useAppForm from "@/utils/form/FormContext";
@@ -22,7 +22,6 @@ const schema = z.object({
 function ArchiveBossAddElements() {
   const [openDialog, setOpenDialog] = useState(false);
   const { setUpdate } = useContext(ArchiveBossContext);
-  const { setMessage, setSeverity, setOpen } = useContext(AlertContext);
 
   const form = useAppForm({
     defaultValues: { name: "", type: "", albumType: false },
@@ -31,23 +30,19 @@ function ArchiveBossAddElements() {
       try {
         if (value.type === "Kategori") {
           await CategoryApi.post({ name: value.name });
-          setMessage(`Kategori "${value.name}" ble lagt til`);
+          toast.success(`Kategori "${value.name}" ble lagt til`);
         } else if (value.type === "Sted") {
           await PlaceApi.post({ name: value.name });
-          setMessage(`Stedet "${value.name}" ble lagt til`);
+          toast.success(`Stedet "${value.name}" ble lagt til`);
         } else {
           await AlbumApi.post({ title: value.name, analog: value.albumType });
-          setMessage(`Albumet "${value.name}" ble lagt til`);
+          toast.success(`Albumet "${value.name}" ble lagt til`);
         }
-        setSeverity(severityEnum.SUCCESS);
-        setOpen(true);
         setUpdate(true);
         setOpenDialog(false);
         form.reset();
       } catch (e) {
-        setSeverity(severityEnum.ERROR);
-        setMessage(String(e));
-        setOpen(true);
+        toast.error(String(e));
       }
     },
   });

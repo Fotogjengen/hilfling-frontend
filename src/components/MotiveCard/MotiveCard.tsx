@@ -14,7 +14,7 @@ function MotiveCard({ motive, children }: Props) {
         <p className={styles.category}>{motive?.categoryDto?.name}</p>
         <p className={styles.title}>{motive?.title}</p>
         <p className={styles.meta}>Eier: {motive?.eventOwnerDto?.name}</p>
-        <p className={styles.meta}>Album: {motive?.albumDto?.title}</p>
+        <p className={styles.meta}>Album: {motive?.albumDto?.name}</p>
         <p className={styles.meta}>
           Dato:{" "}
           {motive?.dateCreated

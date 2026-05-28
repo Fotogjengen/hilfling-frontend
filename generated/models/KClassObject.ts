@@ -13,11 +13,11 @@ export type KClassObject = {
   isInner: boolean;
   isCompanion: boolean;
   isValue: boolean;
+  qualifiedName?: string;
   members: Array<KCallableObject>;
   objectInstance?: any;
   supertypes: Array<KType>;
   isData: boolean;
-  qualifiedName?: string;
   typeParameters: Array<KTypeParameter>;
   simpleName?: string;
   isFinal: boolean;

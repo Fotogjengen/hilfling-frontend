@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil, Plus, Trash2 } from "lucide-react";
 import { z } from "zod";
 import { MotiveDto, SecurityLevelDto } from "../../../generated";
 import { useCategories } from "@/hooks/category";
@@ -12,6 +12,7 @@ import {
   useDefaultMotive,
   useDeleteMotive,
 } from "@/hooks/motive";
+import { usePhotosByMotiveId } from "@/hooks/photo";
 import { Spinner } from "../Icons/Spinner";
 import { Button } from "../ui/input/Button";
 import useAppForm from "@/utils/form/FormContext";
@@ -23,6 +24,7 @@ type MotiveDetailsProps = {
   isCreatingNew?: boolean;
   onSaved?: (motive: MotiveDto | null) => void;
   onCancel?: () => void;
+  onCreateNew?: () => void;
 };
 
 const schema = z.object({
@@ -33,7 +35,7 @@ const schema = z.object({
   albumId: z.string(),
   analogAlbumId: z.string(),
   eventOwnerId: z.string(),
-  securityLevelType: z.nativeEnum(SecurityLevelDto.securityLevelType),
+  securityLevelType: z.enum(SecurityLevelDto.securityLevelType),
 });
 
 export default function MotiveDetails({
@@ -41,6 +43,7 @@ export default function MotiveDetails({
   isCreatingNew,
   onSaved,
   onCancel,
+  onCreateNew,
 }: MotiveDetailsProps) {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -64,6 +67,17 @@ export default function MotiveDetails({
       <div className={styles.wrapper}>
         <div className={styles.noMotiveSelected}>
           Du har ikke valgt et arrangement.
+          {onCreateNew && (
+            <Button
+              type="button"
+              variant="primary"
+              size="sm"
+              onClick={onCreateNew}
+            >
+              <Plus strokeWidth={1.2} size={20} />
+              Opprett nytt arrangement
+            </Button>
+          )}
         </div>
       </div>
     );
@@ -102,7 +116,9 @@ function MotiveDetailsDisplay({
   onEdit: () => void;
   onDeleted?: () => void;
 }) {
-  const { mutate: deleteMotive } = useDeleteMotive();
+  const { mutate: deleteMotive, isPending } = useDeleteMotive();
+  const { data: photos = [] } = usePhotosByMotiveId(motive.motiveId.id);
+  const hasPhotos = photos.length > 0;
   const formattedDate = motive.date
     ? new Date(motive.date).toLocaleDateString("nb-NO")
     : "-";
@@ -177,19 +193,26 @@ function MotiveDetailsDisplay({
             </div>
           </div>
         </div>
-      </div>
-      <div className={styles.displayFooter}>
-        <Button
-          type="button"
-          variant="subtle-danger"
-          size="sm"
-          onClick={() =>
-            deleteMotive(motive.motiveId.id, { onSuccess: onDeleted })
-          }
-        >
-          <Trash2 size={14} />
-          Slett arrangement
-        </Button>
+
+        <div className={styles.displayFooter}>
+          <Button
+            type="button"
+            variant="subtle-danger"
+            size="sm"
+            disabled={isPending || hasPhotos}
+            title={
+              hasPhotos
+                ? "Du kan ikke slette et arrangement med bilder."
+                : undefined
+            }
+            onClick={() =>
+              deleteMotive(motive.motiveId.id, { onSuccess: onDeleted })
+            }
+          >
+            {isPending ? <Spinner /> : <Trash2 size={14} />}
+            Slett arrangement
+          </Button>
+        </div>
       </div>
     </div>
   );
@@ -234,8 +257,9 @@ function MotiveFormInner({
   const { data: places = [] } = usePlaces();
   const { data: albums = [] } = useAlbums();
   const { data: eventOwners = [] } = useEventOwners();
-  const { mutate: updateMotive } = useUpdateMotive();
-  const { mutate: createMotive } = useCreateMotive();
+  const { mutate: updateMotive, isPending: isUpdating } = useUpdateMotive();
+  const { mutate: createMotive, isPending: isCreating } = useCreateMotive();
+  const isPending = isUpdating || isCreating;
 
   const digitalAlbums = albums.filter((a) => !a.analog);
   const analogAlbums = albums.filter((a) => a.analog);
@@ -300,14 +324,18 @@ function MotiveFormInner({
       }}
     >
       <div className={styles.header}>
-        <h3 className={styles.heading}>
-          {isEditing ? "Detaljer" : "Nytt arrangement"}
-        </h3>
+        <h3 className={styles.heading}>Detaljer</h3>
         <div className={styles.formActions}>
           <Button type="button" variant="subtle" size="sm" onClick={onCancel}>
             Avbryt
           </Button>
-          <Button type="submit" variant="neutral" size="sm">
+          <Button
+            type="submit"
+            variant="neutral"
+            size="sm"
+            disabled={isPending}
+          >
+            {isPending && <Spinner />}
             {isEditing ? "Lagre endringer" : "Opprett"}
           </Button>
         </div>
@@ -319,7 +347,9 @@ function MotiveFormInner({
             name="title"
             validators={{ onChange: schema.shape.title }}
           >
-            {(field) => <field.TextInput label="Tittel" />}
+            {(field) => (
+              <field.TextInput label="Tittel" autoFocus={!isEditing} />
+            )}
           </form.AppField>
 
           <form.AppField

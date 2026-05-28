@@ -5,8 +5,8 @@
 import type { KType } from "./KType";
 export type KParameter = {
   isVararg: boolean;
-  isOptional: boolean;
   kind: KParameter.kind;
+  isOptional: boolean;
   name?: string;
   type: KType;
   index: number;

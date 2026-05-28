@@ -1,8 +1,12 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./ArchiveBossCreateUser.module.css";
-import { AlertContext, severityEnum } from "../../../contexts/AlertContext";
+import { toast } from "@/components/ui/overlay/Toaster";
 import { PhotoGangBangerApi } from "../../../utils/api/PhotoGangBangerApi";
-import { PhotoGangBangerDto, PositionDto } from "@/../generated";
+import {
+  MemberPositionDto,
+  PhotoGangBangerDto,
+  PositionDto,
+} from "@/../generated";
 import { PositionApi } from "../../../utils/api/PositionApi";
 import { TextInput } from "@/components/ui/input/TextInput";
 import { Select } from "@/components/ui/input/Select";
@@ -38,8 +42,6 @@ function generateAvailableSemesters() {
 const availableSemesters = generateAvailableSemesters();
 
 function ArchiveBossCreateUsers({ setCreateUser }: Props) {
-  const { setMessage, setSeverity, setOpen } = useContext(AlertContext);
-
   const [user, setUser] = useState(initialUserState);
   const [selectedPositionId, setSelectedPositionId] = useState<string>("");
   const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(false);
@@ -75,23 +77,34 @@ function ArchiveBossCreateUsers({ setCreateUser }: Props) {
   }, [user.email]);
 
   const createUser = () => {
+    const selectedPosition = positions.find(
+      (p) => p.positionId?.id === selectedPositionId,
+    );
+    const memberPositions: MemberPositionDto[] = selectedPosition
+      ? [
+          {
+            positionId: selectedPosition.positionId,
+            title: selectedPosition.title ?? "",
+            email: selectedPosition.email,
+            semesterStart: user.semesterStart,
+            isActive: user.isActive,
+          },
+        ]
+      : [];
     const dto: PhotoGangBangerDto = {
       ...user,
       photoGangBangerId: { id: crypto.randomUUID() },
+      positions: memberPositions,
     };
     void PhotoGangBangerApi.post(dto)
       .then(() => {
         setUser(initialUserState);
         setSelectedPositionId("");
-        setOpen(true);
-        setSeverity(severityEnum.SUCCESS);
-        setMessage("Bruker ble opprettet");
+        toast.success("Bruker ble opprettet");
       })
       .catch((err) => {
         console.error(err);
-        setOpen(true);
-        setSeverity(severityEnum.ERROR);
-        setMessage("Det oppsto en feil, bruker ble ikke opprettet");
+        toast.error("Det oppsto en feil, bruker ble ikke opprettet");
       });
   };
 
@@ -102,9 +115,7 @@ function ArchiveBossCreateUsers({ setCreateUser }: Props) {
       let errorMessage = "Kan ikke opprette bruker: ";
       if (!isPhoneNumberValid) errorMessage += "Telefonnummer er ugyldig. ";
       if (!isEmailValid) errorMessage += "E-postadressen er ugyldig.";
-      setOpen(true);
-      setSeverity(severityEnum.ERROR);
-      setMessage(errorMessage);
+      toast.error(errorMessage);
     }
   };
 

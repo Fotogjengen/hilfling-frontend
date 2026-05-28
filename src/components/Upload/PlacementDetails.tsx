@@ -67,6 +67,16 @@ export default function PlacementDetails({
       {isOpen ? (
         <div className={styles.fields}>
           <Select
+            label="Sikkerhetsnivå"
+            value={securityLevelType}
+            onValueChange={(v) =>
+              onSecurityLevelChange(v as SecurityLevelDto.securityLevelType)
+            }
+            options={Object.values(SecurityLevelDto.securityLevelType).map(
+              (type) => ({ label: type, value: type }),
+            )}
+          />
+          <Select
             label="Album"
             value={albumId}
             onValueChange={onAlbumChange}
@@ -96,19 +106,13 @@ export default function PlacementDetails({
               value: e.eventOwnerId.id,
             }))}
           />
-          <Select
-            label="Sikkerhetsnivå"
-            value={securityLevelType}
-            onValueChange={(v) =>
-              onSecurityLevelChange(v as SecurityLevelDto.securityLevelType)
-            }
-            options={Object.values(SecurityLevelDto.securityLevelType).map(
-              (type) => ({ label: type, value: type }),
-            )}
-          />
         </div>
       ) : (
         <div className={styles.summary}>
+          <div className={styles.summaryRow}>
+            <span className={styles.summaryKey}>Sikkerhetsnivå:</span>
+            <span>{securityLevelType}</span>
+          </div>
           <div className={styles.summaryRow}>
             <span className={styles.summaryKey}>Album:</span>
             <span>{albumName}</span>
@@ -120,10 +124,6 @@ export default function PlacementDetails({
           <div className={styles.summaryRow}>
             <span className={styles.summaryKey}>Eier:</span>
             <span>{eventOwnerName}</span>
-          </div>
-          <div className={styles.summaryRow}>
-            <span className={styles.summaryKey}>Sikkerhetsnivå:</span>
-            <span>{securityLevelType}</span>
           </div>
         </div>
       )}

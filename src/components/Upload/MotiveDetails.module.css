@@ -114,7 +114,5 @@
 .displayFooter {
   display: flex;
   justify-content: center;
-  padding: var(--size-space-300) var(--size-space-400);
-  border-top: var(--size-stroke-border) solid
-    var(--color-border-default-default);
+  padding: var(--size-space-300) 0;
 }
