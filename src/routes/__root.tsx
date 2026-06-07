@@ -11,6 +11,7 @@ import { AdBannerContext } from "../contexts/AdBannerContext";
 import {
   createRootRouteWithContext,
   Outlet,
+  useRouter,
   useRouterState,
 } from "@tanstack/react-router";
 import styles from "./__root.module.css";
@@ -20,13 +21,21 @@ import {
 } from "../contexts/AuthenticationContext";
 import TitleBanner from "@/components/TitleBanner/TitleBanner";
 import { Toaster } from "@/components/ui/overlay/Toaster";
+import { z } from "zod";
+import PhotoViewModal from "@/components/ui/display/PhtotoViewModal";
+import { photoViewModalOptions } from "@/types";
 
 interface RouterContext {
   auth: AuthState;
 }
 
+const rootSearchSchema = z.object({
+  photoViewModal: photoViewModalOptions.optional(),
+});
+
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: RootComponent,
+  validateSearch: rootSearchSchema,
 });
 
 function SliderToolbar({
@@ -49,6 +58,22 @@ function SliderOverlay({ photo }: { photo: PhotoDto }) {
 }
 
 function RootComponent() {
+  const { photoViewModal } = Route.useSearch();
+  const router = useRouter();
+  const navigate = Route.useNavigate();
+
+  const closePhotoViewModal = () => {
+    if (router.history.canGoBack()) {
+      router.history.back();
+    } else {
+      void navigate({
+        search: (prev) => ({ ...prev, photoViewModal: undefined }),
+        replace: true,
+        resetScroll: false,
+      });
+    }
+  };
+
   const [photos, setPhotos] = useState<PhotoDto[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [photoIndex, setPhotoIndex] = useState(0);
@@ -114,6 +139,12 @@ function RootComponent() {
         </ImageContext.Provider>
       </AdBannerContext.Provider>
       <Toaster />
+      {photoViewModal && (
+        <PhotoViewModal
+          options={photoViewModal}
+          onClose={closePhotoViewModal}
+        />
+      )}
     </>
   );
 }

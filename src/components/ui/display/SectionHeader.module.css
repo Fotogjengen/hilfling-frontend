@@ -1,0 +1,27 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-family: var(--typography-family-sans);
+  font-size: var(--typography-heading-size-base);
+  font-weight: var(--typography-weight-bold);
+  color: var(--color-text-brand-secondary);
+}
+
+.link {
+  font-family: var(--typography-family-sans);
+  font-size: var(--typography-body-size-large);
+  font-weight: var(--typography-body-font-weight-regular);
+  color: var(--color-text-default-secondary);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-100);
+}
+
+.link:hover {
+  color: var(--color-text-default-default);
+}

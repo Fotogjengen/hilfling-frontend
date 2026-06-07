@@ -94,6 +94,10 @@
   --color-pink-900: #57184aff;
   --color-pink-1000: #3f1536ff;
 
+  /* Photo modal colors */
+  --color-background-photo-modal: var(--color-gray-900);
+  --color-text-photo-modal: var(--color-white-1000);
+
   /* Spacing */
   --size-space-0: 0px;
   --size-space-050: 2px;
@@ -133,6 +137,7 @@
   --size-depth-negative-1200: -48px;
   --size-stroke-border: 1px;
   --size-stroke-focus-ring: 2px;
+  --size-icon-extra-small: 20px;
   --size-icon-small: 24px;
   --size-icon-medium: 32px;
   --size-icon-large: 40px;

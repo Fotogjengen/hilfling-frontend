@@ -1,0 +1,15 @@
+.section {
+  display: flex;
+  flex-direction: column;
+}
+
+.scroll {
+  display: flex;
+  gap: var(--size-space-400);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.scroll::-webkit-scrollbar {
+  display: none;
+}

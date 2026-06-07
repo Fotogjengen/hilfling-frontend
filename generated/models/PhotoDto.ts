@@ -14,7 +14,7 @@ export type PhotoDto = {
   imageNumber: number;
   pageNumber: number;
   imageProd?: string;
-  imageWeb?: string;
+  imageWeb: string;
   imageThumb: string;
   motive: MotiveDto;
   securityLevel: SecurityLevelDto;

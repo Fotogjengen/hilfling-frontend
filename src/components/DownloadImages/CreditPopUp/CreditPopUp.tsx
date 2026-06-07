@@ -1,6 +1,6 @@
 import styles from "./CreditPopUp.module.css";
-import { X } from "lucide-react";
 import { Button } from "@/components/ui/input/Button";
+import { Dialog } from "@/components/ui/overlay/Dialog";
 
 interface Props {
   setTriggerCreditPopUp: React.Dispatch<React.SetStateAction<boolean>>;
@@ -24,18 +24,19 @@ function CreditPopUp({
   };
 
   return (
-    <div className={styles.mainContainerStyle}>
-      <div className={styles.exitContainerStyle}>
-        <button
-          className={styles.closeButton}
-          onClick={handleAbort}
-          aria-label="Lukk"
-        >
-          <X size={20} />
-        </button>
-      </div>
+    <Dialog
+      open
+      onOpenChange={(open) => {
+        if (!open) handleAbort();
+      }}
+      title="Husk kreditering!"
+      actions={
+        <Button onClick={handleAccept} className={styles.OKbuttonStyle}>
+          OK!
+        </Button>
+      }
+    >
       <div className={styles.textContainerStyle}>
-        <h1 className={styles.headerContainerStyle}>Husk kreditering!</h1>
         <p>
           Alle bilder tatt av fotogjengen skal krediteres med: <br />
           <br />
@@ -59,12 +60,7 @@ function CreditPopUp({
           vilkår for bruk av bilder.
         </p>
       </div>
-      <div className={styles.buttonContainerStyle}>
-        <Button onClick={handleAccept} className={styles.OKbuttonStyle}>
-          OK!
-        </Button>
-      </div>
-    </div>
+    </Dialog>
   );
 }
 

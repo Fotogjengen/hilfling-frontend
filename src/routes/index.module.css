@@ -1,46 +1,32 @@
-* {
-  box-sizing: border-box;
-}
-
-.contentContainer {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2.5rem;
-}
-
-.CaroContainer {
+.wrapper {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: var(--size-space-400);
 }
 
-.fakeCaro {
-  width: 100%;
-  min-height: 25rem;
-  background-color: rgb(226, 132, 117);
+.heroWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+}
+
+.logoWrapper {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.heroContent {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.insta {
-  display: none;
-}
-
-.rightSide {
-  display: flex;
-  flex-direction: column;
-}
-
-.rightSide > * {
-  margin-bottom: 1rem;
-}
-
-@media screen and (min-width: 50rem) {
-  .contentContainer {
-    grid-template-columns: 10fr 4fr;
-  }
-
-  .insta {
-    display: contents;
-  }
+.photoWallWrapper {
+  margin-top: var(--size-space-1200);
 }
