@@ -50,6 +50,11 @@
 .photoViewSidebarList {
   height: 100%;
   user-select: none;
+  scrollbar-width: none;
+}
+
+.photoViewSidebarList::-webkit-scrollbar {
+  display: none;
 }
 
 .sidebarItem {
