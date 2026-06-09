@@ -143,6 +143,10 @@
   --size-icon-medium: 32px;
   --size-icon-large: 40px;
 
+  /* Icon button sizes*/
+  --size-icon-button-medium: 44px;
+  --size-icon-button-small: 32px;
+
   /* Typography primitives */
   --typography-family-sans: Inter;
   --typography-family-serif: Noto Serif;

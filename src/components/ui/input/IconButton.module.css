@@ -11,14 +11,15 @@
 }
 
 .sm {
-  width: var(--size-icon-small);
-  height: var(--size-icon-small);
+  width: var(--size-icon-button-small);
+  height: var(--size-icon-button-small);
 }
 
 .md {
-  width: var(--size-icon-medium);
-  height: var(--size-icon-medium);
+  width: var(--size-icon-button-medium);
+  height: var(--size-icon-button-medium);
 }
+
 
 .lg {
   width: var(--size-icon-large);

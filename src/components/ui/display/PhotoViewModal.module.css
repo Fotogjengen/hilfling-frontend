@@ -126,7 +126,7 @@
 
 .actionButtonGroup .actionButton {
   width: auto;
-  min-width: var(--size-icon-medium);
+  min-width: var(--size-icon-button-medium);
 }
 
 .actionButtonGroup .actionButton:has(.copyLabel):hover {
@@ -136,15 +136,14 @@
 .copyContent {
   display: flex;
   align-items: center;
-  padding-inline: var(--size-space-100);
   font-size: var(--typography-scale-02);
 }
 
 .iconStack {
   display: grid;
   place-items: center;
-  width: var(--size-icon-small);
-  height: var(--size-icon-small);
+  width: var(--size-icon-button-medium);
+  height: var(--size-icon-button-medium);
 }
 
 .iconLayer {
@@ -159,6 +158,5 @@
 .copyLabelText {
   display: block;
   white-space: nowrap;
-  padding-left: var(--size-space-200);
   padding-right: var(--size-space-100);
 }
