@@ -97,6 +97,7 @@
   /* Photo modal colors */
   --color-background-photo-modal: var(--color-gray-900);
   --color-text-photo-modal: var(--color-white-1000);
+  --color-border-transparent-default-photo-modal: var(--color-gray-500);
 
   /* Spacing */
   --size-space-0: 0px;

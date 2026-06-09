@@ -44,6 +44,7 @@
 .photoViewSidebarBackground {
   flex: 0 0 20%;
   background-color: var(--color-background-transparent-default);
+  border-right: var(--size-stroke-border) solid var(--color-border-transparent-default-photo-modal);
 }
 
 .photoViewSidebarList {
@@ -63,21 +64,20 @@
 
 .sidebarPhoto {
   display: block;
-  width: 100%;
+  width: calc(100% - 2 * var(--size-space-400));
+  margin-inline: auto;
   object-fit: cover;
   cursor: pointer;
   transition:
-    padding 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    width 0.3s cubic-bezier(0.16, 1, 0.3, 1),
     margin 0.3s cubic-bezier(0.16, 1, 0.3, 1),
     aspect-ratio 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  padding-left: var(--size-space-400);
-  padding-right: var(--size-space-400);
   border-radius: var(--size-radius-400);
   aspect-ratio: 3 / 2;
 }
 
 .selectedSidebarPhoto {
-  padding: 0;
+  width: 100%;
   margin-top: var(--size-space-400);
   margin-bottom: var(--size-space-400);
   aspect-ratio: 1 / 1;
@@ -105,7 +105,7 @@
   bottom: var(--size-space-400);
   left: var(--size-space-400);
   display: flex;
-  gap: var(--size-space-600);
+  gap: var(--size-space-400);
   justify-content: center;
   background-color: var(--color-background-transparent-default);
   border-radius: var(--size-radius-full);

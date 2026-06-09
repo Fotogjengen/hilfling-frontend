@@ -117,7 +117,7 @@ export default function PhotoViewModal({ onClose, options }: Props) {
         positionInPage,
       },
     });
-    history.replaceState(null, "", pathname + search + hash);
+    history.replaceState(history.state, "", pathname + search + hash);
   }, [selectedPhoto, goodPhotos, router]);
 
   return (
@@ -301,7 +301,7 @@ function PhotoViewSidebar({
       className={styles.photoViewSidebarBackground}
       animate={{
         x: isFocused ? "-100%" : "0%",
-        marginLeft: isFocused ? "-20%" : "0%",
+        marginRight: isFocused ? "-20%" : "0%",
       }}
       transition={{ ease: [0.16, 1, 0.3, 1], duration: 0.4 }}
     >
