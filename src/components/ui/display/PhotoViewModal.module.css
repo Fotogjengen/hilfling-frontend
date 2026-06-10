@@ -184,3 +184,94 @@
   white-space: nowrap;
   padding-right: var(--size-space-100);
 }
+
+/* Mobile layout */
+
+.mobileActionGroup {
+  bottom: auto;
+  top: var(--size-space-400);
+  left: var(--size-space-400);
+  z-index: 10;
+}
+
+.mobileContent {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.swipeViewport {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.swipePhoto {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.bottomStrip {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-200);
+  overflow-x: auto;
+  /* we compensate scroll position manually when pages are prepended */
+  overflow-anchor: none;
+  user-select: none;
+  scrollbar-width: none;
+  padding: var(--size-space-400);
+}
+
+.bottomStrip::-webkit-scrollbar {
+  display: none;
+}
+
+.stripItem {
+  flex: 0 0 auto;
+}
+
+.stripLoader {
+  display: flex;
+  gap: var(--size-space-200);
+}
+
+.stripSentinel {
+  flex: 0 0 1px;
+  align-self: stretch;
+}
+
+.stripPhoto {
+  display: block;
+  height: 5rem;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  cursor: pointer;
+  opacity: 0.7;
+  border-radius: var(--size-radius-200);
+  transition:
+    aspect-ratio 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.selectedStripPhoto {
+  aspect-ratio: 1 / 1;
+  opacity: 1;
+}
+
+.stripSkeleton {
+  flex: 0 0 auto;
+  height: 5rem;
+  aspect-ratio: 3 / 4;
+  border-radius: var(--size-radius-200);
+  background-color: var(--color-background-skeleton-photo-modal);
+}

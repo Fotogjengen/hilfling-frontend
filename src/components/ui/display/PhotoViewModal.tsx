@@ -2,7 +2,7 @@ import { PhotoViewModalOptions } from "@/types";
 import { Dialog } from "radix-ui";
 import styles from "./PhotoViewModal.module.css";
 import { AnimatePresence, motion } from "framer-motion";
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import { IconButton } from "../input/IconButton";
 import { Check, Download, Info, Link, PanelLeft, X } from "lucide-react";
 import { useFlatGoodPhotos } from "@/hooks/photo";
@@ -13,7 +13,9 @@ import { usePhotoDownload } from "@/hooks/photoDownload";
 import { useArrowKeyNavigation } from "@/hooks/arrowKeyNavigation";
 import { useInactivity } from "@/hooks/useInactivity";
 import { PhotoViewSidebar } from "./PhotoViewSidebar";
+import { PhotoViewBottomStrip } from "./PhotoViewBottomStrip";
 import { hasUserInteracted } from "@/utils/userInteraction";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { EASE_OUT_EXPO } from "@/utils/animation";
 
 type Props = {
@@ -98,6 +100,7 @@ export default function PhotoViewModal({ onClose, options }: Props) {
   const [isFocused, setIsFocused] = useState(false);
   const { isInactive } = useInactivity({ inactiveDelayMs: 2000 });
   const hideUI = isFocused && isInactive;
+  const isMobile = useMediaQuery("(max-width: 768px)");
   const router = useRouter();
 
   const currentIndex = selectedPhoto
@@ -165,35 +168,126 @@ export default function PhotoViewModal({ onClose, options }: Props) {
           <X />
         </IconButton>
       </FadeInOut>
-      <FadeInOut
-        show={!hideUI}
-        className={styles.focusToggle}
-        animateOnMount={false}
-      >
-        <IconButton
-          aria-label="Fokuser bilde"
-          variant="transparent"
-          onClick={() => setIsFocused((f) => !f)}
-        >
-          <PanelLeft className={styles.focusToggleIcon} />
-        </IconButton>
-      </FadeInOut>
-      <PhotoViewSidebar
-        selectedPhoto={selectedPhoto}
-        initialPage={initialOptions.page}
-        onSelectPhoto={setSelectedPhoto}
-        isFocused={isFocused}
-      />
-      <PhotoViewMainContent
-        selectedPhoto={selectedPhoto}
-        onToggleFocus={() => setIsFocused((f) => !f)}
-        isFocused={isFocused}
-      />
+      {isMobile ? (
+        <>
+          <div
+            className={`${styles.actionButtonGroup} ${styles.mobileActionGroup}`}
+          >
+            <PhotoActionButtons selectedPhoto={selectedPhoto} />
+          </div>
+          <div className={styles.mobileContent}>
+            <SwipeableMainPhoto
+              photos={photos}
+              selectedPhoto={selectedPhoto}
+              onSelectPhoto={setSelectedPhoto}
+            />
+            <PhotoViewBottomStrip
+              selectedPhoto={selectedPhoto}
+              initialPage={initialOptions.page}
+              onSelectPhoto={setSelectedPhoto}
+            />
+          </div>
+        </>
+      ) : (
+        <>
+          <FadeInOut
+            show={!hideUI}
+            className={styles.focusToggle}
+            animateOnMount={false}
+          >
+            <IconButton
+              aria-label="Fokuser bilde"
+              variant="transparent"
+              onClick={() => setIsFocused((f) => !f)}
+            >
+              <PanelLeft className={styles.focusToggleIcon} />
+            </IconButton>
+          </FadeInOut>
+          <PhotoViewSidebar
+            selectedPhoto={selectedPhoto}
+            initialPage={initialOptions.page}
+            onSelectPhoto={setSelectedPhoto}
+            isFocused={isFocused}
+          />
+          <PhotoViewMainContent
+            selectedPhoto={selectedPhoto}
+            onToggleFocus={() => setIsFocused((f) => !f)}
+            isFocused={isFocused}
+          />
+        </>
+      )}
     </PhotoModalWrapper>
   );
 }
 
-// Main photo display area
+// Download, copy link and metadata buttons, shared by both layouts
+function PhotoActionButtons({ selectedPhoto }: { selectedPhoto?: PhotoDto }) {
+  const { copied, copy } = useCopyToClipboard();
+  const { requestDownload, creditPopUp } = usePhotoDownload();
+
+  return (
+    <>
+      <IconButton
+        variant="subtle"
+        aria-label="Last ned bildet"
+        className={styles.actionButton}
+        onClick={() => selectedPhoto && requestDownload(selectedPhoto)}
+      >
+        <Download />
+      </IconButton>
+      <IconButton
+        onClick={() => {
+          if (selectedPhoto) {
+            copy({ text: globalThis.location.href });
+          }
+        }}
+        variant="subtle"
+        aria-label="Kopier bildelenke"
+        className={styles.actionButton}
+      >
+        <span className={styles.copyContent}>
+          <span className={styles.iconStack}>
+            <AnimatePresence initial={false}>
+              <motion.span
+                key={copied ? "check" : "link"}
+                className={styles.iconLayer}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                {copied ? <Check /> : <Link />}
+              </motion.span>
+            </AnimatePresence>
+          </span>
+          <AnimatePresence initial={false}>
+            {copied && (
+              <motion.span
+                className={styles.copyLabel}
+                initial={{ width: 0, opacity: 0 }}
+                animate={{ width: "auto", opacity: 1 }}
+                exit={{ width: 0, opacity: 0 }}
+                transition={{ ease: EASE_OUT_EXPO, duration: 0.3 }}
+              >
+                <span className={styles.copyLabelText}>Kopiert!</span>
+              </motion.span>
+            )}
+          </AnimatePresence>
+        </span>
+      </IconButton>
+      <IconButton
+        variant="subtle"
+        aria-label="Vis metadata"
+        className={styles.actionButton}
+      >
+        <Info />
+      </IconButton>
+      {creditPopUp}
+    </>
+  );
+}
+
+// Main photo display area (desktop)
 function PhotoViewMainContent({
   selectedPhoto,
   onToggleFocus,
@@ -203,9 +297,6 @@ function PhotoViewMainContent({
   onToggleFocus: () => void;
   isFocused: boolean;
 }) {
-  const { copied, copy } = useCopyToClipboard();
-  const { requestDownload, creditPopUp } = usePhotoDownload();
-
   return (
     <div className={styles.mainContentWrapper}>
       {selectedPhoto ? (
@@ -223,63 +314,81 @@ function PhotoViewMainContent({
         animateOnMount={false}
         className={styles.actionButtonGroup}
       >
-        <IconButton
-          variant="subtle"
-          aria-label="Last ned bildet"
-          className={styles.actionButton}
-          onClick={() => selectedPhoto && requestDownload(selectedPhoto)}
-        >
-          <Download />
-        </IconButton>
-        <IconButton
-          onClick={() => {
-            if (selectedPhoto) {
-              copy({ text: globalThis.location.href });
-            }
-          }}
-          variant="subtle"
-          aria-label="Kopier bildelenke"
-          className={styles.actionButton}
-        >
-          <span className={styles.copyContent}>
-            <span className={styles.iconStack}>
-              <AnimatePresence initial={false}>
-                <motion.span
-                  key={copied ? "check" : "link"}
-                  className={styles.iconLayer}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  {copied ? <Check /> : <Link />}
-                </motion.span>
-              </AnimatePresence>
-            </span>
-            <AnimatePresence initial={false}>
-              {copied && (
-                <motion.span
-                  className={styles.copyLabel}
-                  initial={{ width: 0, opacity: 0 }}
-                  animate={{ width: "auto", opacity: 1 }}
-                  exit={{ width: 0, opacity: 0 }}
-                  transition={{ ease: EASE_OUT_EXPO, duration: 0.3 }}
-                >
-                  <span className={styles.copyLabelText}>Kopiert!</span>
-                </motion.span>
-              )}
-            </AnimatePresence>
-          </span>
-        </IconButton>
-        <IconButton
-          variant="subtle"
-          aria-label="Vis metadata"
-          className={styles.actionButton}
-        >
-          <Info />
-        </IconButton>
+        <PhotoActionButtons selectedPhoto={selectedPhoto} />
       </FadeInOut>
-      {creditPopUp}
+    </div>
+  );
+}
+
+// Minimum drag distance (adjusted by velocity) before a swipe changes photo
+const SWIPE_THRESHOLD = 80;
+
+const swipeVariants = {
+  enter: (direction: number) => ({
+    x: direction > 0 ? "100%" : "-100%",
+    opacity: 0,
+  }),
+  center: { x: "0%", opacity: 1 },
+  exit: (direction: number) => ({
+    x: direction > 0 ? "-100%" : "100%",
+    opacity: 0,
+  }),
+};
+
+// Swipeable main photo area (mobile)
+function SwipeableMainPhoto({
+  photos,
+  selectedPhoto,
+  onSelectPhoto,
+}: {
+  photos: PhotoDto[];
+  selectedPhoto?: PhotoDto;
+  onSelectPhoto: (photo: PhotoDto) => void;
+}) {
+  const currentIndex = selectedPhoto
+    ? photos.findIndex((p) => p.photoId.id === selectedPhoto.photoId.id)
+    : -1;
+  // direction of travel, so the new photo enters from the side swiped towards
+  const prevIndex = useRef(currentIndex);
+  const direction = currentIndex >= prevIndex.current ? 1 : -1;
+  useEffect(() => {
+    prevIndex.current = currentIndex;
+  });
+
+  return (
+    <div className={styles.swipeViewport}>
+      {selectedPhoto ? (
+        <AnimatePresence initial={false} custom={direction}>
+          <motion.img
+            key={selectedPhoto.photoId.id}
+            src={selectedPhoto.imageWeb}
+            alt=""
+            className={styles.swipePhoto}
+            custom={direction}
+            variants={swipeVariants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ ease: EASE_OUT_EXPO, duration: 0.4 }}
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={0.2}
+            onDragEnd={(_, info) => {
+              const swipe = info.offset.x + info.velocity.x * 0.2;
+              if (
+                swipe < -SWIPE_THRESHOLD &&
+                currentIndex < photos.length - 1
+              ) {
+                onSelectPhoto(photos[currentIndex + 1]);
+              } else if (swipe > SWIPE_THRESHOLD && currentIndex > 0) {
+                onSelectPhoto(photos[currentIndex - 1]);
+              }
+            }}
+          />
+        </AnimatePresence>
+      ) : (
+        <div className={`${styles.mainPhotoSkeleton} skeleton`} />
+      )}
     </div>
   );
 }

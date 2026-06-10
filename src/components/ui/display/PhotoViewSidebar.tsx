@@ -89,7 +89,7 @@ function usePrependScrollCompensation(
  * Fetches the next/previous page when the sentinel elements approach the
  * viewport. Returns the refs to attach to the sentinels.
  */
-function usePageLoadSentinels(
+export function usePageLoadSentinels(
   containerRef: ContainerRef,
   enabled: boolean,
   pagination: {
