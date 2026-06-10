@@ -98,6 +98,7 @@
   --color-background-photo-modal: var(--color-gray-900);
   --color-text-photo-modal: var(--color-white-1000);
   --color-border-transparent-default-photo-modal: var(--color-gray-500);
+  --color-background-skeleton-photo-modal: var(--color-slate-900);
 
   /* Spacing */
   --size-space-0: 0px;

@@ -154,6 +154,41 @@ function usePageLoadSentinels(
   return { topSentinelRef, bottomSentinelRef };
 }
 
+// Skeleton thumbnails shown while the initial photos load.
+const INITIAL_SKELETON_COUNT = 10;
+// Skeleton thumbnails shown while an adjacent page is fetching.
+const PAGE_SKELETON_COUNT = 4;
+
+function SidebarSkeletons({ count }: { count: number }) {
+  return (
+    <>
+      {Array.from({ length: count }, (_, i) => (
+        <div key={i} className={styles.sidebarItem}>
+          <div className={`${styles.sidebarSkeleton} skeleton`} />
+        </div>
+      ))}
+    </>
+  );
+}
+
+/**
+ * Keeps the scroll position stable as the top loading skeletons mount and
+ * unmount, mirroring what `usePrependScrollCompensation` does for real items.
+ */
+function useTopLoaderScrollCompensation(
+  topLoaderRef: ContainerRef,
+  shiftScrollBy: (delta: number) => void,
+) {
+  const prevHeight = useRef(0);
+  useLayoutEffect(() => {
+    const height = topLoaderRef.current?.offsetHeight ?? 0;
+    if (height !== prevHeight.current) {
+      shiftScrollBy(height - prevHeight.current);
+      prevHeight.current = height;
+    }
+  });
+}
+
 export function PhotoViewSidebar({
   selectedPhoto,
   initialPage,
@@ -172,6 +207,7 @@ export function PhotoViewSidebar({
   } = useFlatGoodPhotos(initialPage);
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const topLoaderRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef(new Map<string, HTMLDivElement>());
 
   const shiftScrollBy = useCenterSelectedPhoto(
@@ -185,6 +221,7 @@ export function PhotoViewSidebar({
     goodPhotos?.pages[0]?.page,
     shiftScrollBy,
   );
+  useTopLoaderScrollCompensation(topLoaderRef, shiftScrollBy);
   const { topSentinelRef, bottomSentinelRef } = usePageLoadSentinels(
     containerRef,
     photos.length > 0,
@@ -200,9 +237,20 @@ export function PhotoViewSidebar({
       }}
       transition={{ ease: EASE_OUT_EXPO, duration: 0.4 }}
     >
+      {pagination.isPending && (
+        <div className={styles.photoViewSidebarList}>
+          <div className={styles.sidebarSpacer} />
+          <SidebarSkeletons count={INITIAL_SKELETON_COUNT} />
+        </div>
+      )}
       {photos.length > 0 && (
         <div ref={containerRef} className={styles.photoViewSidebarList}>
           <div ref={topSentinelRef} className={styles.sidebarSpacer} />
+          <div ref={topLoaderRef}>
+            {pagination.isFetchingPreviousPage && (
+              <SidebarSkeletons count={PAGE_SKELETON_COUNT} />
+            )}
+          </div>
           {photos.map((photo) => (
             <div
               key={photo.photoId.id}
@@ -225,6 +273,9 @@ export function PhotoViewSidebar({
               />
             </div>
           ))}
+          {pagination.isFetchingNextPage && (
+            <SidebarSkeletons count={PAGE_SKELETON_COUNT} />
+          )}
           <div ref={bottomSentinelRef} className={styles.sidebarSpacer} />
         </div>
       )}

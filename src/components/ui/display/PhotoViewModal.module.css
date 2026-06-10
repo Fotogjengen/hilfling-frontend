@@ -2,7 +2,6 @@
   background-color: var(--color-background-photo-modal);
   position: fixed;
   inset: 0;
-  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .dialogContent {
@@ -11,6 +10,10 @@
   inset: 0;
   display: flex;
   outline: none;
+}
+
+.fadeInAnimation {
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @keyframes fadeIn {
@@ -86,6 +89,19 @@
   opacity: 0.85;
   border-radius: var(--size-radius-400);
   aspect-ratio: 12 / 7;
+}
+
+.sidebarSkeleton {
+  width: 100%;
+  aspect-ratio: 12 / 7;
+  border-radius: var(--size-radius-400);
+  background-color: var(--color-background-skeleton-photo-modal);
+}
+
+.mainPhotoSkeleton {
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-background-skeleton-photo-modal);
 }
 
 .selectedSidebarPhoto {

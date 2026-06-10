@@ -13,6 +13,7 @@ import { usePhotoDownload } from "@/hooks/photoDownload";
 import { useArrowKeyNavigation } from "@/hooks/arrowKeyNavigation";
 import { useInactivity } from "@/hooks/useInactivity";
 import { PhotoViewSidebar } from "./PhotoViewSidebar";
+import { hasUserInteracted } from "@/utils/userInteraction";
 import { EASE_OUT_EXPO } from "@/utils/animation";
 
 type Props = {
@@ -27,6 +28,9 @@ function PhotoModalWrapper({
   children: ReactNode;
   onClose: () => void;
 }) {
+  // skip the fade-in when the modal mounts as part of the initial page load
+  const [animateIn] = useState(hasUserInteracted);
+
   //hide scrollbar
   useEffect(() => {
     const el = document.documentElement;
@@ -40,9 +44,11 @@ function PhotoModalWrapper({
   return (
     <Dialog.Root open modal={false} onOpenChange={(open) => !open && onClose()}>
       <Dialog.Portal>
-        <div className={styles.dialogOverlay} />
+        <div
+          className={`${styles.dialogOverlay} ${animateIn ? styles.fadeInAnimation : ""}`}
+        />
         <Dialog.Content
-          className={styles.dialogContent}
+          className={`${styles.dialogContent} ${animateIn ? styles.fadeInAnimation : ""}`}
           onOpenAutoFocus={(event) => event.preventDefault()}
         >
           <Dialog.Title hidden>Bilder</Dialog.Title>
@@ -202,12 +208,16 @@ function PhotoViewMainContent({
 
   return (
     <div className={styles.mainContentWrapper}>
-      <img
-        src={selectedPhoto?.imageWeb}
-        alt=""
-        className={styles.mainPhoto}
-        onClick={onToggleFocus}
-      />
+      {selectedPhoto ? (
+        <img
+          src={selectedPhoto.imageWeb}
+          alt=""
+          className={styles.mainPhoto}
+          onClick={onToggleFocus}
+        />
+      ) : (
+        <div className={`${styles.mainPhotoSkeleton} skeleton`} />
+      )}
       <FadeInOut show={!isFocused} className={styles.actionButtonGroup}>
         <IconButton
           variant="subtle"
