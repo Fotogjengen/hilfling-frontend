@@ -218,7 +218,11 @@ function PhotoViewMainContent({
       ) : (
         <div className={`${styles.mainPhotoSkeleton} skeleton`} />
       )}
-      <FadeInOut show={!isFocused} className={styles.actionButtonGroup}>
+      <FadeInOut
+        show={!isFocused}
+        animateOnMount={false}
+        className={styles.actionButtonGroup}
+      >
         <IconButton
           variant="subtle"
           aria-label="Last ned bildet"

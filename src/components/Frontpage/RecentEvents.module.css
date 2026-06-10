@@ -8,6 +8,9 @@
   gap: var(--size-space-400);
   overflow-x: auto;
   scrollbar-width: none;
+  /* Tallak vil ikke ha padding på spesifikt denne komponenten, så vi fjerner det :)*/
+  margin-inline: -2rem;
+  padding-inline: 2rem;
 }
 
 .scroll::-webkit-scrollbar {
