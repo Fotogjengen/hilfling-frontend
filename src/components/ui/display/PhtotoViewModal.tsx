@@ -12,6 +12,7 @@ import { useCopyToClipboard } from "@/hooks/clipboard";
 import { usePhotoDownload } from "@/hooks/photoDownload";
 import { useArrowKeyNavigation } from "@/hooks/arrowKeyNavigation";
 import { Virtuoso, VirtuosoHandle } from "react-virtuoso";
+import { useInactivity } from "@/hooks/useInactivity";
 
 type Props = {
   options: PhotoViewModalOptions;
@@ -59,6 +60,8 @@ export default function PhotoViewModal({ onClose, options }: Props) {
   );
   const [selectedPhoto, setSelectedPhoto] = useState<PhotoDto | undefined>();
   const [isFocused, setIsFocused] = useState(false);
+  const { isInactive } = useInactivity({ inactiveDelayMs: 2000 });
+  const hideUI = isFocused && isInactive;
   const router = useRouter();
 
   const photos = useMemo(
@@ -122,20 +125,38 @@ export default function PhotoViewModal({ onClose, options }: Props) {
 
   return (
     <PhotoModalWrapper onClose={onClose}>
-      <div className={styles.closeButton}>
-        <IconButton aria-label="Lukk" variant="transparent" onClick={onClose}>
-          <X />
-        </IconButton>
-      </div>
-      <div className={styles.focusToggle}>
-        <IconButton
-          aria-label="Fokuser bilde"
-          variant="transparent"
-          onClick={() => setIsFocused((f) => !f)}
-        >
-          <PanelLeft className={styles.focusToggleIcon} />
-        </IconButton>
-      </div>
+      <AnimatePresence initial={false}>
+        {!hideUI && (
+          <motion.div
+            className={styles.closeButton}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <IconButton aria-label="Lukk" variant="transparent" onClick={onClose}>
+              <X />
+            </IconButton>
+          </motion.div>
+        )}
+      </AnimatePresence>
+      <AnimatePresence initial={false}>
+        {!hideUI && (
+          <motion.div
+            className={styles.focusToggle}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <IconButton
+              aria-label="Fokuser bilde"
+              variant="transparent"
+              onClick={() => setIsFocused((f) => !f)}
+            >
+              <PanelLeft className={styles.focusToggleIcon} />
+            </IconButton>
+          </motion.div>
+        )}
+      </AnimatePresence>
       <PhotoViewSidebar
         selectedPhoto={selectedPhoto}
         initialPage={initialOptions.page}
