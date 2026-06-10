@@ -44,11 +44,16 @@
 .photoViewSidebarBackground {
   flex: 0 0 20%;
   background-color: var(--color-background-transparent-default);
-  border-right: var(--size-stroke-border) solid var(--color-border-transparent-default-photo-modal);
+  border-right: var(--size-stroke-border) solid
+    var(--color-border-transparent-default-photo-modal);
 }
 
 .photoViewSidebarList {
   height: 100%;
+  position: relative;
+  overflow-y: auto;
+  /* we compensate scroll position manually when pages are prepended */
+  overflow-anchor: none;
   user-select: none;
   scrollbar-width: none;
 }
@@ -69,16 +74,18 @@
 
 .sidebarPhoto {
   display: block;
-  width: calc(100% - 2 * var(--size-space-400));
+  width: 100%;
   margin-inline: auto;
   object-fit: cover;
   cursor: pointer;
   transition:
     width 0.3s cubic-bezier(0.16, 1, 0.3, 1),
     margin 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-    aspect-ratio 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    aspect-ratio 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  opacity: 0.85;
   border-radius: var(--size-radius-400);
-  aspect-ratio: 3 / 2;
+  aspect-ratio: 12 / 7;
 }
 
 .selectedSidebarPhoto {
@@ -86,6 +93,7 @@
   margin-top: var(--size-space-400);
   margin-bottom: var(--size-space-400);
   aspect-ratio: 1 / 1;
+  opacity: 1;
 }
 
 .mainContentWrapper {

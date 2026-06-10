@@ -7,6 +7,7 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { toast } from "@/components/ui/overlay/Toaster";
+import { useMemo } from "react";
 import { AxiosProgressEvent } from "axios";
 import { PhotoDto, PhotoGoodPictureToggleRequestDto } from "../../generated";
 import { PaginatedResultData } from "../utils/api/types";
@@ -93,6 +94,16 @@ export const useGoodPhotos = () => {
     getNextPageParam: (lastPage, allPages) =>
       allPages.length < lastPage.totalPages ? allPages.length : undefined,
   });
+};
+
+/** `useGoodPhotosFromPage` with the loaded pages flattened to a single list. */
+export const useFlatGoodPhotos = (startPage: number) => {
+  const query = useGoodPhotosFromPage(startPage);
+  const photos = useMemo(
+    () => query.data?.pages.flatMap((page) => page.currentList) ?? [],
+    [query.data],
+  );
+  return { ...query, photos };
 };
 
 export const useGoodPhotosFromPage = (startPage: number) => {
