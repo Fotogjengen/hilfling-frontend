@@ -22,7 +22,7 @@ import {
 import TitleBanner from "@/components/TitleBanner/TitleBanner";
 import { Toaster } from "@/components/ui/overlay/Toaster";
 import { z } from "zod";
-import PhotoViewModal from "@/components/ui/display/PhotoViewModal";
+import PhotoViewModal from "@/components/PhotoViewModal/PhotoViewModal";
 import { photoViewModalOptions } from "@/types";
 
 interface RouterContext {
