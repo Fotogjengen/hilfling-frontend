@@ -49,6 +49,21 @@
   grid-row: span 2;
 }
 
+.photoPlaceholder {
+  position: absolute;
+  inset: 0;
+  background: var(--color-background-default-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholderIcon {
+  width: 2.5rem;
+  height: 2.5rem;
+  color: var(--color-text-default-secondary);
+}
+
 .hidePhoto {
   display: none;
 }

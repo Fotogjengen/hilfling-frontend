@@ -4,6 +4,7 @@ import { useGoodPhotosByMotiveId } from "@/hooks/photo";
 import styles from "./EventCard.module.css";
 import { MotiveDto, PhotoDto } from "../../../../generated";
 import { useEffect, useMemo, useState } from "react";
+import { ImageOff } from "lucide-react";
 
 type EventCardProps = {
   motive: MotiveDto;
@@ -34,7 +35,7 @@ export default function EventCard({ motive }: EventCardProps) {
   const sortedPhotos = useMemo(() => {
     const order = Object.keys(orientations);
     if (order.length === 0) return photos;
-    // Render photos in the order their ids were inserted into `orientations`;
+    // render photos in the order their ids were inserted into `orientations`;
     // hidden photos (not in the map) go last.
     const rank = (id: string) => {
       const idx = order.indexOf(id);
@@ -64,6 +65,8 @@ export default function EventCard({ motive }: EventCardProps) {
       id: string;
     }[]
   >([]);
+
+  const [unsupportedLayout, setUnsupportedLayout] = useState(false);
 
   useEffect(() => {
     if (loadedImages.length < Math.min(MAX_PHOTOS, photos.length)) return;
@@ -136,9 +139,7 @@ export default function EventCard({ motive }: EventCardProps) {
       return;
     }
 
-    console.error(
-      `Eventcard layout case not accounted for! Standing: ${standing.length} Laying: ${laying.length}`,
-    );
+    setUnsupportedLayout(true);
   }, [loadedImages, photos]);
 
   if (isPending) {
@@ -152,6 +153,11 @@ export default function EventCard({ motive }: EventCardProps) {
   return (
     <div className={styles.wrapper}>
       <div className={styles.photoGridWrapper}>
+        {unsupportedLayout && (
+          <div className={styles.photoPlaceholder}>
+            <ImageOff className={styles.placeholderIcon} />
+          </div>
+        )}
         <div className={`${styles.photoGrid}`}>
           {sortedPhotos.map((photo) => (
             <div
