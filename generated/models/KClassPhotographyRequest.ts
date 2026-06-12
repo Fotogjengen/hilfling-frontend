@@ -11,6 +11,7 @@ import type { PhotographyRequest } from "./PhotographyRequest";
 export type KClassPhotographyRequest = {
   visibility?: KClassPhotographyRequest.visibility;
   sealedSubclasses: Array<KClassPhotographyRequest>;
+  isFun: boolean;
   isInner: boolean;
   isCompanion: boolean;
   isFun: boolean;

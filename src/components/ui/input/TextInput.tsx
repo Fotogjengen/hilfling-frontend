@@ -8,12 +8,13 @@ interface TextInputProps
   error?: string;
   hint?: string;
   className?: string;
+  prefix?: ReactNode;
   suffix?: ReactNode;
 }
 
 export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
   function TextInput(
-    { label, error, hint, className, id, suffix, ...props },
+    { label, error, hint, className, id, prefix, suffix, ...props },
     ref,
   ) {
     const inputId = id ?? `text-input-${props.name}`;
@@ -30,7 +31,15 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             {label}
           </Label.Root>
         )}
-        <div className={styles.inputRow}>
+        <div
+          className={[
+            styles.inputRow,
+            prefix ? styles.inputRowWithPrefix : null,
+          ]
+            .filter(Boolean)
+            .join(" ")}
+        >
+          {prefix && <div className={styles.prefix}>{prefix}</div>}
           <input
             ref={ref}
             id={inputId}

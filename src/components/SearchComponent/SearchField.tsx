@@ -1,123 +1,177 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { Button } from "@/components/ui/input/Button";
-import { SearchField as SearchFieldUi } from "@/components/ui/input/SearchField";
-import { SearchSuggestionsApi } from "../../utils/api/searchSuggestionsApi";
-import styles from "./Search.module.css";
-import { useSearchContext } from "@/components/Search/SearchContext";
+import { useEffect, useState } from "react";
+import styles from "./SearchField.module.css";
+import { useSearchSuggestions } from "@/hooks/search";
+import { TextInput } from "../ui/input/TextInput";
+import {
+  PopoverAnchor,
+  PopoverContent,
+  PopoverRoot,
+} from "../ui/overlay/Popover";
+import { FilterSuggestionDto } from "../../../generated";
+import { Book, Contact, Lock, MapPin, Tag } from "lucide-react";
+import SearchFilter from "./SearchFilter";
 
-const SearchField = ({ initialValue }: { initialValue?: string }) => {
-  const [search, setSearch] = useState(initialValue ?? "");
-  const [suggestions, setSuggestions] = useState<string[]>([]);
-  const [selectedIndex, setSelectedIndex] = useState(-1);
+export default function SearchField({
+  initialValue,
+  filters,
+  onFilterSelect,
+  onFilterRemove,
+  onQueryChange,
+}: {
+  initialValue?: string;
+  filters?: FilterSuggestionDto[];
+  onFilterSelect?: (filter: FilterSuggestionDto) => void;
+  onFilterRemove?: (filter: FilterSuggestionDto) => void;
+  onQueryChange?: (query: string) => void;
+}) {
+  const [inputValue, setInputValue] = useState(initialValue ?? "");
+  const { data: suggestions, isPending: suggestionsIsPending } =
+    useSearchSuggestions(inputValue);
+  const [inputIsFocused, setInputIsFocused] = useState(false);
 
-  const { setSearchQuery } = useSearchContext();
-
-  const [placeholder] = useState(() => {
-    const placeholders = [
-      "Søk etter gårsdagens konsertopplevelse 🤘",
-      "Finn bilder av deg selv i stigende promille 🍻",
-      "Søk etter gamle minner 🍁",
-      "Søk etter fotogjengens beste bilder 📸",
-      "Finn bilder av crushet ditt 👀",
-    ];
-    return placeholders[Math.floor(Math.random() * placeholders.length)];
-  });
-
-  const handleSearch = useCallback(
-    (s: string) => {
-      setSearch(s);
-      setSuggestions([]);
-      setSelectedIndex(-1);
-      setTimeout(() => setSearchQuery(s ?? search), 0);
-    },
-    [search, setSearchQuery],
-  );
+  const [hoveringSuggestionIndex, setHoveringSuggestionIndex] =
+    useState<number>(0);
 
   useEffect(() => {
-    if (search.length === 0) {
-      setSuggestions([]);
-      setSelectedIndex(-1);
+    setHoveringSuggestionIndex(0);
+  }, [inputValue]);
+
+  useEffect(() => {
+    onQueryChange?.(inputValue);
+  }, [inputValue]);
+
+  const selectSuggestion = (suggestion: FilterSuggestionDto) => {
+    if (suggestion.type === "MOTIVE") {
+      setInputValue(suggestion.displayText);
+      return;
+    }
+    onFilterSelect?.(suggestion);
+    setInputValue("");
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Backspace" && inputValue === "" && filters?.length) {
+      e.preventDefault();
+      const last = filters.at(-1);
+      if (last) {
+        onFilterRemove?.(last);
+        setInputValue(last.displayText);
+      }
       return;
     }
 
-    const timeoutId = setTimeout(() => {
-      SearchSuggestionsApi.get(search)
-        .then((res) => {
-          setSuggestions(res);
-          setSelectedIndex(-1);
-        })
-        .catch((e) => console.log(e));
-    }, 300);
-
-    return () => clearTimeout(timeoutId);
-  }, [search]);
-
-  const suggestionBoxes = useMemo(
-    () =>
-      suggestions.map((s, key) => (
-        <Button
-          key={key}
-          variant="subtle"
-          className={`${styles.suggestionBox} ${key === selectedIndex ? styles.selectedSuggestion : ""}`}
-          onClick={() => handleSearch(s)}
-          onMouseEnter={() => setSelectedIndex(key)}
-        >
-          {s}
-        </Button>
-      )),
-    [suggestions, handleSearch, selectedIndex],
-  );
-
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (suggestions.length === 0) {
-      if (event.key === "Enter") handleSearch(search);
+    if (!suggestions?.length || !inputIsFocused) {
       return;
     }
 
-    switch (event.key) {
-      case "ArrowDown":
-        event.preventDefault();
-        setSelectedIndex((prev) =>
-          prev < suggestions.length - 1 ? prev + 1 : 0,
-        );
-        break;
-      case "ArrowUp":
-        event.preventDefault();
-        setSelectedIndex((prev) =>
-          prev > 0 ? prev - 1 : suggestions.length - 1,
-        );
-        break;
-      case "Enter":
-        event.preventDefault();
-        handleSearch(selectedIndex >= 0 ? suggestions[selectedIndex] : search);
-        break;
-      case "Escape":
-        setSuggestions([]);
-        setSelectedIndex(-1);
-        break;
+    if (e.key === "Tab") {
+      e.preventDefault();
+      const selected = suggestions[hoveringSuggestionIndex];
+      if (selected) selectSuggestion(selected);
+    }
+
+    if (e.key === "Enter") {
+      e.preventDefault();
+      (e.target as HTMLElement).blur();
+    }
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setHoveringSuggestionIndex(
+        Math.min(hoveringSuggestionIndex + 1, suggestions.length - 1),
+      );
+      return;
+    }
+
+    if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setHoveringSuggestionIndex(Math.max(hoveringSuggestionIndex - 1, 0));
     }
   };
 
   return (
     <div className={styles.searchWrapper}>
-      <SearchFieldUi
-        value={search}
-        placeholder={placeholder}
-        onChange={(e) => {
-          setSearch(e.target.value);
-          setSelectedIndex(-1);
-        }}
-        onClear={() => {
-          setSearch("");
-          setSuggestions([]);
-          setSearchQuery("");
-        }}
-        onKeyDown={handleKeyDown}
-        autoComplete="off"
-      />
-      <div className={styles.suggestions}>{suggestionBoxes}</div>
+      <PopoverRoot open={!!suggestions?.length && inputIsFocused}>
+        <PopoverAnchor>
+          <TextInput
+            value={inputValue}
+            prefix={
+              filters?.length
+                ? filters.map((f) => (
+                    <SearchFilter
+                      key={f.id}
+                      icon={filterIcon(f.type)}
+                      selected
+                      onClick={() => onFilterRemove?.(f)}
+                    >
+                      {f.displayText}
+                    </SearchFilter>
+                  ))
+                : undefined
+            }
+            onFocus={(e) => {
+              setInputIsFocused(true);
+              const len = e.target.value.length;
+              e.target.setSelectionRange(len, len);
+            }}
+            onBlur={() => setInputIsFocused(false)}
+            onChange={(e) => setInputValue(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
+        </PopoverAnchor>
+        <PopoverContent
+          onOpenAutoFocus={(e) => e.preventDefault()}
+          onCloseAutoFocus={(e) => e.preventDefault()}
+        >
+          <div className={styles.suggestionList}>
+            {suggestionsIsPending ? (
+              <div className={styles.motiveSuggestion}>Laster forslag...</div>
+            ) : (
+              suggestions?.map((s, i) => (
+                <button
+                  key={s.id + i}
+                  className={`${styles.suggestionWrapper} ${i === hoveringSuggestionIndex && styles.hovering}`}
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => selectSuggestion(s)}
+                >
+                  <SearchSuggestion suggestion={s} />
+                </button>
+              ))
+            )}
+          </div>
+        </PopoverContent>
+      </PopoverRoot>
     </div>
   );
-};
+}
 
-export default SearchField;
+function SearchSuggestion({ suggestion }: { suggestion: FilterSuggestionDto }) {
+  if (suggestion.type === "MOTIVE") {
+    return (
+      <div className={styles.motiveSuggestion}>{suggestion.displayText}</div>
+    );
+  }
+
+  return (
+    <SearchFilter icon={filterIcon(suggestion.type)}>
+      {suggestion.displayText}
+    </SearchFilter>
+  );
+}
+
+function filterIcon(type: FilterSuggestionDto["type"]) {
+  switch (type) {
+    case "PLACE":
+      return MapPin;
+    case "EVENT_OWNER":
+      return Contact;
+    case "CATEGORY":
+      return Tag;
+    case "SECURITY_LEVEL":
+      return Lock;
+    case "ALBUM":
+      return Book;
+    default:
+      return undefined;
+  }
+}

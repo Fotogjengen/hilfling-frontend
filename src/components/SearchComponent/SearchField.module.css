@@ -1,0 +1,63 @@
+.searchWrapper {
+  position: relative;
+}
+.suggestionList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-100);
+  padding: var(--size-space-200);
+}
+
+.motiveSuggestion {
+  padding: var(--size-space-100) var(--size-space-200);
+  font-weight: var(--typography-weight-semibold);
+  cursor: pointer;
+  border-radius: var(--size-radius-100);
+  color: var(--color-text-default-default);
+}
+
+.motiveSuggestion:hover {
+  background: var(--color-background-default-default-hover);
+}
+
+.filterSuggestion {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--size-space-150);
+  padding: var(--size-space-150) var(--size-space-400);
+  background: var(--color-background-brand-tertiary);
+  border-radius: var(--size-radius-200);
+  cursor: pointer;
+  font-weight: var(--typography-weight-semibold);
+  color: var(--color-text-brand-default);
+  width: fit-content;
+}
+
+.filterSuggestion:hover {
+  background: var(--color-background-brand-tertiary-hover);
+}
+
+.filterSuggestionIcon {
+  display: flex;
+  align-items: center;
+  color: var(--color-icon-brand-secondary);
+  flex-shrink: 0;
+}
+
+.filterSuggestionPlus {
+  margin-left: var(--size-space-100);
+  color: var(--color-icon-brand-secondary);
+  display: flex;
+  align-items: center;
+}
+
+.suggestionWrapper {
+  all: unset;
+  display: block;
+  width: 100%;
+  cursor: pointer;
+}
+
+.suggestionWrapper.hovering {
+  background: var(--color-background-default-default-hover);
+}

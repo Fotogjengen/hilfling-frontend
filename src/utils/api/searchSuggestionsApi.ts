@@ -1,14 +1,14 @@
+import { FilterSuggestionDto } from "../../../generated";
 import { api } from "./api";
 
 export const SearchSuggestionsApi = {
-  get: async function (term: string): Promise<string[]> {
+  get: async function (q: string): Promise<FilterSuggestionDto[]> {
     return api
-      .get("/searchSuggestions", {
+      .get("/search/suggestions", {
         params: {
-          term,
+          q,
         },
       })
-      .then((res) => res.data)
-      .catch((e) => console.log(e));
+      .then((res) => res.data);
   },
 };

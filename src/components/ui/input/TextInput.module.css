@@ -28,6 +28,36 @@
   align-items: center;
 }
 
+.inputRowWithPrefix {
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-150);
+  padding-left: var(--size-space-200);
+  background-color: var(--color-background-default-default);
+  border-radius: var(--size-radius-200);
+  border: var(--size-stroke-border) solid var(--color-border-default-default);
+}
+
+.inputRowWithPrefix .input {
+  border: none;
+  background: transparent;
+  flex: 1;
+  min-width: 0;
+  padding-left: 0;
+  outline: none;
+}
+
+.inputRowWithPrefix:focus-within {
+  outline: auto;
+}
+
+.prefix {
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-100);
+  flex-shrink: 0;
+}
+
 .input {
   width: 100%;
   box-sizing: border-box;
