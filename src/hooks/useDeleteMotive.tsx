@@ -1,6 +1,8 @@
 import { MotiveApi } from "@/utils/api/MotiveApi";
 import { useState } from "react";
 
+// this is a test comment
+
 export function useDeleteMotive(){
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -24,5 +26,5 @@ export function useDeleteMotive(){
         }
     }
     return {deleteMotive, isLoading, error}
-}
+}   
 
