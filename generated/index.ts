@@ -14,6 +14,7 @@ export type { EventCardDto } from "./models/EventCardDto";
 export { EventOwnerDto } from "./models/EventOwnerDto";
 export type { EventOwnerId } from "./models/EventOwnerId";
 export { FilterSuggestionDto } from "./models/FilterSuggestionDto";
+export type { FilterSuggestionsResponseDto } from "./models/FilterSuggestionsResponseDto";
 export type { GangDto } from "./models/GangDto";
 export type { GangId } from "./models/GangId";
 export type { GangPatchRequestDto } from "./models/GangPatchRequestDto";

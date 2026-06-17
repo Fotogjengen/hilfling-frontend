@@ -1,0 +1,6 @@
+.message {
+  text-align: center;
+  padding: var(--size-space-800);
+  color: var(--color-text-default-secondary);
+  font-family: var(--typography-family-sans);
+}

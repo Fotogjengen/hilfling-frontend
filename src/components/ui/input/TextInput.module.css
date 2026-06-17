@@ -10,48 +10,30 @@
 }
 
 .inputRow {
-  position: relative;
-}
-
-.inputWithSuffix {
-  padding-right: 2.5rem;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.suffix {
-  position: absolute;
-  right: var(--size-space-300);
-  top: 50%;
-  transform: translateY(-50%);
-  display: flex;
-  align-items: center;
-}
-
-.inputRowWithPrefix {
   display: flex;
   align-items: center;
   gap: var(--size-space-150);
-  padding-left: var(--size-space-200);
+  padding: 0 var(--size-space-300);
   background-color: var(--color-background-default-default);
   border-radius: var(--size-radius-200);
   border: var(--size-stroke-border) solid var(--color-border-default-default);
 }
 
-.inputRowWithPrefix .input {
-  border: none;
-  background: transparent;
-  flex: 1;
-  min-width: 0;
-  padding-left: 0;
-  outline: none;
+.inputRow:focus-within {
+  outline: var(--size-stroke-border) solid var(--color-border-brand-default);
 }
 
-.inputRowWithPrefix:focus-within {
-  outline: auto;
+.inputRowError {
+  border-color: var(--color-border-danger-default);
 }
 
-.prefix {
+.inputRow:has(.input:disabled) {
+  background-color: var(--color-background-disabled-default);
+  border-color: var(--color-border-disabled-default);
+}
+
+.prefix,
+.suffix {
   display: flex;
   align-items: center;
   gap: var(--size-space-100);
@@ -59,28 +41,22 @@
 }
 
 .input {
-  width: 100%;
-  box-sizing: border-box;
-  padding: var(--size-space-400) var(--size-space-300);
+  flex: 1;
+  min-width: 0;
+  padding: var(--size-space-400) 0;
   font-size: var(--typography-body-size-medium);
   font-weight: var(--typography-body-font-weight-regular);
-  background-color: var(--color-background-default-default);
-  border-radius: var(--size-radius-200);
-  border: var(--size-stroke-border) solid var(--color-border-default-default);
+  background: transparent;
+  border: none;
+  outline: none;
 }
 
 .input:disabled {
-  background-color: var(--color-background-disabled-default);
   color: var(--color-text-disabled-on-disabled);
-  border-color: var(--color-border-disabled-default);
   cursor: not-allowed;
 }
 
 /* Disabled label */
-.wrapper:has(.input:disabled).label {
+.wrapper:has(.input:disabled) .label {
   color: var(--color-text-disabled-default);
-}
-
-.input.inputError {
-  border-color: var(--color-border-danger-default);
 }

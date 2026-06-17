@@ -9,11 +9,11 @@ export type FilterSuggestionDto = {
 };
 export namespace FilterSuggestionDto {
   export enum type {
-    PLACE = "PLACE",
-    EVENT_OWNER = "EVENT_OWNER",
-    CATEGORY = "CATEGORY",
-    SECURITY_LEVEL = "SECURITY_LEVEL",
-    ALBUM = "ALBUM",
-    MOTIVE = "MOTIVE",
+    PLACE = "place",
+    EVENT_OWNER = "event_owner",
+    CATEGORY = "category",
+    SECURITY_LEVEL = "security_level",
+    ALBUM = "album",
+    MOTIVE = "motive",
   }
 }

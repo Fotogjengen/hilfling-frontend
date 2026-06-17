@@ -3,7 +3,7 @@ import styles from "./TextInput.module.css";
 import { forwardRef, InputHTMLAttributes, ReactNode } from "react";
 
 interface TextInputProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, "className"> {
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, "className" | "prefix"> {
   label?: string;
   error?: string;
   hint?: string;
@@ -32,10 +32,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
           </Label.Root>
         )}
         <div
-          className={[
-            styles.inputRow,
-            prefix ? styles.inputRowWithPrefix : null,
-          ]
+          className={[styles.inputRow, error ? styles.inputRowError : null]
             .filter(Boolean)
             .join(" ")}
         >
@@ -44,13 +41,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             ref={ref}
             id={inputId}
             autoComplete="off"
-            className={[
-              styles.input,
-              error ? styles.inputError : null,
-              suffix ? styles.inputWithSuffix : null,
-            ]
-              .filter(Boolean)
-              .join(" ")}
+            className={styles.input}
             aria-invalid={!!error}
             aria-describedby={describedBy}
             {...props}

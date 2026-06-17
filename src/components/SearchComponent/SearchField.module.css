@@ -53,11 +53,36 @@
 
 .suggestionWrapper {
   all: unset;
-  display: block;
+  display: flex;
   width: 100%;
   cursor: pointer;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .suggestionWrapper.hovering {
   background: var(--color-background-default-default-hover);
+}
+
+.skeletonRow {
+  height: 1.5rem;
+  border-radius: var(--size-radius-200);
+}
+
+.skeletonRow:nth-child(1) {
+  width: 55%;
+}
+
+.skeletonRow:nth-child(2) {
+  width: 40%;
+}
+
+.skeletonRow:nth-child(3) {
+  width: 65%;
+}
+
+.hiddenMotiveCount {
+  padding: var(--size-space-100) var(--size-space-200);
+  font-size: var(--typography-size-100);
+  color: var(--color-text-default-secondary);
 }

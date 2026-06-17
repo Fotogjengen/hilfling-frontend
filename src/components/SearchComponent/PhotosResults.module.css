@@ -1,0 +1,124 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-200);
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-200);
+}
+
+.motiveHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--size-space-400) 0;
+  gap: var(--size-space-400);
+}
+
+.photoGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--size-space-400);
+  align-items: center;
+  justify-items: center;
+}
+
+.photo {
+  overflow: hidden;
+  border-radius: var(--size-radius-200);
+}
+
+.photo img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--size-radius-200);
+}
+
+.photoSkeleton {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--size-radius-200);
+}
+
+.motiveInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-100);
+  min-width: 0;
+}
+
+.motiveTitle {
+  font-family: var(--typography-family-sans);
+  font-size: var(--typography-heading-size-small);
+  font-weight: var(--typography-weight-bold);
+  color: var(--color-text-brand-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.motiveSubtitle {
+  font-family: var(--typography-family-sans);
+  font-size: var(--typography-body-size-medium);
+  font-weight: var(--typography-body-font-weight-regular);
+  color: var(--color-text-default-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  gap: var(--size-space-600);
+}
+
+.chevronButton {
+  flex-shrink: 0;
+  border-radius: 50% !important;
+  width: 2rem;
+  height: 2rem;
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chevronIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.message {
+  text-align: center;
+  padding: var(--size-space-800);
+  color: var(--color-text-default-secondary);
+  font-family: var(--typography-family-sans);
+}
+
+.motiveHeaderSkeleton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--size-space-400) 0;
+  gap: var(--size-space-400);
+}
+
+.skeletonInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-100);
+  flex: 1;
+}
+
+.skeletonTitle {
+  height: 1.25rem;
+  width: 40%;
+  border-radius: var(--size-radius-200);
+}
+
+.skeletonSubtitle {
+  height: 1rem;
+  width: 60%;
+  border-radius: var(--size-radius-200);
+}

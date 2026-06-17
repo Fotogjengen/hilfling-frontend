@@ -1,4 +1,4 @@
-import { DayPicker } from "react-day-picker";
+import { DayPicker, Matcher } from "react-day-picker";
 import { ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
 import "react-day-picker/style.css";
 import styles from "./Calendar.module.css";
@@ -7,7 +7,7 @@ import { nb } from "date-fns/locale";
 interface CalendarProps {
   selected?: Date;
   onSelect?: (date: Date | undefined) => void;
-  disabled?: boolean;
+  disabled?: Matcher | Matcher[];
 }
 
 function CalendarChevron({ orientation }: { orientation?: string }) {

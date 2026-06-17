@@ -6,7 +6,7 @@
   box-shadow: 0 var(--size-depth-100) var(--size-depth-200)
     var(--color-black-200);
   overflow: hidden;
-  z-index: 50;
+  z-index: 110;
 }
 
 .scrollArea {

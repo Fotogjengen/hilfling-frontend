@@ -9,6 +9,7 @@
   font-weight: var(--typography-weight-semibold);
   color: var(--color-text-brand-default);
   width: fit-content;
+  user-select: none;
 }
 
 .searchFilter:hover {
