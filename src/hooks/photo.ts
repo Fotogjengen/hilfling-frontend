@@ -106,6 +106,67 @@ export const useFlatGoodPhotos = (startPage: number) => {
   return { ...query, photos };
 };
 
+// infinite query used in the photo modal for pagination interop
+export const useInfiniteMotivePhotos = (motiveId: string) => {
+  const query = useInfiniteQuery({
+    queryKey: ["photos", "motive", motiveId, "infinite"],
+    queryFn: () => PhotoApi.getAllByMotiveId(motiveId),
+    initialPageParam: 0,
+    getNextPageParam: () => undefined,
+    getPreviousPageParam: () => undefined,
+    enabled: !!motiveId,
+  });
+  const photos = useMemo(() => query.data?.pages.flat() ?? [], [query.data]);
+  return { ...query, photos };
+};
+
+export type GoodPhotoPlacement = { page: number; positionInPage: number };
+
+/**
+ * Resolves where a good photo actually lives in the paginated feed.
+ */
+export const useGoodPhotoPlacement = (
+  pictureId: string,
+  likelyAt: GoodPhotoPlacement,
+) => {
+  const queryClient = useQueryClient();
+
+  const localPlacement = useMemo<GoodPhotoPlacement | undefined>(() => {
+    const feed = queryClient.getQueryData<
+      InfiniteData<PaginatedResultData<PhotoDto>, number>
+    >(["photos", "good"]);
+    const photo = feed?.pages.find((page) => page.page === likelyAt.page)
+      ?.currentList[likelyAt.positionInPage];
+    return photo?.photoId.id === pictureId ? likelyAt : undefined;
+  }, [queryClient, pictureId, likelyAt]);
+
+  const {
+    data: fetchedPlacement,
+    isPending,
+    error,
+  } = useQuery({
+    queryKey: ["photos", "good", "position", pictureId],
+    queryFn: () =>
+      PhotoApi.getGoodPhotoPosition(pictureId, GOOD_PHOTOS_PAGE_SIZE),
+    enabled: !localPlacement,
+  });
+
+  if (localPlacement) {
+    return { placement: localPlacement, isPending: false };
+  }
+
+  return {
+    placement: fetchedPlacement
+      ? {
+          page: fetchedPlacement.page,
+          positionInPage: fetchedPlacement.positionInPage,
+        }
+      : undefined,
+    isPending,
+    error,
+  };
+};
+
 export const useGoodPhotosFromPage = (startPage: number) => {
   const queryClient = useQueryClient();
   return useInfiniteQuery({

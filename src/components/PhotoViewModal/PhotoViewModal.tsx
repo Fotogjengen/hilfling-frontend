@@ -2,10 +2,14 @@ import { PhotoViewModalOptions } from "@/types";
 import { Dialog } from "radix-ui";
 import styles from "./PhotoViewModal.module.css";
 import { AnimatePresence, motion } from "framer-motion";
-import { ReactNode, useEffect, useRef, useState } from "react";
+import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
 import { IconButton } from "@/components/ui/input/IconButton";
 import { Check, Download, Info, Link, PanelLeft, X } from "lucide-react";
-import { useFlatGoodPhotos } from "@/hooks/photo";
+import {
+  useFlatGoodPhotos,
+  useGoodPhotoPlacement,
+  useInfiniteMotivePhotos,
+} from "@/hooks/photo";
 import { PhotoDto } from "../../../generated";
 import { useRouter } from "@tanstack/react-router";
 import { useCopyToClipboard } from "@/hooks/clipboard";
@@ -14,9 +18,12 @@ import { useArrowKeyNavigation } from "@/hooks/arrowKeyNavigation";
 import { useInactivity } from "@/hooks/useInactivity";
 import { PhotoViewSidebar } from "./PhotoViewSidebar";
 import { PhotoViewBottomStrip } from "./PhotoViewBottomStrip";
+import { GalleryPagination } from "./scrollHooks";
 import { hasUserInteracted } from "@/utils/userInteraction";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { EASE_OUT_EXPO } from "@/utils/animation";
+import { toast } from "../ui/overlay/Toaster";
+import { isAxiosError } from "axios";
 
 type Props = {
   options: PhotoViewModalOptions;
@@ -62,6 +69,45 @@ function PhotoModalWrapper({
   );
 }
 
+function checkAndDisplayLoadingError(error?: Error | null) {
+  if (!error || !isAxiosError(error)) {
+    return false;
+  }
+
+  const resStatus = error.response?.status;
+
+  // unauthenticated/does not have access
+  if (resStatus === 401 || resStatus === 403) {
+    toast.error("Kunne ikke hente bildet", {
+      description: "Du har ikke tilgang til å se dette bildet.",
+    });
+    return true;
+  }
+
+  // not found
+  if (resStatus === 404) {
+    toast.error("Kunne ikke hente bildet", {
+      description:
+        "Fant ikke bildet. Det kan ha blitt slettet, eller du kan ha fått en lenke som ikke fungerer.",
+    });
+    return true;
+  }
+
+  // bad request, most likely a broken link
+  if (resStatus === 400) {
+    toast.error("Kunne ikke hente bildet", {
+      description: "Du har en lenke som ikke fungerer.",
+    });
+    return true;
+  }
+
+  // all other errors
+  toast.error("Kunne ikke hente bildet", {
+    description: "Noe gikk galt, Prøv igjen senere.",
+  });
+  return true;
+}
+
 function FadeInOut({
   show,
   className,
@@ -91,17 +137,174 @@ function FadeInOut({
 
 export default function PhotoViewModal({ onClose, options }: Props) {
   const [initialOptions] = useState(options);
+
+  return (
+    <PhotoModalWrapper onClose={onClose}>
+      {initialOptions.modalType === "goodPhotos" ? (
+        <GoodPhotosView options={initialOptions} onClose={onClose} />
+      ) : (
+        <SearchMotiveView options={initialOptions} onClose={onClose} />
+      )}
+    </PhotoModalWrapper>
+  );
+}
+
+type GoodPhotosOptions = Extract<
+  PhotoViewModalOptions,
+  { modalType: "goodPhotos" }
+>;
+type SearchMotiveOptions = Extract<
+  PhotoViewModalOptions,
+  { modalType: "searchMotive" }
+>;
+
+// Replaces the photoViewModal search param without adding a history entry.
+function replacePhotoViewModalSearch(
+  router: ReturnType<typeof useRouter>,
+  photoViewModal: PhotoViewModalOptions,
+) {
+  const { pathname, hash } = router.state.location;
+  const search = router.options.stringifySearch({
+    ...router.state.location.search,
+    photoViewModal,
+  });
+  history.replaceState(history.state, "", pathname + search + hash);
+}
+
+// The good photos feed
+function GoodPhotosView({
+  options,
+  onClose,
+}: {
+  options: GoodPhotosOptions;
+  onClose: () => void;
+}) {
+  const { placement, error } = useGoodPhotoPlacement(options.photoId, {
+    page: options.likelyAt.page,
+    positionInPage: options.likelyAt.pos,
+  });
+
+  useEffect(() => {
+    if (checkAndDisplayLoadingError(error)) {
+      onClose();
+    }
+  }, [error, onClose]);
+
+  if (!placement) {
+    return <div className={`${styles.mainPhotoSkeleton} skeleton`} />;
+  }
+
+  return (
+    <GoodPhotosGallery
+      startPage={placement.page}
+      pictureId={options.photoId}
+      onClose={onClose}
+    />
+  );
+}
+
+function GoodPhotosGallery({
+  startPage,
+  pictureId,
+  onClose,
+}: {
+  startPage: number;
+  pictureId: string;
+  onClose: () => void;
+}) {
   const {
     data: goodPhotos,
-    isPending,
     photos,
-  } = useFlatGoodPhotos(initialOptions.page);
+    ...pagination
+  } = useFlatGoodPhotos(startPage);
+  const router = useRouter();
+
+  const handleSelectedPhotoChange = useCallback(
+    (selectedPhoto: PhotoDto) => {
+      const page = goodPhotos?.pages.find((p) =>
+        p.currentList.some((c) => c.photoId.id === selectedPhoto.photoId.id),
+      );
+      if (!page) return;
+
+      const pos = page.currentList.findIndex(
+        (p) => p.photoId.id === selectedPhoto.photoId.id,
+      );
+      replacePhotoViewModalSearch(router, {
+        modalType: "goodPhotos",
+        likelyAt: { page: page.page, pos },
+        photoId: selectedPhoto.photoId.id,
+      });
+    },
+    [goodPhotos, router],
+  );
+
+  return (
+    <PhotoGalleryBody
+      photos={photos}
+      pagination={pagination}
+      firstLoadedPage={goodPhotos?.pages[0]?.page}
+      initialPhotoId={pictureId}
+      onClose={onClose}
+      onSelectedPhotoChange={handleSelectedPhotoChange}
+    />
+  );
+}
+
+function SearchMotiveView({
+  options,
+  onClose,
+}: {
+  options: SearchMotiveOptions;
+  onClose: () => void;
+}) {
+  const { photos, ...pagination } = useInfiniteMotivePhotos(options.motiveId);
+  const router = useRouter();
+
+  const handleSelectedPhotoChange = useCallback(
+    (selectedPhoto: PhotoDto) => {
+      replacePhotoViewModalSearch(router, {
+        modalType: "searchMotive",
+        motiveId: options.motiveId,
+        photoId: selectedPhoto.photoId.id,
+      });
+    },
+    [router, options.motiveId],
+  );
+
+  return (
+    <PhotoGalleryBody
+      photos={photos}
+      pagination={pagination}
+      firstLoadedPage={undefined}
+      initialPhotoId={options.photoId}
+      onClose={onClose}
+      onSelectedPhotoChange={handleSelectedPhotoChange}
+    />
+  );
+}
+
+// Shared gallery shell: selection state, keyboard navigation and the
+// mobile/desktop layouts. Data source specifics live in the wrappers above.
+function PhotoGalleryBody({
+  photos,
+  pagination,
+  firstLoadedPage,
+  initialPhotoId,
+  onClose,
+  onSelectedPhotoChange,
+}: {
+  photos: PhotoDto[];
+  pagination: GalleryPagination;
+  firstLoadedPage: number | undefined;
+  initialPhotoId: string;
+  onClose: () => void;
+  onSelectedPhotoChange?: (photo: PhotoDto) => void;
+}) {
   const [selectedPhoto, setSelectedPhoto] = useState<PhotoDto | undefined>();
   const [isFocused, setIsFocused] = useState(false);
   const { isInactive } = useInactivity({ inactiveDelayMs: 2000 });
   const hideUI = isFocused && isInactive;
   const isMobile = useMediaQuery("(max-width: 768px)");
-  const router = useRouter();
 
   const currentIndex = selectedPhoto
     ? photos.findIndex((p) => p.photoId.id === selectedPhoto.photoId.id)
@@ -120,45 +323,19 @@ export default function PhotoViewModal({ onClose, options }: Props) {
     },
   });
 
-  // whenever data loads, select the correct photo
+  // select the initial photo once the list it lives on has loaded
   useEffect(() => {
-    if (isPending) {
-      return;
-    }
+    if (selectedPhoto || photos.length === 0) return;
+    setSelectedPhoto(photos.find((p) => p.photoId.id === initialPhotoId));
+  }, [photos, initialPhotoId, selectedPhoto]);
 
-    setSelectedPhoto(
-      goodPhotos?.pages.find((page) => page.page === initialOptions.page)
-        ?.currentList[initialOptions.positionInPage],
-    );
-  }, [isPending]);
-
-  // sync url bar with selected photo
+  // keep the url bar in sync with the shown photo
   useEffect(() => {
-    if (!selectedPhoto) return;
-
-    const page = goodPhotos?.pages.find((p) =>
-      p.currentList.some((c) => c.photoId.id === selectedPhoto.photoId.id),
-    );
-    if (!page) return;
-
-    const positionInPage = page.currentList.findIndex(
-      (p) => p.photoId.id === selectedPhoto.photoId.id,
-    );
-
-    const { pathname, hash } = router.state.location;
-    const search = router.options.stringifySearch({
-      ...router.state.location.search,
-      photoViewModal: {
-        modalType: "goodPictures",
-        page: page.page,
-        positionInPage,
-      },
-    });
-    history.replaceState(history.state, "", pathname + search + hash);
-  }, [selectedPhoto, goodPhotos, router]);
+    if (selectedPhoto) onSelectedPhotoChange?.(selectedPhoto);
+  }, [selectedPhoto, onSelectedPhotoChange]);
 
   return (
-    <PhotoModalWrapper onClose={onClose}>
+    <>
       <FadeInOut
         show={!hideUI}
         className={styles.closeButton}
@@ -182,8 +359,10 @@ export default function PhotoViewModal({ onClose, options }: Props) {
               onSelectPhoto={setSelectedPhoto}
             />
             <PhotoViewBottomStrip
+              photos={photos}
+              pagination={pagination}
+              firstLoadedPage={firstLoadedPage}
               selectedPhoto={selectedPhoto}
-              initialPage={initialOptions.page}
               onSelectPhoto={setSelectedPhoto}
             />
           </div>
@@ -204,8 +383,10 @@ export default function PhotoViewModal({ onClose, options }: Props) {
             </IconButton>
           </FadeInOut>
           <PhotoViewSidebar
+            photos={photos}
+            pagination={pagination}
+            firstLoadedPage={firstLoadedPage}
             selectedPhoto={selectedPhoto}
-            initialPage={initialOptions.page}
             onSelectPhoto={setSelectedPhoto}
             isFocused={isFocused}
           />
@@ -216,7 +397,7 @@ export default function PhotoViewModal({ onClose, options }: Props) {
           />
         </>
       )}
-    </PhotoModalWrapper>
+    </>
   );
 }
 
@@ -287,7 +468,7 @@ function PhotoActionButtons({ selectedPhoto }: { selectedPhoto?: PhotoDto }) {
   );
 }
 
-// Main photo display area (desktop)
+// Main photo display area for desktop
 function PhotoViewMainContent({
   selectedPhoto,
   onToggleFocus,
@@ -320,7 +501,7 @@ function PhotoViewMainContent({
   );
 }
 
-// Minimum drag distance (adjusted by velocity) before a swipe changes photo
+// Minimum drag distance before a swipe changes photo
 const SWIPE_THRESHOLD = 80;
 
 const swipeVariants = {
@@ -335,7 +516,7 @@ const swipeVariants = {
   }),
 };
 
-// Swipeable main photo area (mobile)
+// Swipeable main photo area for mobile
 function SwipeableMainPhoto({
   photos,
   selectedPhoto,

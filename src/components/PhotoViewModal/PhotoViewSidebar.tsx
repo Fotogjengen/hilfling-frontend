@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 import { useRef } from "react";
-import { useFlatGoodPhotos } from "@/hooks/photo";
 import { PhotoDto } from "../../../generated";
 import { EASE_OUT_EXPO } from "@/utils/animation";
 import {
+  GalleryPagination,
   useCenterSelectedPhoto,
   useLoaderScrollCompensation,
   usePageLoadSentinels,
@@ -11,9 +11,9 @@ import {
 } from "./scrollHooks";
 import styles from "./PhotoViewModal.module.css";
 
-// Skeleton thumbnails shown while the initial photos load.
+// Skeleton thumbnails shown while the initial photos load
 const INITIAL_SKELETON_COUNT = 10;
-// Skeleton thumbnails shown while an adjacent page is fetching.
+// Skeleton thumbnails shown while an adjacent page is fetching
 const PAGE_SKELETON_COUNT = 4;
 
 function SidebarSkeletons({ count }: { count: number }) {
@@ -29,22 +29,20 @@ function SidebarSkeletons({ count }: { count: number }) {
 }
 
 export function PhotoViewSidebar({
+  photos,
+  pagination,
+  firstLoadedPage,
   selectedPhoto,
-  initialPage,
   onSelectPhoto,
   isFocused,
 }: {
+  photos: PhotoDto[];
+  pagination: GalleryPagination;
+  firstLoadedPage: number | undefined;
   selectedPhoto?: PhotoDto;
-  initialPage: number;
   onSelectPhoto: (photo: PhotoDto) => void;
   isFocused: boolean;
 }) {
-  const {
-    data: goodPhotos,
-    photos,
-    ...pagination
-  } = useFlatGoodPhotos(initialPage);
-
   const containerRef = useRef<HTMLDivElement>(null);
   const topLoaderRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef(new Map<string, HTMLDivElement>());
@@ -59,7 +57,7 @@ export function PhotoViewSidebar({
     itemRefs,
     "vertical",
     photos,
-    goodPhotos?.pages[0]?.page,
+    firstLoadedPage,
     shiftScrollBy,
   );
   useLoaderScrollCompensation(topLoaderRef, "vertical", shiftScrollBy);

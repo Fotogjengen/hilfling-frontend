@@ -4,8 +4,8 @@
 /* eslint-disable */
 import type { KType } from "./KType";
 export type KTypeParameter = {
-  variance: KTypeParameter.variance;
   isReified: boolean;
+  variance: KTypeParameter.variance;
   upperBounds: Array<KType>;
   name: string;
 };

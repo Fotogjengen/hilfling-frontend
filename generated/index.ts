@@ -57,6 +57,7 @@ export type { PhotoGangBangerPatchRequestDto } from "./models/PhotoGangBangerPat
 export type { PhotoGoodPictureToggleRequestDto } from "./models/PhotoGoodPictureToggleRequestDto";
 export type { PhotographyRequest } from "./models/PhotographyRequest";
 export type { PhotoId } from "./models/PhotoId";
+export type { PhotoPositionDto } from "./models/PhotoPositionDto";
 export type { PhotoReservationDto } from "./models/PhotoReservationDto";
 export type { PhotoTagDto } from "./models/PhotoTagDto";
 export type { PhotoTagId } from "./models/PhotoTagId";

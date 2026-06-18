@@ -4,7 +4,6 @@
 /* eslint-disable */
 import type { KClassPhotographyRequest } from "./KClassPhotographyRequest";
 export type PhotographyRequest = {
-  description: string;
   email: string;
   startTime: string;
   endTime: string;
@@ -12,6 +11,7 @@ export type PhotographyRequest = {
   isIntern: boolean;
   intern?: boolean;
   phone: string;
+  description: string;
   type: string;
   name: string;
   dateCreated: string;

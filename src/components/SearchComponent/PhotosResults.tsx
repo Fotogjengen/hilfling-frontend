@@ -1,5 +1,6 @@
 import { usePhotosByMotiveId } from "@/hooks/photo";
 import { MotiveDto } from "../../../generated";
+import { useNavigate } from "@tanstack/react-router";
 import { format } from "date-fns";
 import { nb } from "date-fns/locale";
 import { ChevronRight } from "lucide-react";
@@ -87,6 +88,21 @@ function MotivePhotoGroup({ motive }: MotivePhotoGroupProps) {
     isPending,
     isError,
   } = usePhotosByMotiveId(motive.motiveId.id);
+  const navigate = useNavigate({ from: "/search" });
+
+  const openPhoto = (photoId: string) => {
+    void navigate({
+      search: (prev) => ({
+        ...prev,
+        photoViewModal: {
+          modalType: "searchMotive" as const,
+          motiveId: motive.motiveId.id,
+          photoId,
+        },
+      }),
+      resetScroll: false,
+    });
+  };
 
   return (
     <div className={styles.group}>
@@ -99,7 +115,11 @@ function MotivePhotoGroup({ motive }: MotivePhotoGroupProps) {
         <div className={styles.photoGrid}>
           {photos.map((photo) => (
             <div key={photo.photoId.id} className={styles.photo}>
-              <img src={photo.imageWeb} alt={`Bilde fra ${motive.title}`} />
+              <img
+                src={photo.imageWeb}
+                alt={`Bilde fra ${motive.title}`}
+                onClick={() => openPhoto(photo.photoId.id)}
+              />
             </div>
           ))}
         </div>

@@ -101,11 +101,21 @@ type GjengfotoCard = "GjengfotoCard";
 export type CardType = EventCard | GjengfotoCard;
 
 export const photoViewModalOptions = z.discriminatedUnion("modalType", [
-  // good pictures accessible through the front page
+  // good photos accessible through the front page
   z.object({
-    modalType: z.literal("goodPictures"),
-    page: z.number(),
-    positionInPage: z.number(),
+    modalType: z.literal("goodPhotos"),
+    likelyAt: z.object({
+      page: z.number(),
+      pos: z.number(),
+    }),
+    photoId: z.string(),
+  }),
+
+  // search for motives,
+  z.object({
+    modalType: z.literal("searchMotive"),
+    motiveId: z.string(),
+    photoId: z.string(),
   }),
 ]);
 

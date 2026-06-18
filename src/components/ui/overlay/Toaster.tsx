@@ -61,5 +61,7 @@ export const toast = Object.assign(makeToast("default"), {
 });
 
 export function Toaster() {
-  return <SonnerToaster position="bottom-right" />;
+  return (
+    <SonnerToaster position="bottom-right" toastOptions={{ duration: 5000 }} />
+  );
 }

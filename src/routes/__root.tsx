@@ -11,6 +11,7 @@ import { AdBannerContext } from "../contexts/AdBannerContext";
 import {
   createRootRouteWithContext,
   Outlet,
+  useNavigate,
   useRouter,
   useRouterState,
 } from "@tanstack/react-router";
@@ -60,13 +61,15 @@ function SliderOverlay({ photo }: { photo: PhotoDto }) {
 function RootComponent() {
   const { photoViewModal } = Route.useSearch();
   const router = useRouter();
-  const navigate = Route.useNavigate();
+  const navigate = useNavigate();
 
   const closePhotoViewModal = () => {
     if (router.history.canGoBack()) {
       router.history.back();
     } else {
+      // No history to pop, stay at location but without modal params
       void navigate({
+        to: router.state.location.pathname,
         search: (prev) => ({ ...prev, photoViewModal: undefined }),
         replace: true,
         resetScroll: false,

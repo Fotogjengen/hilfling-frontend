@@ -181,11 +181,15 @@ function probeOrientation(
       img.naturalWidth >= img.naturalHeight ? "landscape" : "portrait",
     );
   img.onerror = () => onResult(id, "landscape");
-  img.src = photo.imageWeb;
+  img.src = photo.imageWeb!;
 }
 
 type PhotoWallProps = {
-  onPhotoPress?: (page: number, positionInPage: number) => void;
+  onPhotoPress?: (
+    page: number,
+    positionInPage: number,
+    pictureId: string,
+  ) => void;
 };
 
 export default function PhotoWall({ onPhotoPress }: PhotoWallProps) {
@@ -210,7 +214,7 @@ export default function PhotoWall({ onPhotoPress }: PhotoWallProps) {
   const handlePhotoPress = (photo: PhotoDto) => {
     const pos = photoPageMap[photo.photoId.id];
     if (!pos) return;
-    onPhotoPress?.(pos.page, pos.positionInPage);
+    onPhotoPress?.(pos.page, pos.positionInPage, photo.photoId.id);
   };
 
   const [orientations, setOrientations] = useState<Record<string, Orientation>>(

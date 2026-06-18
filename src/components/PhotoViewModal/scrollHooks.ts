@@ -10,6 +10,21 @@ export type ItemRefMap = { current: Map<string, HTMLDivElement> };
 
 export type ScrollAxis = "vertical" | "horizontal";
 
+/**
+ * The slice of an infinite query the gallery thumbnails need. A non-paginated
+ * source (e.g. a single motive's photos) can pass an all-false object, which
+ * turns the prepend/sentinel machinery into no-ops.
+ */
+export type GalleryPagination = {
+  isPending: boolean;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
+  isFetchingNextPage: boolean;
+  isFetchingPreviousPage: boolean;
+  fetchNextPage: () => Promise<unknown>;
+  fetchPreviousPage: () => Promise<unknown>;
+};
+
 const AXIS_PROPS = {
   vertical: {
     scroll: "scrollTop",
@@ -154,14 +169,7 @@ export function useLoaderScrollCompensation(
 export function usePageLoadSentinels(
   containerRef: ContainerRef,
   enabled: boolean,
-  pagination: {
-    hasNextPage: boolean;
-    hasPreviousPage: boolean;
-    isFetchingNextPage: boolean;
-    isFetchingPreviousPage: boolean;
-    fetchNextPage: () => Promise<unknown>;
-    fetchPreviousPage: () => Promise<unknown>;
-  },
+  pagination: GalleryPagination,
 ) {
   const {
     hasNextPage,

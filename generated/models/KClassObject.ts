@@ -7,13 +7,12 @@ import type { KFunctionObject } from "./KFunctionObject";
 import type { KType } from "./KType";
 import type { KTypeParameter } from "./KTypeParameter";
 export type KClassObject = {
-  visibility?: KClassObject.visibility;
   sealedSubclasses: Array<KClassObject>;
-  isFun: boolean;
   isInner: boolean;
   isCompanion: boolean;
   isFun: boolean;
   isValue: boolean;
+  visibility?: KClassObject.visibility;
   qualifiedName?: string;
   members: Array<KCallableObject>;
   objectInstance?: any;
