@@ -15,9 +15,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Button } from "@/components/ui/input/Button";
 import { Pagination } from "@/components/ui/navigation/Pagination";
 
-export const Route = createFileRoute(
-  "/_fgAuthenticated/fg/archiveBoss/",
-)({
+export const Route = createFileRoute("/_fgAuthenticated/fg/archiveBoss/")({
   component: ArchiveBoss,
 });
 

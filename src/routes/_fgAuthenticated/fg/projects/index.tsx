@@ -2,9 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Flame } from "lucide-react";
 import styles from "./projects.module.css";
 
-export const Route = createFileRoute(
-  "/_fgAuthenticated/fg/projects/",
-)({
+export const Route = createFileRoute("/_fgAuthenticated/fg/projects/")({
   component: NewProjects,
 });
 

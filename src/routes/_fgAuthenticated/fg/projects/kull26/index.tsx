@@ -2,9 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Camera } from "lucide-react";
 import styles from "../projects.module.css";
 
-export const Route = createFileRoute(
-  "/_fgAuthenticated/fg/projects/kull26/",
-)({
+export const Route = createFileRoute("/_fgAuthenticated/fg/projects/kull26/")({
   component: SpillMeny,
 });
 

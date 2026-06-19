@@ -7,9 +7,7 @@ import { Button } from "@/components/ui/input/Button";
 import { Pencil } from "lucide-react";
 import { Link, createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute(
-  "/_fgAuthenticated/fg/motive/",
-)({
+export const Route = createFileRoute("/_fgAuthenticated/fg/motive/")({
   component: Motives,
 });
 

@@ -5,9 +5,7 @@ import axios from "axios";
 import EditProfilepic from "@/components/MyProfile/EditProfilepic/EditProfilpic";
 // import { AlertContext, severityEnum } from "../../contexts/AlertContext";
 
-export const Route = createFileRoute(
-  "/_fgAuthenticated/fg/profile",
-)({
+export const Route = createFileRoute("/_fgAuthenticated/fg/profile")({
   component: Profile,
 });
 
@@ -118,7 +116,7 @@ function Profile() {
           {" "}
           {/* Contains profile picture and personal info*/}
           {editProfilepic && ( // Renders pop up for changing profile picture
-            (<EditProfilepic setEditProfilepic={setEditProfilepic} />)
+            <EditProfilepic setEditProfilepic={setEditProfilepic} />
           )}
           <div
             className={styles.profilePicture}
@@ -193,5 +191,5 @@ function Profile() {
         </div>
       </div>
     </div>
-  )
+  );
 }
