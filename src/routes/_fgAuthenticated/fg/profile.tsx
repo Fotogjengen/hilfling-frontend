@@ -6,7 +6,7 @@ import EditProfilepic from "@/components/MyProfile/EditProfilepic/EditProfilpic"
 // import { AlertContext, severityEnum } from "../../contexts/AlertContext";
 
 export const Route = createFileRoute(
-  "/_authenticated/_fgAuthenticated/fg/profile",
+  "/_fgAuthenticated/fg/profile",
 )({
   component: Profile,
 });
@@ -113,13 +113,12 @@ function Profile() {
           {currentUser?.role || "loading ... "}
         </h2>
       </header>
-
       <div className={styles.infoCard}>
         <div className={styles.card1}>
           {" "}
           {/* Contains profile picture and personal info*/}
           {editProfilepic && ( // Renders pop up for changing profile picture
-            <EditProfilepic setEditProfilepic={setEditProfilepic} />
+            (<EditProfilepic setEditProfilepic={setEditProfilepic} />)
           )}
           <div
             className={styles.profilePicture}
@@ -194,5 +193,5 @@ function Profile() {
         </div>
       </div>
     </div>
-  );
+  )
 }

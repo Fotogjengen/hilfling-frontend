@@ -3,7 +3,7 @@ import { Camera } from "lucide-react";
 import styles from "../projects.module.css";
 
 export const Route = createFileRoute(
-  "/_authenticated/_fgAuthenticated/fg/projects/kull26/",
+  "/_fgAuthenticated/fg/projects/kull26/",
 )({
   component: SpillMeny,
 });

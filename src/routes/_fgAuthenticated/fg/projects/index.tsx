@@ -3,7 +3,7 @@ import { Flame } from "lucide-react";
 import styles from "./projects.module.css";
 
 export const Route = createFileRoute(
-  "/_authenticated/_fgAuthenticated/fg/projects/",
+  "/_fgAuthenticated/fg/projects/",
 )({
   component: NewProjects,
 });

@@ -7,7 +7,6 @@ import { PhotoDto } from "@/../generated";
 import { useState, useEffect } from "react";
 import { PhotoApi } from "@/utils/api/PhotoApi";
 import styles from "./motive.module.css";
-import GridImageViewer from "@/components/ImageViewer/GridImageViewer";
 
 export const Route = createFileRoute("/motive/$motiveId")({
   component: MotiveHeader,
@@ -60,7 +59,6 @@ function MotiveHeader() {
         </p>
         <hr className={styles.hr} />
       </div>
-      <GridImageViewer photos={photoResponse} />
     </div>
   );
 }

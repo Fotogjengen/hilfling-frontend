@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useCallback } from "react";
 import { format, parseISO } from "date-fns";
-import SearchField from "../components/SearchComponent/SearchField";
+import SearchField from "../components/Search/SearchField";
 import { useAdBanner } from "../hooks/useAdBanner";
 import ImagesAdvertisementPopup from "../components/ImagesAdvertisementPopup/ImagesAdvertisementPopup";
 import { FilterSuggestionDto } from "../../generated";
@@ -16,10 +16,10 @@ import {
 } from "../types";
 import { formatDateRange } from "../utils/formatDateRange";
 import styles from "./search.module.css";
-import AddFilterButton from "@/components/SearchComponent/AddFilterButton";
-import SearchModeToggle from "@/components/SearchComponent/SearchModeToggle";
-import SearchSortSelect from "@/components/SearchComponent/SearchSortSelect";
-import SearchResults from "@/components/SearchComponent/SearchResults";
+import AddFilterButton from "@/components/Search/AddFilterButton";
+import SearchModeToggle from "@/components/Search/SearchModeToggle";
+import SearchSortSelect from "@/components/Search/SearchSortSelect";
+import SearchResults from "@/components/Search/SearchResults";
 
 type ImageSearchQuery = {
   q?: string;

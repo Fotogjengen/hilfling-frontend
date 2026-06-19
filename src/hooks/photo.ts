@@ -108,6 +108,7 @@ export const useFlatGoodPhotos = (startPage: number) => {
 
 // infinite query used in the photo modal for pagination interop
 export const useInfiniteMotivePhotos = (motiveId: string) => {
+  const queryClient = useQueryClient();
   const query = useInfiniteQuery({
     queryKey: ["photos", "motive", motiveId, "infinite"],
     queryFn: () => PhotoApi.getAllByMotiveId(motiveId),
@@ -115,6 +116,14 @@ export const useInfiniteMotivePhotos = (motiveId: string) => {
     getNextPageParam: () => undefined,
     getPreviousPageParam: () => undefined,
     enabled: !!motiveId,
+    initialData: () => {
+      const flat = queryClient.getQueryData<PhotoDto[]>([
+        "photos",
+        "motive",
+        motiveId,
+      ]);
+      return flat ? { pages: [flat], pageParams: [0] } : undefined;
+    },
   });
   const photos = useMemo(() => query.data?.pages.flat() ?? [], [query.data]);
   return { ...query, photos };

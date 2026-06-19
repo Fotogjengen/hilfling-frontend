@@ -12,7 +12,7 @@ import {
 import { useAuth } from "@/contexts/AuthenticationContext";
 import styles from "./fg.module.css";
 
-export const Route = createFileRoute("/_authenticated/_fgAuthenticated/fg/")({
+export const Route = createFileRoute("/_fgAuthenticated/fg/")({
   component: FgNav,
 });
 

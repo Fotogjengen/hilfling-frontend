@@ -4,11 +4,9 @@ import MotiveSelector from "@/components/Upload/MotiveSelector";
 import MotiveDetails from "@/components/Upload/MotiveDetails";
 import MotiveImages from "@/components/Upload/MotiveImages";
 import { useState } from "react";
-import { MotiveDto } from "../../../../../generated";
+import { MotiveDto } from "../../../../generated";
 
-export const Route = createFileRoute(
-  "/_authenticated/_fgAuthenticated/fg/upload",
-)({
+export const Route = createFileRoute("/_fgAuthenticated/fg/upload")({
   component: PhotoUpload,
 });
 

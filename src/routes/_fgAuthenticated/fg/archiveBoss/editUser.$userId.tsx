@@ -9,7 +9,7 @@ import useAppForm from "@/utils/form/FormContext";
 import { Button } from "@/components/ui/input/Button";
 
 export const Route = createFileRoute(
-  "/_authenticated/_fgAuthenticated/fg/archiveBoss/editUser/$userId",
+  "/_fgAuthenticated/fg/archiveBoss/editUser/$userId",
 )({
   component: ArchiveBossEditUser,
 });

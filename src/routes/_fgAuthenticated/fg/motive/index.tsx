@@ -8,7 +8,7 @@ import { Pencil } from "lucide-react";
 import { Link, createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute(
-  "/_authenticated/_fgAuthenticated/fg/motive/",
+  "/_fgAuthenticated/fg/motive/",
 )({
   component: Motives,
 });

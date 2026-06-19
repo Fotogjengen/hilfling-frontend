@@ -5,7 +5,7 @@ import { questions } from "@/components/NewProjects/questions";
 import { random } from "lodash";
 
 export const Route = createFileRoute(
-  "/_authenticated/_fgAuthenticated/fg/projects/kull26/secondgame",
+  "/_fgAuthenticated/fg/projects/kull26/secondgame",
 )({
   component: Secondgame,
 });

@@ -127,11 +127,6 @@ export function HeaderComponent() {
           <Link className={styles.navLink} to="/about">
             Om oss
           </Link>
-          {isAuthenticated && (
-            <Link className={styles.navLink} to="/intern/search">
-              Internsøk
-            </Link>
-          )}
           {isAuthenticated && jwtPayload?.securityLevel === "FG" && (
             <Link className={styles.navLink} to="/fg">
               FG

@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/input/Button";
 import { Pagination } from "@/components/ui/navigation/Pagination";
 
 export const Route = createFileRoute(
-  "/_authenticated/_fgAuthenticated/fg/archiveBoss/",
+  "/_fgAuthenticated/fg/archiveBoss/",
 )({
   component: ArchiveBoss,
 });

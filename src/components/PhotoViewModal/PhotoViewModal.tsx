@@ -257,7 +257,16 @@ function SearchMotiveView({
   options: SearchMotiveOptions;
   onClose: () => void;
 }) {
-  const { photos, ...pagination } = useInfiniteMotivePhotos(options.motiveId);
+  const { photos, error, ...pagination } = useInfiniteMotivePhotos(
+    options.motiveId,
+  );
+
+  useEffect(() => {
+    if (checkAndDisplayLoadingError(error)) {
+      onClose();
+    }
+  }, [error, onClose]);
+
   const router = useRouter();
 
   const handleSelectedPhotoChange = useCallback(
@@ -270,6 +279,18 @@ function SearchMotiveView({
     },
     [router, options.motiveId],
   );
+
+  useEffect(() => {
+    if (!photos || photos.length === 0) {
+      return;
+    }
+
+    if (!photos.some((v) => v.photoId.id === options.photoId)) {
+      toast.error("Fant ikke bildet", {
+        description: "Du ser nå bilder fra hele arrangementet",
+      });
+    }
+  }, [photos]);
 
   return (
     <PhotoGalleryBody

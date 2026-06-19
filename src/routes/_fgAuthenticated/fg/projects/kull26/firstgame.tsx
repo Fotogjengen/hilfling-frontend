@@ -7,7 +7,7 @@ import Wheel from "@/components/NewProjects/components/Wheel";
 import camera from "@/components/NewProjects/icons/camera.png";
 
 export const Route = createFileRoute(
-  "/_authenticated/_fgAuthenticated/fg/projects/kull26/firstgame",
+  "/_fgAuthenticated/fg/projects/kull26/firstgame",
 )({
   component: Firstgame,
 });

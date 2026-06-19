@@ -20,7 +20,7 @@ import { Combobox } from "@/components/ui/input/Combobox";
 import { Button } from "@/components/ui/input/Button";
 
 export const Route = createFileRoute(
-  "/_authenticated/_fgAuthenticated/fg/motive/edit/$motiveId",
+  "/_fgAuthenticated/fg/motive/edit/$motiveId",
 )({
   component: EditMotive,
 });

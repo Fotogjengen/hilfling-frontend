@@ -6,7 +6,7 @@ import styles from "./thirdgame.module.css";
 import { useMemo, useRef, useState } from "react";
 
 export const Route = createFileRoute(
-  "/_authenticated/_fgAuthenticated/fg/projects/kull26/thirdgame",
+  "/_fgAuthenticated/fg/projects/kull26/thirdgame",
 )({
   component: MarkusProject,
 });
