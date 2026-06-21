@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
-import Cookies from "js-cookie";
 import { AuthenticationContext } from "./AuthenticationContext";
 import { router } from "../router";
 import { JwtTokenPayload } from "../types";
+import { getToken } from "@/utils/auth/authToken";
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -10,7 +10,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [jwtPayload, setJwtPayload] = useState<JwtTokenPayload | null>(null);
 
   useEffect(() => {
-    const token = Cookies.get("fgToken");
+    const token = getToken();
     if (token) {
       try {
         const payload = JSON.parse(
@@ -19,7 +19,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setIsAuthenticated(true);
         setJwtPayload(payload);
       } catch {
-        // Malformed token — treat as unauthenticated
+        // token is somehow malformed, we are unauthenticated
       }
     }
     setHasLoadedAuth(true);
