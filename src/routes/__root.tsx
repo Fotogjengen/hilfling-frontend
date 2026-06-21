@@ -74,13 +74,15 @@ function RootComponent() {
             <Outlet />
           </div>
         ) : (
-          <>
-            <HeaderComponent />
-            <div className={styles.main}>
-              <Outlet />
+          <div className={styles.page}>
+            <div className={styles.innerPage}>
+              <HeaderComponent />
+              <div className={styles.main}>
+                <Outlet />
+              </div>
             </div>
             <Footer />
-          </>
+          </div>
         )}
       </AdBannerContext.Provider>
       <Toaster />

@@ -1,6 +1,9 @@
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 import { useSearchMotives } from "@/hooks/search";
 import { useDebounce } from "@/hooks/useDebounce";
 import { AppliedFilter, SearchMode, SearchSort } from "@/types";
+import { Spinner } from "../Icons/Spinner";
 import EventResults, { EventResultsSkeleton } from "./EventResults";
 import PhotosResults, { PhotosResultsSkeleton } from "./PhotosResults";
 import styles from "./SearchResults.module.css";
@@ -19,11 +22,21 @@ export default function SearchResults({
   searchMode,
 }: SearchResultsProps) {
   const { value: debouncedQ, isDebouncing } = useDebounce(q);
-  const { data, isPending, isError } = useSearchMotives(
-    debouncedQ,
-    filters,
-    sort,
-  );
+  const {
+    data,
+    isPending,
+    isError,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useSearchMotives(debouncedQ, filters, sort);
+
+  // load the next page when the sentinel scrolls into view
+  const { ref: sentinelRef, inView } = useInView({ rootMargin: "600px" });
+
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) void fetchNextPage();
+  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   if (isPending || isDebouncing) {
     return searchMode === "events" ? (
@@ -55,9 +68,19 @@ export default function SearchResults({
     );
   }
 
-  return searchMode === "events" ? (
-    <EventResults motives={motives} />
-  ) : (
-    <PhotosResults motives={motives} />
+  return (
+    <>
+      {searchMode === "events" ? (
+        <EventResults motives={motives} />
+      ) : (
+        <PhotosResults motives={motives} />
+      )}
+      {isFetchingNextPage && (
+        <div className={styles.spinner}>
+          <Spinner />
+        </div>
+      )}
+      <div ref={sentinelRef} />
+    </>
   );
 }

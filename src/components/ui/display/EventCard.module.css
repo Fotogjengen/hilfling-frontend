@@ -7,6 +7,7 @@
   flex-direction: column;
   width: 25rem;
   flex-shrink: 0;
+  cursor: pointer;
 }
 
 .photoGridWrapper {

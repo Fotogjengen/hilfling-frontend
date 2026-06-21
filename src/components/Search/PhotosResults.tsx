@@ -1,6 +1,6 @@
 import { usePhotosByMotiveId } from "@/hooks/photo";
 import { MotiveDto } from "../../../generated";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useRouter } from "@tanstack/react-router";
 import { format } from "date-fns";
 import { nb } from "date-fns/locale";
 import { ChevronRight } from "lucide-react";
@@ -18,6 +18,7 @@ type MotiveHeaderProps = {
 };
 
 function MotiveHeader({ motive }: MotiveHeaderProps) {
+  const { navigate } = useRouter();
   const subtitleParts = [
     motive.categoryDto.name,
     motive.placeDto.name,
@@ -34,7 +35,19 @@ function MotiveHeader({ motive }: MotiveHeaderProps) {
           ))}
         </span>
       </div>
-      <Button variant="neutral" size="sm" className={styles.chevronButton}>
+      <Button
+        variant="neutral"
+        size="sm"
+        className={styles.chevronButton}
+        onClick={() =>
+          void navigate({
+            to: "/motive/$motiveId",
+            params: {
+              motiveId: motive.motiveId.id,
+            },
+          })
+        }
+      >
         <ChevronRight className={styles.chevronIcon} />
       </Button>
     </div>

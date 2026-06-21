@@ -5,6 +5,7 @@ import styles from "./EventCard.module.css";
 import { MotiveDto, PhotoDto } from "../../../../generated";
 import { useEffect, useMemo, useState } from "react";
 import { ImageOff } from "lucide-react";
+import { useRouter } from "@tanstack/react-router";
 
 type EventCardProps = {
   motive: MotiveDto;
@@ -27,6 +28,7 @@ export default function EventCard({ motive }: EventCardProps) {
   } = useGoodPhotosByMotiveId(motive.motiveId.id);
 
   const photos = useMemo(() => pickPhotos(goodPictures ?? []), [goodPictures]);
+  const { navigate } = useRouter();
 
   const [orientations, setOrientations] = useState<Record<string, Orientation>>(
     {},
@@ -151,7 +153,17 @@ export default function EventCard({ motive }: EventCardProps) {
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div
+      className={styles.wrapper}
+      onClick={() =>
+        void navigate({
+          to: "/motive/$motiveId",
+          params: {
+            motiveId: motive.motiveId.id,
+          },
+        })
+      }
+    >
       <div className={styles.photoGridWrapper}>
         {unsupportedLayout && (
           <div className={styles.photoPlaceholder}>
