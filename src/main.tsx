@@ -8,8 +8,28 @@ import { router } from "./router";
 import AuthProvider from "./contexts/AuthProvider";
 import { useAuth } from "./contexts/AuthenticationContext";
 import { ThemeProvider } from "@/components/ThemeProvider/ThemeProvider";
+import { isAxiosError } from "axios";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: (failureCount, error) => {
+        // if not triggered by axios, lets do 3 retries
+        if (!isAxiosError(error) || error.response?.status === undefined) {
+          return failureCount < 3;
+        }
+
+        // we can safely ignore refetching client errors
+        if (error.response?.status >= 400) {
+          return false;
+        }
+
+        // 3 retries
+        return failureCount < 3;
+      },
+    },
+  },
+});
 
 const RouterWrapper = () => {
   const { isAuthenticated, jwtPayload } = useAuth();
