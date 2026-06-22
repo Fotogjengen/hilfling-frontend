@@ -3,6 +3,7 @@ import React, { FC } from "react";
 import styles from "./EventCards.module.css";
 import { EventCardDto } from "../../../../generated";
 import { Link } from "@tanstack/react-router";
+import { useDeleteMotive } from "@/hooks/useDeleteMotive";
 
 interface Props {
   event: string;
@@ -23,6 +24,16 @@ const EventCards: FC<Props> = ({
   const handleCardClick = () => {
     window.scrollTo(0, 0);
   };
+
+  // test button, will remove before push
+
+  const { deleteMotive } = useDeleteMotive();
+
+  const clickDelete = (id: string) => {
+    deleteMotive(id);
+  };
+  // test button, will remove before push
+
   return (
     <div
       className={styles.cardsContainer}
@@ -42,6 +53,20 @@ const EventCards: FC<Props> = ({
             }}
             onClick={handleCardClick}
           >
+            {/* test button, will remove before push */}
+            <button
+              onClick={(e) => {
+                {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  clickDelete(id);
+                }
+              }}
+            >
+              {" "}
+              Slett{" "}
+            </button>
+            {/* test button, will remove before push */}
             <img
               className={styles.cardImg}
               src={eventCard.frontPageSmallPhotoUrl}
