@@ -1,19 +1,17 @@
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 import type { KType } from "./KType";
-
 export type KParameter = {
-  vararg?: boolean;
+  isVararg: boolean;
+  kind: KParameter.kind;
+  isOptional: boolean;
   name?: string;
-  type?: KType;
-  index?: number;
-  kind?: KParameter.kind;
-  optional?: boolean;
-  annotations?: Array<any>;
+  type: KType;
+  index: number;
+  annotations: Array<any>;
 };
-
 export namespace KParameter {
   export enum kind {
     INSTANCE = "INSTANCE",

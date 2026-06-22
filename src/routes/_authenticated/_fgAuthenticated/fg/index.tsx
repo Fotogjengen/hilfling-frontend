@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useContext } from "react";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import UploadIcon from "@mui/icons-material/Upload";
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
@@ -9,7 +8,7 @@ import ChildFriendlyIcon from "@mui/icons-material/ChildFriendly";
 import YardIcon from "@mui/icons-material/Yard";
 import { styled } from "@mui/material/styles";
 import { Grid, Paper, Typography } from "@mui/material";
-import { AuthenticationContext } from "@/contexts/AuthenticationContext";
+import { useAuth } from "@/contexts/AuthenticationContext";
 import { LiquorRounded } from "@mui/icons-material";
 
 export const Route = createFileRoute("/_authenticated/_fgAuthenticated/fg/")({
@@ -17,7 +16,7 @@ export const Route = createFileRoute("/_authenticated/_fgAuthenticated/fg/")({
 });
 
 function FgNav() {
-  const { position } = useContext(AuthenticationContext);
+  const { jwtPayload } = useAuth();
 
   const mainIconSize = 100;
   const otherIconSize = 50;
@@ -90,7 +89,7 @@ function FgNav() {
         spacing={{ xs: 2, md: 3 }}
         columns={{ xs: 4, sm: 8, md: 12 }}
       >
-        {position !== "FG" && (
+        {jwtPayload?.securityLevel !== "FG" && (
           <>
             <Grid item xs={2} sm={4} md={4} key={0}>
               <Link to={mainLinks[0].to}>
@@ -110,7 +109,7 @@ function FgNav() {
             </Grid>
           </>
         )}
-        {position === "FG" &&
+        {jwtPayload?.securityLevel === "FG" &&
           mainLinks.map((link, index) => (
             <Grid item xs={2} sm={4} md={4} key={index}>
               <Link to={link.to}>

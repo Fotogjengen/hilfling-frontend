@@ -1,14 +1,12 @@
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 import type { PlaceDto } from "./PlaceDto";
-
 export type PagePlaceDto = {
-  offset?: number;
-  limit?: number;
-  totalRecords?: number;
-  pageSize?: number;
-  totalPages?: number;
-  currentList?: Array<PlaceDto>;
+  totalRecords: number;
+  pageSize: number;
+  page: number;
+  totalPages: number;
+  currentList: Array<PlaceDto>;
 };

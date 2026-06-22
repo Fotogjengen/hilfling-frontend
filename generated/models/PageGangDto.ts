@@ -1,14 +1,12 @@
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 import type { GangDto } from "./GangDto";
-
 export type PageGangDto = {
-  offset?: number;
-  limit?: number;
-  totalRecords?: number;
-  pageSize?: number;
-  totalPages?: number;
-  currentList?: Array<GangDto>;
+  totalRecords: number;
+  pageSize: number;
+  page: number;
+  totalPages: number;
+  currentList: Array<GangDto>;
 };

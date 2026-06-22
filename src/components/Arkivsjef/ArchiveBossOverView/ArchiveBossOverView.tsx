@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { PhotoGangBanger } from "../../../../generated";
+import { PhotoGangBangerDto } from "../../../../generated";
 import { Button, Paper } from "@mui/material";
 import styles from "./ArchiveBossOverView.module.css";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
@@ -16,13 +16,12 @@ interface Row {
   username?: string;
   phoneNumber?: string;
   email?: string;
-  profilePicturePath?: string;
   active?: boolean;
   pang?: boolean;
 }
 
 const ArchiveBossOverView = ({ setOverview }: Props) => {
-  const [users, setUsers] = useState<PhotoGangBanger[]>([]);
+  const [users, setUsers] = useState<PhotoGangBangerDto[]>([]);
   const [rows, setRows] = useState<Row[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -43,11 +42,11 @@ const ArchiveBossOverView = ({ setOverview }: Props) => {
     if (users.length > 0) {
       const mappedRows = users.map((user) => ({
         id: user?.photoGangBangerId?.id,
-        firstName: user.samfundetUser?.firstName,
-        lastName: user.samfundetUser?.lastName,
-        username: user.samfundetUser?.username,
-        phoneNumber: user.samfundetUser?.phoneNumber?.value,
-        email: user.samfundetUser?.email?.value,
+        firstName: user?.firstName,
+        lastName: user?.lastName,
+        username: user?.username,
+        phoneNumber: user?.phoneNumber,
+        email: user?.email,
         active: user.isActive,
         pang: user.isPang,
       }));

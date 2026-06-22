@@ -16,15 +16,11 @@ interface UserInfo {
   firstName: string;
   lastName: string;
   userName: string;
-  adress: string;
-  zip: string;
-  city: string;
   phoneNumber: string;
-  // eMail: string ;
   samfundetEMail: string;
   currentPosition: string;
   formerPositions: string[] | [" "];
-  role?: string; // "Fotograf" or "Web"
+  role?: string;
   admissionSemester?: string;
 }
 
@@ -34,11 +30,7 @@ const emptyUser: UserInfo = {
   firstName: " ",
   lastName: " ",
   userName: " ",
-  adress: " ",
-  zip: " ",
-  city: " ",
   phoneNumber: " ",
-  // eMail: " " ,
   samfundetEMail: " ",
   currentPosition: " ",
   formerPositions: [" "],
@@ -72,25 +64,22 @@ function Profile() {
         .get(url)
 
         .then((response) => {
-          const profilePicure = response.data.samfundetUser.profilePicturePath;
-          const firstName = response.data.samfundetUser.firstName;
-          const lastName = response.data.samfundetUser.lastName;
-          const userName = response.data.samfundetUser.username;
-          const adress = response.data.address;
-          const zip = response.data.zipCode;
-          const city = response.data.city;
-          const phoneNumber = response.data.samfundetUser.phoneNumber.value;
-          // const eMail= response.data.samfundetUser.email.value;
-          const samfundetEMail = response.data.samfundetUser.email.value;
-          const currentPosition = response.data.position.title;
-          const formerPositions = [" "]; //Not supported yet
-          const admissionSemester = response.data.semesterStart.value;
-          //determine if web or fotograf
+          const profilePicure = response.data.profilePicture;
+          const firstName = response.data.firstName;
+          const lastName = response.data.lastName;
+          const userName = response.data.username;
+          const phoneNumber = response.data.phoneNumber;
+          const samfundetEMail = response.data.email;
+          const positions: { title: string }[] = response.data.positions ?? [];
+          const currentPosition = positions[0]?.title ?? "";
+          const formerPositions =
+            positions.length > 1
+              ? positions.slice(1).map((p: { title: string }) => p.title)
+              : [" "];
+          const admissionSemester = response.data.semesterStart?.value ?? "";
           let role = "Fotograf";
-          // console.log(webPositions.includes(currentUser.currentPosition.toLowerCase()))
 
           if (webPositions.includes(currentPosition.toLowerCase())) {
-            // settes the correct role i
             role = "Web";
           }
 
@@ -99,9 +88,6 @@ function Profile() {
             firstName,
             lastName,
             userName,
-            adress,
-            zip,
-            city,
             phoneNumber,
             samfundetEMail,
             currentPosition,
@@ -182,19 +168,8 @@ function Profile() {
             </h1>
             <h2 className={styles.personalInformationList}>
               <div>{"Brukernavn: " + currentUser.userName}</div>
-              <div>{"Samfundet e-post: " + currentUser.samfundetEMail}</div>
-              {/* <div>  
-                {"e-post: " + currentUser.eMail}
-              </div> */}
+              <div>{"E-post: " + currentUser.samfundetEMail}</div>
               <div>{"Telefon: " + currentUser.phoneNumber}</div>
-              <div>
-                {"Adresse: " +
-                  currentUser.adress +
-                  ", " +
-                  currentUser.zip +
-                  " " +
-                  currentUser.city}
-              </div>
             </h2>
           </div>
           <div className={styles.admissionSemester}>

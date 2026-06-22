@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Header.module.css";
 import { GuiLogo } from "../../gui-components";
 import { Grow, Collapse } from "@mui/material";
@@ -8,7 +8,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import InfoIcon from "@mui/icons-material/Info";
 import LockIcon from "@mui/icons-material/Lock";
 import SearchIcon from "@mui/icons-material/Search";
-import { AuthenticationContext } from "../../contexts/AuthenticationContext";
+import { useAuth } from "../../contexts/AuthenticationContext";
 import LoginButton from "../Login/LoginButton/LoginButton";
 import ImageSearchIcon from "@mui/icons-material/ImageSearch";
 import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
@@ -16,7 +16,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { Link } from "@tanstack/react-router";
 
 export function HeaderComponent() {
-  const { isAuthenticated, position } = useContext(AuthenticationContext);
+  const { isAuthenticated, jwtPayload } = useAuth();
   const [showHamburgerMenu, setShowHamburgerMenu] = useState(false);
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export function HeaderComponent() {
       noAuth: true,
     },
 
-    ...(isAuthenticated && position === "FG"
+    ...(isAuthenticated && jwtPayload?.securityLevel === "FG"
       ? [
           {
             name: "INTERNSØK",
@@ -123,7 +123,9 @@ export function HeaderComponent() {
           <Link to="/about">OM OSS</Link>
           <Link to="/search">SØK</Link>
           {isAuthenticated && <Link to="/intern/search">INTERNSØK</Link>}
-          {isAuthenticated && position === "FG" && <Link to="/fg">FG</Link>}
+          {isAuthenticated && jwtPayload?.securityLevel === "FG" && (
+            <Link to="/fg">FG</Link>
+          )}
         </div>
         <div className={styles.loggContainer}>
           <LoginButton />

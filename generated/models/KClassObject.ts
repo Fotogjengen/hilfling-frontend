@@ -1,31 +1,32 @@
+/* generated using openapi-typescript-codegen -- do not edit */
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-
 import type { KCallableObject } from "./KCallableObject";
 import type { KFunctionObject } from "./KFunctionObject";
 import type { KType } from "./KType";
 import type { KTypeParameter } from "./KTypeParameter";
-
 export type KClassObject = {
   visibility?: KClassObject.visibility;
-  data?: boolean;
-  inner?: boolean;
-  companion?: boolean;
-  objectInstance?: any;
-  typeParameters?: Array<KTypeParameter>;
-  simpleName?: string;
-  constructors?: Array<KFunctionObject>;
-  open?: boolean;
-  final?: boolean;
-  abstract?: boolean;
-  members?: Array<KCallableObject>;
-  sealed?: boolean;
+  isFun: boolean;
+  sealedSubclasses: Array<KClassObject>;
+  isInner: boolean;
+  isCompanion: boolean;
+  isValue: boolean;
   qualifiedName?: string;
-  supertypes?: Array<KType>;
-  annotations?: Array<any>;
+  members: Array<KCallableObject>;
+  objectInstance?: any;
+  supertypes: Array<KType>;
+  isData: boolean;
+  typeParameters: Array<KTypeParameter>;
+  simpleName?: string;
+  isFinal: boolean;
+  isOpen: boolean;
+  constructors: Array<KFunctionObject>;
+  isSealed: boolean;
+  isAbstract: boolean;
+  annotations: Array<any>;
 };
-
 export namespace KClassObject {
   export enum visibility {
     PUBLIC = "PUBLIC",
