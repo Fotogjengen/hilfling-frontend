@@ -14,8 +14,8 @@ import {
 import { useAuth } from "../../contexts/AuthenticationContext";
 import LoginButton from "../Login/LoginButton/LoginButton";
 import { Link } from "@tanstack/react-router";
-import LogoIcon from "../Icons/LogoIcon";
 import ThemeToggle from "./ThemeToggle/ThemeToggle";
+import LogoIcon from "../Icons/LogoIcon";
 
 export function HeaderComponent() {
   const { isAuthenticated, jwtPayload } = useAuth();
@@ -46,7 +46,6 @@ export function HeaderComponent() {
       icon: Search,
       noAuth: true,
     },
-
     ...(isAuthenticated && jwtPayload?.securityLevel === "FG"
       ? [
           {

@@ -16,6 +16,12 @@
   gap: var(--size-space-100);
 }
 
+.navHeadActions {
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-100);
+}
+
 .hamburger {
   cursor: pointer;
   background: none;
@@ -122,7 +128,6 @@
   .hamburger {
     display: none;
   }
-
   .mobileThemeToggle {
     display: none;
   }

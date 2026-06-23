@@ -7,9 +7,9 @@ import type { KType } from "./KType";
 import type { KTypeParameter } from "./KTypeParameter";
 export type KFunctionObject = {
   isInline: boolean;
-  isExternal: boolean;
   isOperator: boolean;
   isInfix: boolean;
+  isExternal: boolean;
   isSuspend: boolean;
   visibility?: KFunctionObject.visibility;
   name: string;

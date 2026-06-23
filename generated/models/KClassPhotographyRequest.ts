@@ -10,10 +10,10 @@ import type { KTypeParameter } from "./KTypeParameter";
 import type { PhotographyRequest } from "./PhotographyRequest";
 export type KClassPhotographyRequest = {
   visibility?: KClassPhotographyRequest.visibility;
-  isFun: boolean;
   sealedSubclasses: Array<KClassPhotographyRequest>;
   isInner: boolean;
   isCompanion: boolean;
+  isFun: boolean;
   isValue: boolean;
   qualifiedName?: string;
   members: Array<KCallableObject>;

@@ -42,6 +42,7 @@ export type { PageEventOwnerDto } from "./models/PageEventOwnerDto";
 export type { PageGangDto } from "./models/PageGangDto";
 export type { PageMotiveDto } from "./models/PageMotiveDto";
 export type { PagePhotoGangBangerDto } from "./models/PagePhotoGangBangerDto";
+export type { PagePhotoTagDto } from "./models/PagePhotoTagDto";
 export type { PagePlaceDto } from "./models/PagePlaceDto";
 export type { PagePositionDto } from "./models/PagePositionDto";
 export type { PagePurchaseOrderDto } from "./models/PagePurchaseOrderDto";
@@ -54,6 +55,9 @@ export type { PhotoGoodPictureToggleRequestDto } from "./models/PhotoGoodPicture
 export type { PhotographyRequest } from "./models/PhotographyRequest";
 export type { PhotoId } from "./models/PhotoId";
 export type { PhotoReservationDto } from "./models/PhotoReservationDto";
+export type { PhotoTagDto } from "./models/PhotoTagDto";
+export type { PhotoTagId } from "./models/PhotoTagId";
+export type { PhotoTagPatchRequestDto } from "./models/PhotoTagPatchRequestDto";
 export type { PhotoUploadRequestDto } from "./models/PhotoUploadRequestDto";
 export type { PlaceDto } from "./models/PlaceDto";
 export type { PlaceId } from "./models/PlaceId";
