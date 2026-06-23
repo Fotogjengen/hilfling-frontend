@@ -1,7 +1,24 @@
 import { api } from "./api";
-import { PhotoDto } from "../../../generated";
+import { PhotoDto, PhotoGoodPictureToggleRequestDto } from "../../../generated";
 import { PaginatedResult } from "./types";
 import { AxiosProgressEvent } from "axios";
+
+export interface PhotoUploadRequest {
+  motiveId: string;
+  gangId?: string;
+  date: string;
+  goodPicture?: boolean;
+  analog?: boolean;
+  media: File;
+  securityLevel: string;
+}
+
+export interface PhotoUploadResponse {
+  ok: true;
+  prod: string;
+  web: string;
+  thumb: string;
+}
 
 export interface PhotoSearch {
   motive?: string;
@@ -11,7 +28,7 @@ export interface PhotoSearch {
   category?: string;
   tag?: string[];
   isGoodPic?: boolean;
-  isAnalog?: boolean;
+  analog?: boolean;
   fromDate?: string;
   toDate?: string;
   page?: string;
@@ -35,21 +52,33 @@ export const PhotoApi = {
   },
 
   getAllByMotiveId: async function (id: string): Promise<PhotoDto[]> {
-    return api.get(`/photos/motive/${id}`).then((res) => res.data.currentList);
+    return api.get(`/photos/motive/${id}`).then((res) => res.data);
   },
 
-  post: async function (photo: PhotoDto): Promise<PhotoDto> {
-    return api.post("/photos", photo);
-  },
-
-  batchUpload: async function (
-    photos: FormData,
+  upload: async function (
+    request: PhotoUploadRequest,
     onUploadProgress?: (progressEvent: AxiosProgressEvent) => void,
-  ): Promise<any> {
-    return api.post("/photos/upload", photos, {
-      headers: { "Content-Type": "multipart/form-data" },
-      onUploadProgress,
-    });
+  ): Promise<PhotoUploadResponse> {
+    const formData = new FormData();
+    formData.append("motive_id", request.motiveId);
+    if (request.gangId) formData.append("gang_id", request.gangId);
+    formData.append("date", request.date);
+    if (request.goodPicture !== undefined)
+      formData.append("good_picture", String(request.goodPicture));
+    if (request.analog !== undefined)
+      formData.append("analog", String(request.analog));
+    formData.append("media", request.media);
+    formData.append("security_level", request.securityLevel);
+    return api
+      .post("/photos/upload", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+        onUploadProgress,
+      })
+      .then((res) => res.data as PhotoUploadResponse);
+  },
+
+  delete: async function (id: string): Promise<void> {
+    return api.delete(`/photos/${id}`);
   },
 
   getGoodPhotos: async function (
@@ -94,5 +123,11 @@ export const PhotoApi = {
     // Remove trailing '&' from the queryString
     queryString = queryString.slice(0, -1);
     return api.get(`/photos?${queryString}`);
+  },
+
+  updateGoodPicture: async function (
+    request: PhotoGoodPictureToggleRequestDto,
+  ) {
+    return api.put(`/photos/${request.photoId}/good-picture`, request);
   },
 };

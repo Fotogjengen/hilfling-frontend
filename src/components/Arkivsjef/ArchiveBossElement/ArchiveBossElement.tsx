@@ -5,7 +5,7 @@ import { CategoryApi } from "../../../utils/api/CategoryApi";
 import { PlaceApi } from "../../../utils/api/PlaceApi";
 import { ArchiveBossContext } from "../../../contexts/ArchiveBossContext";
 import DeleteDialog from "../../DeleteDialog/DeleteDialog";
-import { AlertContext, severityEnum } from "../../../contexts/AlertContext";
+import { toast } from "@/components/ui/overlay/Toaster";
 import {
   PopoverRoot,
   PopoverTrigger,
@@ -23,7 +23,6 @@ function ArchiveBossElement({ text, id, type }: Props) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
-  const { setMessage, setSeverity, setOpen } = useContext(AlertContext);
   const {
     albums,
     setAlbums,
@@ -51,9 +50,7 @@ function ArchiveBossElement({ text, id, type }: Props) {
           if (res.data == 1) {
             setAlbums(albums.filter((album) => album?.albumId.id !== id));
           }
-          setSeverity(severityEnum.SUCCESS);
-          setMessage("Albumet ble slettet");
-          setOpen(true);
+          toast.success("Albumet ble slettet");
         })
         .catch((e) => console.log(e));
     } else if (type === "place") {
@@ -62,9 +59,7 @@ function ArchiveBossElement({ text, id, type }: Props) {
           if (res.data == 1) {
             setPlaces(places.filter((place) => place?.placeId.id !== id));
           }
-          setSeverity(severityEnum.SUCCESS);
-          setMessage("Stedet ble slettet");
-          setOpen(true);
+          toast.success("Stedet ble slettet");
         })
         .catch((e) => console.log(e));
     } else if (type === "category") {
@@ -74,9 +69,7 @@ function ArchiveBossElement({ text, id, type }: Props) {
             setCategories(
               categories.filter((category) => category?.categoryId.id !== id),
             );
-            setSeverity(severityEnum.SUCCESS);
-            setMessage("Kategorien ble slettet");
-            setOpen(true);
+            toast.success("Kategorien ble slettet");
           }
         })
         .catch((e) => console.log(e));

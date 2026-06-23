@@ -1,10 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { useAuth } from "@/contexts/AuthenticationContext";
 import { TextInput } from "@/components/ui/input/TextInput";
 import { Button } from "@/components/ui/input/Button";
 import { Eye, EyeOff } from "lucide-react";
 import styles from "./login.module.css";
-import { useAuth } from "@/contexts/AuthenticationContext";
 
 export const Route = createFileRoute("/login")({
   component: MobileLogin,

@@ -1,22 +1,41 @@
 import { api } from "./api";
-import { MotiveDto, PhotoGangBangerDto } from "../../../generated";
+import {
+  MotiveCreateRequestDto,
+  MotiveDto,
+  MotivePatchRequestDto,
+  PhotoGangBangerDto,
+} from "../../../generated";
 import { PaginatedResult } from "./types";
 
 export const MotiveApi = {
   getAll: async function (): Promise<PaginatedResult<MotiveDto>> {
     return api.get("/motives");
   },
-  getById: async function (id: string): Promise<MotiveDto> {
-    return api
-      .get(`/motives/${id}`)
-      .then((res) => res.data)
-      .catch((e) => console.log(e));
+  getPage: async function (page: number): Promise<PaginatedResult<MotiveDto>> {
+    return api.get("/motives", { params: { page } });
   },
-  patch: async function (motive: MotiveDto): Promise<MotiveDto> {
-    return api
-      .patch(`/motives`, motive)
-      .then((res) => res.data)
-      .catch((e) => console.log(e));
+  search: async function (
+    searchTerm: string,
+    page: number,
+  ): Promise<PaginatedResult<MotiveDto>> {
+    return api.get(`/motives/search/${encodeURIComponent(searchTerm)}`, {
+      params: { page },
+    });
+  },
+  getById: async function (id: string): Promise<MotiveDto> {
+    return api.get(`/motives/${id}`).then((res) => res.data);
+  },
+  patch: async function (motive: MotivePatchRequestDto): Promise<MotiveDto> {
+    return api.patch(`/motives`, motive).then((res) => res.data);
+  },
+  create: async function (motive: MotiveCreateRequestDto): Promise<MotiveDto> {
+    return api.post(`/motives`, motive).then((res) => res.data);
+  },
+  delete: async function (id: string): Promise<void> {
+    return api.delete(`/motives/${id}`);
+  },
+  getDefaults: async function (): Promise<Partial<MotiveDto>> {
+    return api.get("/motives/defaults").then((res) => res.data);
   },
 };
 

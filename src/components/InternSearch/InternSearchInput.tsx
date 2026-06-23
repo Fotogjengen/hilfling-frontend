@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { Button } from "@/components/ui/input/Button";
 import { CheckboxField } from "@/components/ui/input/Checkbox";
@@ -11,14 +11,12 @@ import {
   AlbumDto,
   CategoryDto,
   SecurityLevelDto,
-  PhotoTagDto,
 } from "../../../generated";
 import { AlbumApi } from "../../utils/api/AlbumApi";
 import { PlaceApi } from "../../utils/api/PlaceApi";
 import { CategoryApi } from "../../utils/api/CategoryApi";
 import { MotiveApi } from "../../utils/api/MotiveApi";
-import { PhotoTagApi } from "../../utils/api/PhotoTagApi";
-import { AlertContext, severityEnum } from "../../contexts/AlertContext";
+import { toast } from "@/components/ui/overlay/Toaster";
 import { PhotoSearch } from "../../utils/api/PhotoApi";
 
 interface internSearchInputprop {
@@ -30,8 +28,6 @@ const InternSearchInput = ({ handleSearch }: internSearchInputprop) => {
   const [albums, setAlbums] = useState<AlbumDto[]>([]);
   const [places, setPlaces] = useState<PlaceDto[]>([]);
   const [categories, setCategories] = useState<CategoryDto[]>([]);
-  const [, setPhotoTags] = useState<PhotoTagDto[]>([]);
-
   const [dateFrom, setDateFrom] = useState<Date>(new Date("1910-09-30"));
   const [dateTo, setDateTo] = useState<Date>(new Date());
   const [isGoodPic, setIsGoodPic] = useState(false);
@@ -48,13 +44,7 @@ const InternSearchInput = ({ handleSearch }: internSearchInputprop) => {
     string | null
   >(null);
 
-  const { setMessage, setSeverity, setOpen } = useContext(AlertContext);
-
-  const setError = (e: string) => {
-    setOpen(true);
-    setSeverity(severityEnum.ERROR);
-    setMessage(e);
-  };
+  const setError = (e: string) => toast.error(e);
 
   useEffect(() => {
     const apiStateMap = [
@@ -62,7 +52,6 @@ const InternSearchInput = ({ handleSearch }: internSearchInputprop) => {
       { api: PlaceApi.getAll, setter: setPlaces },
       { api: CategoryApi.getAll, setter: setCategories },
       { api: MotiveApi.getAll, setter: setMotives },
-      { api: PhotoTagApi.getAll, setter: setPhotoTags },
     ];
 
     apiStateMap.forEach(({ api, setter }) => {
@@ -82,7 +71,7 @@ const InternSearchInput = ({ handleSearch }: internSearchInputprop) => {
       page: "0",
       pageSize: "10",
       category: selectedCategory?.name ?? "",
-      isAnalog,
+      analog: isAnalog,
       isGoodPic,
       securityLevel: selectedSecurityLevel ?? "",
       fromDate: format(dateFrom, "yyyy-MM-dd"),
@@ -106,7 +95,7 @@ const InternSearchInput = ({ handleSearch }: internSearchInputprop) => {
           options={albums}
           value={selectedAlbum}
           onChange={setSelectedAlbum}
-          getOptionLabel={(a) => a.title}
+          getOptionLabel={(a) => a.name}
           label="Album"
         />
       </div>

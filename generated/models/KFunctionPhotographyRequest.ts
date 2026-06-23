@@ -7,10 +7,10 @@ import type { KType } from "./KType";
 import type { KTypeParameter } from "./KTypeParameter";
 export type KFunctionPhotographyRequest = {
   isInline: boolean;
-  isSuspend: boolean;
-  isExternal: boolean;
   isOperator: boolean;
   isInfix: boolean;
+  isExternal: boolean;
+  isSuspend: boolean;
   visibility?: KFunctionPhotographyRequest.visibility;
   name: string;
   typeParameters: Array<KTypeParameter>;

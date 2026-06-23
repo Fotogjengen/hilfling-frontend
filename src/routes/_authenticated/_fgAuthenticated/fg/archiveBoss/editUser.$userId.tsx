@@ -1,9 +1,9 @@
 import { createFileRoute, useRouter } from "@tanstack/react-router";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { z } from "zod";
 import { PhotoGangBangerDto } from "@/../generated";
 import styles from "./archiveBossEditUser.module.css";
-import { AlertContext, severityEnum } from "@/contexts/AlertContext";
+import { toast } from "@/components/ui/overlay/Toaster";
 import { PhotoGangBangerApi } from "@/utils/api/PhotoGangBangerApi";
 import useAppForm from "@/utils/form/FormContext";
 import { Button } from "@/components/ui/input/Button";
@@ -24,7 +24,6 @@ const schema = z.object({
 });
 
 function EditUserForm({ user }: { user: PhotoGangBangerDto }) {
-  const { setMessage, setSeverity, setOpen } = useContext(AlertContext);
   const router = useRouter();
 
   const form = useAppForm({
@@ -40,13 +39,9 @@ function EditUserForm({ user }: { user: PhotoGangBangerDto }) {
     onSubmit: async ({ value }) => {
       try {
         await PhotoGangBangerApi.patch({ ...user, ...value });
-        setOpen(true);
-        setSeverity(severityEnum.SUCCESS);
-        setMessage("Bruker ble oppdatert");
+        toast.success("Bruker ble oppdatert");
       } catch {
-        setOpen(true);
-        setSeverity(severityEnum.ERROR);
-        setMessage("Det oppsto en feil, bruker ble ikke oppdatert");
+        toast.error("Det oppsto en feil, bruker ble ikke oppdatert");
       }
     },
   });

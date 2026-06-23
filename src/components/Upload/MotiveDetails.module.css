@@ -1,0 +1,118 @@
+.wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.form {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: var(--size-space-400) var(--size-space-400) 0;
+  box-sizing: border-box;
+}
+
+.noMotiveSelected {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--size-space-200);
+  height: 100%;
+  color: var(--color-text-default-secondary);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--size-space-300);
+}
+
+.heading {
+  font-size: var(--typography-heading-size-small);
+  font-weight: var(--typography-heading-font-weight);
+  margin: 0;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-300);
+  margin-bottom: var(--size-space-300);
+}
+
+.formActions {
+  display: flex;
+  gap: var(--size-space-200);
+}
+
+.display {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  padding: var(--size-space-400) var(--size-space-400) 0;
+  box-sizing: border-box;
+}
+
+.scrollContent {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+  padding-bottom: var(--size-space-300);
+}
+
+.displayFields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-600);
+  margin-bottom: var(--size-space-600);
+}
+
+.displayField {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-100);
+}
+
+.displayLabel {
+  font-size: var(--typography-body-size-small);
+  color: var(--color-text-default-secondary);
+}
+
+.displayValue {
+  font-weight: var(--typography-body-font-weight-strong);
+}
+
+.displayPlacement {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-100);
+}
+
+.displaySummary {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.displaySummaryRow {
+  display: flex;
+  gap: var(--size-space-200);
+  font-size: var(--typography-body-size-small);
+}
+
+.displaySummaryKey {
+  color: var(--color-text-default-secondary);
+}
+
+.displaySummaryValue {
+  font-weight: var(--typography-body-font-weight-strong);
+}
+
+.displayFooter {
+  display: flex;
+  justify-content: center;
+  padding: var(--size-space-300) 0;
+}

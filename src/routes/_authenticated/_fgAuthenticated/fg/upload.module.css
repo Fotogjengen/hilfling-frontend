@@ -1,45 +1,31 @@
 .photoUpload {
-  background-color: white;
-  padding: 2rem;
-}
-
-.photoUpload h2 {
-  text-align: center;
-  border-bottom: 0.1rem solid #000000;
-  text-transform: uppercase;
-  padding-top: 0.8rem;
-  padding-bottom: 1rem;
-  color: #1b1b1b;
-  font-size: 2rem;
-}
-
-.rootFormControl {
-  min-width: 100%;
-}
-
-.noStyleUl {
-  list-style: none;
-  padding: 0;
-  margin: 1rem 0 0 0;
-}
-
-.fileList {
-  margin: 0;
-  padding: 0;
-}
-
-.dropzone {
+  background-color: var(--color-background-default-default);
   flex: 1;
+  overflow: hidden;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 20px;
-  border-width: 2px;
-  border-radius: 2px;
-  border-color: #bcbcbc;
-  border-style: dashed;
-  color: #3c3c3c;
-  outline: none;
-  transition: border 0.24s ease-in-out;
-  cursor: pointer;
+  flex-direction: row;
+}
+
+.sideBar {
+  flex: 0 0 25%;
+  display: grid;
+  grid-template-rows: 4fr 1fr;
+  transition: grid-template-rows 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  border-right: var(--size-stroke-border) solid
+    var(--color-border-default-default);
+  overflow: hidden;
+}
+
+.sideBar > * {
+  min-height: 0;
+}
+
+.sideBarMotiveSelected {
+  grid-template-rows: 4fr 10fr;
+}
+
+.mainContent {
+  flex: 1;
+  overflow: hidden;
+  background-color: var(--color-background-default-secondary);
 }

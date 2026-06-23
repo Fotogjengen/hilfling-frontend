@@ -36,6 +36,7 @@ export function DatePicker({
       <PopoverRoot open={open} onOpenChange={(o) => !disabled && setOpen(o)}>
         <PopoverTrigger asChild>
           <button
+            type="button"
             className={[
               styles.trigger,
               error ? styles.triggerError : null,

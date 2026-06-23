@@ -1,13 +1,13 @@
 import { useState } from "react";
 import styles from "./LoginPopUp.module.css";
 import { useAuth } from "../../../contexts/AuthenticationContext";
+import { JwtTokenPayload } from "../../../types";
 import { Button } from "@/components/ui/input/Button";
 import { TextInput } from "@/components/ui/input/TextInput";
 import { Dialog } from "@/components/ui/overlay/Dialog";
 import { Eye, EyeOff } from "lucide-react";
 import { AuthAPi } from "../../../utils/api/AuthApi";
 import Cookies from "js-cookie";
-import { JwtTokenPayload } from "@/types";
 
 interface Props {
   open: boolean;

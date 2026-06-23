@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./archiveBoss.module.css";
 import ArchiveBossAccordion from "@/components/Arkivsjef/ArchiveBossAccordion/ArchiveBossAccordion";
 import { AlbumDto, PlaceDto, CategoryDto } from "@/../generated";
@@ -8,7 +8,7 @@ import { CategoryApi } from "@/utils/api/CategoryApi";
 import ArchiveBossElement from "@/components/Arkivsjef/ArchiveBossElement/ArchiveBossElement";
 import { ArchiveBossContext } from "@/contexts/ArchiveBossContext";
 import ArchiveBossAddElements from "@/components/Arkivsjef/ArchiveBossAddElements/ArchiveBossAddElements";
-import { AlertContext, severityEnum } from "@/contexts/AlertContext";
+import { toast } from "@/components/ui/overlay/Toaster";
 import ArchiveBossCreateUsers from "@/components/Arkivsjef/ArchiveBossCreateUser/ArchiveBossCreateUsers";
 import ArchiveBossOverView from "@/components/Arkivsjef/ArchiveBossOverView/ArchiveBossOverView";
 import { createFileRoute } from "@tanstack/react-router";
@@ -44,14 +44,9 @@ function ArchiveBoss() {
     categories: false,
   });
 
-  const { setMessage, setSeverity, setOpen } = useContext(AlertContext);
   const itemsPerPage = 6;
 
-  const setError = (e: string) => {
-    setOpen(true);
-    setSeverity(severityEnum.ERROR);
-    setMessage(e);
-  };
+  const setError = (e: string) => toast.error(e);
 
   const fetchAlbums = async (page: number) => {
     setLoading((prev) => ({ ...prev, albums: true }));
@@ -162,7 +157,7 @@ function ArchiveBoss() {
                 {albums.map((album, index) => (
                   <ArchiveBossElement
                     key={index}
-                    text={album.title}
+                    text={album.name}
                     id={album.albumId.id}
                     type="album"
                   />

@@ -21,7 +21,7 @@ export interface BaseCarouselItem {
 
 export interface DragNDropFile extends File {
   path: string;
-  isGoodPicture: boolean;
+  goodPicture: boolean;
 }
 
 export type UKA = "uka";

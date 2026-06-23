@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type PreValidatePhotoUploadResponse = {
-  isValid: boolean;
-  errors: Array<string>;
+export type PhotoGoodPictureToggleRequestDto = {
+  photoId: string;
+  goodPicture: boolean;
 };

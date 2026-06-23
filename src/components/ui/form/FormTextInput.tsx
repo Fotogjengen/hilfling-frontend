@@ -5,12 +5,14 @@ interface FormTextInputProps {
   label?: string;
   hint?: string;
   placeholder?: string;
+  autoFocus?: boolean;
 }
 
 export function FormTextInput({
   label,
   hint,
   placeholder,
+  autoFocus,
 }: FormTextInputProps) {
   const field = useFieldContext<string>();
 
@@ -19,6 +21,7 @@ export function FormTextInput({
       label={label}
       hint={hint}
       placeholder={placeholder}
+      autoFocus={autoFocus}
       value={field.state.value}
       onChange={(e) => field.handleChange(e.target.value)}
       onBlur={field.handleBlur}

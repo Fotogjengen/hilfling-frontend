@@ -1,12 +1,19 @@
 .nav {
-  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border-default-default);
+  padding: 0 var(--typography-scale-04);
 }
 
 .navHead {
-  margin-bottom: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0.75rem 0;
+}
+
+.navHeadActions {
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-100);
 }
 
 .navHeadActions {
@@ -55,7 +62,7 @@
   justify-content: space-between;
   width: 100%;
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 3px 0px;
-  font-size: var(--typography-body-size-medium);
+  font-size: var(--typography-body-size-large);
 }
 
 .menuLink:hover {
@@ -63,15 +70,15 @@
 }
 
 .navContainer {
-  font-size: 1.5rem;
   display: none;
-  grid-template-columns: 8fr 2fr;
 }
 
 .loggContainer {
   display: flex;
   align-items: center;
   justify-content: right;
+  margin-left: auto;
+  gap: var(--size-space-100);
 }
 
 .loggContainer > * {
@@ -83,14 +90,10 @@
 }
 
 .navList {
-  width: 60vw;
   display: flex;
-  justify-content: left;
   align-items: center;
-}
-
-.navList > * {
-  margin-right: 3vw;
+  padding-left: 1.5rem;
+  gap: 1.5rem;
 }
 
 .navList > *:hover {
@@ -98,13 +101,30 @@
 }
 
 .navLink {
-  font-size: var(--typography-body-size-medium);
+  font-size: var(--typography-body-size-large);
 }
 
 @media screen and (min-width: 50rem) {
-  .navContainer {
-    display: grid;
+  .nav {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
   }
+
+  .navHead {
+    height: auto;
+  }
+
+  .navMenuList {
+    display: none;
+  }
+
+  .navContainer {
+    display: flex;
+    flex: 1;
+    align-items: center;
+  }
+
   .hamburger {
     display: none;
   }

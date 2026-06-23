@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Pencil, Trash2 } from "lucide-react";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   AlbumDto,
   CategoryDto,
@@ -13,7 +13,7 @@ import { EventOwnerApi } from "@/utils/api/EventOwnerApi";
 import { MotiveApi } from "@/utils/api/MotiveApi";
 import styles from "./motiveEdit.module.css";
 import MotiveCard from "@/components/MotiveCard/MotiveCard";
-import { AlertContext, severityEnum } from "@/contexts/AlertContext";
+import { toast } from "@/components/ui/overlay/Toaster";
 import DeleteDialog from "@/components/DeleteDialog/DeleteDialog";
 import { TextInput } from "@/components/ui/input/TextInput";
 import { Combobox } from "@/components/ui/input/Combobox";
@@ -33,15 +33,10 @@ function EditMotive() {
   const [loading, setLoading] = useState(true);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
-  const { setMessage, setSeverity, setOpen } = useContext(AlertContext);
   const navigate = useNavigate();
   const { motiveId: id } = Route.useParams();
 
-  const setError = (e: unknown) => {
-    setOpen(true);
-    setSeverity(severityEnum.ERROR);
-    setMessage(String(e));
-  };
+  const setError = (e: unknown) => toast.error(String(e));
 
   useEffect(() => {
     if (!id) return;
@@ -61,9 +56,7 @@ function EditMotive() {
     void MotiveApi.patch(motive)
       .then(() => {
         void navigate({ to: "/fg/motive" });
-        setOpen(true);
-        setSeverity(severityEnum.SUCCESS);
-        setMessage(`Motivet ${motive.title} ble oppdatert`);
+        toast.success(`Motivet ${motive.title} ble oppdatert`);
       })
       .catch(setError);
   };
@@ -97,7 +90,7 @@ function EditMotive() {
               label="Endre album"
               options={albums}
               value={motive.albumDto ?? null}
-              getOptionLabel={(a) => a.title ?? ""}
+              getOptionLabel={(a) => a.name ?? ""}
               onChange={(a) => setMotive({ ...motive, albumDto: a })}
             />
             <Combobox

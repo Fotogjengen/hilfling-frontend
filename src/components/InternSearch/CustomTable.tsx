@@ -25,7 +25,7 @@ const columns = [
   { id: "placeDto", label: "Sted", width: "10%" },
   { id: "securityLevel", label: "Sikkerhetsnivå", width: "10%" },
   { id: "categoryDto", label: "Kategori", width: "10%" },
-  { id: "isGoodPicture", label: "Høydepunkt", width: "10%" },
+  { id: "goodPicture", label: "Høydepunkt", width: "10%" },
   { id: "scan", label: "Scan", width: "10%" },
   { id: "small_url", label: "Miniatyr", width: "15%" },
   { id: "edit", label: "Rediger", width: "5%" },
@@ -97,14 +97,11 @@ const CustomTable = ({
               <tr key={photo.photoId.id} className={tableStyles.tr}>
                 {columns.map((column) => (
                   <td key={column.id} className={tableStyles.td}>
-                    {column.id === "albumDto" && photo.albumDto.title}
                     {column.id === "motive" && photo.motive.title}
                     {column.id === "date" && `${photo.dateTaken}`}
-                    {column.id === "placeDto" && photo.placeDto.name}
                     {column.id === "securityLevel" &&
                       photo.securityLevel.securityLevelType}
-                    {column.id === "categoryDto" && photo.categoryDto.name}
-                    {column.id === "isGoodPicture" && `${photo.isGoodPicture}`}
+                    {column.id === "goodPicture" && `${photo.goodPicture}`}
                     {column.id === "scan" && (
                       <div className={styles.scanButtons}>
                         <Button size="sm" variant="subtle">

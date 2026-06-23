@@ -1,0 +1,127 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-bottom: var(--size-stroke-border) solid
+    var(--color-border-default-default);
+}
+
+.titleWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--size-space-400) var(--size-space-400) 0;
+  min-height: calc(
+    var(--size-space-400) + var(--size-space-300) + 2 *
+      var(--size-stroke-border) + 2 * var(--size-space-200) + 24px
+  );
+  font-weight: var(--typography-weight-bold);
+  font-size: var(--typography-body-size-large);
+}
+
+.selectorList {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-100);
+  overflow-y: auto;
+  padding: 0 var(--size-space-400) var(--size-space-400);
+}
+
+.skeletonText {
+  height: var(--typography-body-size-medium);
+  border-radius: var(--size-radius-full, 9999px);
+}
+
+.skeletonTextW1 {
+  width: 35%;
+}
+.skeletonTextW2 {
+  width: 55%;
+}
+.skeletonTextW3 {
+  width: 70%;
+}
+.skeletonTextW4 {
+  width: 48%;
+}
+
+.motiveItem {
+  justify-content: flex-start;
+  text-align: left;
+  width: 100%;
+}
+
+.buttonWithIcon {
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-100);
+}
+
+.selected {
+  background-color: var(--color-background-default-tertiary);
+  border-color: var(--color-border-default-default);
+  display: flex;
+  flex-direction: row;
+  scroll-margin-bottom: var(--size-space-400);
+}
+
+.deselectIcon {
+  margin-left: auto;
+  flex-shrink: 0;
+  width: 18px; /* TODO: this should be in the theme*/
+  height: 18px;
+}
+
+.collapsedContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-100);
+  padding: 0 var(--size-space-400) var(--size-space-400);
+}
+
+.selectedTitle {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  font-weight: var(--typography-weight-bold);
+}
+
+.checkIcon {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  color: var(--color-text-status-positive-default);
+}
+
+.searchWrapper {
+  width: 100%;
+  margin-left: auto;
+  overflow: hidden;
+  animation: expandIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.searchField {
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.headerButtonGroup {
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-100);
+}
+
+@keyframes expandIn {
+  from {
+    max-width: 0;
+    opacity: 0;
+  }
+  to {
+    max-width: 100%;
+    opacity: 1;
+  }
+}

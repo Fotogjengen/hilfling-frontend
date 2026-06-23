@@ -34,6 +34,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
           <input
             ref={ref}
             id={inputId}
+            autoComplete="off"
             className={[
               styles.input,
               error ? styles.inputError : null,

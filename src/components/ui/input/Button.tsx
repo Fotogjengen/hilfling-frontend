@@ -1,4 +1,5 @@
 import { Slot } from "radix-ui";
+import { forwardRef } from "react";
 import styles from "./Button.module.css";
 
 type ButtonVariant =
@@ -16,20 +17,20 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   asChild?: boolean;
 }
 
-export function Button({
-  variant = "primary",
-  size = "md",
-  asChild = false,
-  className,
-  ...props
-}: ButtonProps) {
-  const Comp = asChild ? Slot.Root : "button";
-  return (
-    <Comp
-      className={[styles.button, styles[variant], styles[size], className]
-        .filter(Boolean)
-        .join(" ")}
-      {...props}
-    />
-  );
-}
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  function Button(
+    { variant = "primary", size = "md", asChild = false, className, ...props },
+    ref,
+  ) {
+    const Comp = asChild ? Slot.Root : "button";
+    return (
+      <Comp
+        ref={ref}
+        className={[styles.button, styles[variant], styles[size], className]
+          .filter(Boolean)
+          .join(" ")}
+        {...props}
+      />
+    );
+  },
+);

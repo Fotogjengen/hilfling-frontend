@@ -102,11 +102,3 @@
   display: flex;
   justify-content: center;
 }
-
-/* ===== BODY (valgfritt) ===== */
-
-body {
-  display: flex;
-  margin: 10;
-  justify-content: center;
-}
