@@ -4,10 +4,6 @@
   align-items: baseline;
 }
 
-.logo:hover {
-  cursor: pointer;
-}
-
 .name {
   padding-left: 1rem;
   margin: auto 0;

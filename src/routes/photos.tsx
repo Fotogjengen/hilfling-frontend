@@ -42,12 +42,9 @@ function Photos() {
     const load = async () => {
       setIsLoading(true);
       try {
-        const batch = await PhotoApi.getGoodPhotos(
-          String(page),
-          String(PAGE_SIZE),
-        );
-        setGoodPhotos((prev) => [...prev, ...batch]);
-        if (batch.length < PAGE_SIZE) setHasMore(false);
+        const batch = await PhotoApi.getGoodPhotos(page, PAGE_SIZE);
+        setGoodPhotos((prev) => [...prev, ...batch.currentList]);
+        if (batch.currentList.length < PAGE_SIZE) setHasMore(false);
       } finally {
         setIsLoading(false);
       }

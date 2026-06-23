@@ -6,8 +6,8 @@ import type { KParameter } from "./KParameter";
 import type { KType } from "./KType";
 import type { KTypeParameter } from "./KTypeParameter";
 export type KCallableObject = {
-  visibility?: KCallableObject.visibility;
   isSuspend: boolean;
+  visibility?: KCallableObject.visibility;
   name: string;
   typeParameters: Array<KTypeParameter>;
   returnType: KType;

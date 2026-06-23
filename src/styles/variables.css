@@ -94,6 +94,12 @@
   --color-pink-900: #57184aff;
   --color-pink-1000: #3f1536ff;
 
+  /* Photo modal colors */
+  --color-background-photo-modal: var(--color-gray-900);
+  --color-text-photo-modal: var(--color-white-1000);
+  --color-border-transparent-default-photo-modal: var(--color-gray-500);
+  --color-background-skeleton-photo-modal: var(--color-slate-900);
+
   /* Spacing */
   --size-space-0: 0px;
   --size-space-050: 2px;
@@ -133,9 +139,14 @@
   --size-depth-negative-1200: -48px;
   --size-stroke-border: 1px;
   --size-stroke-focus-ring: 2px;
+  --size-icon-extra-small: 20px;
   --size-icon-small: 24px;
   --size-icon-medium: 32px;
   --size-icon-large: 40px;
+
+  /* Icon button sizes*/
+  --size-icon-button-medium: 44px;
+  --size-icon-button-small: 32px;
 
   /* Typography primitives */
   --typography-family-sans: Inter;

@@ -1,6 +1,6 @@
 import { api } from "./api";
 import { PhotoDto, PhotoGoodPictureToggleRequestDto } from "../../../generated";
-import { PaginatedResult } from "./types";
+import { PaginatedResult, PaginatedResultData } from "./types";
 import { AxiosProgressEvent } from "axios";
 
 export interface PhotoUploadRequest {
@@ -54,7 +54,11 @@ export const PhotoApi = {
   getAllByMotiveId: async function (id: string): Promise<PhotoDto[]> {
     return api.get(`/photos/motive/${id}`).then((res) => res.data);
   },
-
+  getAllGoodByMotiveId: async function (id: string): Promise<PhotoDto[]> {
+    return api
+      .get(`/photos/motive/${id}/good-pictures`)
+      .then((res) => res.data);
+  },
   upload: async function (
     request: PhotoUploadRequest,
     onUploadProgress?: (progressEvent: AxiosProgressEvent) => void,
@@ -82,12 +86,12 @@ export const PhotoApi = {
   },
 
   getGoodPhotos: async function (
-    page?: string,
-    pageSize?: string,
-  ): Promise<PhotoDto[]> {
+    page?: number,
+    pageSize?: number,
+  ): Promise<PaginatedResultData<PhotoDto>> {
     return api
-      .get("/photos/goodPhotos", { params: { page, pageSize } })
-      .then((res) => res.data.currentList);
+      .get("/photos/good-pictures", { params: { page, pageSize } })
+      .then((res) => res.data);
   },
 
   getById: async function (id: string): Promise<PhotoDto> {

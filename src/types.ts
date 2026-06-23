@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 export type SecurityLevelType = "FG" | "HUSFOLK" | "ALLE";
 
 export type JwtTokenPayload = {
@@ -35,3 +37,14 @@ type EventCard = "EventCard";
 type GjengfotoCard = "GjengfotoCard";
 
 export type CardType = EventCard | GjengfotoCard;
+
+export const photoViewModalOptions = z.discriminatedUnion("modalType", [
+  // good pictures accessible through the front page
+  z.object({
+    modalType: z.literal("goodPictures"),
+    page: z.number(),
+    positionInPage: z.number(),
+  }),
+]);
+
+export type PhotoViewModalOptions = z.infer<typeof photoViewModalOptions>;

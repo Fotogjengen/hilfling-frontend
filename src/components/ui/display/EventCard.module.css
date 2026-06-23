@@ -1,0 +1,124 @@
+.wrapper {
+  background: var(--color-background-default-default);
+  border: var(--size-stroke-border) solid var(--color-border-default-default);
+  border-radius: var(--size-radius-400);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 25rem;
+  flex-shrink: 0;
+}
+
+.photoGridWrapper {
+  width: 100%;
+  position: relative;
+  background: var(--color-background-default-secondary);
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+}
+
+.photoGrid {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-auto-flow: dense;
+}
+
+.photo {
+  overflow: hidden;
+}
+
+.photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.Standing {
+  grid-column: span 3;
+  grid-row: span 2;
+}
+
+.Laying {
+  grid-column: span 3;
+}
+
+.Full {
+  grid-column: span 6;
+  grid-row: span 2;
+}
+
+.photoPlaceholder {
+  position: absolute;
+  inset: 0;
+  background: var(--color-background-default-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholderIcon {
+  width: 2.5rem;
+  height: 2.5rem;
+  color: var(--color-text-default-secondary);
+}
+
+.hidePhoto {
+  display: none;
+}
+
+.skeletonPhoto {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+}
+
+.skeletonFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--size-space-400) var(--size-space-600);
+  gap: var(--size-space-400);
+}
+
+.skeletonTitle {
+  height: 1.2rem;
+  width: 55%;
+  border-radius: var(--size-radius-200);
+}
+
+.skeletonDate {
+  height: 1.2rem;
+  width: 22%;
+  border-radius: var(--size-radius-200);
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--size-space-400) var(--size-space-600);
+  gap: var(--size-space-400);
+  min-width: 0;
+  overflow: hidden;
+}
+
+.title {
+  font-family: var(--typography-family-sans);
+  font-size: var(--typography-heading-size-small);
+  font-weight: var(--typography-weight-semibold);
+  color: var(--color-text-default-default);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  flex: 1;
+}
+
+.date {
+  font-family: var(--typography-family-sans);
+  font-size: var(--typography-body-size-large);
+  font-weight: var(--typography-body-font-weight-regular);
+  color: var(--color-text-default-secondary);
+  white-space: nowrap;
+}

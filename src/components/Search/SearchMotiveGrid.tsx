@@ -3,7 +3,6 @@ import { useSearchContext } from "./SearchContext";
 import { EventCardApi } from "../../utils/api/EventCardApi";
 import { EventCardDto } from "../../../generated";
 import { PaginatedResultData } from "../../utils/api/types";
-import EventCards from "../Frontpage/EventCards/EventCards";
 
 const SearchMotiveGrid = () => {
   const PAGE_SIZE = 10;
@@ -119,14 +118,6 @@ const SearchMotiveGrid = () => {
   }
   return (
     <div style={{ marginTop: "10px" }}>
-      {motives && (
-        <EventCards
-          minWidth={300}
-          titleSize={1.2}
-          event={"Samfundet"}
-          eventCardResponse={motives.currentList}
-        />
-      )}
       {isLoading && !isInitialLoad && hasMore && (
         <div style={{ textAlign: "center", padding: "20px" }}>
           Laster flere...
