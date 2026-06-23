@@ -14,8 +14,8 @@ export type PhotographyRequest = {
   description: string;
   type: string;
   name: string;
-  dateCreated: string;
   dateDeleted: string;
+  dateCreated: string;
   id: string;
   entityClass: KClassPhotographyRequest;
   properties: Record<string, any>;
