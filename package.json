@@ -12,7 +12,7 @@
     "preview": "vite preview",
     "lint": "eslint --ext .ts,.tsx .",
     "lint:fix": "eslint --fix --ext .ts,.tsx .",
-    "codegen": "openapi --exportSchemas false --exportCore false --exportServices false -i ../hilfling_backend/target/openapi.json --output ./generated"
+    "codegen": "npx openapi-typescript-codegen --exportSchemas false --exportCore false --exportServices false -i ../backend/target/openapi.json --output ./generated"
   },
   "dependencies": {
     "@tanstack/react-form": "^1.32.0",

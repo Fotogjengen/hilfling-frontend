@@ -1,12 +1,13 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import styles from "./LoginPopUp.module.css";
-import { AuthenticationContext } from "../../../contexts/AuthenticationContext";
+import { useAuth } from "../../../contexts/AuthenticationContext";
 import { Button } from "@/components/ui/input/Button";
 import { TextInput } from "@/components/ui/input/TextInput";
 import { Dialog } from "@/components/ui/overlay/Dialog";
 import { Eye, EyeOff } from "lucide-react";
 import { AuthAPi } from "../../../utils/api/AuthApi";
 import Cookies from "js-cookie";
+import { JwtTokenPayload } from "@/types";
 
 interface Props {
   open: boolean;
@@ -20,7 +21,7 @@ const LoginPopUp = ({ open, onOpenChange }: Props) => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { setIsAuthenticated, setPosition } = useContext(AuthenticationContext);
+  const { setIsAuthenticated, setJwtPayload } = useAuth();
 
   const handleLogin = async () => {
     if (!username || !password) {
@@ -31,14 +32,15 @@ const LoginPopUp = ({ open, onOpenChange }: Props) => {
     setError(null);
     try {
       const response = await AuthAPi.login(username, password);
-      const payload = JSON.parse(atob(response.token.split(".")[1]));
-      const role: string = payload.role ?? "HUSFOLK";
+      const payload = JSON.parse(
+        atob(response.token.split(".")[1]),
+      ) as JwtTokenPayload;
       Cookies.set("fgToken", response.token, { expires: 1 });
       Cookies.set("fgBasicAuth", btoa(`${username}:${password}`), {
         expires: 1,
       });
       setIsAuthenticated(true);
-      setPosition(role);
+      setJwtPayload(payload);
       onOpenChange(false);
     } catch {
       setError("Innlogging feilet. Sjekk brukernavn og passord.");

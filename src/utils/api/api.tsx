@@ -16,7 +16,7 @@ export const api = axios.create({
 api.interceptors.request.use((config) => {
   const token = Cookies.get("fgToken");
   if (token) {
-    config.headers["X-hilfling-token"] = `Bearer ${token}`;
+    config.headers["X-hilfling-token"] = token;
   }
 
   const basicAuth = Cookies.get("fgBasicAuth");

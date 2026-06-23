@@ -1,5 +1,4 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useContext } from "react";
 import {
   Archive,
   Upload,
@@ -10,7 +9,7 @@ import {
   Leaf,
   Wine,
 } from "lucide-react";
-import { AuthenticationContext } from "@/contexts/AuthenticationContext";
+import { useAuth } from "@/contexts/AuthenticationContext";
 import styles from "./fg.module.css";
 
 export const Route = createFileRoute("/_authenticated/_fgAuthenticated/fg/")({
@@ -18,7 +17,7 @@ export const Route = createFileRoute("/_authenticated/_fgAuthenticated/fg/")({
 });
 
 function FgNav() {
-  const { position } = useContext(AuthenticationContext);
+  const { jwtPayload } = useAuth();
 
   const mainLinks = [
     { name: "Last opp", to: "/fg/upload", icon: <Upload size={100} /> },
@@ -43,7 +42,9 @@ function FgNav() {
   ];
 
   const visibleMainLinks =
-    position !== "FG" ? [mainLinks[0], mainLinks[4]] : mainLinks;
+    jwtPayload?.securityLevel !== "FG"
+      ? [mainLinks[0], mainLinks[4]]
+      : mainLinks;
 
   return (
     <>
