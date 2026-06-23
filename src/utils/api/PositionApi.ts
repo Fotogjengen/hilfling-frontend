@@ -9,7 +9,7 @@ export const PositionApi = {
   deleteById: async function (id: string): Promise<DeletedResult> {
     return api.delete(`/positions/${id}`);
   },
-  // eslint-disable-next-line
+
   post: async function (postion: any): Promise<number> {
     return api
       .post("/positions", postion)

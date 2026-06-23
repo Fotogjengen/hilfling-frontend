@@ -31,8 +31,7 @@
   max-width: 50rem;
   z-index: 1000;
   border-radius: 0.5rem;
-  background-color: var(--color-white);
-  border-left: 4px solid var(--hilfling-color-red);
+  background-color: var(--color-background-default-default);
   box-shadow:
     0 10px 15px -3px rgb(0 0 0 / 0.1),
     0 4px 6px -4px rgb(0 0 0 / 0.1);
@@ -56,8 +55,24 @@
 }
 
 .CloseButton {
+  position: absolute;
   top: 0.25rem;
   right: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: none;
+  cursor: pointer;
+  color: var(--color-icon-default-default);
+}
+
+.CloseButton:hover {
+  background: var(--color-background-default-secondary);
 }
 
 .PopupContent {

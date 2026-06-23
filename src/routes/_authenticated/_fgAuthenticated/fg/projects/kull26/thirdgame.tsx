@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Button, Input } from "@mui/material";
+import { Button } from "@/components/ui/input/Button";
+import { TextInput } from "@/components/ui/input/TextInput";
 import classnames from "classnames";
 import styles from "./thirdgame.module.css";
 import { useMemo, useRef, useState } from "react";
@@ -83,7 +84,7 @@ function MarkusProject() {
       <div className={styles.gameWrapper}>
         <h1>Legg til spillere</h1>
         <div className={styles.addPlayerContainer}>
-          <Input placeholder="Navn" inputRef={newPlayerNameRef} />
+          <TextInput placeholder="Navn" ref={newPlayerNameRef} />
           <Button
             className={styles.addPlayerButton}
             onClick={() => {

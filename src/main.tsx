@@ -6,6 +6,7 @@ import "./index.css";
 import { router } from "./router";
 import AuthProvider from "./contexts/AuthProvider";
 import { useAuth } from "./contexts/AuthenticationContext";
+import { ThemeProvider } from "./components/ThemeProvider/ThemeProvider";
 
 const RouterWrapper = () => {
   const { isAuthenticated, jwtPayload } = useAuth();
@@ -24,7 +25,9 @@ if (rootElement && !rootElement.innerHTML) {
   root.render(
     <StrictMode>
       <AuthProvider>
-        <RouterWrapper />
+        <ThemeProvider>
+          <RouterWrapper />
+        </ThemeProvider>
       </AuthProvider>
     </StrictMode>,
   );

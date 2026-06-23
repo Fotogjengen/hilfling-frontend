@@ -1,19 +1,12 @@
 import { createFileRoute, useRouter } from "@tanstack/react-router";
-
 import { useContext, useEffect, useState } from "react";
+import { z } from "zod";
 import { PhotoGangBangerDto } from "@/../generated";
-import {
-  Button,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Paper,
-  TextField,
-} from "@mui/material";
 import styles from "./archiveBossEditUser.module.css";
 import { AlertContext, severityEnum } from "@/contexts/AlertContext";
 import { PhotoGangBangerApi } from "@/utils/api/PhotoGangBangerApi";
+import useAppForm from "@/utils/form/FormContext";
+import { Button } from "@/components/ui/input/Button";
 
 export const Route = createFileRoute(
   "/_authenticated/_fgAuthenticated/fg/archiveBoss/editUser/$userId",
@@ -21,184 +14,113 @@ export const Route = createFileRoute(
   component: ArchiveBossEditUser,
 });
 
-function ArchiveBossEditUser() {
+const schema = z.object({
+  firstName: z.string().min(1, "Fornavn er påkrevd"),
+  lastName: z.string().min(1, "Etternavn er påkrevd"),
+  phoneNumber: z.string().regex(/^[1-9]\d{7}$/, "Ugyldig telefonnummer"),
+  email: z.string().email("Ugyldig e-postadresse"),
+  isActive: z.boolean(),
+  isPang: z.boolean(),
+});
+
+function EditUserForm({ user }: { user: PhotoGangBangerDto }) {
   const { setMessage, setSeverity, setOpen } = useContext(AlertContext);
-  const [user, setUser] = useState<PhotoGangBangerDto | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isEmailValid, setIsEmailValid] = useState(false);
-  const [emailError, setEmailError] = useState("");
-  const [phoneNumberError, setPhoneNumberError] = useState("");
-  const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(false);
   const router = useRouter();
 
-  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  const phoneNumberRegex = /^[1-9]\d{7}$/;
+  const form = useAppForm({
+    defaultValues: {
+      firstName: user.firstName ?? "",
+      lastName: user.lastName ?? "",
+      phoneNumber: user.phoneNumber ?? "",
+      email: user.email ?? "",
+      isActive: user.isActive ?? false,
+      isPang: user.isPang ?? false,
+    },
+    validators: { onChange: schema },
+    onSubmit: async ({ value }) => {
+      try {
+        await PhotoGangBangerApi.patch({ ...user, ...value });
+        setOpen(true);
+        setSeverity(severityEnum.SUCCESS);
+        setMessage("Bruker ble oppdatert");
+      } catch {
+        setOpen(true);
+        setSeverity(severityEnum.ERROR);
+        setMessage("Det oppsto en feil, bruker ble ikke oppdatert");
+      }
+    },
+  });
 
+  return (
+    <form
+      className={styles.form}
+      onSubmit={(e) => {
+        e.preventDefault();
+        void form.handleSubmit();
+      }}
+    >
+      <form.AppField
+        name="firstName"
+        validators={{ onChange: schema.shape.firstName }}
+      >
+        {(field) => <field.TextInput label="Fornavn" />}
+      </form.AppField>
+
+      <form.AppField
+        name="lastName"
+        validators={{ onChange: schema.shape.lastName }}
+      >
+        {(field) => <field.TextInput label="Etternavn" />}
+      </form.AppField>
+
+      <form.AppField
+        name="phoneNumber"
+        validators={{ onChange: schema.shape.phoneNumber }}
+      >
+        {(field) => <field.TextInput label="Telefonnummer" />}
+      </form.AppField>
+
+      <form.AppField name="email" validators={{ onChange: schema.shape.email }}>
+        {(field) => <field.TextInput label="E-post" />}
+      </form.AppField>
+
+      <form.AppField name="isActive">
+        {(field) => <field.Checkbox label="Aktiv" />}
+      </form.AppField>
+
+      <form.AppField name="isPang">
+        {(field) => <field.Checkbox label="Er Pang" />}
+      </form.AppField>
+
+      <div className={styles.action_buttons}>
+        <form.AppForm>
+          <form.SubmitButton label="Oppdater bruker" />
+        </form.AppForm>
+        <Button variant="neutral" onClick={() => router.history.back()}>
+          Tilbake
+        </Button>
+      </div>
+    </form>
+  );
+}
+
+function ArchiveBossEditUser() {
+  const [user, setUser] = useState<PhotoGangBangerDto | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const { userId: id } = Route.useParams();
 
   useEffect(() => {
-    PhotoGangBangerApi.getById(id || "")
+    PhotoGangBangerApi.getById(id)
       .then((res) => {
         setUser(res);
         setIsLoading(false);
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch(console.error);
   }, []);
-
-  useEffect(() => {
-    if (!user?.email) {
-      setIsEmailValid(false);
-      setEmailError("");
-    } else if (!emailRegex.test(user.email)) {
-      setIsEmailValid(false);
-      setEmailError("Ugyldig e-postadresse");
-    } else {
-      setIsEmailValid(true);
-      setEmailError("");
-    }
-  }, [user?.email]);
-
-  useEffect(() => {
-    const phoneNumberLength = 8;
-    if (!user?.phoneNumber) {
-      setIsPhoneNumberValid(false);
-      setPhoneNumberError("");
-    } else if (
-      !phoneNumberRegex.test(user.phoneNumber) ||
-      user.phoneNumber.length !== phoneNumberLength
-    ) {
-      setIsPhoneNumberValid(false);
-      setPhoneNumberError("Ugyldig telefonnummer");
-    } else {
-      setIsPhoneNumberValid(true);
-      setPhoneNumberError("");
-    }
-  }, [user?.phoneNumber]);
-
-  const handleEditUserClick = () => {
-    if (!user) return;
-
-    if (isPhoneNumberValid && isEmailValid) {
-      PhotoGangBangerApi.patch(user)
-        .then(() => {
-          setOpen(true);
-          setSeverity(severityEnum.SUCCESS);
-          setMessage(`Bruker ble oppdatert`);
-        })
-        .catch((err) => {
-          console.log(err);
-          setOpen(true);
-          setSeverity(severityEnum.ERROR);
-          setMessage(`Det oppsto en feil, bruker ble ikke opdatert`);
-        });
-    } else {
-      setOpen(true);
-      setSeverity(severityEnum.ERROR);
-
-      let errorMessage = "Kan ikke opprette bruker: ";
-      if (!isPhoneNumberValid) errorMessage += "Telefonnummeret er ugyldig.";
-      if (!isEmailValid) errorMessage += "E-postadressen er ugyldig.";
-
-      setMessage(errorMessage);
-    }
-  };
-
-  const handleBackClick = () => {
-    router.history.back();
-  };
 
   return (
     <div className={styles.container}>
-      {!isLoading && user ? (
-        <Paper className={styles.form} sx={{ width: "70%" }}>
-          <FormControl
-            sx={{
-              display: "flex",
-              width: "100%",
-              justifyContent: "center",
-              alignContent: "center",
-            }}
-          >
-            <FormLabel>Fornavn:</FormLabel>
-            <TextField
-              required
-              value={user.firstName}
-              onChange={(e) => setUser({ ...user, firstName: e.target.value })}
-            />
-
-            <FormLabel>Etternavn:</FormLabel>
-            <TextField
-              required
-              value={user.lastName}
-              onChange={(e) => setUser({ ...user, lastName: e.target.value })}
-            />
-
-            <FormLabel>Telefonnummer:</FormLabel>
-            <TextField
-              required
-              value={user.phoneNumber}
-              error={user.phoneNumber !== "" && !isPhoneNumberValid}
-              helperText={phoneNumberError}
-              onChange={(e) =>
-                setUser({ ...user, phoneNumber: e.target.value })
-              }
-            />
-
-            <FormLabel>Email:</FormLabel>
-            <TextField
-              required
-              value={user.email}
-              error={user.email !== "" && !isEmailValid}
-              helperText={emailError}
-              onChange={(e) => setUser({ ...user, email: e.target.value })}
-            />
-
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={user.isActive}
-                  onChange={(e) =>
-                    setUser({ ...user, isActive: e.target.checked })
-                  }
-                />
-              }
-              label="Aktiv"
-              sx={{ marginTop: 2 }}
-            />
-
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={user.isPang}
-                  onChange={(e) =>
-                    setUser({ ...user, isPang: e.target.checked })
-                  }
-                />
-              }
-              label="Er Pang"
-              sx={{ marginTop: 1, marginBottom: 2 }}
-            />
-
-            <div className={styles.action_buttons}>
-              <Button
-                onClick={handleEditUserClick}
-                type="button"
-                variant="contained"
-                color="primary"
-              >
-                Oppdater bruker
-              </Button>
-              <Button className={styles.backButton} onClick={handleBackClick}>
-                Tilbake
-              </Button>
-            </div>
-          </FormControl>
-        </Paper>
-      ) : (
-        <h1>Loading...</h1>
-      )}
+      {isLoading || !user ? <h1>Loading...</h1> : <EditUserForm user={user} />}
     </div>
   );
 }

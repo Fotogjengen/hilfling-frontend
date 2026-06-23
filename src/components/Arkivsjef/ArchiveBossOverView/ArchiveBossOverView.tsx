@@ -1,34 +1,25 @@
-import React, { useEffect, useState } from "react";
-import { PhotoGangBangerDto } from "../../../../generated";
-import { Button, Paper } from "@mui/material";
+import { useEffect, useState } from "react";
+import { PhotoGangBangerDto } from "@/../generated";
 import styles from "./ArchiveBossOverView.module.css";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { Link } from "@tanstack/react-router";
-import { PhotoGangBangerApi } from "../../../utils/api/PhotoGangBangerApi";
+import { PhotoGangBangerApi } from "@/utils/api/PhotoGangBangerApi";
+import { Button } from "@/components/ui/input/Button";
+import { Pagination } from "@/components/ui/navigation/Pagination";
 
 interface Props {
   setOverview: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-interface Row {
-  firstName?: string;
-  lastName?: string;
-  username?: string;
-  phoneNumber?: string;
-  email?: string;
-  active?: boolean;
-  pang?: boolean;
-}
+const PAGE_SIZE = 5;
 
-const ArchiveBossOverView = ({ setOverview }: Props) => {
+function ArchiveBossOverView({ setOverview }: Props) {
   const [users, setUsers] = useState<PhotoGangBangerDto[]>([]);
-  const [rows, setRows] = useState<Row[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    PhotoGangBangerApi.getAll()
+    void PhotoGangBangerApi.getAll()
       .then((page) => {
-        console.log("page from getAll:", page); // optional sanity check (takk chat)
         setUsers(page.currentList ?? []);
         setIsLoading(false);
       })
@@ -38,108 +29,71 @@ const ArchiveBossOverView = ({ setOverview }: Props) => {
       });
   }, []);
 
-  useEffect(() => {
-    if (users.length > 0) {
-      const mappedRows = users.map((user) => ({
-        id: user?.photoGangBangerId?.id,
-        firstName: user?.firstName,
-        lastName: user?.lastName,
-        username: user?.username,
-        phoneNumber: user?.phoneNumber,
-        email: user?.email,
-        active: user.isActive,
-        pang: user.isPang,
-      }));
-
-      setRows(mappedRows);
-    }
-  }, [users]);
-
-  const columns: GridColDef[] = [
-    {
-      field: "username",
-      headerName: "Username",
-      width: 120,
-      headerClassName: styles.headerCell,
-    },
-    {
-      field: "firstName",
-      headerName: "First name",
-      width: 120,
-      headerClassName: styles.headerCell,
-    },
-    {
-      field: "lastName",
-      headerName: "Last name",
-      width: 120,
-      headerClassName: styles.headerCell,
-    },
-    {
-      field: "phoneNumber",
-      headerName: "Phone number",
-      width: 120,
-      headerClassName: styles.headerCell,
-    },
-    {
-      field: "email",
-      headerName: "Email",
-      width: 180,
-      headerClassName: styles.headerCell,
-    },
-    {
-      field: "active",
-      headerName: "Active",
-      width: 120,
-      headerClassName: styles.headerCell,
-    },
-    {
-      field: "pang",
-      headerName: "Pang",
-      width: 120,
-      headerClassName: styles.headerCell,
-    },
-    {
-      field: "actions",
-      headerName: "Actions",
-      width: 100,
-      headerClassName: styles.headerCell,
-      renderCell: (params) => (
-        <Link
-          to="/fg/archiveBoss/editUser/$userId"
-          params={{
-            userId: params.row.id,
-          }}
-        >
-          <Button>Edit</Button>
-        </Link>
-      ),
-    },
-  ];
+  const totalPages = Math.ceil(users.length / PAGE_SIZE);
+  const pageUsers = users.slice(
+    (currentPage - 1) * PAGE_SIZE,
+    currentPage * PAGE_SIZE,
+  );
 
   return (
     <div className={styles.popup}>
-      <Paper className={styles.container}>
-        {!isLoading ? (
-          <DataGrid
-            className={styles.table}
-            rows={rows}
-            columns={columns}
-            initialState={{
-              pagination: {
-                paginationModel: { page: 0, pageSize: 5 },
-              },
-            }}
-            pageSizeOptions={[5, 10]}
-          />
+      <div className={styles.container}>
+        {isLoading ? (
+          <p>Laster...</p>
         ) : (
-          <h3>...Loading</h3>
+          <>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th className={styles.headerCell}>Username</th>
+                  <th className={styles.headerCell}>First name</th>
+                  <th className={styles.headerCell}>Last name</th>
+                  <th className={styles.headerCell}>Phone number</th>
+                  <th className={styles.headerCell}>Email</th>
+                  <th className={styles.headerCell}>Active</th>
+                  <th className={styles.headerCell}>Pang</th>
+                  <th className={styles.headerCell}>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {pageUsers.map((user) => (
+                  <tr key={user.photoGangBangerId?.id}>
+                    <td className={styles.cell}>{user.username}</td>
+                    <td className={styles.cell}>{user.firstName}</td>
+                    <td className={styles.cell}>{user.lastName}</td>
+                    <td className={styles.cell}>{user.phoneNumber}</td>
+                    <td className={styles.cell}>{user.email}</td>
+                    <td className={styles.cell}>
+                      {user.isActive ? "Ja" : "Nei"}
+                    </td>
+                    <td className={styles.cell}>
+                      {user.isPang ? "Ja" : "Nei"}
+                    </td>
+                    <td className={styles.cell}>
+                      <Link
+                        to="/fg/archiveBoss/editUser/$userId"
+                        params={{ userId: user.photoGangBangerId?.id }}
+                      >
+                        <Button size="sm">Edit</Button>
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
+          </>
         )}
-        <div>
-          <Button onClick={() => setOverview(false)}>Tilbake</Button>
-        </div>
-      </Paper>
+        <Button variant="neutral" onClick={() => setOverview(false)}>
+          Tilbake
+        </Button>
+      </div>
     </div>
   );
-};
+}
 
 export default ArchiveBossOverView;

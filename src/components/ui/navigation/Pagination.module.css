@@ -1,0 +1,11 @@
+.nav {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--size-space-200);
+}
+
+.ellipsis {
+  color: var(--color-text-default-secondary);
+  padding: var(--size-space-200);
+}

@@ -1,3 +1,7 @@
+.searchWrapper {
+  position: relative;
+}
+
 .header {
   width: 80%;
   margin: auto;

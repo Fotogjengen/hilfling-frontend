@@ -1,0 +1,14 @@
+.themeToggle {
+  cursor: pointer;
+  background: none;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: inherit;
+  padding: var(--size-space-100);
+}
+
+.themeToggle:hover {
+  transform: scale(1.1);
+}

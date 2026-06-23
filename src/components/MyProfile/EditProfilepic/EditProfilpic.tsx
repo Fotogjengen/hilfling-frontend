@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Paper, Button } from "@mui/material";
+import { Button } from "@/components/ui/input/Button";
 import "./EditProfilepic.css";
 import { DragNDropFile } from "../../../types";
 import { useDropzone } from "react-dropzone";
@@ -62,7 +62,7 @@ const EditProfilepic = ({ setEditProfilepic }: Props) => {
 
   return (
     <div>
-      <Paper className="pop_up_box">
+      <div className="pop_up_box">
         {" "}
         {/*Main body for the pop up */}
         <div className="picture_preview">
@@ -97,6 +97,7 @@ const EditProfilepic = ({ setEditProfilepic }: Props) => {
             ... eller trykk her for å laste opp en fil
           </Button>
           <Button
+            variant="danger"
             className="back_button_styling"
             onClick={() => setEditProfilepic(false)}
           >
@@ -110,7 +111,7 @@ const EditProfilepic = ({ setEditProfilepic }: Props) => {
             Tilbakestill bilde
           </Button>
         </div>
-      </Paper>
+      </div>
     </div>
   );
 };

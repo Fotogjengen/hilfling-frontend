@@ -1,27 +1,20 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import styles from "./LoginPopUp.module.css";
 import { useAuth } from "../../../contexts/AuthenticationContext";
-import { JwtTokenPayload } from "../../../types";
-import {
-  Button,
-  FormControl,
-  Grid,
-  IconButton,
-  Input,
-  InputAdornment,
-  InputLabel,
-  TextField,
-  Typography,
-} from "@mui/material";
-import { CloseSharp, Visibility, VisibilityOff } from "@mui/icons-material";
+import { Button } from "@/components/ui/input/Button";
+import { TextInput } from "@/components/ui/input/TextInput";
+import { Dialog } from "@/components/ui/overlay/Dialog";
+import { Eye, EyeOff } from "lucide-react";
 import { AuthAPi } from "../../../utils/api/AuthApi";
 import Cookies from "js-cookie";
+import { JwtTokenPayload } from "@/types";
 
 interface Props {
-  setLoginForm: React.Dispatch<React.SetStateAction<boolean>>;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
-const LoginPopUp = ({ setLoginForm }: Props) => {
+const LoginPopUp = ({ open, onOpenChange }: Props) => {
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -48,7 +41,7 @@ const LoginPopUp = ({ setLoginForm }: Props) => {
       });
       setIsAuthenticated(true);
       setJwtPayload(payload);
-      setLoginForm(false);
+      onOpenChange(false);
     } catch {
       setError("Innlogging feilet. Sjekk brukernavn og passord.");
     } finally {
@@ -57,75 +50,49 @@ const LoginPopUp = ({ setLoginForm }: Props) => {
   };
 
   return (
-    <div className={styles.popup}>
-      <div className={styles.popupInner}>
-        <Grid container>
-          <Grid item xs={10}>
-            <Typography variant="h6">LOGG INN SOM INTERN</Typography>
-          </Grid>
-          <Grid item xs={2}>
-            <IconButton onClick={() => setLoginForm(false)}>
-              <CloseSharp />
-            </IconButton>
-          </Grid>
-        </Grid>
-
-        <Grid container direction="column" spacing={2} sx={{ mt: 1 }}>
-          <Grid item>
-            <FormControl fullWidth variant="standard">
-              <TextField
-                label="Brukernavn"
-                type="text"
-                variant="standard"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </FormControl>
-          </Grid>
-          <Grid item>
-            <FormControl fullWidth variant="standard">
-              <InputLabel htmlFor="password">Passord</InputLabel>
-              <Input
-                id="password"
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") void handleLogin();
-                }}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={() => setShowPassword(!showPassword)}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-            </FormControl>
-          </Grid>
-          {error && (
-            <Grid item>
-              <Typography color="error" variant="body2">
-                {error}
-              </Typography>
-            </Grid>
-          )}
-          <Grid item>
-            <Button
-              variant="contained"
-              onClick={() => void handleLogin()}
-              disabled={isLoading}
-              fullWidth
+    <Dialog
+      open={open}
+      onOpenChange={onOpenChange}
+      title="LOGG INN SOM INTERN"
+      actions={
+        <Button
+          onClick={() => void handleLogin()}
+          disabled={isLoading}
+          className={styles.submitButton}
+        >
+          {isLoading ? "Logger inn..." : "Logg inn"}
+        </Button>
+      }
+    >
+      <div className={styles.form}>
+        <TextInput
+          label="Brukernavn"
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <TextInput
+          label="Passord"
+          type={showPassword ? "text" : "password"}
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") void handleLogin();
+          }}
+          suffix={
+            <button
+              type="button"
+              className={styles.eyeButton}
+              onClick={() => setShowPassword(!showPassword)}
+              aria-label={showPassword ? "Skjul passord" : "Vis passord"}
             >
-              {isLoading ? "Logger inn..." : "Logg inn"}
-            </Button>
-          </Grid>
-        </Grid>
+              {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+            </button>
+          }
+        />
+        {error && <p className={styles.error}>{error}</p>}
       </div>
-    </div>
+    </Dialog>
   );
 };
 

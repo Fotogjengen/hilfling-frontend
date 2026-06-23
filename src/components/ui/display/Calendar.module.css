@@ -1,0 +1,59 @@
+:global(.rdp-root) {
+  padding: var(--size-space-300);
+  --rdp-day-width: 36px;
+  --rdp-day-height: 36px;
+  --rdp-day_button-width: 34px;
+  --rdp-day_button-height: 34px;
+}
+
+.weekday {
+  color: var(--color-text-default-secondary);
+  font-weight: var(--typography-body-font-weight-regular);
+  opacity: 1;
+}
+
+.dayButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  color: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--size-radius-100);
+  margin: auto;
+  padding: 0;
+}
+
+.dayButton:hover {
+  background-color: var(--color-background-default-default-hover);
+  color: var(--color-text-default-default);
+}
+
+.selected .dayButton {
+  background-color: var(--color-background-brand-default);
+  color: var(--color-icon-brand-on-brand);
+  font-weight: var(--typography-body-font-weight-strong);
+  border: none;
+}
+
+.today .dayButton {
+  color: var(--color-text-brand-default);
+  font-weight: var(--typography-body-font-weight-strong);
+}
+
+.today.selected .dayButton {
+  color: var(--color-icon-brand-on-brand);
+}
+
+.outside .dayButton {
+  color: var(--color-text-default-secondary);
+}
+
+.disabled .dayButton {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

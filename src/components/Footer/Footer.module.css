@@ -1,0 +1,46 @@
+@import "../../styles/variables.css";
+@import "../../styles/utilities.module.css";
+
+.footer {
+  width: 100%;
+  background: var(--color-gray-1000);
+  color: white;
+  margin-top: 50px;
+}
+
+.footerContent {
+  display: flex;
+  padding: 20px 0;
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.section {
+  flex: 1;
+  text-align: center;
+  padding: 20px 60px 20px 60px;
+}
+
+.follow {
+  display: flex;
+  margin-left: 32%;
+}
+
+.media {
+  padding-left: 6px;
+  color: white;
+}
+
+.section h2 {
+  font-weight: bold;
+}
+
+.section p {
+  font-size: 1.2rem;
+}
+
+.section a {
+  font-size: 1.2rem;
+}

@@ -5,39 +5,23 @@
   -webkit-font-smoothing: antialiased;
 }
 
+body,
 html {
-  font-size: 1rem;
+  margin: 0 !important;
 }
 
 body {
-  background: var(--hilfling-background-color);
-  color: var(--hilfling-font-color);
-  position: relative;
-  font-family: "Raleway", Arial, Helvetica, sans-serif;
-  line-height: 1.6;
+  background-color: var(--color-background-default-default);
+  color: var(--color-text-default-default);
+  font-family: var(--typography-body-font-family);
+  font-size: var(--typography-body-size-medium);
+  font-weight: var(--typography-body-font-weight-regular);
 }
 
 a {
-  color: var(--hilfling-font-color);
+  color: inherit;
   cursor: pointer;
   text-decoration: none;
   overflow-wrap: break-word;
   word-break: break-all;
-}
-
-button {
-  cursor: pointer;
-}
-
-button:disabled {
-  cursor: initial;
-}
-
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-style: normal;
-  font-weight: normal;
 }

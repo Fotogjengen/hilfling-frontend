@@ -3,8 +3,8 @@ import { MotiveDto } from "@/../generated";
 import { MotiveApi } from "@/utils/api/MotiveApi";
 import styles from "./motive.module.css";
 import MotiveCard from "@/components/MotiveCard/MotiveCard";
-import { Button } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
+import { Button } from "@/components/ui/input/Button";
+import { Pencil } from "lucide-react";
 import { Link, createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute(
@@ -29,13 +29,8 @@ function Motives() {
           to="/fg/motive/edit/$motiveId"
           params={{ motiveId: motive.motiveId.id }}
         >
-          <Button
-            size="small"
-            variant="contained"
-            endIcon={<EditIcon />}
-            sx={{ marginTop: 2 }}
-            fullWidth
-          >
+          <Button size="sm">
+            <Pencil size={14} />
             Rediger motiv
           </Button>
         </Link>

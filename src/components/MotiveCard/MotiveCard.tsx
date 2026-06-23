@@ -1,39 +1,30 @@
-import { Typography } from "@mui/material";
-import React, { FC, ReactNode } from "react";
+import { ReactNode } from "react";
 import { MotiveDto } from "../../../generated";
-
 import styles from "./MotiveCard.module.css";
+
 interface Props {
   motive: MotiveDto;
   children?: ReactNode;
 }
 
-const MotiveCard: FC<Props> = (props: Props) => {
+function MotiveCard({ motive, children }: Props) {
   return (
     <div className={styles.container}>
       <div>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          {props?.motive?.categoryDto?.name}
-        </Typography>
-        <Typography sx={{ mb: 1.5, color: "#ad2f33" }}>
-          {props?.motive?.title}
-        </Typography>
-        <Typography variant="body2">
-          Eier: {props?.motive?.eventOwnerDto?.name}
-        </Typography>
-        <Typography variant="body2">
-          Album: {props?.motive?.albumDto?.title}
-        </Typography>
-        <Typography variant="body2">
+        <p className={styles.category}>{motive?.categoryDto?.name}</p>
+        <p className={styles.title}>{motive?.title}</p>
+        <p className={styles.meta}>Eier: {motive?.eventOwnerDto?.name}</p>
+        <p className={styles.meta}>Album: {motive?.albumDto?.title}</p>
+        <p className={styles.meta}>
           Dato:{" "}
-          {props?.motive?.dateCreated
-            ? new Date(props.motive.dateCreated).toLocaleDateString()
+          {motive?.dateCreated
+            ? new Date(motive.dateCreated).toLocaleDateString()
             : "N/A"}
-        </Typography>
+        </p>
       </div>
-      {props.children}
+      {children}
     </div>
   );
-};
+}
 
 export default MotiveCard;

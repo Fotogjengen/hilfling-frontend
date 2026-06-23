@@ -15,6 +15,12 @@
   display: block;
   width: 100%;
   height: 100%;
+  opacity: 0;
+  transition: opacity 1.5s ease-out;
+}
+
+.imgActive {
+  opacity: 1;
 }
 
 .arrows {
@@ -22,20 +28,24 @@
   border-radius: 1rem;
   background-color: rgba(255, 255, 255, 0.597);
   bottom: 0.5rem;
-  padding: 0.2rem 0rem;
+  padding: 0.2rem 0;
   position: absolute;
   width: 60%;
   display: flex;
   justify-content: space-between;
 }
 
-.arrows > * {
+.arrowButton {
+  background: none;
+  border: none;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: var(--size-space-100);
 }
 
-.arrows > *:active {
+.arrowButton:active {
   transform: scale(1.1);
-  cursor: pointer;
 }
 
 @media screen and (min-width: 50rem) {

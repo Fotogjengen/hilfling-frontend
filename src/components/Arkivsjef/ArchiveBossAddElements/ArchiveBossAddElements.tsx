@@ -1,233 +1,133 @@
-import React, { useState, useContext } from "react";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import {
-  IconButton,
-  Typography,
-  MenuItem,
-  Checkbox,
-  Grid,
-  Paper,
-} from "@mui/material";
-import { AddCircle } from "@mui/icons-material";
+import { useState, useContext } from "react";
+import { z } from "zod";
+import { PlusCircle } from "lucide-react";
 import styles from "./ArchiveBossAddElements.module.css";
-import {
-  Formik,
-  Form,
-  Field,
-  ErrorMessage,
-  FormikValues,
-  FormikProps,
-} from "formik";
-import * as yup from "yup";
 import { CategoryApi } from "../../../utils/api/CategoryApi";
 import { PlaceApi } from "../../../utils/api/PlaceApi";
 import { AlbumApi } from "../../../utils/api/AlbumApi";
 import { ArchiveBossContext } from "../../../contexts/ArchiveBossContext";
 import { AlertContext, severityEnum } from "../../../contexts/AlertContext";
+import { Dialog } from "@/components/ui/overlay/Dialog";
+import { Button } from "@/components/ui/input/Button";
+import useAppForm from "@/utils/form/FormContext";
 
-const ArchiveBossAddElements = () => {
+const TYPES = ["Kategori", "Sted", "Album"] as const;
+
+const schema = z.object({
+  name: z.string().min(1, "Sliten? Du må fylle inn navn ❤️"),
+  type: z.string().min(1, "Du må legge til typen: kategori, sted eller album"),
+  albumType: z.boolean(),
+});
+
+function ArchiveBossAddElements() {
   const [openDialog, setOpenDialog] = useState(false);
-  const types: string[] = ["Kategori", "Sted", "Album"];
   const { setUpdate } = useContext(ArchiveBossContext);
-
   const { setMessage, setSeverity, setOpen } = useContext(AlertContext);
 
-  const handleClickOpen = () => {
-    setOpenDialog(true);
-  };
+  const form = useAppForm({
+    defaultValues: { name: "", type: "", albumType: false },
+    validators: { onChange: schema },
+    onSubmit: async ({ value }) => {
+      try {
+        if (value.type === "Kategori") {
+          await CategoryApi.post({ name: value.name });
+          setMessage(`Kategori "${value.name}" ble lagt til`);
+        } else if (value.type === "Sted") {
+          await PlaceApi.post({ name: value.name });
+          setMessage(`Stedet "${value.name}" ble lagt til`);
+        } else {
+          await AlbumApi.post({ title: value.name, isAnalog: value.albumType });
+          setMessage(`Albumet "${value.name}" ble lagt til`);
+        }
+        setSeverity(severityEnum.SUCCESS);
+        setOpen(true);
+        setUpdate(true);
+        setOpenDialog(false);
+        form.reset();
+      } catch (e) {
+        setSeverity(severityEnum.ERROR);
+        setMessage(String(e));
+        setOpen(true);
+      }
+    },
+  });
+
   const handleClose = () => {
     setOpenDialog(false);
+    form.reset();
   };
-
-  const onSubmit = (values: FormikValues) => {
-    if (values.type == "Kategori") {
-      CategoryApi.post({ name: values.name })
-        .then(() => {
-          setOpen(true);
-          setSeverity(severityEnum.SUCCESS);
-          setMessage(`Kategori "${values.name}" ble lagt til`);
-        })
-        .catch((e) => {
-          setOpen(true);
-          setSeverity(severityEnum.ERROR);
-          setMessage(e);
-        });
-      setUpdate(true);
-    } else if (values.type == "Sted") {
-      PlaceApi.post({ name: values.name })
-        .then(() => {
-          setOpen(true);
-          setSeverity(severityEnum.SUCCESS);
-          setMessage(`Stedet "${values.name}" ble lagt til`);
-        })
-        .catch((e) => {
-          setOpen(true);
-          setSeverity(severityEnum.ERROR);
-          setMessage(e);
-        });
-      setUpdate(true);
-    } else if (values.type == "Album") {
-      AlbumApi.post({ title: values.name, isAnalog: values.albumType })
-        .then(() => {
-          setOpen(true);
-          setSeverity(severityEnum.SUCCESS);
-          setMessage(`Albumet "${values.name}" ble lagt til`);
-        })
-        .catch((e) => {
-          setOpen(true);
-          setSeverity(severityEnum.ERROR);
-          setMessage(e);
-        });
-      setUpdate(true);
-    }
-    setOpenDialog(false);
-  };
-
-  const validationSchema = yup.object({
-    name: yup.string().required("Sliten? Du må fylle inn navn ❤️"),
-    type: yup
-      .string()
-      .required("Du må legge til typen: kategori, sted eller album"),
-    albumType: yup.boolean(),
-  });
-  const initialValues = {
-    name: "",
-    type: "",
-    albumType: false,
-  };
-
-  interface FormValues {
-    name: string;
-    type: string;
-    albumType: boolean;
-  }
-
-  interface FormValues {
-    name: string;
-    type: string;
-    albumType: boolean;
-  }
 
   return (
     <>
-      <Paper
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          alignContent: "start",
-          justifyContent: "flex-end",
-          padding: "8px 20px",
-          backgroundColor: "#f3f3f3",
-          gap: 0.5,
-          width: "fit-content",
-          cursor: "pointer",
-          boxShadow: "0 1px 3px white",
-          transition: "0.2s",
-          "&:hover": {
-            boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
-          },
-        }}
-      >
-        <IconButton
-          aria-label="add"
-          onClick={handleClickOpen}
-          disableRipple={true}
-          sx={{ position: "relative", top: "1px" }}
-        >
-          <AddCircle className={styles.svgicon} />
-        </IconButton>
-        <Typography onClick={handleClickOpen} sx={{ whiteSpace: "nowrap" }}>
-          Legg til ny
-        </Typography>
-      </Paper>
+      <Button onClick={() => setOpenDialog(true)}>
+        <PlusCircle size={16} />
+        Legg til ny
+      </Button>
 
-      <Dialog open={openDialog} onClose={handleClose}>
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={onSubmit}
+      <Dialog
+        open={openDialog}
+        onOpenChange={(open) => {
+          if (!open) handleClose();
+        }}
+        title="Legg til nytt album, ny kategori eller nytt sted"
+        actions={
+          <>
+            <Button variant="neutral" onClick={handleClose}>
+              Avbryt
+            </Button>
+            <Button type="submit" form="add-elements-form">
+              Lag ny
+            </Button>
+          </>
+        }
+      >
+        <p>
+          Her kan du legge til nytt album, ny kategori eller nytt sted. Denne
+          funksjonen skal hovedsakelig brukes av arkivsjef.
+        </p>
+        <form
+          id="add-elements-form"
+          className={styles.form}
+          onSubmit={(e) => {
+            e.preventDefault();
+            void form.handleSubmit();
+          }}
         >
-          {(props: FormikProps<FormValues>) => (
-            <Form>
-              <DialogTitle>
-                Legg til nytt album, ny kategori eller nytt sted
-              </DialogTitle>
-              <DialogContent>
-                <DialogContentText>
-                  Her kan du legge til nytt album, ny kategori eller nytt sted.
-                  Denne funksjonen skal hovedsakelig brukes av arkivsjef.
-                </DialogContentText>
-                <br />
-                <Field
-                  as={TextField}
-                  name="name"
-                  label="Navn"
-                  error={props.errors.name && props.touched.name}
-                  fullWidth
-                />
-                <Field
-                  as={TextField}
-                  sx={{ marginTop: 1.5 }}
-                  name="type"
-                  label="Type"
-                  error={props.errors.type && props.touched.type}
-                  fullWidth
-                  select
-                >
-                  {types.map((type, index) => {
-                    return (
-                      <MenuItem value={type} key={index}>
-                        {type}
-                      </MenuItem>
-                    );
-                  })}
-                </Field>
-                {props.values.type === "Album" ? (
-                  <Grid
-                    container
-                    direction="row"
-                    justifyContent="flex-start"
-                    alignItems="center"
-                  >
-                    <Grid item xs={6}>
-                      <Typography>Skal dette være et analogt album?</Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                      <Field
-                        as={Checkbox}
-                        name="albumType"
-                        error={
-                          props.errors.albumType && props.touched.albumType
-                        }
-                        type="checkbox"
-                      />
-                    </Grid>
-                  </Grid>
-                ) : (
-                  ""
-                )}
-                <ErrorMessage name="name" />
-                <ErrorMessage name="type" />
-                {props.values.albumType}
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleClose}>Avbryt</Button>
-                <Button variant="contained" type="submit" fullWidth>
-                  Lag ny
-                </Button>
-              </DialogActions>
-            </Form>
-          )}
-        </Formik>
+          <form.AppField
+            name="name"
+            validators={{ onChange: schema.shape.name }}
+          >
+            {(field) => <field.TextInput label="Navn" />}
+          </form.AppField>
+
+          <form.AppField
+            name="type"
+            validators={{ onChange: schema.shape.type }}
+          >
+            {(field) => (
+              <field.Select
+                label="Type"
+                placeholder="Velg type"
+                options={TYPES.map((t) => ({ label: t, value: t }))}
+              />
+            )}
+          </form.AppField>
+
+          <form.Subscribe selector={(state) => state.values.type}>
+            {(type) =>
+              type === "Album" && (
+                <form.AppField name="albumType">
+                  {(field) => (
+                    <field.Checkbox label="Skal dette være et analogt album?" />
+                  )}
+                </form.AppField>
+              )
+            }
+          </form.Subscribe>
+        </form>
       </Dialog>
     </>
   );
-};
+}
 
 export default ArchiveBossAddElements;

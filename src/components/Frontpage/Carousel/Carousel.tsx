@@ -1,12 +1,11 @@
-import React, { FC, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styles from "./Carousel.module.css";
-import ArrowBackIosNewRoundedIcon from "@mui/icons-material/ArrowBackIosNewRounded";
-import ArrowForwardIosRoundedIcon from "@mui/icons-material/ArrowForwardIosRounded";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { PhotoDto } from "../../../../generated";
 import { PhotoApi } from "../../../utils/api/PhotoApi";
 
-const Carousel: FC = () => {
+const Carousel = () => {
   const [showArrows, setShowArrows] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(1);
   const [slideGoRight, setSlideGoRight] = useState(true);
@@ -49,7 +48,7 @@ const Carousel: FC = () => {
   }, [currentSlide]);
 
   useEffect(() => {
-    PhotoApi.getGoodPhotos()
+    void PhotoApi.getGoodPhotos()
       .then((res) => {
         setCarouselPhotos(res);
       })
@@ -57,40 +56,43 @@ const Carousel: FC = () => {
   }, []);
 
   return (
-    <>
-      <div
-        className={styles.container}
-        onMouseEnter={() => handleMouseEnter()}
-        onMouseLeave={() => handleMouseLeave()}
-      >
-        {carouselPhotos.map((img, index) => {
-          return (
-            <img
-              key={index}
-              className={styles.img}
-              style={{
-                opacity: currentSlide - 1 == index ? "1" : "0",
-                transition: "opacity 1.5s ease-out",
-              }}
-              src={img.mediumUrl}
-              alt={img.motive.title}
-            />
-          );
-        })}
-        {showArrows ? (
-          <div className={styles.arrows}>
-            <ArrowBackIosNewRoundedIcon
-              style={{ fontSize: 40 }}
-              onClick={() => onArrowLeftClick()}
-            />
-            <ArrowForwardIosRoundedIcon
-              style={{ fontSize: 40 }}
-              onClick={() => onArrowRightClick()}
-            />
-          </div>
-        ) : null}
-      </div>
-    </>
+    <div
+      className={styles.container}
+      onMouseEnter={() => handleMouseEnter()}
+      onMouseLeave={() => handleMouseLeave()}
+    >
+      {carouselPhotos.map((img, index) => (
+        <img
+          key={img.mediumUrl}
+          className={[
+            styles.img,
+            currentSlide - 1 === index ? styles.imgActive : null,
+          ]
+            .filter(Boolean)
+            .join(" ")}
+          src={img.mediumUrl}
+          alt={img.motive.title}
+        />
+      ))}
+      {showArrows && (
+        <div className={styles.arrows}>
+          <button
+            className={styles.arrowButton}
+            onClick={() => onArrowLeftClick()}
+            aria-label="Forrige bilde"
+          >
+            <ChevronLeft size={40} />
+          </button>
+          <button
+            className={styles.arrowButton}
+            onClick={() => onArrowRightClick()}
+            aria-label="Neste bilde"
+          >
+            <ChevronRight size={40} />
+          </button>
+        </div>
+      )}
+    </div>
   );
 };
 export default Carousel;

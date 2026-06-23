@@ -1,3 +1,9 @@
+.card {
+  border-radius: var(--size-radius-200);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  background: var(--color-background-default-default);
+}
+
 .container {
   display: flex;
   flex-direction: row;

@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { IconButton, InputAdornment, MenuItem, TextField } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { Button } from "@/components/ui/input/Button";
+import { SearchField as SearchFieldUi } from "@/components/ui/input/SearchField";
 import { SearchSuggestionsApi } from "../../utils/api/searchSuggestionsApi";
 import styles from "./Search.module.css";
 import { useSearchContext } from "@/components/Search/SearchContext";
@@ -12,11 +12,6 @@ const SearchField = ({ initialValue }: { initialValue?: string }) => {
 
   const { setSearchQuery } = useSearchContext();
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(event.target.value);
-    setSelectedIndex(-1);
-  };
-
   const [placeholder] = useState(() => {
     const placeholders = [
       "Søk etter gårsdagens konsertopplevelse 🤘",
@@ -25,24 +20,15 @@ const SearchField = ({ initialValue }: { initialValue?: string }) => {
       "Søk etter fotogjengens beste bilder 📸",
       "Finn bilder av crushet ditt 👀",
     ];
-
-    const random = Math.floor(Math.random() * placeholders.length);
-    return placeholders[random];
+    return placeholders[Math.floor(Math.random() * placeholders.length)];
   });
 
   const handleSearch = useCallback(
     (s: string) => {
       setSearch(s);
-
-      const query = s ?? search;
-
-      //setSearchQuery(s);
       setSuggestions([]);
       setSelectedIndex(-1);
-
-      setTimeout(() => {
-        setSearchQuery(query);
-      }, 0);
+      setTimeout(() => setSearchQuery(s ?? search), 0);
     },
     [search, setSearchQuery],
   );
@@ -66,27 +52,25 @@ const SearchField = ({ initialValue }: { initialValue?: string }) => {
     return () => clearTimeout(timeoutId);
   }, [search]);
 
-  const suggestionBoxes = useMemo(() => {
-    return suggestions.map((s, key) => (
-      <MenuItem
-        className={`${styles.suggestionBox} ${
-          key === selectedIndex ? styles.selectedSuggestion : ""
-        }`}
-        value={s}
-        key={key}
-        onClick={() => handleSearch(s)}
-        onMouseEnter={() => setSelectedIndex(key)}
-      >
-        {s}
-      </MenuItem>
-    ));
-  }, [suggestions, handleSearch, selectedIndex]);
+  const suggestionBoxes = useMemo(
+    () =>
+      suggestions.map((s, key) => (
+        <Button
+          key={key}
+          variant="subtle"
+          className={`${styles.suggestionBox} ${key === selectedIndex ? styles.selectedSuggestion : ""}`}
+          onClick={() => handleSearch(s)}
+          onMouseEnter={() => setSelectedIndex(key)}
+        >
+          {s}
+        </Button>
+      )),
+    [suggestions, handleSearch, selectedIndex],
+  );
 
-  const handleKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (suggestions.length === 0) {
-      if (event.key === "Enter") {
-        handleSearch(search);
-      }
+      if (event.key === "Enter") handleSearch(search);
       return;
     }
 
@@ -97,23 +81,16 @@ const SearchField = ({ initialValue }: { initialValue?: string }) => {
           prev < suggestions.length - 1 ? prev + 1 : 0,
         );
         break;
-
       case "ArrowUp":
         event.preventDefault();
         setSelectedIndex((prev) =>
           prev > 0 ? prev - 1 : suggestions.length - 1,
         );
         break;
-
       case "Enter":
         event.preventDefault();
-        if (selectedIndex >= 0 && selectedIndex < suggestions.length) {
-          handleSearch(suggestions[selectedIndex]);
-        } else {
-          handleSearch(search);
-        }
+        handleSearch(selectedIndex >= 0 ? suggestions[selectedIndex] : search);
         break;
-
       case "Escape":
         setSuggestions([]);
         setSelectedIndex(-1);
@@ -122,24 +99,21 @@ const SearchField = ({ initialValue }: { initialValue?: string }) => {
   };
 
   return (
-    <div style={{ position: "relative" }}>
-      <TextField
-        label={placeholder}
+    <div className={styles.searchWrapper}>
+      <SearchFieldUi
         value={search}
-        fullWidth
-        variant="outlined"
-        onChange={handleChange}
+        placeholder={placeholder}
+        onChange={(e) => {
+          setSearch(e.target.value);
+          setSelectedIndex(-1);
+        }}
+        onClear={() => {
+          setSearch("");
+          setSuggestions([]);
+          setSearchQuery("");
+        }}
         onKeyDown={handleKeyDown}
         autoComplete="off"
-        InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">
-              <IconButton onClick={() => handleSearch(search)}>
-                <SearchIcon />
-              </IconButton>
-            </InputAdornment>
-          ),
-        }}
       />
       <div className={styles.suggestions}>{suggestionBoxes}</div>
     </div>

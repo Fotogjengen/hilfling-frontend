@@ -1,0 +1,47 @@
+.element {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px;
+  background: white;
+  border-radius: var(--size-radius-100);
+  border: 1px solid var(--color-border-default-default);
+}
+
+.text {
+  flex: 1;
+}
+
+.menuButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--size-space-100);
+  display: flex;
+  align-items: center;
+  color: var(--color-icon-default-default);
+  border-radius: var(--size-radius-100);
+}
+
+.menuButton:hover {
+  background: var(--color-background-default-secondary);
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  min-width: 120px;
+}
+
+.menuItem {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--size-space-200) var(--size-space-300);
+  text-align: left;
+  font-size: var(--typography-body-size-medium);
+}
+
+.menuItem:hover {
+  background: var(--color-background-default-secondary);
+}

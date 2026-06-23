@@ -16,17 +16,14 @@ function AboutTab() {
   const [activePangs, setActivePangs] = useState<PhotoGangBangerDto[]>([]);
 
   useEffect(() => {
-    PhotoGangBangerApi.getAllActivesPublic()
-      .then((res) => {
-        setActiveGangBangers(res);
-      })
-      .catch((err) => console.log(err));
-    PhotoGangBangerApi.getAllActivePangsPublic()
-      .then((res) => setActivePangs(res))
-      .catch((err) => console.log(err));
-    // PhotoGangBangerApi.getAllInactivePangsPublic()
-    //     .then((res) => setInactivePangs(res))
-    //     .catch((err) => console.log(err));
+    void Promise.all([
+      PhotoGangBangerApi.getAllActivesPublic().then((res) =>
+        setActiveGangBangers(res),
+      ),
+      PhotoGangBangerApi.getAllActivePangsPublic().then((res) =>
+        setActivePangs(res),
+      ),
+    ]).catch((err) => console.log(err));
   }, []);
 
   const mapUsers = (photoGangBangerDtos: PhotoGangBangerDto[]) => {

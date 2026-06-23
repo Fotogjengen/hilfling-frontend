@@ -1,4 +1,6 @@
-.svgicon {
-  transform: scale(2);
-  color: #3e3e3e;
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
 }

@@ -1,15 +1,16 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import InventoryIcon from "@mui/icons-material/Inventory";
-import UploadIcon from "@mui/icons-material/Upload";
-import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
-import CameraAltIcon from "@mui/icons-material/CameraAlt";
-import ChildFriendlyIcon from "@mui/icons-material/ChildFriendly";
-import YardIcon from "@mui/icons-material/Yard";
-import { styled } from "@mui/material/styles";
-import { Grid, Paper, Typography } from "@mui/material";
+import {
+  Archive,
+  Upload,
+  User,
+  BookOpen,
+  Camera,
+  Baby,
+  Leaf,
+  Wine,
+} from "lucide-react";
 import { useAuth } from "@/contexts/AuthenticationContext";
-import { LiquorRounded } from "@mui/icons-material";
+import styles from "./fg.module.css";
 
 export const Route = createFileRoute("/_authenticated/_fgAuthenticated/fg/")({
   component: FgNav,
@@ -18,127 +19,58 @@ export const Route = createFileRoute("/_authenticated/_fgAuthenticated/fg/")({
 function FgNav() {
   const { jwtPayload } = useAuth();
 
-  const mainIconSize = 100;
-  const otherIconSize = 50;
-
   const mainLinks = [
-    {
-      name: "Last opp",
-      to: "/fg/upload",
-      icon: <UploadIcon style={{ fontSize: mainIconSize }} />,
-    },
-    {
-      name: "Arkiv",
-      to: "/fg/archiveBoss",
-      icon: <InventoryIcon style={{ fontSize: mainIconSize }} />,
-    },
-    {
-      name: "Motiv",
-      to: "/fg/motive",
-      icon: <YardIcon style={{ fontSize: mainIconSize }} />,
-    },
-    {
-      name: "Min profil",
-      to: "/fg/profile",
-      icon: <AccountBoxIcon style={{ fontSize: mainIconSize }} />,
-    },
-    {
-      name: "De nye",
-      to: "/fg/projects",
-      icon: <ChildFriendlyIcon style={{ fontSize: mainIconSize }} />,
-    },
+    { name: "Last opp", to: "/fg/upload", icon: <Upload size={100} /> },
+    { name: "Arkiv", to: "/fg/archiveBoss", icon: <Archive size={100} /> },
+    { name: "Motiv", to: "/fg/motive", icon: <Leaf size={100} /> },
+    { name: "Min profil", to: "/fg/profile", icon: <User size={100} /> },
+    { name: "De nye", to: "/fg/projects", icon: <Baby size={100} /> },
   ];
 
   const otherLinks = [
     {
       name: "Samf wiki",
       to: "https://wiki.samfundet.no/wiki/",
-      icon: <LibraryBooksIcon style={{ fontSize: otherIconSize }} />,
+      icon: <BookOpen size={50} />,
     },
     {
       name: "Fg wiki",
       to: "https://wiki.samfundet.no/fg/",
-      icon: <CameraAltIcon style={{ fontSize: otherIconSize }} />,
+      icon: <Camera size={50} />,
     },
-    {
-      name: "µFS",
-      to: "https://ufs.samfundet.no/",
-      icon: <LiquorRounded style={{ fontSize: otherIconSize }} />,
-    },
+    { name: "µFS", to: "https://ufs.samfundet.no/", icon: <Wine size={50} /> },
   ];
 
-  const MainItem = styled(Paper)(({ theme }) => ({
-    padding: theme.spacing(2),
-    textAlign: "center",
-    color: theme.palette.text.primary,
-  }));
-
-  const OtherItem = styled(Paper)(({ theme }) => ({
-    padding: theme.spacing(2),
-    textAlign: "center",
-    color: theme.palette.text.primary,
-  }));
+  const visibleMainLinks =
+    jwtPayload?.securityLevel !== "FG"
+      ? [mainLinks[0], mainLinks[4]]
+      : mainLinks;
 
   return (
     <>
-      <Typography variant="h4" sx={{ paddingTop: 2 }}>
-        Internsider
-      </Typography>
-      <Grid
-        container
-        spacing={{ xs: 2, md: 3 }}
-        columns={{ xs: 4, sm: 8, md: 12 }}
-      >
-        {jwtPayload?.securityLevel !== "FG" && (
-          <>
-            <Grid item xs={2} sm={4} md={4} key={0}>
-              <Link to={mainLinks[0].to}>
-                <MainItem>
-                  <Typography>{mainLinks[0].name}</Typography>
-                  {mainLinks[0].icon}
-                </MainItem>
-              </Link>
-            </Grid>
-            <Grid item xs={2} sm={4} md={4} key={1}>
-              <Link to={mainLinks[4].to}>
-                <MainItem>
-                  <Typography>{mainLinks[4].name}</Typography>
-                  {mainLinks[4].icon}
-                </MainItem>
-              </Link>
-            </Grid>
-          </>
-        )}
-        {jwtPayload?.securityLevel === "FG" &&
-          mainLinks.map((link, index) => (
-            <Grid item xs={2} sm={4} md={4} key={index}>
-              <Link to={link.to}>
-                <MainItem>
-                  <Typography>{link.name}</Typography>
-                  {link.icon}
-                </MainItem>
-              </Link>
-            </Grid>
-          ))}
-      </Grid>
-      <br />
-      <Typography variant="h5">Andre lenker</Typography>
-      <Grid
-        container
-        spacing={{ xs: 2, md: 3 }}
-        columns={{ xs: 4, sm: 8, md: 12 }}
-      >
-        {otherLinks.map((link, index) => (
-          <Grid item xs={2} sm={4} md={2} key={index}>
-            <Link to={link.to}>
-              <OtherItem>
-                <Typography>{link.name}</Typography>
-                {link.icon}
-              </OtherItem>
-            </Link>
-          </Grid>
+      <h4>Internsider</h4>
+      <div className={styles.grid}>
+        {visibleMainLinks.map((link) => (
+          <Link key={link.to} to={link.to}>
+            <div className={styles.card}>
+              {link.icon}
+              <span>{link.name}</span>
+            </div>
+          </Link>
         ))}
-      </Grid>
+      </div>
+
+      <h5>Andre lenker</h5>
+      <div className={styles.grid}>
+        {otherLinks.map((link) => (
+          <a key={link.to} href={link.to} target="_blank" rel="noreferrer">
+            <div className={styles.card}>
+              {link.icon}
+              <span>{link.name}</span>
+            </div>
+          </a>
+        ))}
+      </div>
     </>
   );
 }
