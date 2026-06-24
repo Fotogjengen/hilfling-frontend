@@ -1,11 +1,22 @@
 .searchWrapper {
   position: relative;
-  max-width: 65rem;
+  max-width: 60rem;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: var(--size-space-200);
   padding: var(--size-space-400);
+  padding-bottom: var(--size-space-800);
+}
+
+.searchWrapper::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  border-bottom: var(--size-stroke-border) solid var(--color-border-default-default);
 }
 
 .filterRow {
@@ -20,5 +31,6 @@
   flex-direction: column;
   gap: var(--size-space-400);
   padding: var(--size-space-400);
+  padding-top: var(--size-space-800);
   min-height: 62vh;
 }

@@ -38,9 +38,12 @@ export default function SearchField({
   const { value: debouncedValue, isDebouncing } = useDebounce(inputValue);
   const { data: rawSuggestions, isPending: queryIsPending } =
     useSearchSuggestions(debouncedValue, filters);
-  // The query only starts once the input has settled, so treat the debounce
-  // gap as loading too.
+
+  // show loading state while deboincing
   const suggestionsIsPending = queryIsPending || isDebouncing;
+
+  // suggestions are sorted to so that motives display on top
+  // and filtered so that we dont display the current motive as a suggestion
   const suggestions = useMemo(() => {
     if (!rawSuggestions) return undefined;
     return rawSuggestions.suggestions
@@ -84,15 +87,18 @@ export default function SearchField({
     setInputValue("");
   };
 
+  // input handling within the search field
   const handleKeyDown = (e: React.KeyboardEvent) => {
     const input = e.target as HTMLInputElement;
     const caretAtStart = input.selectionStart === 0 && input.selectionEnd === 0;
+
+    // remove last char or suggestion
     if (e.key === "Backspace" && caretAtStart && filters?.length) {
       e.preventDefault();
       const last = filters.at(-1);
       if (last) {
         onFilterRemove?.(last);
-        // Restoring the text into the input only makes sense for text filters,
+        // restoring the text into the input only makes sense for text filters,
         // not the date range.
         if (inputValue === "" && last.type !== DATE_FILTER_TYPE) {
           setInputValue(last.displayText);
@@ -105,6 +111,7 @@ export default function SearchField({
       return;
     }
 
+    // Select a suggestion
     if (e.key === "Tab") {
       if (hoveringSuggestionIndex === undefined) return;
       e.preventDefault();
@@ -113,12 +120,14 @@ export default function SearchField({
       return;
     }
 
+    // commit the search (close the field)
     if (e.key === "Enter") {
       e.preventDefault();
       (e.target as HTMLElement).blur();
       return;
     }
 
+    // suggestion navigation
     if (e.key === "ArrowDown") {
       if (hoveringSuggestionIndex === undefined) {
         setHoveringSuggestionIndex(0);
@@ -142,6 +151,7 @@ export default function SearchField({
     }
   };
 
+  // search filers should display before the current input, display them as a prefix
   const prefix = filters?.length
     ? filters.map((f) => (
         <SearchFilter
