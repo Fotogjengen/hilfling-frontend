@@ -1,21 +1,21 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: var(--size-space-200);
+  gap: var(--size-space-800);
 }
 
 .group {
   display: flex;
   flex-direction: column;
-  gap: var(--size-space-200);
+  gap: var(--size-space-400);
 }
 
 .motiveHeader {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: var(--size-space-400) 0;
-  gap: var(--size-space-400);
+  gap: var(--size-space-800);
+  border-bottom: var(--size-stroke-border) solid var(--color-border-default-default);
 }
 
 .photoGrid {
@@ -53,7 +53,7 @@
 
 .motiveTitle {
   font-family: var(--typography-family-sans);
-  font-size: var(--typography-heading-size-small);
+  font-size: var(--typography-heading-size-base);
   font-weight: var(--typography-weight-bold);
   color: var(--color-text-brand-secondary);
   white-space: nowrap;
@@ -96,29 +96,14 @@
   font-family: var(--typography-family-sans);
 }
 
-.motiveHeaderSkeleton {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: var(--size-space-400) 0;
-  gap: var(--size-space-400);
-}
-
-.skeletonInfo {
-  display: flex;
-  flex-direction: column;
-  gap: var(--size-space-100);
-  flex: 1;
-}
-
 .skeletonTitle {
-  height: 1.25rem;
-  width: 40%;
+  height: calc(var(--typography-heading-size-base) * 1.2);
+  width: 12rem;
   border-radius: var(--size-radius-200);
 }
 
 .skeletonSubtitle {
-  height: 1rem;
-  width: 60%;
+  height: calc(var(--typography-body-size-medium) * 1.2);
+  width: 18rem;
   border-radius: var(--size-radius-200);
 }

@@ -9,6 +9,7 @@ import { useRouter } from "@tanstack/react-router";
 
 type EventCardProps = {
   motive: MotiveDto;
+  size?: "large" | "full";
 };
 
 const MAX_PHOTOS = 4;
@@ -20,7 +21,7 @@ function pickPhotos(photos: PhotoDto[]) {
   return shuffled.slice(0, MAX_PHOTOS);
 }
 
-export default function EventCard({ motive }: EventCardProps) {
+export default function EventCard({ motive, size = "large" }: EventCardProps) {
   const {
     data: goodPictures,
     isPending,
@@ -154,7 +155,7 @@ export default function EventCard({ motive }: EventCardProps) {
 
   return (
     <div
-      className={styles.wrapper}
+      className={`${styles.wrapper} ${styles[size]}`}
       onClick={() =>
         void navigate({
           to: "/motive/$motiveId",

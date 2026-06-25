@@ -1,19 +1,17 @@
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, max-content);
-  justify-content: space-between;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--size-space-600);
 }
 
 @media screen and (width < 85rem) {
   .grid {
-    grid-template-columns: repeat(2, max-content);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 @media screen and (width < 60rem) {
   .grid {
-    grid-template-columns: max-content;
-    justify-content: center;
+    grid-template-columns: minmax(0, 1fr);
   }
 }

@@ -5,6 +5,7 @@ import {
   ToggleTabsTrigger,
 } from "../ui/input/ToggleTabs";
 import { SearchMode } from "../../types";
+import styles from "./SearchModeToggle.module.css";
 
 type SearchModeToggleProps = {
   mode: SearchMode;
@@ -27,7 +28,11 @@ export default function SearchModeToggle({
     >
       <ToggleTabsList>
         {options.map(({ mode: optionMode, label, icon: Icon }) => (
-          <ToggleTabsTrigger key={optionMode} value={optionMode}>
+          <ToggleTabsTrigger
+            key={optionMode}
+            value={optionMode}
+            className={styles.trigger}
+          >
             {label}
             <Icon size={18} />
           </ToggleTabsTrigger>

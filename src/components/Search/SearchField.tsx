@@ -18,8 +18,10 @@ import {
   Lock,
   MapPin,
   Tag,
+  X,
 } from "lucide-react";
 import SearchFilter from "./SearchFilter";
+import { IconButton } from "../ui/input/IconButton";
 
 export default function SearchField({
   initialValue,
@@ -62,12 +64,15 @@ export default function SearchField({
   }, [rawSuggestions, filters, inputValue]);
   const [inputIsFocused, setInputIsFocused] = useState(false);
 
+  const [suggestionsDismissed, setSuggestionsDismissed] = useState(false);
+
   const [hoveringSuggestionIndex, setHoveringSuggestionIndex] = useState<
     number | undefined
   >(undefined);
 
   useEffect(() => {
     setHoveringSuggestionIndex(undefined);
+    setSuggestionsDismissed(false);
   }, [inputValue]);
 
   useEffect(() => {
@@ -107,6 +112,19 @@ export default function SearchField({
       return;
     }
 
+    // commit the search (blur the field)
+    if (e.key === "Enter") {
+      e.preventDefault();
+      input.blur();
+      return;
+    }
+
+    // close the suggestion box without blurring
+    if (e.key === "Escape") {
+      setSuggestionsDismissed(true);
+      return;
+    }
+
     if (!suggestions?.length || !inputIsFocused) {
       return;
     }
@@ -117,13 +135,6 @@ export default function SearchField({
       e.preventDefault();
       const selected = suggestions[hoveringSuggestionIndex];
       if (selected) selectSuggestion(selected);
-      return;
-    }
-
-    // commit the search (close the field)
-    if (e.key === "Enter") {
-      e.preventDefault();
-      (e.target as HTMLElement).blur();
       return;
     }
 
@@ -151,7 +162,14 @@ export default function SearchField({
     }
   };
 
-  // search filers should display before the current input, display them as a prefix
+  // clear the search
+  const handleClear = () => {
+    setInputValue("");
+    filters?.forEach((f) => onFilterRemove?.(f));
+  };
+
+  const hasContent = inputValue !== "" || !!filters?.length;
+
   const prefix = filters?.length
     ? filters.map((f) => (
         <SearchFilter
@@ -169,17 +187,33 @@ export default function SearchField({
     <div className={styles.searchWrapper}>
       <PopoverRoot
         open={
-          (!!suggestions?.length && inputIsFocused) ||
-          (!!rawSuggestions?.hiddenMotiveCount && inputIsFocused)
+          !suggestionsDismissed &&
+          ((!!suggestions?.length && inputIsFocused) ||
+            (!!rawSuggestions?.hiddenMotiveCount && inputIsFocused))
         }
       >
         <PopoverAnchor>
           <TextInput
+            className={styles.searchInput}
             placeholder={filters ? "" : "Søk"}
             value={inputValue}
             prefix={prefix}
+            suffix={
+              hasContent ? (
+                <IconButton
+                  variant="subtle"
+                  size="sm"
+                  aria-label="Fjern søket"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={handleClear}
+                >
+                  <X size={18} />
+                </IconButton>
+              ) : undefined
+            }
             onFocus={(e) => {
               setInputIsFocused(true);
+              setSuggestionsDismissed(false);
               const input = e.target;
               requestAnimationFrame(() => {
                 const len = input.value.length;

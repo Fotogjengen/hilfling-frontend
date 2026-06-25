@@ -26,7 +26,7 @@ import { usePlaces } from "@/hooks/place";
 import { useCategories } from "@/hooks/category";
 import { useAlbums } from "@/hooks/album";
 import { Spinner } from "../Icons/Spinner";
-import { CheckboxField } from "../ui/input/Checkbox";
+import { Checkbox } from "../ui/input/Checkbox";
 import {
   AppliedFilter,
   DateRange,
@@ -63,9 +63,9 @@ export default function AddFilterButton({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button size="sm" variant="neutral">
+        <Button size="sm" variant="neutral" className={styles.addFilterButton}>
           <Plus size={18} />
-          Legg til filter
+          Filter
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className={styles.filterMenu}>
@@ -219,7 +219,7 @@ function FilterSubmenu({
           ) : (
             <div className={styles.placeList}>
               {filtered.map((item) => (
-                <CheckboxField
+                <Checkbox
                   key={item.id}
                   label={item.name}
                   checked={selectedIds.has(item.id)}

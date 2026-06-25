@@ -1,3 +1,13 @@
+.addFilterButton {
+  padding-top: var(--size-space-150);
+  padding-bottom: var(--size-space-150);
+  background-color: var(--color-background-default-default);
+}
+
+.addFilterButton:hover {
+  background-color: var(--color-background-default-default-hover);
+}
+
 .submenuWrapper {
   display: flex;
   flex-direction: column;

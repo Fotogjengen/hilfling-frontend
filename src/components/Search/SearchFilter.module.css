@@ -2,7 +2,8 @@
   display: inline-flex;
   align-items: center;
   gap: var(--size-space-150);
-  padding: var(--size-space-150) var(--size-space-400);
+  height: 2rem;
+  padding: 0 var(--size-space-400);
   background: var(--color-background-brand-tertiary);
   border-radius: var(--size-radius-200);
   cursor: pointer;

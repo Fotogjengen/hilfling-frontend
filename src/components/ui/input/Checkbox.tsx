@@ -1,5 +1,5 @@
 import { useId } from "react";
-import { Checkbox } from "radix-ui";
+import { Checkbox as CheckboxPrimitive } from "radix-ui";
 import { Check, Minus } from "lucide-react";
 import styles from "./Checkbox.module.css";
 
@@ -12,7 +12,7 @@ interface CheckboxProps {
   className?: string;
 }
 
-export function CheckboxField({
+export function Checkbox({
   label,
   description,
   checked,
@@ -23,29 +23,28 @@ export function CheckboxField({
   const id = useId();
 
   return (
-    <div className={[styles.wrapper, className].filter(Boolean).join(" ")}>
-      <Checkbox.Root
+    <label
+      htmlFor={id}
+      className={[styles.wrapper, className].filter(Boolean).join(" ")}
+    >
+      <CheckboxPrimitive.Root
         id={id}
         className={styles.checkbox}
         checked={checked}
         onCheckedChange={onCheckedChange}
         disabled={disabled}
       >
-        <Checkbox.Indicator className={styles.indicator}>
+        <CheckboxPrimitive.Indicator className={styles.indicator}>
           {checked === "indeterminate" ? <Minus /> : <Check />}
-        </Checkbox.Indicator>
-      </Checkbox.Root>
+        </CheckboxPrimitive.Indicator>
+      </CheckboxPrimitive.Root>
 
       <div className={styles.text}>
-        {label && (
-          <label htmlFor={id} className={styles.label}>
-            {label}
-          </label>
-        )}
+        {label && <span className={styles.label}>{label}</span>}
         {description && (
           <span className={styles.description}>{description}</span>
         )}
       </div>
-    </div>
+    </label>
   );
 }

@@ -1,6 +1,15 @@
 .searchWrapper {
   position: relative;
 }
+
+.searchInput div:has(> input) {
+  min-height: 3rem;
+}
+
+.searchInput input {
+  align-self: stretch;
+  padding: 0;
+}
 .suggestionList {
   display: flex;
   flex-direction: column;

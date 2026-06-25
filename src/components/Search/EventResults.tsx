@@ -22,7 +22,7 @@ export default function EventResults({ motives }: EventResultsProps) {
   return (
     <div className={styles.grid}>
       {motives.map((motive) => (
-        <EventCard key={motive.motiveId.id} motive={motive} />
+        <EventCard key={motive.motiveId.id} motive={motive} size="full" />
       ))}
     </div>
   );

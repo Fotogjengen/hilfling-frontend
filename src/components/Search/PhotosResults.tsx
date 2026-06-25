@@ -67,8 +67,8 @@ function PhotoGridSkeleton({ count }: { count: number }) {
 function GroupSkeleton() {
   return (
     <div className={styles.group}>
-      <div className={styles.motiveHeaderSkeleton}>
-        <div className={styles.skeletonInfo}>
+      <div className={styles.motiveHeader}>
+        <div className={styles.motiveInfo}>
           <div className={`${styles.skeletonTitle} skeleton`} />
           <div className={`${styles.skeletonSubtitle} skeleton`} />
         </div>
@@ -90,11 +90,6 @@ type MotivePhotoGroupProps = {
   motive: MotiveDto;
 };
 
-/**
- * A single motive from the search results together with its photos. The search
- * query only returns the motives, so the actual photos are fetched here per
- * motive once it has come back.
- */
 function MotivePhotoGroup({ motive }: MotivePhotoGroupProps) {
   const {
     data: photos,
