@@ -5,6 +5,7 @@ export type SecurityLevelType = "FG" | "HUSFOLK" | "ALLE";
 
 /** Sort field for the search endpoints. Mirrors the backend SearchSortField. */
 export type SearchSortField =
+  | "RELEVANCE"
   | "DATE_TAKEN"
   | "DATE_UPLOADED"
   | "MOTIVE_TITLE"

@@ -10,9 +10,17 @@ type SortOption = {
 };
 
 /**
- * The sort options shown in the dropdown. Each one maps a label to a backend
- * sortField + sortDirection combination. The first entry mirrors the backend
- * default (DATE_TAKEN, DESC).
+ * relevance is special. Should only be selectable whenver we have a query
+ */
+const relevanceOption: SortOption = {
+  value: "RELEVANCE:DESC",
+  label: "Mest relevant",
+  sortField: "RELEVANCE",
+  sortDirection: "DESC",
+};
+
+/**
+ * sort options visible in the dropdown
  */
 const sortOptions: SortOption[] = [
   {
@@ -77,19 +85,23 @@ const sortOptions: SortOption[] = [
   },
 ];
 
-const defaultOption = sortOptions[0];
-
 type SearchSortSelectProps = {
   sort?: SearchSort;
+  hasQuery: boolean;
   onSortChange: (sort: SearchSort) => void;
 };
 
 export default function SearchSortSelect({
   sort,
+  hasQuery,
   onSortChange,
 }: SearchSortSelectProps) {
+  const options = hasQuery ? [relevanceOption, ...sortOptions] : sortOptions;
+  // relevance should be the default only while searching to match backend
+  const defaultOption = hasQuery ? relevanceOption : sortOptions[0];
+
   const current =
-    sortOptions.find(
+    options.find(
       (o) =>
         o.sortField === sort?.sortField &&
         o.sortDirection === sort?.sortDirection,
@@ -100,11 +112,11 @@ export default function SearchSortSelect({
       <span className={styles.label}>Sorter</span>
       <Select
         className={styles.select}
-        options={sortOptions}
+        options={options}
         value={current.value}
         onValueChange={(value) => {
           const option =
-            sortOptions.find((o) => o.value === value) ?? defaultOption;
+            options.find((o) => o.value === value) ?? defaultOption;
           onSortChange({
             sortField: option.sortField,
             sortDirection: option.sortDirection,

@@ -32,6 +32,7 @@ const isSearchMode = (m: unknown): m is SearchMode =>
   m === "images" || m === "events";
 
 const sortFields = new Set<string>([
+  "RELEVANCE",
   "DATE_TAKEN",
   "DATE_UPLOADED",
   "MOTIVE_TITLE",
@@ -110,7 +111,7 @@ function RouteComponent() {
           if (!next) {
             updated = existing.filter((f) => f.type !== DATE_FILTER_TYPE);
           } else if (existing.some((f) => f.type === DATE_FILTER_TYPE)) {
-            // Replace in place so the searchFilter chip keeps its position when edited.
+            // replace in place so the searchFilter chip keeps its position when edited.
             updated = existing.map((f) =>
               f.type === DATE_FILTER_TYPE ? next : f,
             );
@@ -192,9 +193,11 @@ function RouteComponent() {
 
   const setSort = useCallback(
     (next: SearchSort) => {
-      // The backend default is DATE_TAKEN/DESC, so keep it out of the URL.
-      const isDefault =
-        next.sortField === "DATE_TAKEN" && next.sortDirection === "DESC";
+      // keep the backend default out of the URL. It's query-dependent:
+      // relevance while searching, newest-first (DATE_TAKEN/DESC) while browsing.
+      const isDefault = q
+        ? next.sortField === "RELEVANCE"
+        : next.sortField === "DATE_TAKEN" && next.sortDirection === "DESC";
       void navigate({
         search: (prev) => ({
           ...prev,
@@ -204,7 +207,7 @@ function RouteComponent() {
         resetScroll: false,
       });
     },
-    [navigate],
+    [navigate, q],
   );
 
   const { showAdBanner, dismissAdBanner } = useAdBanner();
@@ -227,7 +230,7 @@ function RouteComponent() {
             onFilterRemove={removeFilter}
             onDateRangeChange={setDateRange}
           />
-          <SearchSortSelect sort={sort} onSortChange={setSort} />
+          <SearchSortSelect sort={sort} hasQuery={!!q} onSortChange={setSort} />
         </div>
       </div>
       <div className={styles.results}>

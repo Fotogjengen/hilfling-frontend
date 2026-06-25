@@ -16,7 +16,8 @@
   left: 50%;
   transform: translateX(-50%);
   width: 100vw;
-  border-bottom: var(--size-stroke-border) solid var(--color-border-default-default);
+  border-bottom: var(--size-stroke-border) solid
+    var(--color-border-default-default);
 }
 
 .filterRow {

@@ -15,7 +15,8 @@
   align-items: center;
   padding: var(--size-space-400) 0;
   gap: var(--size-space-800);
-  border-bottom: var(--size-stroke-border) solid var(--color-border-default-default);
+  border-bottom: var(--size-stroke-border) solid
+    var(--color-border-default-default);
 }
 
 .photoGrid {

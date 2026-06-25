@@ -200,7 +200,7 @@ export default function EventCard({ motive, size = "large" }: EventCardProps) {
 
 export function EventCardSkeleton({ size }: { size: EventCardProps["size"] }) {
   return (
-    <div className={`${styles.wrapper} ${styles[size]}`}>
+    <div className={`${styles.wrapper} ${styles[size!]}`}>
       <div className={`${styles.skeletonPhoto} skeleton`} />
       <div className={styles.skeletonFooter}>
         <div className={`${styles.skeletonTitle} skeleton`} />
