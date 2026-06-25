@@ -14,7 +14,7 @@ export default function RecentEvents() {
         <SectionHeader title="Nylige arrangementer" linkTo="/photos" />
         <div className={styles.scroll}>
           {[1, 2, 3].map((i) => (
-            <EventCardSkeleton key={i} />
+            <EventCardSkeleton key={i} size="large" />
           ))}
         </div>
       </section>
@@ -29,7 +29,7 @@ export default function RecentEvents() {
       <div className={styles.scroll}>
         {allMotives.map((motive) => (
           <div key={motive.motiveId.id} className={styles.cardWrapper}>
-            <EventCard motive={motive} />
+            <EventCard motive={motive} size="large" />
           </div>
         ))}
       </div>

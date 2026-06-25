@@ -8,7 +8,7 @@ export function EventResultsSkeleton() {
   return (
     <div className={styles.grid}>
       {[0, 1, 2].map((i) => (
-        <EventCardSkeleton key={i} />
+        <EventCardSkeleton key={i} size="full" />
       ))}
     </div>
   );

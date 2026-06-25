@@ -146,7 +146,7 @@ export default function EventCard({ motive, size = "large" }: EventCardProps) {
   }, [loadedImages, photos]);
 
   if (isPending) {
-    return <EventCardSkeleton />;
+    return <EventCardSkeleton size={size} />;
   }
 
   if (isError) {
@@ -198,9 +198,9 @@ export default function EventCard({ motive, size = "large" }: EventCardProps) {
   );
 }
 
-export function EventCardSkeleton() {
+export function EventCardSkeleton({ size }: { size: EventCardProps["size"] }) {
   return (
-    <div className={styles.wrapper}>
+    <div className={`${styles.wrapper} ${styles[size]}`}>
       <div className={`${styles.skeletonPhoto} skeleton`} />
       <div className={styles.skeletonFooter}>
         <div className={`${styles.skeletonTitle} skeleton`} />
