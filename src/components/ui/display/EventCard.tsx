@@ -72,6 +72,7 @@ export default function EventCard({ motive, size = "large" }: EventCardProps) {
   const [unsupportedLayout, setUnsupportedLayout] = useState(false);
 
   useEffect(() => {
+    if (photos.length === 0) return;
     if (loadedImages.length < Math.min(MAX_PHOTOS, photos.length)) return;
 
     const standing = loadedImages.filter((i) => i.orientation === "Standing");
