@@ -1,6 +1,7 @@
 import { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import styles from "./PhotoMosaic.module.css";
 import { PhotoDto } from "@/../generated";
+import { Photo } from "@/components/ui/display/Photo";
 
 // Row layouts that make up the mosaic. Each kind consumes a fixed number of
 // photos; rows are laid out on a 3-unit wide grid so big/small images line up.
@@ -108,11 +109,7 @@ function Tile({ photo, onPress }: { photo?: PhotoDto; onPress?: () => void }) {
   return (
     <div className={styles.tile} onClick={onPress}>
       {photo ? (
-        <img
-          src={photo.imageWeb}
-          alt={photo.motive.title}
-          className={styles.photo}
-        />
+        <Photo photo={photo} className={styles.photo} />
       ) : (
         <div className={`${styles.photo} skeleton`} />
       )}

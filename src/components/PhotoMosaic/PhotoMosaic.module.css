@@ -75,11 +75,6 @@
   height: 100%;
   display: block;
   object-fit: cover;
-  transition: transform 0.3s ease;
-}
-
-.tile:hover .photo {
-  transform: scale(1.04);
 }
 
 /* On small screens collapse everything into a single full-width column. */

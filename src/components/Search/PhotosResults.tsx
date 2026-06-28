@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import { nb } from "date-fns/locale";
 import { ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/input/Button";
+import { Photo } from "@/components/ui/display/Photo";
 import styles from "./PhotosResults.module.css";
 
 function formatMotiveDate(dateStr: string): string {
@@ -123,8 +124,8 @@ function MotivePhotoGroup({ motive }: MotivePhotoGroupProps) {
         <div className={styles.photoGrid}>
           {photos.map((photo) => (
             <div key={photo.photoId.id} className={styles.photo}>
-              <img
-                src={photo.imageWeb}
+              <Photo
+                photo={photo}
                 alt={`Bilde fra ${motive.title}`}
                 onClick={() => openPhoto(photo.photoId.id)}
               />
