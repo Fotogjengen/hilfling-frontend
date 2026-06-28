@@ -83,6 +83,7 @@ function MotivePage() {
           photos={photos ?? []}
           isLoading={isPending}
           onPhotoPress={(photo) => openPhoto(photo.photoId.id)}
+          hideMotiveLink
         />
       )}
     </div>

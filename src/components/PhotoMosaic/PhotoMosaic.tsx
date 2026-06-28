@@ -105,11 +105,23 @@ function buildRows(
 }
 
 // a single photo
-function Tile({ photo, onPress }: { photo?: PhotoDto; onPress?: () => void }) {
+function Tile({
+  photo,
+  onPress,
+  hideMotiveLink,
+}: {
+  photo?: PhotoDto;
+  onPress?: () => void;
+  hideMotiveLink?: boolean;
+}) {
   return (
     <div className={styles.tile} onClick={onPress}>
       {photo ? (
-        <Photo photo={photo} className={styles.photo} />
+        <Photo
+          photo={photo}
+          className={styles.photo}
+          hideMotiveLink={hideMotiveLink}
+        />
       ) : (
         <div className={`${styles.photo} skeleton`} />
       )}
@@ -122,18 +134,29 @@ function Row({
   kind,
   photos,
   onPhotoPress,
-}: Row & { onPhotoPress?: (photo: PhotoDto) => void }) {
+  hideMotiveLink,
+}: Row & {
+  onPhotoPress?: (photo: PhotoDto) => void;
+  hideMotiveLink?: boolean;
+}) {
   const press = (photo?: PhotoDto) =>
     photo ? () => onPhotoPress?.(photo) : undefined;
+  const tile = (photo?: PhotoDto) => (
+    <Tile
+      photo={photo}
+      onPress={press(photo)}
+      hideMotiveLink={hideMotiveLink}
+    />
+  );
 
   switch (kind) {
     case "bigLeftStack":
       return (
         <div className={`${styles.row} ${styles.bigLeftStack}`}>
-          <Tile photo={photos[0]} onPress={press(photos[0])} />
+          {tile(photos[0])}
           <div className={styles.stack}>
-            <Tile photo={photos[1]} onPress={press(photos[1])} />
-            <Tile photo={photos[2]} onPress={press(photos[2])} />
+            {tile(photos[1])}
+            {tile(photos[2])}
           </div>
         </div>
       );
@@ -141,10 +164,10 @@ function Row({
       return (
         <div className={`${styles.row} ${styles.stackBigRight}`}>
           <div className={styles.stack}>
-            <Tile photo={photos[0]} onPress={press(photos[0])} />
-            <Tile photo={photos[1]} onPress={press(photos[1])} />
+            {tile(photos[0])}
+            {tile(photos[1])}
           </div>
-          <Tile photo={photos[2]} onPress={press(photos[2])} />
+          {tile(photos[2])}
         </div>
       );
     default:
@@ -155,6 +178,7 @@ function Row({
               key={photos[i]?.photoId.id ?? i}
               photo={photos[i]}
               onPress={press(photos[i])}
+              hideMotiveLink={hideMotiveLink}
             />
           ))}
         </div>
@@ -200,6 +224,8 @@ type PhotoMosaicProps = {
   // Rendered at the bottom of the grid (e.g. a loading spinner and an infinite
   // scroll sentinel).
   footer?: ReactNode;
+  // Hides the per-photo motive link (e.g. on the motive page, where it's redundant).
+  hideMotiveLink?: boolean;
 };
 
 /**
@@ -212,6 +238,7 @@ export default function PhotoMosaic({
   onPhotoPress,
   isLoading,
   footer,
+  hideMotiveLink,
 }: PhotoMosaicProps) {
   const [orientations, setOrientations] = useState<Record<string, Orientation>>(
     {},
@@ -253,6 +280,7 @@ export default function PhotoMosaic({
           key={row.photos[0]?.photoId.id ?? index}
           {...row}
           onPhotoPress={onPhotoPress}
+          hideMotiveLink={hideMotiveLink}
         />
       ))}
       {footer}

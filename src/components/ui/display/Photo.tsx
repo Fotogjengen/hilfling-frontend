@@ -12,6 +12,7 @@ type PhotoQuality = "thumb" | "web" | "full";
 interface PhotoProps extends Omit<ImgHTMLAttributes<HTMLImageElement>, "src"> {
   photo: PhotoDto;
   quality?: PhotoQuality;
+  hideMotiveLink?: boolean;
 }
 
 function srcFor(photo: PhotoDto, quality: PhotoQuality): string | undefined {
@@ -28,6 +29,7 @@ function srcFor(photo: PhotoDto, quality: PhotoQuality): string | undefined {
 export function Photo({
   photo,
   quality = "web",
+  hideMotiveLink,
   alt,
   className,
   ...rest
@@ -53,21 +55,23 @@ export function Photo({
         >
           <Download />
         </IconButton>
-        <Button
-          asChild
-          variant="transparent"
-          size="sm"
-          className={styles.motivePill}
-        >
-          <Link
-            to="/motive/$motiveId"
-            params={{ motiveId: photo.motive.motiveId.id }}
-            onClick={(e) => e.stopPropagation()}
+        {!hideMotiveLink && (
+          <Button
+            asChild
+            variant="transparent"
+            size="sm"
+            className={styles.motivePill}
           >
-            {photo.motive.title}
-            <ChevronRight className={styles.motivePillIcon} />
-          </Link>
-        </Button>
+            <Link
+              to="/motive/$motiveId"
+              params={{ motiveId: photo.motive.motiveId.id }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {photo.motive.title}
+              <ChevronRight className={styles.motivePillIcon} />
+            </Link>
+          </Button>
+        )}
       </div>
       {creditPopUp && (
         <div className={styles.creditPopUp} onClick={(e) => e.stopPropagation()}>
