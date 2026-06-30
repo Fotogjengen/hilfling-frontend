@@ -88,7 +88,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }, []);
 
   useEffect(() => {
-    // intercept 401 errors: the token is most likeley expired, we should log the user out
+    // intercept 401 errors: the token is most likely expired, we should log the user out
     const interceptorId = api.interceptors.response.use(
       (res) => res,
       (error: AxiosError) => {
