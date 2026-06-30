@@ -10,7 +10,7 @@ import {
   useRouterState,
 } from "@tanstack/react-router";
 import styles from "./__root.module.css";
-import { AuthState } from "../contexts/AuthenticationContext";
+import { AuthState } from "../contexts/AuthProvider";
 import { Toaster } from "@/components/ui/overlay/Toaster";
 import { z } from "zod";
 import PhotoViewModal from "@/components/PhotoViewModal/PhotoViewModal";

@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/input/Button";
 import { TextInput } from "@/components/ui/input/TextInput";
 import { Dialog } from "@/components/ui/overlay/Dialog";
 import { Eye, EyeOff } from "lucide-react";
-import { useLogin } from "@/hooks/auth";
+import { useLogin } from "@/contexts/AuthProvider";
 
 interface Props {
   open: boolean;

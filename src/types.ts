@@ -65,7 +65,7 @@ export type DateRange = {
   to?: Date;
 };
 
-export type JwtTokenPayload = {
+export type AuthUser = {
   username: string;
   positionId: string | null;
   securityLevel: SecurityLevelType;

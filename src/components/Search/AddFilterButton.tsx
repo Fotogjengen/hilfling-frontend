@@ -34,7 +34,7 @@ import {
   ValueFilterType,
 } from "../../types";
 import { FilterSuggestionDto } from "../../../generated";
-import { useAuth } from "../../contexts/AuthenticationContext";
+import { useAuth } from "../../contexts/AuthProvider";
 import { formatDateRange } from "../../utils/formatDateRange";
 
 type SubmenuProps = {
@@ -53,8 +53,8 @@ export default function AddFilterButton({
   dateRange?: DateRange;
   onDateRangeChange?: (range: DateRange) => void;
 }) {
-  const { isAuthenticated, jwtPayload } = useAuth();
-  const securityLevel = jwtPayload?.securityLevel;
+  const { isAuthenticated, user } = useAuth();
+  const securityLevel = user?.securityLevel;
   const isPrivileged =
     isAuthenticated && (securityLevel === "HUSFOLK" || securityLevel === "FG");
 

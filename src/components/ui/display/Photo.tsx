@@ -74,7 +74,10 @@ export function Photo({
         )}
       </div>
       {creditPopUp && (
-        <div className={styles.creditPopUp} onClick={(e) => e.stopPropagation()}>
+        <div
+          className={styles.creditPopUp}
+          onClick={(e) => e.stopPropagation()}
+        >
           {creditPopUp}
         </div>
       )}

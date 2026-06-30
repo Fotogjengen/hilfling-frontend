@@ -1,13 +1,11 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import LoginPopUp from "../LoginPopUp/LoginPopUp";
-import { AuthenticationContext } from "../../../contexts/AuthenticationContext";
+import { useAuth } from "../../../contexts/AuthProvider";
 import styles from "./LoginButton.module.css";
-import { useLogout } from "@/hooks/auth";
 
 const LoginButton = () => {
-  const { isAuthenticated } = useContext(AuthenticationContext);
+  const { isAuthenticated, logout } = useAuth();
   const [loginForm, setLoginForm] = useState(false);
-  const logout = useLogout();
 
   const handleLogout = () => {
     logout();

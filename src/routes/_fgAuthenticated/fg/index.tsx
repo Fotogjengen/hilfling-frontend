@@ -9,7 +9,7 @@ import {
   Leaf,
   Wine,
 } from "lucide-react";
-import { useAuth } from "@/contexts/AuthenticationContext";
+import { useAuth } from "@/contexts/AuthProvider";
 import styles from "./fg.module.css";
 
 export const Route = createFileRoute("/_fgAuthenticated/fg/")({
@@ -17,7 +17,7 @@ export const Route = createFileRoute("/_fgAuthenticated/fg/")({
 });
 
 function FgNav() {
-  const { jwtPayload } = useAuth();
+  const { user } = useAuth();
 
   const mainLinks = [
     { name: "Last opp", to: "/fg/upload", icon: <Upload size={100} /> },
@@ -42,9 +42,7 @@ function FgNav() {
   ];
 
   const visibleMainLinks =
-    jwtPayload?.securityLevel !== "FG"
-      ? [mainLinks[0], mainLinks[4]]
-      : mainLinks;
+    user?.securityLevel !== "FG" ? [mainLinks[0], mainLinks[4]] : mainLinks;
 
   return (
     <>

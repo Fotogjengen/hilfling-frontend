@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { PhotoDto } from "../../generated";
 import CreditPopUp from "@/components/DownloadImages/CreditPopUp/CreditPopUp";
-import { useAuth } from "@/contexts/AuthenticationContext";
+import { useAuth } from "@/contexts/AuthProvider";
 
 /** Downloads a specific photo */
 async function downloadImage(photo: PhotoDto) {
