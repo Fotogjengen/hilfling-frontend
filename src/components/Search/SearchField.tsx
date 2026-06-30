@@ -71,13 +71,22 @@ export default function SearchField({
   >(undefined);
 
   useEffect(() => {
-    setHoveringSuggestionIndex(undefined);
     setSuggestionsDismissed(false);
   }, [inputValue]);
 
   useEffect(() => {
     onQueryChange?.(inputValue);
   }, [inputValue]);
+
+  const suggestionsOpen =
+    !suggestionsDismissed &&
+    inputIsFocused &&
+    (!!suggestions?.length || !!rawSuggestions?.hiddenMotiveCount);
+
+  // reset the highlight when the suggestions change or the box closes
+  useEffect(() => {
+    setHoveringSuggestionIndex(undefined);
+  }, [suggestions, suggestionsOpen]);
 
   const selectSuggestion = (suggestion: FilterSuggestionDto) => {
     if (suggestion.type === FilterSuggestionDto.type.MOTIVE) {
@@ -112,9 +121,31 @@ export default function SearchField({
       return;
     }
 
-    // commit the search (blur the field)
+    // select the hovered suggestion, or close the field
     if (e.key === "Enter") {
       e.preventDefault();
+
+      // close the field when the query is empty
+      if (inputValue === "") {
+        input.blur();
+        return;
+      }
+
+      const selected =
+        hoveringSuggestionIndex !== undefined
+          ? suggestions?.[hoveringSuggestionIndex]
+          : undefined;
+
+      if (selected) {
+        selectSuggestion(selected);
+        // selecting a motive closes the field
+        if (selected.type === FilterSuggestionDto.type.MOTIVE) {
+          input.blur();
+        }
+        return;
+      }
+
+      // no suggestion to select, commit the search
       input.blur();
       return;
     }
@@ -126,15 +157,6 @@ export default function SearchField({
     }
 
     if (!suggestions?.length || !inputIsFocused) {
-      return;
-    }
-
-    // Select a suggestion
-    if (e.key === "Tab") {
-      if (hoveringSuggestionIndex === undefined) return;
-      e.preventDefault();
-      const selected = suggestions[hoveringSuggestionIndex];
-      if (selected) selectSuggestion(selected);
       return;
     }
 
@@ -185,13 +207,7 @@ export default function SearchField({
 
   return (
     <div className={styles.searchWrapper}>
-      <PopoverRoot
-        open={
-          !suggestionsDismissed &&
-          ((!!suggestions?.length && inputIsFocused) ||
-            (!!rawSuggestions?.hiddenMotiveCount && inputIsFocused))
-        }
-      >
+      <PopoverRoot open={suggestionsOpen}>
         <PopoverAnchor>
           <TextInput
             className={styles.searchInput}
@@ -226,6 +242,7 @@ export default function SearchField({
           />
         </PopoverAnchor>
         <PopoverContent
+          scrollable={false}
           onOpenAutoFocus={(e) => e.preventDefault()}
           onCloseAutoFocus={(e) => e.preventDefault()}
         >
