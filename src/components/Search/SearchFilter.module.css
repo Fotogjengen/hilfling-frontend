@@ -17,6 +17,10 @@
   background: var(--color-background-brand-tertiary-hover);
 }
 
+.searchFilter.selected:hover {
+  text-decoration: line-through;
+}
+
 .icon {
   color: var(--color-icon-brand-secondary);
   flex-shrink: 0;

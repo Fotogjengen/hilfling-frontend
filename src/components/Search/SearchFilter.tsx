@@ -16,7 +16,10 @@ export default function SearchFilter({
   children,
 }: SearchFilterProps) {
   return (
-    <div className={styles.searchFilter} onClick={onClick}>
+    <div
+      className={`${styles.searchFilter} ${selected ? styles.selected : ""}`}
+      onClick={onClick}
+    >
       {Icon && <Icon className={styles.icon} size={16} />}
       {children}
       {selected ? <X size={14} /> : <Plus size={14} />}

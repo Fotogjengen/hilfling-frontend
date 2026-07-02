@@ -20,10 +20,14 @@
 }
 
 .inputRow:focus-within {
-  outline: var(--size-stroke-border) solid var(--color-border-brand-default);
+  border-color: var(--color-border-brand-default);
 }
 
 .inputRowError {
+  border-color: var(--color-border-danger-default);
+}
+
+.inputRowError:focus-within {
   border-color: var(--color-border-danger-default);
 }
 

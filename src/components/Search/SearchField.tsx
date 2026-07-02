@@ -37,7 +37,11 @@ export default function SearchField({
   onQueryChange?: (query: string) => void;
 }) {
   const [inputValue, setInputValue] = useState(initialValue ?? "");
-  const { value: debouncedValue, isDebouncing } = useDebounce(inputValue);
+  const {
+    value: debouncedValue,
+    isDebouncing,
+    flush: flushDebounce,
+  } = useDebounce(inputValue);
   const { data: rawSuggestions, isPending: queryIsPending } =
     useSearchSuggestions(debouncedValue, filters);
 
@@ -91,6 +95,7 @@ export default function SearchField({
   const selectSuggestion = (suggestion: FilterSuggestionDto) => {
     if (suggestion.type === FilterSuggestionDto.type.MOTIVE) {
       setInputValue(suggestion.displayText);
+      flushDebounce(suggestion.displayText);
       return;
     }
     onFilterSelect?.({
@@ -99,6 +104,7 @@ export default function SearchField({
       displayText: suggestion.displayText,
     });
     setInputValue("");
+    flushDebounce("");
   };
 
   // input handling within the search field
@@ -116,6 +122,7 @@ export default function SearchField({
         // not the date range.
         if (inputValue === "" && last.type !== DATE_FILTER_TYPE) {
           setInputValue(last.displayText);
+          flushDebounce(last.displayText);
         }
       }
       return;
@@ -187,6 +194,7 @@ export default function SearchField({
   // clear the search
   const handleClear = () => {
     setInputValue("");
+    flushDebounce("");
     filters?.forEach((f) => onFilterRemove?.(f));
   };
 
@@ -237,7 +245,10 @@ export default function SearchField({
               });
             }}
             onBlur={() => setInputIsFocused(false)}
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={(e) => {
+              setInputValue(e.target.value);
+              if (e.target.value === "") flushDebounce("");
+            }}
             onKeyDown={handleKeyDown}
           />
         </PopoverAnchor>
