@@ -13,7 +13,7 @@ import { hasUserInteracted } from "@/utils/userInteraction";
 import { toast } from "../ui/overlay/Toaster";
 import { isAxiosError } from "axios";
 import { PhotoGalleryBody } from "./PhotoGalleryBody";
-import { MainPhotoSkeleton } from "./MainPhoto";
+import { GalleryPagination } from "./scrollHooks";
 
 type Props = {
   options: PhotoViewModalOptions;
@@ -145,6 +145,17 @@ function replacePhotoViewModalSearch(
   history.replaceState(history.state, "", pathname + search + hash);
 }
 
+// Skeleton state for the gallery while we look up which page a photo lives on
+const placementPendingPagination: GalleryPagination = {
+  isPending: true,
+  hasNextPage: false,
+  hasPreviousPage: false,
+  isFetchingNextPage: false,
+  isFetchingPreviousPage: false,
+  fetchNextPage: () => Promise.resolve(),
+  fetchPreviousPage: () => Promise.resolve(),
+};
+
 // The good photos feed
 function GoodPhotosView({
   options,
@@ -161,7 +172,15 @@ function GoodPhotosView({
   useCloseOnLoadingError(error, onClose);
 
   if (!placement) {
-    return <MainPhotoSkeleton />;
+    return (
+      <PhotoGalleryBody
+        photos={[]}
+        pagination={placementPendingPagination}
+        firstLoadedPage={undefined}
+        initialPhotoId={options.photoId}
+        onClose={onClose}
+      />
+    );
   }
 
   return (
