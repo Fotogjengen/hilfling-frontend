@@ -10,3 +10,7 @@ export function useMediaQuery(query: string) {
     () => globalThis.matchMedia(query).matches,
   );
 }
+
+export function useIsMobile() {
+  return useMediaQuery("(max-width: 768px)");
+}

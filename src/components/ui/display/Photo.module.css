@@ -33,14 +33,6 @@
 
 .motivePill {
   right: var(--size-space-400);
-  gap: var(--size-space-200);
-  padding: var(--size-space-300);
-  border-radius: var(--size-radius-200);
-}
-
-.motivePillIcon {
-  width: var(--size-icon-extra-small);
-  height: var(--size-icon-extra-small);
 }
 
 .creditPopUp {

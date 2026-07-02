@@ -1,0 +1,42 @@
+.motiveLink {
+  text-decoration: none;
+  text-align: left;
+}
+
+.sm {
+  gap: var(--size-space-200);
+  padding: var(--size-space-300);
+  border-radius: var(--size-radius-200);
+}
+
+.md {
+  gap: var(--size-space-300);
+  padding: var(--size-space-400);
+  background-color: var(--color-background-transparent-default);
+  border-color: var(--color-border-transparent-default-photo-modal);
+  border-radius: var(--size-radius-400);
+}
+
+.motiveInfo {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.motiveTitle {
+  font-size: var(--typography-scale-04);
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.motiveDate {
+  font-size: var(--typography-scale-02);
+}
+
+.chevron {
+  flex: 0 0 auto;
+  width: var(--size-icon-extra-small);
+  height: var(--size-icon-extra-small);
+}

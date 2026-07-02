@@ -7,7 +7,7 @@ import {
   usePageLoadSentinels,
   usePrependScrollCompensation,
 } from "./scrollHooks";
-import styles from "./PhotoViewModal.module.css";
+import styles from "./PhotoViewBottomStrip.module.css";
 
 const INITIAL_SKELETON_COUNT = 8;
 const PAGE_SKELETON_COUNT = 3;

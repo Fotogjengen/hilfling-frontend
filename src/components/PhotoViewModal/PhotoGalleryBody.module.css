@@ -1,0 +1,39 @@
+.closeButton {
+  position: absolute;
+  top: var(--size-space-400);
+  right: var(--size-space-400);
+  z-index: 10;
+}
+
+.focusToggle {
+  position: absolute;
+  top: var(--size-space-400);
+  left: var(--size-space-400);
+  z-index: 10;
+}
+
+.focusToggleIcon {
+  width: var(--size-icon-extra-small);
+  height: var(--size-icon-extra-small);
+}
+
+.motiveLinkAnchor {
+  position: absolute;
+  bottom: var(--size-space-400);
+  right: var(--size-space-400);
+  display: flex;
+}
+
+.mobileActionGroup {
+  bottom: auto;
+  top: var(--size-space-400);
+  left: var(--size-space-400);
+  z-index: 10;
+}
+
+.mobileContent {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}

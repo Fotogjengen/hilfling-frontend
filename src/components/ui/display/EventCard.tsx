@@ -167,7 +167,7 @@ export default function EventCard({ motive, size = "large" }: EventCardProps) {
       }
     >
       <div className={styles.photoGridWrapper}>
-        {unsupportedLayout && (
+        {(unsupportedLayout || photos.length === 0) && (
           <div className={styles.photoPlaceholder}>
             <ImageOff className={styles.placeholderIcon} />
           </div>

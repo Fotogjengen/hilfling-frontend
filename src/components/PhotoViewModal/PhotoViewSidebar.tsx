@@ -9,7 +9,7 @@ import {
   usePageLoadSentinels,
   usePrependScrollCompensation,
 } from "./scrollHooks";
-import styles from "./PhotoViewModal.module.css";
+import styles from "./PhotoViewSidebar.module.css";
 
 // Skeleton thumbnails shown while the initial photos load
 const INITIAL_SKELETON_COUNT = 10;

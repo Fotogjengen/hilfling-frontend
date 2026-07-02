@@ -1,10 +1,9 @@
 import { ImgHTMLAttributes } from "react";
-import { Link } from "@tanstack/react-router";
-import { ChevronRight, Download } from "lucide-react";
+import { Download } from "lucide-react";
 import { PhotoDto } from "@/../generated";
 import { usePhotoDownload } from "@/hooks/photoDownload";
 import { IconButton } from "@/components/ui/input/IconButton";
-import { Button } from "@/components/ui/input/Button";
+import { MotiveLink } from "@/components/ui/display/MotiveLink";
 import styles from "./Photo.module.css";
 
 type PhotoQuality = "thumb" | "web" | "full";
@@ -56,21 +55,12 @@ export function Photo({
           <Download />
         </IconButton>
         {!hideMotiveLink && (
-          <Button
-            asChild
-            variant="transparent"
+          <MotiveLink
+            photo={photo}
             size="sm"
             className={styles.motivePill}
-          >
-            <Link
-              to="/motive/$motiveId"
-              params={{ motiveId: photo.motive.motiveId.id }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              {photo.motive.title}
-              <ChevronRight className={styles.motivePillIcon} />
-            </Link>
-          </Button>
+            onClick={(e) => e.stopPropagation()}
+          />
         )}
       </div>
       {creditPopUp && (
