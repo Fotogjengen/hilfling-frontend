@@ -197,6 +197,10 @@ function PhotoMetadata({
   const exifRows: [string, string | undefined][] = [
     ["Kamera", metadata?.model],
     ["Objektiv", metadata?.lensModel],
+    [
+      "Brennvidde",
+      metadata?.focalLength ? `${metadata.focalLength} mm` : undefined,
+    ],
     ["ISO", metadata?.iso ? String(metadata.iso) : undefined],
     ["Blenderåpning", metadata?.fNumber ? `f/${metadata.fNumber}` : undefined],
     [
@@ -204,10 +208,6 @@ function PhotoMetadata({
       metadata?.exposureTime
         ? formatExposureTime(metadata.exposureTime)
         : undefined,
-    ],
-    [
-      "Brennvidde",
-      metadata?.focalLength ? `${metadata.focalLength} mm` : undefined,
     ],
     [
       "Eksponeringskompensasjon",
@@ -262,7 +262,7 @@ function PhotoMetadata({
             <span className={styles.metadataSubheading}>EXIF</span>
             {metadataLoading ? (
               <div className={styles.metadataList} aria-hidden>
-                {[0, 1, 2].map((i) => (
+                {[0, 1, 2, 4].map((i) => (
                   <div key={i} className={`${styles.exifSkeleton} skeleton`} />
                 ))}
               </div>

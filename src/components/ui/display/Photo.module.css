@@ -17,8 +17,10 @@
   pointer-events: none;
 }
 
-.wrapper:hover .overlay {
-  opacity: 1;
+@media (hover: hover) {
+  .wrapper:hover .overlay {
+    opacity: 1;
+  }
 }
 
 .overlay > * {
