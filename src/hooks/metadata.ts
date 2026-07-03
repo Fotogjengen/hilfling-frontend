@@ -32,7 +32,7 @@ export const useMetadata = (photo: PhotoDto) => {
       const data = await res.json();
       return Object.fromEntries(
         Object.entries(data).filter(([, v]) => v !== null),
-      ) as PhotoExif;
+      );
     },
   });
 };
