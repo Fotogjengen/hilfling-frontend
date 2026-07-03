@@ -7,8 +7,6 @@ import styles from "./MotiveLink.module.css";
 
 type MotiveLinkSize = "sm" | "md";
 
-// Links to the motive a photo belongs to. "sm" is a compact title-only pill,
-// "md" a card with the date the photo was taken.
 export function MotiveLink({
   photo,
   size = "md",
@@ -40,7 +38,7 @@ export function MotiveLink({
           <span className={styles.motiveInfo}>
             <span className={styles.motiveTitle}>{photo.motive.title}</span>
             <span className={styles.motiveDate}>
-              {new Date(photo.dateTaken).toLocaleDateString("nb-NO")}
+              {new Date(photo.motive.date).toLocaleDateString("nb-NO")}
             </span>
           </span>
         )}

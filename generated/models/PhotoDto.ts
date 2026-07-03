@@ -20,5 +20,5 @@ export type PhotoDto = {
   securityLevel: SecurityLevelDto;
   gang?: GangDto;
   photoGangBangerDto: PhotoGangBangerDto;
-  dateTaken: string;
+  dateUploaded: string;
 };

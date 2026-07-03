@@ -13,7 +13,7 @@ const TitleBanner = ({ photo, styling }: Props) => {
     bannerStyle = styles.titleBannerPhotos;
   }
 
-  const date = new Date(photo.dateTaken);
+  const date = new Date(photo.motive.date);
   const options: Intl.DateTimeFormatOptions = {
     year: "numeric",
     month: "long",

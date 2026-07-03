@@ -173,7 +173,8 @@ function PhotoMetadata({
     : photo.motive.albumDto;
   const rows: [string, string | undefined][] = [
     ["Motiv", photo.motive.title],
-    ["Dato", new Date(photo.dateTaken).toLocaleDateString("nb-NO")],
+    ["Dato", new Date(photo.motive.date).toLocaleDateString("nb-NO")],
+    ["Opplastingsdato", new Date(photo.dateUploaded).toLocaleDateString("nb-NO")],
     ["Sted", photo.motive.placeDto.name],
     ["Kategori", photo.motive.categoryDto.name],
     ["Arrangør", photo.motive.eventOwnerDto.name],
