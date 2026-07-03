@@ -94,5 +94,3 @@ function MobileLogin() {
     </form>
   );
 }
-
-export default MobileLogin;

@@ -31,5 +31,3 @@ function NewProjects() {
     </div>
   );
 }
-
-export default NewProjects;

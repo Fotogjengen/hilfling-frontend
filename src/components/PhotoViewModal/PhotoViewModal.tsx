@@ -49,6 +49,7 @@ function PhotoModalWrapper({
         <Dialog.Content
           className={`${styles.dialogContent} ${animateIn ? styles.fadeInAnimation : ""}`}
           onOpenAutoFocus={(event) => event.preventDefault()}
+          onFocusOutside={(event) => event.preventDefault()}
         >
           <Dialog.Title hidden>Bilder</Dialog.Title>
           <Dialog.Description hidden>Bilder</Dialog.Description>

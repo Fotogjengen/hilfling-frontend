@@ -186,5 +186,3 @@ function Secondgame() {
     </div>
   );
 }
-
-export default Secondgame;

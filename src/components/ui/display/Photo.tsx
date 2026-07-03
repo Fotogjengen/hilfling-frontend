@@ -1,7 +1,7 @@
 import { ImgHTMLAttributes } from "react";
 import { Download } from "lucide-react";
 import { PhotoDto } from "@/../generated";
-import { usePhotoDownload } from "@/hooks/photoDownload";
+import { usePhotoDownload } from "@/contexts/PhotoDownloadProvider";
 import { IconButton } from "@/components/ui/input/IconButton";
 import { MotiveLink } from "@/components/ui/display/MotiveLink";
 import styles from "./Photo.module.css";
@@ -33,7 +33,7 @@ export function Photo({
   className,
   ...rest
 }: PhotoProps) {
-  const { requestDownload, creditPopUp } = usePhotoDownload();
+  const { requestDownload } = usePhotoDownload();
 
   return (
     <div className={styles.wrapper}>
@@ -63,14 +63,6 @@ export function Photo({
           />
         )}
       </div>
-      {creditPopUp && (
-        <div
-          className={styles.creditPopUp}
-          onClick={(e) => e.stopPropagation()}
-        >
-          {creditPopUp}
-        </div>
-      )}
     </div>
   );
 }

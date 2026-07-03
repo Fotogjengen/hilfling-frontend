@@ -119,5 +119,3 @@ function ArchiveBossEditUser() {
     </div>
   );
 }
-
-export default ArchiveBossEditUser;

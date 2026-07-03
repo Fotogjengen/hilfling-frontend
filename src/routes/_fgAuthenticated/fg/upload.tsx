@@ -54,5 +54,3 @@ function PhotoUpload() {
     </div>
   );
 }
-
-export default PhotoUpload;

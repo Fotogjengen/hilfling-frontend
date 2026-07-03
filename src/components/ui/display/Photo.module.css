@@ -36,7 +36,3 @@
 .motivePill {
   right: var(--size-space-400);
 }
-
-.creditPopUp {
-  display: contents;
-}

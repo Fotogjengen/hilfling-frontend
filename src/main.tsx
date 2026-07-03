@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./index.css";
 import { router } from "./router";
 import AuthProvider, { useAuth } from "./contexts/AuthProvider";
+import PhotoDownloadProvider from "./contexts/PhotoDownloadProvider";
 import { ThemeProvider } from "@/components/ThemeProvider/ThemeProvider";
 import { isAxiosError } from "axios";
 
@@ -49,7 +50,9 @@ if (rootElement && !rootElement.innerHTML) {
       <QueryClientProvider client={queryClient}>
         <AuthProvider>
           <ThemeProvider>
-            <RouterWrapper />
+            <PhotoDownloadProvider>
+              <RouterWrapper />
+            </PhotoDownloadProvider>
           </ThemeProvider>
         </AuthProvider>
       </QueryClientProvider>

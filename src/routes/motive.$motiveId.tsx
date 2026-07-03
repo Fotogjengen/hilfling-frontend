@@ -89,5 +89,3 @@ function MotivePage() {
     </div>
   );
 }
-
-export default MotivePage;

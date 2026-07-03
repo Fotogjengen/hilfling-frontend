@@ -236,5 +236,3 @@ function ArchiveBoss() {
     </ArchiveBossContext.Provider>
   );
 }
-
-export default ArchiveBoss;
