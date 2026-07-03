@@ -23,13 +23,11 @@ import { Route as FgAuthenticatedFgIndexRouteImport } from './routes/_fgAuthenti
 import { Route as FgAuthenticatedFgUploadRouteImport } from './routes/_fgAuthenticated/fg/upload'
 import { Route as FgAuthenticatedFgProfileRouteImport } from './routes/_fgAuthenticated/fg/profile'
 import { Route as FgAuthenticatedFgProjectsIndexRouteImport } from './routes/_fgAuthenticated/fg/projects/index'
-import { Route as FgAuthenticatedFgMotiveIndexRouteImport } from './routes/_fgAuthenticated/fg/motive/index'
 import { Route as FgAuthenticatedFgArchiveBossIndexRouteImport } from './routes/_fgAuthenticated/fg/archiveBoss/index'
 import { Route as FgAuthenticatedFgProjectsKull26IndexRouteImport } from './routes/_fgAuthenticated/fg/projects/kull26/index'
 import { Route as FgAuthenticatedFgProjectsKull26ThirdgameRouteImport } from './routes/_fgAuthenticated/fg/projects/kull26/thirdgame'
 import { Route as FgAuthenticatedFgProjectsKull26SecondgameRouteImport } from './routes/_fgAuthenticated/fg/projects/kull26/secondgame'
 import { Route as FgAuthenticatedFgProjectsKull26FirstgameRouteImport } from './routes/_fgAuthenticated/fg/projects/kull26/firstgame'
-import { Route as FgAuthenticatedFgMotiveEditMotiveIdRouteImport } from './routes/_fgAuthenticated/fg/motive/edit.$motiveId'
 import { Route as FgAuthenticatedFgArchiveBossEditUserUserIdRouteImport } from './routes/_fgAuthenticated/fg/archiveBoss/editUser.$userId'
 
 const SearchRoute = SearchRouteImport.update({
@@ -103,12 +101,6 @@ const FgAuthenticatedFgProjectsIndexRoute =
     path: '/fg/projects/',
     getParentRoute: () => FgAuthenticatedRouteRoute,
   } as any)
-const FgAuthenticatedFgMotiveIndexRoute =
-  FgAuthenticatedFgMotiveIndexRouteImport.update({
-    id: '/fg/motive/',
-    path: '/fg/motive/',
-    getParentRoute: () => FgAuthenticatedRouteRoute,
-  } as any)
 const FgAuthenticatedFgArchiveBossIndexRoute =
   FgAuthenticatedFgArchiveBossIndexRouteImport.update({
     id: '/fg/archiveBoss/',
@@ -139,12 +131,6 @@ const FgAuthenticatedFgProjectsKull26FirstgameRoute =
     path: '/fg/projects/kull26/firstgame',
     getParentRoute: () => FgAuthenticatedRouteRoute,
   } as any)
-const FgAuthenticatedFgMotiveEditMotiveIdRoute =
-  FgAuthenticatedFgMotiveEditMotiveIdRouteImport.update({
-    id: '/fg/motive/edit/$motiveId',
-    path: '/fg/motive/edit/$motiveId',
-    getParentRoute: () => FgAuthenticatedRouteRoute,
-  } as any)
 const FgAuthenticatedFgArchiveBossEditUserUserIdRoute =
   FgAuthenticatedFgArchiveBossEditUserUserIdRouteImport.update({
     id: '/fg/archiveBoss/editUser/$userId',
@@ -166,10 +152,8 @@ export interface FileRoutesByFullPath {
   '/fg/upload': typeof FgAuthenticatedFgUploadRoute
   '/fg/': typeof FgAuthenticatedFgIndexRoute
   '/fg/archiveBoss/': typeof FgAuthenticatedFgArchiveBossIndexRoute
-  '/fg/motive/': typeof FgAuthenticatedFgMotiveIndexRoute
   '/fg/projects/': typeof FgAuthenticatedFgProjectsIndexRoute
   '/fg/archiveBoss/editUser/$userId': typeof FgAuthenticatedFgArchiveBossEditUserUserIdRoute
-  '/fg/motive/edit/$motiveId': typeof FgAuthenticatedFgMotiveEditMotiveIdRoute
   '/fg/projects/kull26/firstgame': typeof FgAuthenticatedFgProjectsKull26FirstgameRoute
   '/fg/projects/kull26/secondgame': typeof FgAuthenticatedFgProjectsKull26SecondgameRoute
   '/fg/projects/kull26/thirdgame': typeof FgAuthenticatedFgProjectsKull26ThirdgameRoute
@@ -188,10 +172,8 @@ export interface FileRoutesByTo {
   '/fg/upload': typeof FgAuthenticatedFgUploadRoute
   '/fg': typeof FgAuthenticatedFgIndexRoute
   '/fg/archiveBoss': typeof FgAuthenticatedFgArchiveBossIndexRoute
-  '/fg/motive': typeof FgAuthenticatedFgMotiveIndexRoute
   '/fg/projects': typeof FgAuthenticatedFgProjectsIndexRoute
   '/fg/archiveBoss/editUser/$userId': typeof FgAuthenticatedFgArchiveBossEditUserUserIdRoute
-  '/fg/motive/edit/$motiveId': typeof FgAuthenticatedFgMotiveEditMotiveIdRoute
   '/fg/projects/kull26/firstgame': typeof FgAuthenticatedFgProjectsKull26FirstgameRoute
   '/fg/projects/kull26/secondgame': typeof FgAuthenticatedFgProjectsKull26SecondgameRoute
   '/fg/projects/kull26/thirdgame': typeof FgAuthenticatedFgProjectsKull26ThirdgameRoute
@@ -213,10 +195,8 @@ export interface FileRoutesById {
   '/_fgAuthenticated/fg/upload': typeof FgAuthenticatedFgUploadRoute
   '/_fgAuthenticated/fg/': typeof FgAuthenticatedFgIndexRoute
   '/_fgAuthenticated/fg/archiveBoss/': typeof FgAuthenticatedFgArchiveBossIndexRoute
-  '/_fgAuthenticated/fg/motive/': typeof FgAuthenticatedFgMotiveIndexRoute
   '/_fgAuthenticated/fg/projects/': typeof FgAuthenticatedFgProjectsIndexRoute
   '/_fgAuthenticated/fg/archiveBoss/editUser/$userId': typeof FgAuthenticatedFgArchiveBossEditUserUserIdRoute
-  '/_fgAuthenticated/fg/motive/edit/$motiveId': typeof FgAuthenticatedFgMotiveEditMotiveIdRoute
   '/_fgAuthenticated/fg/projects/kull26/firstgame': typeof FgAuthenticatedFgProjectsKull26FirstgameRoute
   '/_fgAuthenticated/fg/projects/kull26/secondgame': typeof FgAuthenticatedFgProjectsKull26SecondgameRoute
   '/_fgAuthenticated/fg/projects/kull26/thirdgame': typeof FgAuthenticatedFgProjectsKull26ThirdgameRoute
@@ -238,10 +218,8 @@ export interface FileRouteTypes {
     | '/fg/upload'
     | '/fg/'
     | '/fg/archiveBoss/'
-    | '/fg/motive/'
     | '/fg/projects/'
     | '/fg/archiveBoss/editUser/$userId'
-    | '/fg/motive/edit/$motiveId'
     | '/fg/projects/kull26/firstgame'
     | '/fg/projects/kull26/secondgame'
     | '/fg/projects/kull26/thirdgame'
@@ -260,10 +238,8 @@ export interface FileRouteTypes {
     | '/fg/upload'
     | '/fg'
     | '/fg/archiveBoss'
-    | '/fg/motive'
     | '/fg/projects'
     | '/fg/archiveBoss/editUser/$userId'
-    | '/fg/motive/edit/$motiveId'
     | '/fg/projects/kull26/firstgame'
     | '/fg/projects/kull26/secondgame'
     | '/fg/projects/kull26/thirdgame'
@@ -284,10 +260,8 @@ export interface FileRouteTypes {
     | '/_fgAuthenticated/fg/upload'
     | '/_fgAuthenticated/fg/'
     | '/_fgAuthenticated/fg/archiveBoss/'
-    | '/_fgAuthenticated/fg/motive/'
     | '/_fgAuthenticated/fg/projects/'
     | '/_fgAuthenticated/fg/archiveBoss/editUser/$userId'
-    | '/_fgAuthenticated/fg/motive/edit/$motiveId'
     | '/_fgAuthenticated/fg/projects/kull26/firstgame'
     | '/_fgAuthenticated/fg/projects/kull26/secondgame'
     | '/_fgAuthenticated/fg/projects/kull26/thirdgame'
@@ -404,13 +378,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FgAuthenticatedFgProjectsIndexRouteImport
       parentRoute: typeof FgAuthenticatedRouteRoute
     }
-    '/_fgAuthenticated/fg/motive/': {
-      id: '/_fgAuthenticated/fg/motive/'
-      path: '/fg/motive'
-      fullPath: '/fg/motive/'
-      preLoaderRoute: typeof FgAuthenticatedFgMotiveIndexRouteImport
-      parentRoute: typeof FgAuthenticatedRouteRoute
-    }
     '/_fgAuthenticated/fg/archiveBoss/': {
       id: '/_fgAuthenticated/fg/archiveBoss/'
       path: '/fg/archiveBoss'
@@ -446,13 +413,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FgAuthenticatedFgProjectsKull26FirstgameRouteImport
       parentRoute: typeof FgAuthenticatedRouteRoute
     }
-    '/_fgAuthenticated/fg/motive/edit/$motiveId': {
-      id: '/_fgAuthenticated/fg/motive/edit/$motiveId'
-      path: '/fg/motive/edit/$motiveId'
-      fullPath: '/fg/motive/edit/$motiveId'
-      preLoaderRoute: typeof FgAuthenticatedFgMotiveEditMotiveIdRouteImport
-      parentRoute: typeof FgAuthenticatedRouteRoute
-    }
     '/_fgAuthenticated/fg/archiveBoss/editUser/$userId': {
       id: '/_fgAuthenticated/fg/archiveBoss/editUser/$userId'
       path: '/fg/archiveBoss/editUser/$userId'
@@ -468,10 +428,8 @@ interface FgAuthenticatedRouteRouteChildren {
   FgAuthenticatedFgUploadRoute: typeof FgAuthenticatedFgUploadRoute
   FgAuthenticatedFgIndexRoute: typeof FgAuthenticatedFgIndexRoute
   FgAuthenticatedFgArchiveBossIndexRoute: typeof FgAuthenticatedFgArchiveBossIndexRoute
-  FgAuthenticatedFgMotiveIndexRoute: typeof FgAuthenticatedFgMotiveIndexRoute
   FgAuthenticatedFgProjectsIndexRoute: typeof FgAuthenticatedFgProjectsIndexRoute
   FgAuthenticatedFgArchiveBossEditUserUserIdRoute: typeof FgAuthenticatedFgArchiveBossEditUserUserIdRoute
-  FgAuthenticatedFgMotiveEditMotiveIdRoute: typeof FgAuthenticatedFgMotiveEditMotiveIdRoute
   FgAuthenticatedFgProjectsKull26FirstgameRoute: typeof FgAuthenticatedFgProjectsKull26FirstgameRoute
   FgAuthenticatedFgProjectsKull26SecondgameRoute: typeof FgAuthenticatedFgProjectsKull26SecondgameRoute
   FgAuthenticatedFgProjectsKull26ThirdgameRoute: typeof FgAuthenticatedFgProjectsKull26ThirdgameRoute
@@ -484,12 +442,9 @@ const FgAuthenticatedRouteRouteChildren: FgAuthenticatedRouteRouteChildren = {
   FgAuthenticatedFgIndexRoute: FgAuthenticatedFgIndexRoute,
   FgAuthenticatedFgArchiveBossIndexRoute:
     FgAuthenticatedFgArchiveBossIndexRoute,
-  FgAuthenticatedFgMotiveIndexRoute: FgAuthenticatedFgMotiveIndexRoute,
   FgAuthenticatedFgProjectsIndexRoute: FgAuthenticatedFgProjectsIndexRoute,
   FgAuthenticatedFgArchiveBossEditUserUserIdRoute:
     FgAuthenticatedFgArchiveBossEditUserUserIdRoute,
-  FgAuthenticatedFgMotiveEditMotiveIdRoute:
-    FgAuthenticatedFgMotiveEditMotiveIdRoute,
   FgAuthenticatedFgProjectsKull26FirstgameRoute:
     FgAuthenticatedFgProjectsKull26FirstgameRoute,
   FgAuthenticatedFgProjectsKull26SecondgameRoute:

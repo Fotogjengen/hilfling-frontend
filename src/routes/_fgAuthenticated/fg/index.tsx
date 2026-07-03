@@ -6,7 +6,6 @@ import {
   BookOpen,
   Camera,
   Baby,
-  Leaf,
   Wine,
 } from "lucide-react";
 import { useAuth } from "@/contexts/AuthProvider";
@@ -22,7 +21,6 @@ function FgNav() {
   const mainLinks = [
     { name: "Last opp", to: "/fg/upload", icon: <Upload size={100} /> },
     { name: "Arkiv", to: "/fg/archiveBoss", icon: <Archive size={100} /> },
-    { name: "Motiv", to: "/fg/motive", icon: <Leaf size={100} /> },
     { name: "Min profil", to: "/fg/profile", icon: <User size={100} /> },
     { name: "De nye", to: "/fg/projects", icon: <Baby size={100} /> },
   ];
