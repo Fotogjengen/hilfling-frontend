@@ -1,5 +1,5 @@
 import { useGoodPhotos } from "@/hooks/photo";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import styles from "./PhotoWall.module.css";
 import { Spinner } from "../Icons/Spinner";
@@ -39,18 +39,21 @@ export default function PhotoWall({ onPhotoPress }: PhotoWallProps) {
     onPhotoPress?.(pos.page, pos.positionInPage, photo.photoId.id);
   };
 
-  // load the next page
+  // load the next page, but only once the current photos' images have loaded
+  const [allMeasured, setAllMeasured] = useState(false);
   const { ref: sentinelRef, inView } = useInView({ rootMargin: "600px" });
 
   useEffect(() => {
-    if (inView && hasNextPage && !isFetchingNextPage) void fetchNextPage();
-  }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+    if (inView && hasNextPage && !isFetchingNextPage && allMeasured)
+      void fetchNextPage();
+  }, [inView, hasNextPage, isFetchingNextPage, allMeasured, fetchNextPage]);
 
   return (
     <PhotoMosaic
       photos={photos}
       onPhotoPress={handlePhotoPress}
       isLoading={isPending}
+      onAllMeasuredChange={setAllMeasured}
       footer={
         <>
           {isFetchingNextPage && (

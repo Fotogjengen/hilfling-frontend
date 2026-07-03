@@ -9,6 +9,7 @@ import { usePhotoDownload } from "@/hooks/photoDownload";
 import { useAuth } from "@/contexts/AuthProvider";
 import { EASE_OUT_EXPO } from "@/utils/animation";
 import styles from "./PhotoActionPanel.module.css";
+import { useMetadata } from "@/hooks/metadata";
 
 // Download, copy link and metadata buttons
 export function PhotoActionPanel({
@@ -145,6 +146,17 @@ function PhotoActionButtons({
   );
 }
 
+function formatExposureTime(exposureTime: number) {
+  return exposureTime < 1
+    ? `1/${Math.round(1 / exposureTime)} s`
+    : `${exposureTime} s`;
+}
+
+function formatExposureCompensation(ev: number) {
+  const rounded = Math.round(ev * 10) / 10;
+  return `${rounded > 0 ? "+" : ""}${rounded} EV`;
+}
+
 // metadata panel
 function PhotoMetadata({
   photo,
@@ -154,6 +166,7 @@ function PhotoMetadata({
   onClose: () => void;
 }) {
   const { user } = useAuth();
+  const { data: metadata, isLoading: metadataLoading } = useMetadata(photo);
   const photographer = photo.photoGangBangerDto;
   const album = photo.analog
     ? photo.motive.analogAlbumDto
@@ -170,8 +183,8 @@ function PhotoMetadata({
       album && [album.name, album.description].filter(Boolean).join(" - "),
     ],
     [
-      "Bildenummer/Sidenummer",
-      String(photo.imageNumber + "/" + photo.pageNumber),
+      "Sidenummer/Bildenummer",
+      String(photo.pageNumber + "/" + photo.imageNumber),
     ],
     ["Type", photo.analog ? "Analog" : "Digital"],
     [
@@ -181,6 +194,36 @@ function PhotoMetadata({
         : undefined,
     ],
   ];
+  const exifRows: [string, string | undefined][] = [
+    ["Kamera", metadata?.model],
+    ["Objektiv", metadata?.lensModel],
+    ["ISO", metadata?.iso ? String(metadata.iso) : undefined],
+    ["Blenderåpning", metadata?.fNumber ? `f/${metadata.fNumber}` : undefined],
+    [
+      "Lukkertid",
+      metadata?.exposureTime
+        ? formatExposureTime(metadata.exposureTime)
+        : undefined,
+    ],
+    [
+      "Brennvidde",
+      metadata?.focalLength ? `${metadata.focalLength} mm` : undefined,
+    ],
+    [
+      "Eksponeringskompensasjon",
+      metadata?.exposureCompensation == null
+        ? undefined
+        : formatExposureCompensation(metadata.exposureCompensation),
+    ],
+    [
+      "Oppløsning",
+      metadata?.imageWidth && metadata.imageHeight
+        ? `${metadata.imageWidth} x ${metadata.imageHeight}`
+        : undefined,
+    ],
+    ["Blits", metadata?.flash],
+  ];
+  const visibleExifRows = exifRows.filter(([, value]) => value);
 
   return (
     <div className={styles.metadata}>
@@ -189,29 +232,53 @@ function PhotoMetadata({
         <IconButton
           aria-label="Lukk bildeinformasjon"
           variant="transparent"
-          className={styles.actionButton}
+          size="sm"
+          className={`${styles.actionButton} ${styles.metadataClose}`}
           onClick={onClose}
         >
-          <X />
+          <X size={20} />
         </IconButton>
       </div>
-      <dl className={styles.metadataList}>
-        {rows
-          .filter(([, value]) => value)
-          .map(([label, value]) => (
-            <div key={label} className={styles.metadataRow}>
-              <dt className={styles.metadataLabel}>{label}</dt>
-              <dd className={styles.metadataValue}>{value}</dd>
-            </div>
-          ))}
-      </dl>
-      <p className={styles.metadataCredit}>
-        Alle bilder tatt av Fotogjengen skal krediteres med «Foto:
-        foto.samfundet.no».
-        <RouterLink to="/about/info" className={styles.metadataCreditLink}>
-          Les mer om bruk av bilder
-        </RouterLink>
-      </p>
+      <div className={styles.metadataBody}>
+        <dl className={styles.metadataList}>
+          {rows
+            .filter(([, value]) => value)
+            .map(([label, value]) => (
+              <div key={label} className={styles.metadataRow}>
+                <dt className={styles.metadataLabel}>{label}</dt>
+                <dd className={styles.metadataValue}>{value}</dd>
+              </div>
+            ))}
+        </dl>
+        <p className={styles.metadataCredit}>
+          Alle bilder tatt av Fotogjengen skal krediteres med «Foto:
+          foto.samfundet.no».
+          <RouterLink to="/about/info" className={styles.metadataCreditLink}>
+            Les mer om bruk av bilder
+          </RouterLink>
+        </p>
+        {(metadataLoading || visibleExifRows.length > 0) && (
+          <>
+            <span className={styles.metadataSubheading}>EXIF</span>
+            {metadataLoading ? (
+              <div className={styles.metadataList} aria-hidden>
+                {[0, 1, 2].map((i) => (
+                  <div key={i} className={`${styles.exifSkeleton} skeleton`} />
+                ))}
+              </div>
+            ) : (
+              <dl className={styles.metadataList}>
+                {visibleExifRows.map(([label, value]) => (
+                  <div key={label} className={styles.metadataRow}>
+                    <dt className={styles.metadataLabel}>{label}</dt>
+                    <dd className={styles.metadataValue}>{value}</dd>
+                  </div>
+                ))}
+              </dl>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 }

@@ -43,7 +43,17 @@
   gap: var(--size-space-200);
   padding: var(--size-space-400);
   max-height: min(60vh, 30rem);
+}
+
+.metadataBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-200);
   overflow-y: auto;
+  min-height: 0;
+  scrollbar-gutter: stable;
+  padding-right: var(--size-space-400);
+  margin-right: calc(-1 * var(--size-space-400));
 }
 
 .metadataHeader {
@@ -56,6 +66,11 @@
 .metadataTitle {
   font-size: var(--typography-scale-04);
   font-weight: 600;
+}
+
+.metadataClose {
+  border: none;
+  background: none;
 }
 
 .metadataList {
@@ -83,6 +98,18 @@
   overflow-wrap: anywhere;
 }
 
+.metadataSubheading {
+  margin-top: var(--size-space-200);
+  font-size: var(--typography-scale-02);
+  font-weight: 600;
+}
+
+.exifSkeleton {
+  height: 1.25rem;
+  border-radius: var(--size-space-100);
+  background-color: var(--color-background-skeleton-photo-modal);
+}
+
 .metadataCredit {
   margin: 0;
   font-size: var(--typography-scale-01);
@@ -91,7 +118,6 @@
 
 .metadataCreditLink {
   display: block;
-  margin-top: var(--size-space-100);
   color: inherit;
   text-decoration: underline;
 }

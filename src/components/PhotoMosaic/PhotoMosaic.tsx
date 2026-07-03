@@ -226,6 +226,8 @@ type PhotoMosaicProps = {
   footer?: ReactNode;
   // Hides the per-photo motive link (e.g. on the motive page, where it's redundant).
   hideMotiveLink?: boolean;
+  // Fires when all current photos have a measured orientation
+  onAllMeasuredChange?: (allMeasured: boolean) => void;
 };
 
 /**
@@ -239,6 +241,7 @@ export default function PhotoMosaic({
   isLoading,
   footer,
   hideMotiveLink,
+  onAllMeasuredChange,
 }: PhotoMosaicProps) {
   const [orientations, setOrientations] = useState<Record<string, Orientation>>(
     {},
@@ -263,6 +266,12 @@ export default function PhotoMosaic({
     while (end < photos.length && orientations[photos[end].photoId.id]) end++;
     return photos.slice(0, end);
   }, [photos, orientations]);
+
+  const allMeasured = measuredPhotos.length === photos.length;
+
+  useEffect(() => {
+    onAllMeasuredChange?.(allMeasured);
+  }, [allMeasured, onAllMeasuredChange]);
 
   const rows = useMemo(
     () => buildRows(measuredPhotos, orientations),
