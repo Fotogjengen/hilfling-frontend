@@ -4,6 +4,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import { AxiosError } from "axios";
@@ -55,9 +56,11 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [hasLoadedAuth, setHasLoadedAuth] = useState(false);
   const [user, setUser] = useState<AuthUser | null>(null);
   const queryClient = useQueryClient();
+  const isLoggingOut = useRef(false);
 
   const login = useCallback(
     (token: string) => {
+      isLoggingOut.current = false;
       setToken(token);
       setUser(decodeToken(token));
       setIsAuthenticated(true);
@@ -92,7 +95,12 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const interceptorId = api.interceptors.response.use(
       (res) => res,
       (error: AxiosError) => {
-        if (error.response?.status === 401 && isAuthenticated) {
+        if (
+          error.response?.status === 401 &&
+          isAuthenticated &&
+          !isLoggingOut.current
+        ) {
+          isLoggingOut.current = true;
           toast.info("Du har blitt logget ut", {
             description: "Logg deg inn på nytt for å se innholdet.",
           });
