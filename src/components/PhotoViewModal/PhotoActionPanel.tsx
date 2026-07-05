@@ -149,6 +149,11 @@ function formatExposureTime(exposureTime: number) {
     : `${exposureTime} s`;
 }
 
+function formatFileSize(bytes: number) {
+  if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} kB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
 function formatExposureCompensation(ev: number) {
   const rounded = Math.round(ev * 10) / 10;
   return `${rounded > 0 ? "+" : ""}${rounded} EV`;
@@ -223,6 +228,10 @@ function PhotoMetadata({
         : undefined,
     ],
     ["Blits", metadata?.flash],
+    [
+      "Størrelse",
+      metadata?.fileSize ? formatFileSize(metadata.fileSize) : undefined,
+    ],
   ];
   const visibleExifRows = exifRows.filter(([, value]) => value);
 

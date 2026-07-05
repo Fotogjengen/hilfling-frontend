@@ -12,6 +12,7 @@ export type PhotoExif = {
   flash?: string;
   imageWidth?: number;
   imageHeight?: number;
+  fileSize?: number;
 };
 
 export const useMetadata = (photo: PhotoDto) => {
