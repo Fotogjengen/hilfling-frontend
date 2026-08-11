@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
+import { Matcher } from "react-day-picker";
 import {
   PopoverRoot,
   PopoverTrigger,
@@ -16,6 +17,8 @@ interface DatePickerProps {
   placeholder?: string;
   error?: string;
   disabled?: boolean;
+  /** Dates the user is not allowed to pick, e.g. `{ after: maxDate }`. */
+  disabledDates?: Matcher | Matcher[];
   className?: string;
 }
 
@@ -26,6 +29,7 @@ export function DatePicker({
   placeholder = "Velg dato",
   error,
   disabled,
+  disabledDates,
   className,
 }: DatePickerProps) {
   const [open, setOpen] = useState(false);
@@ -61,6 +65,7 @@ export function DatePicker({
         >
           <Calendar
             selected={value}
+            disabled={disabledDates}
             onSelect={(date) => {
               onChange?.(date);
               setOpen(false);

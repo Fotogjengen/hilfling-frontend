@@ -1,0 +1,22 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-200);
+}
+
+.label {
+  font-family: var(--typography-family-sans);
+  font-size: var(--typography-body-size-medium);
+  color: var(--color-text-default-secondary);
+  white-space: nowrap;
+}
+
+.select {
+  min-width: 12rem;
+}
+
+.select > button {
+  height: 2rem;
+  padding-top: var(--size-space-100);
+  padding-bottom: var(--size-space-100);
+}

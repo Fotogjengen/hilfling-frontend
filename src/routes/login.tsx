@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { useAuth } from "@/contexts/AuthenticationContext";
+import { useAuth, useLogin } from "@/contexts/AuthProvider";
 import { TextInput } from "@/components/ui/input/TextInput";
 import { Button } from "@/components/ui/input/Button";
 import { Eye, EyeOff } from "lucide-react";
@@ -18,17 +18,28 @@ When more styling is added it should be in its own file.
 */
 
 function MobileLogin() {
-  const { isAuthenticated, setIsAuthenticated } = useAuth();
+  const { isAuthenticated, logout } = useAuth();
+  const login = useLogin();
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
-  const handleLogin = () => {
-    setIsAuthenticated(true);
+  const handleLogin = async () => {
+    if (!username || !password) {
+      setError("Brukernavn og passord er påkrevd");
+      return;
+    }
+    setError(null);
+    try {
+      await login(username, password);
+    } catch {
+      setError("Innlogging feilet. Sjekk brukernavn og passord.");
+    }
   };
 
   const handleLogout = () => {
-    setIsAuthenticated(false);
+    logout();
     setUsername("");
     setPassword("");
   };
@@ -49,7 +60,7 @@ function MobileLogin() {
       className={styles.form}
       onSubmit={(e) => {
         e.preventDefault();
-        handleLogin();
+        void handleLogin();
       }}
     >
       <TextInput
@@ -76,11 +87,10 @@ function MobileLogin() {
           </button>
         }
       />
+      {error && <p>{error}</p>}
       <Button type="submit" className={styles.button}>
         LOGG INN
       </Button>
     </form>
   );
 }
-
-export default MobileLogin;

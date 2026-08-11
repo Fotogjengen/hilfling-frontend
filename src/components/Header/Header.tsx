@@ -11,14 +11,14 @@ import {
   Camera,
   LogOut,
 } from "lucide-react";
-import { useAuth } from "../../contexts/AuthenticationContext";
+import { useAuth } from "../../contexts/AuthProvider";
 import LoginButton from "../Login/LoginButton/LoginButton";
 import { Link } from "@tanstack/react-router";
 import ThemeToggle from "./ThemeToggle/ThemeToggle";
 import LogoIcon from "../Icons/LogoIcon";
 
 export function HeaderComponent() {
-  const { isAuthenticated, jwtPayload } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const [showHamburgerMenu, setShowHamburgerMenu] = useState(false);
   useEffect(() => {
     const handleResize = () => setShowHamburgerMenu(false);
@@ -46,7 +46,7 @@ export function HeaderComponent() {
       icon: Search,
       noAuth: true,
     },
-    ...(isAuthenticated && jwtPayload?.securityLevel === "FG"
+    ...(isAuthenticated && user?.securityLevel === "FG"
       ? [
           {
             name: "INTERNSØK",
@@ -127,12 +127,7 @@ export function HeaderComponent() {
           <Link className={styles.navLink} to="/about">
             Om oss
           </Link>
-          {isAuthenticated && (
-            <Link className={styles.navLink} to="/intern/search">
-              Internsøk
-            </Link>
-          )}
-          {isAuthenticated && jwtPayload?.securityLevel === "FG" && (
+          {isAuthenticated && user?.securityLevel === "FG" && (
             <Link className={styles.navLink} to="/fg">
               FG
             </Link>

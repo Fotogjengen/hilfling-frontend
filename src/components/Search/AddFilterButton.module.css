@@ -1,0 +1,86 @@
+.addFilterButton {
+  padding-top: var(--size-space-150);
+  padding-bottom: var(--size-space-150);
+  background-color: var(--color-background-default-default);
+}
+
+.addFilterButton:hover {
+  background-color: var(--color-background-default-default-hover);
+}
+
+.submenuWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-300);
+  padding: var(--size-space-300);
+  min-width: 18rem;
+}
+
+.subMenuHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--size-space-400);
+}
+
+.submenuNameText {
+  font-weight: var(--typography-weight-bold);
+  color: var(--color-text-default-default);
+}
+
+.resetText {
+  all: unset;
+  cursor: pointer;
+  color: var(--color-text-brand-secondary);
+  text-decoration: underline;
+  font-weight: var(--typography-weight-semibold);
+}
+
+.resetText:hover {
+  color: var(--color-text-brand-hover);
+}
+
+.placeList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-400);
+}
+
+.filterMenu {
+  min-width: 20rem;
+}
+
+.filterMenuHeader {
+  padding: var(--size-space-200) var(--size-space-300) var(--size-space-300);
+}
+
+.triggerContent {
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-300);
+}
+
+.triggerIcon {
+  color: var(--color-icon-default-default);
+  flex-shrink: 0;
+}
+
+.triggerText {
+  display: flex;
+  flex-direction: column;
+}
+
+.triggerName {
+  color: var(--color-text-default-default);
+}
+
+.triggerSummary {
+  font-size: var(--typography-size-100);
+  color: var(--color-text-default-secondary);
+}
+
+.dateFields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-400);
+}

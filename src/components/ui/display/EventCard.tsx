@@ -5,9 +5,11 @@ import styles from "./EventCard.module.css";
 import { MotiveDto, PhotoDto } from "../../../../generated";
 import { useEffect, useMemo, useState } from "react";
 import { ImageOff } from "lucide-react";
+import { useRouter } from "@tanstack/react-router";
 
 type EventCardProps = {
   motive: MotiveDto;
+  size?: "large" | "full";
 };
 
 const MAX_PHOTOS = 4;
@@ -19,7 +21,7 @@ function pickPhotos(photos: PhotoDto[]) {
   return shuffled.slice(0, MAX_PHOTOS);
 }
 
-export default function EventCard({ motive }: EventCardProps) {
+export default function EventCard({ motive, size = "large" }: EventCardProps) {
   const {
     data: goodPictures,
     isPending,
@@ -27,6 +29,7 @@ export default function EventCard({ motive }: EventCardProps) {
   } = useGoodPhotosByMotiveId(motive.motiveId.id);
 
   const photos = useMemo(() => pickPhotos(goodPictures ?? []), [goodPictures]);
+  const { navigate } = useRouter();
 
   const [orientations, setOrientations] = useState<Record<string, Orientation>>(
     {},
@@ -69,6 +72,7 @@ export default function EventCard({ motive }: EventCardProps) {
   const [unsupportedLayout, setUnsupportedLayout] = useState(false);
 
   useEffect(() => {
+    if (photos.length === 0) return;
     if (loadedImages.length < Math.min(MAX_PHOTOS, photos.length)) return;
 
     const standing = loadedImages.filter((i) => i.orientation === "Standing");
@@ -143,7 +147,7 @@ export default function EventCard({ motive }: EventCardProps) {
   }, [loadedImages, photos]);
 
   if (isPending) {
-    return <EventCardSkeleton />;
+    return <EventCardSkeleton size={size} />;
   }
 
   if (isError) {
@@ -151,9 +155,19 @@ export default function EventCard({ motive }: EventCardProps) {
   }
 
   return (
-    <div className={styles.wrapper}>
+    <div
+      className={`${styles.wrapper} ${styles[size]}`}
+      onClick={() =>
+        void navigate({
+          to: "/motive/$motiveId",
+          params: {
+            motiveId: motive.motiveId.id,
+          },
+        })
+      }
+    >
       <div className={styles.photoGridWrapper}>
-        {unsupportedLayout && (
+        {(unsupportedLayout || photos.length === 0) && (
           <div className={styles.photoPlaceholder}>
             <ImageOff className={styles.placeholderIcon} />
           </div>
@@ -185,9 +199,9 @@ export default function EventCard({ motive }: EventCardProps) {
   );
 }
 
-export function EventCardSkeleton() {
+export function EventCardSkeleton({ size }: { size: EventCardProps["size"] }) {
   return (
-    <div className={styles.wrapper}>
+    <div className={`${styles.wrapper} ${styles[size!]}`}>
       <div className={`${styles.skeletonPhoto} skeleton`} />
       <div className={styles.skeletonFooter}>
         <div className={`${styles.skeletonTitle} skeleton`} />

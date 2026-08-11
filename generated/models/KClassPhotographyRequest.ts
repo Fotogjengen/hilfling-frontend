@@ -9,12 +9,12 @@ import type { KType } from "./KType";
 import type { KTypeParameter } from "./KTypeParameter";
 import type { PhotographyRequest } from "./PhotographyRequest";
 export type KClassPhotographyRequest = {
+  isValue: boolean;
   visibility?: KClassPhotographyRequest.visibility;
   sealedSubclasses: Array<KClassPhotographyRequest>;
   isInner: boolean;
-  isCompanion: boolean;
   isFun: boolean;
-  isValue: boolean;
+  isCompanion: boolean;
   qualifiedName?: string;
   members: Array<KCallableObject>;
   nestedClasses: Array<KClassObject>;

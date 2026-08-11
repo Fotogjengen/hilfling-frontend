@@ -21,6 +21,13 @@ export const useMotives = () => {
   });
 };
 
+export const useAllMotives = () => {
+  return useQuery({
+    queryKey: ["motives", "all"],
+    queryFn: () => MotiveApi.getAll().then((res) => res.data.currentList),
+  });
+};
+
 export const useMotiveSearch = (searchTerm: string) => {
   return useInfiniteQuery({
     queryKey: ["motives", "search", searchTerm],

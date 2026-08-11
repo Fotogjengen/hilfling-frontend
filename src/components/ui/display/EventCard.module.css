@@ -5,8 +5,16 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
+}
+
+.large {
   width: 25rem;
   flex-shrink: 0;
+}
+
+.full {
+  width: 100%;
 }
 
 .photoGridWrapper {

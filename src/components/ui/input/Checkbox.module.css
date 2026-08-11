@@ -3,11 +3,16 @@
   flex-direction: row;
   align-items: flex-start;
   gap: var(--size-space-300);
+  cursor: pointer;
+}
+
+.wrapper:has([data-disabled]) {
+  cursor: not-allowed;
 }
 
 .checkbox {
-  width: var(--size-space-600);
-  height: var(--size-space-600);
+  width: 1.25rem;
+  height: 1.25rem;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -40,8 +45,8 @@
 }
 
 .indicator svg {
-  width: var(--size-space-400);
-  height: var(--size-space-400);
+  width: 1rem;
+  height: 1rem;
 }
 
 .checkbox[data-state="checked"][data-disabled],
@@ -67,7 +72,7 @@
   color: var(--color-text-default-default);
   font-size: var(--typography-body-size-medium);
   font-weight: var(--typography-body-font-weight-regular);
-  line-height: var(--size-space-600);
+  line-height: 1.25rem;
 }
 
 .description {

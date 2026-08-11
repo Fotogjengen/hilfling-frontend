@@ -1,5 +1,5 @@
 import { useFieldContext } from "@/utils/form/FormContext";
-import { CheckboxField } from "../input/Checkbox";
+import { Checkbox } from "../input/Checkbox";
 
 interface FormCheckboxProps {
   label?: string;
@@ -10,7 +10,7 @@ export function FormCheckbox({ label, description }: FormCheckboxProps) {
   const field = useFieldContext<boolean>();
 
   return (
-    <CheckboxField
+    <Checkbox
       label={label}
       description={description}
       checked={field.state.value}

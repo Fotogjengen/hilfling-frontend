@@ -13,14 +13,18 @@ export const Route = createFileRoute("/")({
 function RouteComponent() {
   const navigate = useNavigate({ from: "/" });
 
-  const handlePhotoPress = (page: number, positionInPage: number) => {
+  const handlePhotoPress = (
+    page: number,
+    positionInPage: number,
+    photoId: string,
+  ) => {
     void navigate({
       search: (prev) => ({
         ...prev,
         photoViewModal: {
-          modalType: "goodPictures" as const,
-          page,
-          positionInPage,
+          modalType: "goodPhotos" as const,
+          likelyAt: { page, pos: positionInPage },
+          photoId,
         },
       }),
       resetScroll: false,

@@ -1,0 +1,58 @@
+.content {
+  min-width: 180px;
+  background-color: var(--color-background-default-default);
+  border: var(--size-stroke-border) solid var(--color-border-default-default);
+  border-radius: var(--size-radius-200);
+  box-shadow: 0 var(--size-depth-100) var(--size-depth-200) 0
+    var(--color-black-200);
+  padding: var(--size-space-200);
+  overflow: hidden;
+  z-index: 100;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-200);
+  padding: var(--size-space-300) var(--size-space-300);
+  font-size: var(--typography-body-size-medium);
+  color: var(--color-text-default-default);
+  border-radius: var(--size-radius-100);
+  cursor: pointer;
+  outline: none;
+  user-select: none;
+}
+
+.item[data-highlighted] {
+  background-color: var(--color-background-default-secondary);
+}
+
+.item[data-disabled] {
+  color: var(--color-text-disabled-default);
+  cursor: not-allowed;
+}
+
+.subTrigger {
+  justify-content: space-between;
+}
+
+.subTrigger[data-state="open"] {
+  background-color: var(--color-background-default-secondary);
+}
+
+.subChevron {
+  color: var(--color-icon-default-default);
+  flex-shrink: 0;
+}
+
+.label {
+  padding: var(--size-space-300) var(--size-space-300);
+  font-size: var(--typography-body-size-small);
+  color: var(--color-text-default-tertiary);
+}
+
+.separator {
+  height: var(--size-stroke-border);
+  background-color: var(--color-border-default-default);
+  margin: var(--size-space-200) 0;
+}

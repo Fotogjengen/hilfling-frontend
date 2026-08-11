@@ -3,17 +3,18 @@ import styles from "./TextInput.module.css";
 import { forwardRef, InputHTMLAttributes, ReactNode } from "react";
 
 interface TextInputProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, "className"> {
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, "className" | "prefix"> {
   label?: string;
   error?: string;
   hint?: string;
   className?: string;
+  prefix?: ReactNode;
   suffix?: ReactNode;
 }
 
 export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
   function TextInput(
-    { label, error, hint, className, id, suffix, ...props },
+    { label, error, hint, className, id, prefix, suffix, ...props },
     ref,
   ) {
     const inputId = id ?? `text-input-${props.name}`;
@@ -30,18 +31,17 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
             {label}
           </Label.Root>
         )}
-        <div className={styles.inputRow}>
+        <div
+          className={[styles.inputRow, error ? styles.inputRowError : null]
+            .filter(Boolean)
+            .join(" ")}
+        >
+          {prefix && <div className={styles.prefix}>{prefix}</div>}
           <input
             ref={ref}
             id={inputId}
             autoComplete="off"
-            className={[
-              styles.input,
-              error ? styles.inputError : null,
-              suffix ? styles.inputWithSuffix : null,
-            ]
-              .filter(Boolean)
-              .join(" ")}
+            className={styles.input}
             aria-invalid={!!error}
             aria-describedby={describedBy}
             {...props}

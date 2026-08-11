@@ -1,19 +1,14 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import LoginPopUp from "../LoginPopUp/LoginPopUp";
-import { AuthenticationContext } from "../../../contexts/AuthenticationContext";
+import { useAuth } from "../../../contexts/AuthProvider";
 import styles from "./LoginButton.module.css";
-import Cookies from "js-cookie";
 
 const LoginButton = () => {
-  const { isAuthenticated, setIsAuthenticated } = useContext(
-    AuthenticationContext,
-  );
+  const { isAuthenticated, logout } = useAuth();
   const [loginForm, setLoginForm] = useState(false);
 
   const handleLogout = () => {
-    Cookies.remove("fgToken");
-    Cookies.remove("fgBasicAuth");
-    setIsAuthenticated(false);
+    logout();
   };
 
   return (

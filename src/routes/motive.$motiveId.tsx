@@ -1,68 +1,91 @@
-import {
-  createFileRoute,
-  useNavigate,
-  useRouter,
-} from "@tanstack/react-router";
-import { PhotoDto } from "@/../generated";
-import { useState, useEffect } from "react";
-import { PhotoApi } from "@/utils/api/PhotoApi";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { format } from "date-fns";
+import { nb } from "date-fns/locale";
+import { MotiveDto } from "@/../generated";
+import { usePhotosByMotiveId } from "@/hooks/photo";
+import PhotoMosaic from "@/components/PhotoMosaic/PhotoMosaic";
 import styles from "./motive.module.css";
-import GridImageViewer from "@/components/ImageViewer/GridImageViewer";
 
 export const Route = createFileRoute("/motive/$motiveId")({
-  component: MotiveHeader,
+  component: MotivePage,
 });
 
-function MotiveHeader() {
-  const [photoResponse, setPhotoResponse] = useState<PhotoDto[]>([]);
-  const { motiveId: id } = Route.useParams();
-  const navigate = useNavigate();
-  const router = useRouter();
+function formatMotiveDate(dateStr: string): string {
+  const formatted = format(new Date(dateStr), "EEEE d. MMMM yyyy", {
+    locale: nb,
+  });
+  return formatted.charAt(0).toUpperCase() + formatted.slice(1);
+}
 
-  useEffect(() => {
-    if (id) {
-      PhotoApi.getAllByMotiveId(id)
-        .then((res) => setPhotoResponse(res))
-        .catch((e) => console.log(e));
-    }
-  }, []);
-
-  const handleBackClick = () => {
-    if (window.history.length > 1) {
-      router.history.back();
-      return;
-    }
-
-    void navigate({ to: "/" });
-  };
+function MotiveHeader({ motive }: { motive: MotiveDto }) {
+  const subtitleParts = [
+    motive.categoryDto.name,
+    motive.placeDto.name,
+    formatMotiveDate(motive.date),
+  ].filter(Boolean);
 
   return (
-    <div className={styles.backgroundFlex}>
-      <div className={styles.imageHeader}>
-        <button onClick={handleBackClick} className={styles.backButton}>
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M19 12H5M12 19l-7-7 7-7" />
-          </svg>
-        </button>
-        <p className={styles.headerText}>
-          {photoResponse[0] != null
-            ? photoResponse[0].motive.title
-            : "No images Found"}
-        </p>
-        <hr className={styles.hr} />
+    <div className={styles.header}>
+      <h1 className={styles.title}>{motive.title}</h1>
+      <div className={styles.subtitle}>
+        {subtitleParts.map((part, i) => (
+          <span key={i}>{part}</span>
+        ))}
       </div>
-      <GridImageViewer photos={photoResponse} />
     </div>
   );
 }
 
-export default MotiveHeader;
+function MotiveHeaderSkeleton() {
+  return (
+    <div className={styles.header}>
+      <div className={`${styles.titleSkeleton} skeleton`} />
+      <div className={`${styles.subtitleSkeleton} skeleton`} />
+    </div>
+  );
+}
+
+function MotivePage() {
+  const { motiveId } = Route.useParams();
+  const navigate = useNavigate({ from: "/motive/$motiveId" });
+  const { data: photos, isPending, isError } = usePhotosByMotiveId(motiveId);
+
+  const motive = photos?.[0]?.motive;
+
+  const openPhoto = (photoId: string) => {
+    void navigate({
+      search: (prev) => ({
+        ...prev,
+        photoViewModal: {
+          modalType: "searchMotive" as const,
+          motiveId,
+          photoId,
+        },
+      }),
+      resetScroll: false,
+    });
+  };
+
+  return (
+    <div className={styles.page}>
+      {motive ? (
+        <MotiveHeader motive={motive} />
+      ) : isPending ? (
+        <MotiveHeaderSkeleton />
+      ) : null}
+
+      {isError ? (
+        <p className={styles.message}>Kunne ikke hente bilder.</p>
+      ) : !isPending && (!photos || photos.length === 0) ? (
+        <p className={styles.message}>Fant ingen bilder.</p>
+      ) : (
+        <PhotoMosaic
+          photos={photos ?? []}
+          isLoading={isPending}
+          onPhotoPress={(photo) => openPhoto(photo.photoId.id)}
+          hideMotiveLink
+        />
+      )}
+    </div>
+  );
+}

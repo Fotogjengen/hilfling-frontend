@@ -1,0 +1,5 @@
+.trigger {
+  height: 2rem;
+  padding-top: var(--size-space-100);
+  padding-bottom: var(--size-space-100);
+}

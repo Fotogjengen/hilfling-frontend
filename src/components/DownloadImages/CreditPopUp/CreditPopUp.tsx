@@ -3,35 +3,21 @@ import { Button } from "@/components/ui/input/Button";
 import { Dialog } from "@/components/ui/overlay/Dialog";
 
 interface Props {
-  setTriggerCreditPopUp: React.Dispatch<React.SetStateAction<boolean>>;
-  setcreditAccepted: React.Dispatch<React.SetStateAction<boolean>>;
+  onAccept: () => void;
+  onAbort: () => void;
   isAuthenticated: boolean;
 }
 
-function CreditPopUp({
-  setTriggerCreditPopUp,
-  setcreditAccepted,
-  isAuthenticated,
-}: Props) {
-  const handleAccept = () => {
-    setcreditAccepted(true);
-    setTriggerCreditPopUp(false);
-  };
-
-  const handleAbort = () => {
-    setcreditAccepted(false);
-    setTriggerCreditPopUp(false);
-  };
-
+function CreditPopUp({ onAccept, onAbort, isAuthenticated }: Props) {
   return (
     <Dialog
       open
       onOpenChange={(open) => {
-        if (!open) handleAbort();
+        if (!open) onAbort();
       }}
       title="Husk kreditering!"
       actions={
-        <Button onClick={handleAccept} className={styles.OKbuttonStyle}>
+        <Button onClick={onAccept} className={styles.OKbuttonStyle}>
           OK!
         </Button>
       }

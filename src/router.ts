@@ -12,7 +12,7 @@ export const router = createRouter({
   context: {
     auth: {
       isAuthenticated: false,
-      jwtPayload: null,
+      user: null,
     },
   },
 });

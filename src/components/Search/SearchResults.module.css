@@ -1,0 +1,13 @@
+.message {
+  text-align: center;
+  padding: var(--size-space-800);
+  color: var(--color-text-default-secondary);
+  font-family: var(--typography-family-sans);
+}
+
+/* Centers the spinner shown while the next page loads. */
+.spinner {
+  display: flex;
+  justify-content: center;
+  padding: var(--size-space-400);
+}

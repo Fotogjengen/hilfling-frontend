@@ -1,13 +1,13 @@
 import { useRef } from "react";
-import { useFlatGoodPhotos } from "@/hooks/photo";
 import { PhotoDto } from "../../../generated";
 import {
+  GalleryPagination,
   useCenterSelectedPhoto,
   useLoaderScrollCompensation,
   usePageLoadSentinels,
   usePrependScrollCompensation,
 } from "./scrollHooks";
-import styles from "./PhotoViewModal.module.css";
+import styles from "./PhotoViewBottomStrip.module.css";
 
 const INITIAL_SKELETON_COUNT = 8;
 const PAGE_SKELETON_COUNT = 3;
@@ -24,20 +24,18 @@ function StripSkeletons({ count }: { count: number }) {
 
 /** Horizontal thumbnail strip shown below the main photo on mobile. */
 export function PhotoViewBottomStrip({
+  photos,
+  pagination,
+  firstLoadedPage,
   selectedPhoto,
-  initialPage,
   onSelectPhoto,
 }: {
+  photos: PhotoDto[];
+  pagination: GalleryPagination;
+  firstLoadedPage: number | undefined;
   selectedPhoto?: PhotoDto;
-  initialPage: number;
   onSelectPhoto: (photo: PhotoDto) => void;
 }) {
-  const {
-    data: goodPhotos,
-    photos,
-    ...pagination
-  } = useFlatGoodPhotos(initialPage);
-
   const containerRef = useRef<HTMLDivElement>(null);
   const leftLoaderRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef(new Map<string, HTMLDivElement>());
@@ -52,7 +50,7 @@ export function PhotoViewBottomStrip({
     itemRefs,
     "horizontal",
     photos,
-    goodPhotos?.pages[0]?.page,
+    firstLoadedPage,
     shiftScrollBy,
   );
   useLoaderScrollCompensation(leftLoaderRef, "horizontal", shiftScrollBy);

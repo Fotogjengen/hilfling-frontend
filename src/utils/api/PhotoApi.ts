@@ -1,5 +1,9 @@
 import { api } from "./api";
-import { PhotoDto, PhotoGoodPictureToggleRequestDto } from "../../../generated";
+import {
+  PhotoDto,
+  PhotoGoodPictureToggleRequestDto,
+  PhotoPositionDto,
+} from "../../../generated";
 import { PaginatedResult, PaginatedResultData } from "./types";
 import { AxiosProgressEvent } from "axios";
 
@@ -91,6 +95,17 @@ export const PhotoApi = {
   ): Promise<PaginatedResultData<PhotoDto>> {
     return api
       .get("/photos/good-pictures", { params: { page, pageSize } })
+      .then((res) => res.data);
+  },
+
+  getGoodPhotoPosition: async function (
+    photoId: string,
+    pageSize?: number,
+  ): Promise<PhotoPositionDto> {
+    return api
+      .get(`/photos/good-pictures/${photoId}/position`, {
+        params: { pageSize },
+      })
       .then((res) => res.data);
   },
 

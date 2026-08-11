@@ -14,6 +14,12 @@ html {
   scrollbar-gutter: stable;
 }
 
+/* Fixes radix dialog layout shift with scrollbar-gutter: stable */
+html body[data-scroll-locked] {
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+}
+
 body {
   background-color: var(--color-background-default-default);
   color: var(--color-text-default-default);

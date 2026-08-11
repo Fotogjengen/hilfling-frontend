@@ -44,7 +44,7 @@
 }
 
 .neutral:hover {
-  background-color: var(--color-background-neutral-hover);
+  background-color: var(--color-background-default-secondary-hover);
 }
 
 .neutral:disabled {

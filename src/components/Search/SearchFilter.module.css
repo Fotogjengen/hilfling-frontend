@@ -1,0 +1,27 @@
+.searchFilter {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--size-space-150);
+  height: 2rem;
+  padding: 0 var(--size-space-400);
+  background: var(--color-background-brand-tertiary);
+  border-radius: var(--size-radius-200);
+  cursor: pointer;
+  font-weight: var(--typography-weight-semibold);
+  color: var(--color-text-brand-default);
+  width: fit-content;
+  user-select: none;
+}
+
+.searchFilter:hover {
+  background: var(--color-background-brand-tertiary-hover);
+}
+
+.searchFilter.selected:hover {
+  text-decoration: line-through;
+}
+
+.icon {
+  color: var(--color-icon-brand-secondary);
+  flex-shrink: 0;
+}

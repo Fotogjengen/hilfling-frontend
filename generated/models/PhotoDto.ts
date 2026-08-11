@@ -14,11 +14,11 @@ export type PhotoDto = {
   imageNumber: number;
   pageNumber: number;
   imageProd?: string;
-  imageWeb: string;
+  imageWeb?: string;
   imageThumb: string;
   motive: MotiveDto;
   securityLevel: SecurityLevelDto;
   gang?: GangDto;
   photoGangBangerDto: PhotoGangBangerDto;
-  dateTaken: string;
+  dateUploaded: string;
 };
