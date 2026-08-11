@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import styles from "./Header.module.css";
 import {
-  Image,
   Menu,
   X,
   Info,
@@ -28,12 +27,6 @@ export function HeaderComponent() {
 
   //TODO: change this to use NavLink instead! https://reactrouter.com/start/framework/navigating
   const menuLinks = [
-    {
-      name: "BILDER",
-      to: "/photos",
-      icon: Image,
-      noAuth: true,
-    },
     {
       name: "OM OSS",
       to: "/about",
@@ -118,9 +111,6 @@ export function HeaderComponent() {
       </div>
       <div className={styles.navContainer}>
         <div className={styles.navList}>
-          <Link className={styles.navLink} to="/photos">
-            Bilder
-          </Link>
           <Link className={styles.navLink} to="/search">
             Søk
           </Link>

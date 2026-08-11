@@ -11,7 +11,10 @@ export default function RecentEvents() {
   if (isPending) {
     return (
       <section className={styles.section}>
-        <SectionHeader title="Nylige arrangementer" linkTo="/photos" />
+        <SectionHeader
+          title="Nylige arrangementer"
+          link={{ to: "/search", search: { mode: "events" } }}
+        />
         <div className={styles.scroll}>
           {[1, 2, 3].map((i) => (
             <EventCardSkeleton key={i} size="large" />
@@ -25,7 +28,10 @@ export default function RecentEvents() {
 
   return (
     <section className={styles.section}>
-      <SectionHeader title="Nylige arrangementer" linkTo="/photos" />
+      <SectionHeader
+        title="Nylige arrangementer"
+        link={{ to: "/search", search: { mode: "events" } }}
+      />
       <div className={styles.scroll}>
         {allMotives.map((motive) => (
           <div key={motive.motiveId.id} className={styles.cardWrapper}>

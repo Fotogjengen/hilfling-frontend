@@ -10,7 +10,6 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SearchRouteImport } from './routes/search'
-import { Route as PhotosRouteImport } from './routes/photos'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AboutRouteRouteImport } from './routes/about/route'
 import { Route as FgAuthenticatedRouteRouteImport } from './routes/_fgAuthenticated/route'
@@ -33,11 +32,6 @@ import { Route as FgAuthenticatedFgArchiveBossEditUserUserIdRouteImport } from '
 const SearchRoute = SearchRouteImport.update({
   id: '/search',
   path: '/search',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PhotosRoute = PhotosRouteImport.update({
-  id: '/photos',
-  path: '/photos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -142,7 +136,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRouteRouteWithChildren
   '/login': typeof LoginRoute
-  '/photos': typeof PhotosRoute
   '/search': typeof SearchRoute
   '/about/history': typeof AboutHistoryRoute
   '/about/info': typeof AboutInfoRoute
@@ -162,7 +155,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/photos': typeof PhotosRoute
   '/search': typeof SearchRoute
   '/about/history': typeof AboutHistoryRoute
   '/about/info': typeof AboutInfoRoute
@@ -185,7 +177,6 @@ export interface FileRoutesById {
   '/_fgAuthenticated': typeof FgAuthenticatedRouteRouteWithChildren
   '/about': typeof AboutRouteRouteWithChildren
   '/login': typeof LoginRoute
-  '/photos': typeof PhotosRoute
   '/search': typeof SearchRoute
   '/about/history': typeof AboutHistoryRoute
   '/about/info': typeof AboutInfoRoute
@@ -208,7 +199,6 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/login'
-    | '/photos'
     | '/search'
     | '/about/history'
     | '/about/info'
@@ -228,7 +218,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/login'
-    | '/photos'
     | '/search'
     | '/about/history'
     | '/about/info'
@@ -250,7 +239,6 @@ export interface FileRouteTypes {
     | '/_fgAuthenticated'
     | '/about'
     | '/login'
-    | '/photos'
     | '/search'
     | '/about/history'
     | '/about/info'
@@ -273,7 +261,6 @@ export interface RootRouteChildren {
   FgAuthenticatedRouteRoute: typeof FgAuthenticatedRouteRouteWithChildren
   AboutRouteRoute: typeof AboutRouteRouteWithChildren
   LoginRoute: typeof LoginRoute
-  PhotosRoute: typeof PhotosRoute
   SearchRoute: typeof SearchRoute
   MotiveMotiveIdRoute: typeof MotiveMotiveIdRoute
 }
@@ -285,13 +272,6 @@ declare module '@tanstack/react-router' {
       path: '/search'
       fullPath: '/search'
       preLoaderRoute: typeof SearchRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/photos': {
-      id: '/photos'
-      path: '/photos'
-      fullPath: '/photos'
-      preLoaderRoute: typeof PhotosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -479,7 +459,6 @@ const rootRouteChildren: RootRouteChildren = {
   FgAuthenticatedRouteRoute: FgAuthenticatedRouteRouteWithChildren,
   AboutRouteRoute: AboutRouteRouteWithChildren,
   LoginRoute: LoginRoute,
-  PhotosRoute: PhotosRoute,
   SearchRoute: SearchRoute,
   MotiveMotiveIdRoute: MotiveMotiveIdRoute,
 }
