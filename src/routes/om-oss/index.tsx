@@ -56,8 +56,8 @@ function AboutTab() {
         <h2>Historie</h2>
         <p>
           I Finansstyremøtet den 7. oktober 1958 ble det bestemt at Fotogjengen
-          (FG) skulle være en «gjeng» i Huset, underlagt Finansstyret. Barnet var
-          imidlertid nær konfirmasjonsalderen ved fødselen. Det første
+          (FG) skulle være en «gjeng» i Huset, underlagt Finansstyret. Barnet
+          var imidlertid nær konfirmasjonsalderen ved fødselen. Det første
           organiserte studentlynlys i Storsalen ble nemlig avfyrt under
           lørdagsmøtet 16. mars 1946. En liten gruppe utgått fra Studentenes
           Kameraklubb (S.K.) hadde fått Styrets tillatelse til å illustrere en
@@ -74,7 +74,8 @@ function AboutTab() {
           derfor favne alt foto- og filmarbeid utført av Samfundsmedlemmer i
           Samfundets regi. Det er naturlig å skille mellom filmarbeid og
           stillbildefotografering. Plassen tillater dessverre ingen spontane
-          skildringer fra FGs liv, og bildematerialet som vises er rent symbolsk.
+          skildringer fra FGs liv, og bildematerialet som vises er rent
+          symbolsk.
         </p>
 
         <h3>Hvem var Hilfling?</h3>
