@@ -263,7 +263,10 @@ function PhotoMetadata({
         <p className={styles.metadataCredit}>
           Alle bilder tatt av Fotogjengen skal krediteres med «Foto:
           foto.samfundet.no».
-          <RouterLink to="/about/info" className={styles.metadataCreditLink}>
+          <RouterLink
+            to="/om-oss/bruk-av-bilder"
+            className={styles.metadataCreditLink}
+          >
             Les mer om bruk av bilder
           </RouterLink>
         </p>

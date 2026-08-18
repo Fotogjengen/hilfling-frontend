@@ -12,13 +12,13 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as PhotosRouteImport } from './routes/photos'
 import { Route as LoginRouteImport } from './routes/login'
-import { Route as AboutRouteRouteImport } from './routes/about/route'
+import { Route as OmOssRouteRouteImport } from './routes/om-oss/route'
 import { Route as FgAuthenticatedRouteRouteImport } from './routes/_fgAuthenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as AboutIndexRouteImport } from './routes/about/index'
+import { Route as OmOssIndexRouteImport } from './routes/om-oss/index'
+import { Route as OmOssBrukAvBilderRouteImport } from './routes/om-oss/bruk-av-bilder'
+import { Route as OmOssBestillingRouteImport } from './routes/om-oss/bestilling'
 import { Route as MotiveMotiveIdRouteImport } from './routes/motive.$motiveId'
-import { Route as AboutInfoRouteImport } from './routes/about/info'
-import { Route as AboutHistoryRouteImport } from './routes/about/history'
 import { Route as FgAuthenticatedFgIndexRouteImport } from './routes/_fgAuthenticated/fg/index'
 import { Route as FgAuthenticatedFgUploadRouteImport } from './routes/_fgAuthenticated/fg/upload'
 import { Route as FgAuthenticatedFgProfileRouteImport } from './routes/_fgAuthenticated/fg/profile'
@@ -45,9 +45,9 @@ const LoginRoute = LoginRouteImport.update({
   path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AboutRouteRoute = AboutRouteRouteImport.update({
-  id: '/about',
-  path: '/about',
+const OmOssRouteRoute = OmOssRouteRouteImport.update({
+  id: '/om-oss',
+  path: '/om-oss',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FgAuthenticatedRouteRoute = FgAuthenticatedRouteRouteImport.update({
@@ -59,25 +59,25 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AboutIndexRoute = AboutIndexRouteImport.update({
+const OmOssIndexRoute = OmOssIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => AboutRouteRoute,
+  getParentRoute: () => OmOssRouteRoute,
+} as any)
+const OmOssBrukAvBilderRoute = OmOssBrukAvBilderRouteImport.update({
+  id: '/bruk-av-bilder',
+  path: '/bruk-av-bilder',
+  getParentRoute: () => OmOssRouteRoute,
+} as any)
+const OmOssBestillingRoute = OmOssBestillingRouteImport.update({
+  id: '/bestilling',
+  path: '/bestilling',
+  getParentRoute: () => OmOssRouteRoute,
 } as any)
 const MotiveMotiveIdRoute = MotiveMotiveIdRouteImport.update({
   id: '/motive/$motiveId',
   path: '/motive/$motiveId',
   getParentRoute: () => rootRouteImport,
-} as any)
-const AboutInfoRoute = AboutInfoRouteImport.update({
-  id: '/info',
-  path: '/info',
-  getParentRoute: () => AboutRouteRoute,
-} as any)
-const AboutHistoryRoute = AboutHistoryRouteImport.update({
-  id: '/history',
-  path: '/history',
-  getParentRoute: () => AboutRouteRoute,
 } as any)
 const FgAuthenticatedFgIndexRoute = FgAuthenticatedFgIndexRouteImport.update({
   id: '/fg/',
@@ -140,14 +140,14 @@ const FgAuthenticatedFgArchiveBossEditUserUserIdRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/about': typeof AboutRouteRouteWithChildren
+  '/om-oss': typeof OmOssRouteRouteWithChildren
   '/login': typeof LoginRoute
   '/photos': typeof PhotosRoute
   '/search': typeof SearchRoute
-  '/about/history': typeof AboutHistoryRoute
-  '/about/info': typeof AboutInfoRoute
   '/motive/$motiveId': typeof MotiveMotiveIdRoute
-  '/about/': typeof AboutIndexRoute
+  '/om-oss/bestilling': typeof OmOssBestillingRoute
+  '/om-oss/bruk-av-bilder': typeof OmOssBrukAvBilderRoute
+  '/om-oss/': typeof OmOssIndexRoute
   '/fg/profile': typeof FgAuthenticatedFgProfileRoute
   '/fg/upload': typeof FgAuthenticatedFgUploadRoute
   '/fg/': typeof FgAuthenticatedFgIndexRoute
@@ -164,10 +164,10 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/photos': typeof PhotosRoute
   '/search': typeof SearchRoute
-  '/about/history': typeof AboutHistoryRoute
-  '/about/info': typeof AboutInfoRoute
   '/motive/$motiveId': typeof MotiveMotiveIdRoute
-  '/about': typeof AboutIndexRoute
+  '/om-oss/bestilling': typeof OmOssBestillingRoute
+  '/om-oss/bruk-av-bilder': typeof OmOssBrukAvBilderRoute
+  '/om-oss': typeof OmOssIndexRoute
   '/fg/profile': typeof FgAuthenticatedFgProfileRoute
   '/fg/upload': typeof FgAuthenticatedFgUploadRoute
   '/fg': typeof FgAuthenticatedFgIndexRoute
@@ -183,14 +183,14 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_fgAuthenticated': typeof FgAuthenticatedRouteRouteWithChildren
-  '/about': typeof AboutRouteRouteWithChildren
+  '/om-oss': typeof OmOssRouteRouteWithChildren
   '/login': typeof LoginRoute
   '/photos': typeof PhotosRoute
   '/search': typeof SearchRoute
-  '/about/history': typeof AboutHistoryRoute
-  '/about/info': typeof AboutInfoRoute
   '/motive/$motiveId': typeof MotiveMotiveIdRoute
-  '/about/': typeof AboutIndexRoute
+  '/om-oss/bestilling': typeof OmOssBestillingRoute
+  '/om-oss/bruk-av-bilder': typeof OmOssBrukAvBilderRoute
+  '/om-oss/': typeof OmOssIndexRoute
   '/_fgAuthenticated/fg/profile': typeof FgAuthenticatedFgProfileRoute
   '/_fgAuthenticated/fg/upload': typeof FgAuthenticatedFgUploadRoute
   '/_fgAuthenticated/fg/': typeof FgAuthenticatedFgIndexRoute
@@ -206,14 +206,14 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/about'
+    | '/om-oss'
     | '/login'
     | '/photos'
     | '/search'
-    | '/about/history'
-    | '/about/info'
     | '/motive/$motiveId'
-    | '/about/'
+    | '/om-oss/bestilling'
+    | '/om-oss/bruk-av-bilder'
+    | '/om-oss/'
     | '/fg/profile'
     | '/fg/upload'
     | '/fg/'
@@ -230,10 +230,10 @@ export interface FileRouteTypes {
     | '/login'
     | '/photos'
     | '/search'
-    | '/about/history'
-    | '/about/info'
     | '/motive/$motiveId'
-    | '/about'
+    | '/om-oss/bestilling'
+    | '/om-oss/bruk-av-bilder'
+    | '/om-oss'
     | '/fg/profile'
     | '/fg/upload'
     | '/fg'
@@ -248,14 +248,14 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_fgAuthenticated'
-    | '/about'
+    | '/om-oss'
     | '/login'
     | '/photos'
     | '/search'
-    | '/about/history'
-    | '/about/info'
     | '/motive/$motiveId'
-    | '/about/'
+    | '/om-oss/bestilling'
+    | '/om-oss/bruk-av-bilder'
+    | '/om-oss/'
     | '/_fgAuthenticated/fg/profile'
     | '/_fgAuthenticated/fg/upload'
     | '/_fgAuthenticated/fg/'
@@ -271,7 +271,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FgAuthenticatedRouteRoute: typeof FgAuthenticatedRouteRouteWithChildren
-  AboutRouteRoute: typeof AboutRouteRouteWithChildren
+  OmOssRouteRoute: typeof OmOssRouteRouteWithChildren
   LoginRoute: typeof LoginRoute
   PhotosRoute: typeof PhotosRoute
   SearchRoute: typeof SearchRoute
@@ -301,11 +301,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteRouteImport
+    '/om-oss': {
+      id: '/om-oss'
+      path: '/om-oss'
+      fullPath: '/om-oss'
+      preLoaderRoute: typeof OmOssRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_fgAuthenticated': {
@@ -322,12 +322,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/about/': {
-      id: '/about/'
+    '/om-oss/': {
+      id: '/om-oss/'
       path: '/'
-      fullPath: '/about/'
-      preLoaderRoute: typeof AboutIndexRouteImport
-      parentRoute: typeof AboutRouteRoute
+      fullPath: '/om-oss/'
+      preLoaderRoute: typeof OmOssIndexRouteImport
+      parentRoute: typeof OmOssRouteRoute
+    }
+    '/om-oss/bruk-av-bilder': {
+      id: '/om-oss/bruk-av-bilder'
+      path: '/bruk-av-bilder'
+      fullPath: '/om-oss/bruk-av-bilder'
+      preLoaderRoute: typeof OmOssBrukAvBilderRouteImport
+      parentRoute: typeof OmOssRouteRoute
+    }
+    '/om-oss/bestilling': {
+      id: '/om-oss/bestilling'
+      path: '/bestilling'
+      fullPath: '/om-oss/bestilling'
+      preLoaderRoute: typeof OmOssBestillingRouteImport
+      parentRoute: typeof OmOssRouteRoute
     }
     '/motive/$motiveId': {
       id: '/motive/$motiveId'
@@ -335,20 +349,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/motive/$motiveId'
       preLoaderRoute: typeof MotiveMotiveIdRouteImport
       parentRoute: typeof rootRouteImport
-    }
-    '/about/info': {
-      id: '/about/info'
-      path: '/info'
-      fullPath: '/about/info'
-      preLoaderRoute: typeof AboutInfoRouteImport
-      parentRoute: typeof AboutRouteRoute
-    }
-    '/about/history': {
-      id: '/about/history'
-      path: '/history'
-      fullPath: '/about/history'
-      preLoaderRoute: typeof AboutHistoryRouteImport
-      parentRoute: typeof AboutRouteRoute
     }
     '/_fgAuthenticated/fg/': {
       id: '/_fgAuthenticated/fg/'
@@ -458,26 +458,26 @@ const FgAuthenticatedRouteRouteChildren: FgAuthenticatedRouteRouteChildren = {
 const FgAuthenticatedRouteRouteWithChildren =
   FgAuthenticatedRouteRoute._addFileChildren(FgAuthenticatedRouteRouteChildren)
 
-interface AboutRouteRouteChildren {
-  AboutHistoryRoute: typeof AboutHistoryRoute
-  AboutInfoRoute: typeof AboutInfoRoute
-  AboutIndexRoute: typeof AboutIndexRoute
+interface OmOssRouteRouteChildren {
+  OmOssBestillingRoute: typeof OmOssBestillingRoute
+  OmOssBrukAvBilderRoute: typeof OmOssBrukAvBilderRoute
+  OmOssIndexRoute: typeof OmOssIndexRoute
 }
 
-const AboutRouteRouteChildren: AboutRouteRouteChildren = {
-  AboutHistoryRoute: AboutHistoryRoute,
-  AboutInfoRoute: AboutInfoRoute,
-  AboutIndexRoute: AboutIndexRoute,
+const OmOssRouteRouteChildren: OmOssRouteRouteChildren = {
+  OmOssBestillingRoute: OmOssBestillingRoute,
+  OmOssBrukAvBilderRoute: OmOssBrukAvBilderRoute,
+  OmOssIndexRoute: OmOssIndexRoute,
 }
 
-const AboutRouteRouteWithChildren = AboutRouteRoute._addFileChildren(
-  AboutRouteRouteChildren,
+const OmOssRouteRouteWithChildren = OmOssRouteRoute._addFileChildren(
+  OmOssRouteRouteChildren,
 )
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FgAuthenticatedRouteRoute: FgAuthenticatedRouteRouteWithChildren,
-  AboutRouteRoute: AboutRouteRouteWithChildren,
+  OmOssRouteRoute: OmOssRouteRouteWithChildren,
   LoginRoute: LoginRoute,
   PhotosRoute: PhotosRoute,
   SearchRoute: SearchRoute,

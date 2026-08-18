@@ -36,7 +36,7 @@ export function HeaderComponent() {
     },
     {
       name: "OM OSS",
-      to: "/about",
+      to: "/om-oss",
       icon: Info,
       noAuth: true,
     },
@@ -124,7 +124,7 @@ export function HeaderComponent() {
           <Link className={styles.navLink} to="/search">
             Søk
           </Link>
-          <Link className={styles.navLink} to="/about">
+          <Link className={styles.navLink} to="/om-oss">
             Om oss
           </Link>
           {isAuthenticated && user?.securityLevel === "FG" && (
