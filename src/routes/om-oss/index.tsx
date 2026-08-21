@@ -1,8 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useActivePhotoGangBangers, usePangPhotoGangBangers } from "@/hooks/photoGangBangers";
 import { PhotoGangBangerDto } from "../../../generated";
 import PhotoGangBangerPublic from "../../components/About/PhotoGangBangerPublic";
-import { PhotoGangBangerApi } from "../../utils/api/PhotoGangBangerApi";
 import styles from "./om-oss.module.css";
 
 export const Route = createFileRoute("/om-oss/")({
@@ -10,21 +9,9 @@ export const Route = createFileRoute("/om-oss/")({
 });
 
 function AboutTab() {
-  const [activeGangBangers, setActiveGangBangers] = useState<
-    PhotoGangBangerDto[]
-  >([]);
-  const [activePangs, setActivePangs] = useState<PhotoGangBangerDto[]>([]);
+  const { data: activeGangBangers = [] } = useActivePhotoGangBangers();
+  const { data: activePangs = [] } = usePangPhotoGangBangers();
 
-  useEffect(() => {
-    void Promise.all([
-      PhotoGangBangerApi.getAllActivesPublic().then((res) =>
-        setActiveGangBangers(res),
-      ),
-      PhotoGangBangerApi.getAllActivePangsPublic().then((res) =>
-        setActivePangs(res),
-      ),
-    ]).catch((err) => console.log(err));
-  }, []);
 
   const mapUsers = (photoGangBangerDtos: PhotoGangBangerDto[]) => {
     return photoGangBangerDtos.map(
