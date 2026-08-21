@@ -283,8 +283,10 @@
 
 .navigationSubMenuLink:hover .navigationSubMenuLinkTextSubtext,
 .navigationSubMenuLink:focus .navigationSubMenuLinkTextSubtext,
-.navigationSubMenuLink[data-status="active"]:hover .navigationSubMenuLinkTextSubtext,
-.navigationSubMenuLink[data-status="active"]:focus .navigationSubMenuLinkTextSubtext {
+.navigationSubMenuLink[data-status="active"]:hover
+  .navigationSubMenuLinkTextSubtext,
+.navigationSubMenuLink[data-status="active"]:focus
+  .navigationSubMenuLinkTextSubtext {
   color: var(--color-text-brand-on-brand);
 }
 
