@@ -116,7 +116,11 @@ export function NavigationSubMenuLink({
       >
         <Link
           {...link}
-          activeOptions={{ exact: true, includeSearch: false, ...link.activeOptions }}
+          activeOptions={{
+            exact: true,
+            includeSearch: false,
+            ...link.activeOptions,
+          }}
           className={styles.navigationSubMenuLinkWrapper}
         >
           <NavigationSubMenuContent

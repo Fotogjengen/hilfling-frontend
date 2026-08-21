@@ -13,7 +13,7 @@ import {
   NavigationMenuTrigger,
   NavigationSubMenuLink,
 } from "../ui/navigation/NavigationMenu";
-import { Archive, LayoutPanelLeft, LinkIcon, Star, Users } from "lucide-react";
+import { Archive, LayoutPanelLeft, LinkIcon, Star } from "lucide-react";
 
 export default function HeaderComponent() {
   const { isAuthenticated, user } = useAuth();
@@ -80,19 +80,6 @@ export default function HeaderComponent() {
                     Fotoarkivet
                   </NavigationSubMenuLink>
                   <NavigationSubMenuLink
-                    icon={<Users />}
-                    link={{ to: "/fg/upload" }}
-                  >
-                    Fotogjengere
-                  </NavigationSubMenuLink>
-                  <NavigationSubMenuLink
-                    link={{ to: "/fg/upload" }}
-                    subtext="Administrer gjengen"
-                    icon={<Star />}
-                  >
-                    Gjengsjef
-                  </NavigationSubMenuLink>
-                  <NavigationSubMenuLink
                     icon={<Star />}
                     link={{ to: "/fg/archiveBoss" }}
                     subtext="Administrer arkivet"
@@ -102,7 +89,7 @@ export default function HeaderComponent() {
                   <NavigationSubMenuLink
                     icon={<LayoutPanelLeft />}
                     link={{ to: "/fg/projects" }}
-                    subtext="DeNye prosjekter"
+                    subtext="DeNye-prosjekter"
                   >
                     Prosjekter
                   </NavigationSubMenuLink>
