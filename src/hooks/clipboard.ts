@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 export const useCopyToClipboard = () => {
   const [copied, setCopied] = useState(false);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     return () => {
