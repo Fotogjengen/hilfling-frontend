@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useActivePhotoGangBangers, usePangPhotoGangBangers } from "@/hooks/photoGangBangers";
-import { PhotoGangBangerDto } from "../../../generated";
 import PhotoGangBangerPublic from "../../components/About/PhotoGangBangerPublic";
 import styles from "./om-oss.module.css";
 
@@ -11,23 +10,6 @@ export const Route = createFileRoute("/om-oss/")({
 function AboutTab() {
   const { data: activeGangBangers = [] } = useActivePhotoGangBangers();
   const { data: activePangs = [] } = usePangPhotoGangBangers();
-
-
-  const mapUsers = (photoGangBangerDtos: PhotoGangBangerDto[]) => {
-    return photoGangBangerDtos.map(
-      (photoGangBanger: PhotoGangBangerDto, index: number) => (
-        <PhotoGangBangerPublic
-          firstName={photoGangBanger?.firstName || ""}
-          lastName={photoGangBanger?.lastName || ""}
-          // TODO: FIX POSITIONS! They are returned from the backend, but not correct in the api
-          position={""}
-          email={photoGangBanger?.email || ""}
-          image={photoGangBanger?.profilePicture || ""}
-          key={`photo-gang-banger-public-key-${index}`}
-        />
-      ),
-    );
-  };
 
   return (
     <div className={styles.aboutPage}>
@@ -117,14 +99,30 @@ function AboutTab() {
         <div className={styles.aboutMemberGroup}>
           <h2>Aktive fotogjengere</h2>
           <div className={styles.gangBangers}>
-            {activeGangBangers && mapUsers(activeGangBangers)}
+            {activeGangBangers.map((photoGangBanger, index) => (
+              <PhotoGangBangerPublic
+                key={`active-gang-banger-${index}`}
+                firstName={photoGangBanger?.firstName || ""}
+                lastName={photoGangBanger?.lastName || ""}
+                position=""
+                email={photoGangBanger?.email || ""}
+                image={photoGangBanger?.profilePicture || ""}
+              />
+            ))}
           </div>
-        </div>
 
-        <div className={styles.aboutMemberGroup}>
           <h2>Aktive panger</h2>
           <div className={styles.gangBangers}>
-            {activePangs && mapUsers(activePangs)}
+            {activePangs.map((photoGangBanger, index) => (
+              <PhotoGangBangerPublic
+                key={`active-pang-${index}`}
+                firstName={photoGangBanger?.firstName || ""}
+                lastName={photoGangBanger?.lastName || ""}
+                position=""
+                email={photoGangBanger?.email || ""}
+                image={photoGangBanger?.profilePicture || ""}
+              />
+            ))}
           </div>
         </div>
       </section>
