@@ -47,11 +47,11 @@
 }
 
 .navigationMenuTrigger:hover,
-.navigationMenuTrigger:focus,
+.navigationMenuTrigger:focus-visible,
 .navigationMenuTrigger[data-active]:hover,
-.navigationMenuTrigger[data-active]:focus,
+.navigationMenuTrigger[data-active]:focus-visible,
 .navigationMenuTrigger[data-state="open"]:hover,
-.navigationMenuTrigger[data-state="open"]:focus {
+.navigationMenuTrigger[data-state="open"]:focus-visible {
   background: var(--color-background-default-secondary-hover);
 }
 
@@ -115,7 +115,7 @@
 }
 
 .navigationMenuLink:hover,
-.navigationMenuLink:focus {
+.navigationMenuLink:focus-visible {
   background: var(--color-background-default-secondary);
 }
 
@@ -129,7 +129,7 @@
 }
 
 .navigationMenuLink[data-status="active"]:hover,
-.navigationMenuLink[data-status="active"]:focus {
+.navigationMenuLink[data-status="active"]:focus-visible {
   background: var(--color-background-default-secondary-hover);
 }
 
@@ -276,16 +276,16 @@
 }
 
 .navigationSubMenuLink:hover,
-.navigationSubMenuLink:focus {
+.navigationSubMenuLink:focus-visible {
   background: var(--color-background-brand-secondary-hover);
   color: var(--color-text-brand-on-brand);
 }
 
 .navigationSubMenuLink:hover .navigationSubMenuLinkTextSubtext,
-.navigationSubMenuLink:focus .navigationSubMenuLinkTextSubtext,
+.navigationSubMenuLink:focus-visible .navigationSubMenuLinkTextSubtext,
 .navigationSubMenuLink[data-status="active"]:hover
   .navigationSubMenuLinkTextSubtext,
-.navigationSubMenuLink[data-status="active"]:focus
+.navigationSubMenuLink[data-status="active"]:focus-visible
   .navigationSubMenuLinkTextSubtext {
   color: var(--color-text-brand-on-brand);
 }
@@ -295,7 +295,7 @@
 }
 
 .navigationSubMenuLink[data-status="active"]:hover,
-.navigationSubMenuLink[data-status="active"]:focus {
+.navigationSubMenuLink[data-status="active"]:focus-visible {
   background: var(--color-background-brand-secondary-hover);
   color: var(--color-text-brand-on-brand);
 }
