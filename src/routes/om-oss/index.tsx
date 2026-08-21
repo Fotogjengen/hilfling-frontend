@@ -1,5 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useActivePhotoGangBangers, usePangPhotoGangBangers } from "@/hooks/photoGangBangers";
+import {
+  useActivePhotoGangBangers,
+  usePangPhotoGangBangers,
+} from "@/hooks/photoGangBangers";
 import PhotoGangBangerPublic from "../../components/About/PhotoGangBangerPublic";
 import styles from "./om-oss.module.css";
 
