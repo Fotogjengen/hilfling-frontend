@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import styles from "./SearchField.module.css";
 import { useSearchSuggestions } from "@/hooks/search";
 import { useDebounce } from "@/hooks/useDebounce";
@@ -78,8 +78,12 @@ export default function SearchField({
     setSuggestionsDismissed(false);
   }, [inputValue]);
 
+  const prevInputValue = useRef(inputValue);
   useEffect(() => {
-    onQueryChange?.(inputValue);
+    if (prevInputValue.current !== inputValue) {
+      prevInputValue.current = inputValue;
+      onQueryChange?.(inputValue);
+    }
   }, [inputValue]);
 
   const suggestionsOpen =

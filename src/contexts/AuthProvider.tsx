@@ -119,7 +119,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     if (!hasLoadedAuth) return;
     void router.invalidate();
-  }, [isAuthenticated, hasLoadedAuth]);
+  }, [isAuthenticated, hasLoadedAuth, user]);
 
   const value = useMemo(
     () => ({ isAuthenticated, user, login, logout }),

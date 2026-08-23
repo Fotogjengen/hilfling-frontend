@@ -13,7 +13,6 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as FgAuthenticatedRouteRouteImport } from './routes/_fgAuthenticated/route'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as OmOssRouteRouteImport } from './routes/om-oss/route'
-import { Route as PhotosRouteImport } from './routes/photos'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as MotiveMotiveIdRouteImport } from './routes/motive.$motiveId'
 import { Route as OmOssIndexRouteImport } from './routes/om-oss/index'
@@ -47,11 +46,6 @@ const LoginRoute = LoginRouteImport.update({
 const OmOssRouteRoute = OmOssRouteRouteImport.update({
   id: '/om-oss',
   path: '/om-oss',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PhotosRoute = PhotosRouteImport.update({
-  id: '/photos',
-  path: '/photos',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SearchRoute = SearchRouteImport.update({
@@ -142,7 +136,6 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/om-oss': typeof OmOssRouteRouteWithChildren
   '/login': typeof LoginRoute
-  '/photos': typeof PhotosRoute
   '/search': typeof SearchRoute
   '/motive/$motiveId': typeof MotiveMotiveIdRoute
   '/om-oss/bestilling': typeof OmOssBestillingRoute
@@ -162,7 +155,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginRoute
-  '/photos': typeof PhotosRoute
   '/search': typeof SearchRoute
   '/motive/$motiveId': typeof MotiveMotiveIdRoute
   '/om-oss/bestilling': typeof OmOssBestillingRoute
@@ -185,7 +177,6 @@ export interface FileRoutesById {
   '/_fgAuthenticated': typeof FgAuthenticatedRouteRouteWithChildren
   '/om-oss': typeof OmOssRouteRouteWithChildren
   '/login': typeof LoginRoute
-  '/photos': typeof PhotosRoute
   '/search': typeof SearchRoute
   '/motive/$motiveId': typeof MotiveMotiveIdRoute
   '/om-oss/bestilling': typeof OmOssBestillingRoute
@@ -208,7 +199,6 @@ export interface FileRouteTypes {
     | '/'
     | '/om-oss'
     | '/login'
-    | '/photos'
     | '/search'
     | '/motive/$motiveId'
     | '/om-oss/bestilling'
@@ -228,7 +218,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/login'
-    | '/photos'
     | '/search'
     | '/motive/$motiveId'
     | '/om-oss/bestilling'
@@ -250,7 +239,6 @@ export interface FileRouteTypes {
     | '/_fgAuthenticated'
     | '/om-oss'
     | '/login'
-    | '/photos'
     | '/search'
     | '/motive/$motiveId'
     | '/om-oss/bestilling'
@@ -273,7 +261,6 @@ export interface RootRouteChildren {
   FgAuthenticatedRouteRoute: typeof FgAuthenticatedRouteRouteWithChildren
   OmOssRouteRoute: typeof OmOssRouteRouteWithChildren
   LoginRoute: typeof LoginRoute
-  PhotosRoute: typeof PhotosRoute
   SearchRoute: typeof SearchRoute
   MotiveMotiveIdRoute: typeof MotiveMotiveIdRoute
 }
@@ -306,13 +293,6 @@ declare module '@tanstack/react-router' {
       path: '/om-oss'
       fullPath: '/om-oss'
       preLoaderRoute: typeof OmOssRouteRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/photos': {
-      id: '/photos'
-      path: '/photos'
-      fullPath: '/photos'
-      preLoaderRoute: typeof PhotosRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/search': {
@@ -479,7 +459,6 @@ const rootRouteChildren: RootRouteChildren = {
   FgAuthenticatedRouteRoute: FgAuthenticatedRouteRouteWithChildren,
   OmOssRouteRoute: OmOssRouteRouteWithChildren,
   LoginRoute: LoginRoute,
-  PhotosRoute: PhotosRoute,
   SearchRoute: SearchRoute,
   MotiveMotiveIdRoute: MotiveMotiveIdRoute,
 }
