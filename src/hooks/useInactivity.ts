@@ -22,7 +22,9 @@ export const useInactivity = ({
     [overrideListeners],
   );
 
-  const currentTimer = useRef<ReturnType<typeof globalThis.setTimeout>>();
+  const currentTimer = useRef<ReturnType<typeof globalThis.setTimeout> | null>(
+    null,
+  );
   const [isInactive, setIsInactive] = useState(false);
 
   const resetTimer = useCallback(() => {

@@ -1,80 +1,26 @@
-import { useEffect, useState } from "react";
 import styles from "./Header.module.css";
-import {
-  Image,
-  Menu,
-  X,
-  Info,
-  Lock,
-  Search,
-  ScanSearch,
-  Camera,
-  LogOut,
-} from "lucide-react";
 import { useAuth } from "../../contexts/AuthProvider";
 import LoginButton from "../Login/LoginButton/LoginButton";
-import { Link } from "@tanstack/react-router";
+import { Link, useLocation } from "@tanstack/react-router";
 import ThemeToggle from "./ThemeToggle/ThemeToggle";
 import LogoIcon from "../Icons/LogoIcon";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  NavigationSubMenuLink,
+} from "../ui/navigation/NavigationMenu";
+import { Archive, LayoutPanelLeft, LinkIcon, Star } from "lucide-react";
 
-export function HeaderComponent() {
+export default function HeaderComponent() {
   const { isAuthenticated, user } = useAuth();
-  const [showHamburgerMenu, setShowHamburgerMenu] = useState(false);
-  useEffect(() => {
-    const handleResize = () => setShowHamburgerMenu(false);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  //TODO: change this to use NavLink instead! https://reactrouter.com/start/framework/navigating
-  const menuLinks = [
-    {
-      name: "BILDER",
-      to: "/photos",
-      icon: Image,
-      noAuth: true,
-    },
-    {
-      name: "OM OSS",
-      to: "/about",
-      icon: Info,
-      noAuth: true,
-    },
-    {
-      name: "SØK",
-      to: "/search",
-      icon: Search,
-      noAuth: true,
-    },
-    ...(isAuthenticated && user?.securityLevel === "FG"
-      ? [
-          {
-            name: "INTERNSØK",
-            to: "/intern/search",
-            icon: ScanSearch,
-            noAuth: true,
-          },
-          {
-            name: "FG",
-            to: "/fg",
-            icon: Camera,
-            noAuth: true,
-          },
-        ]
-      : []),
-    {
-      name: "LOGG INN",
-      to: "/login",
-      icon: Lock,
-      noAuth: !isAuthenticated,
-    },
-    {
-      name: "LOGG UT",
-      to: "/login",
-      icon: LogOut,
-      noAuth: isAuthenticated,
-    },
-  ];
+  const isFg = isAuthenticated && user?.securityLevel === "FG";
+  const { pathname } = useLocation();
+  const isInfoActive = pathname.startsWith("/about");
+  const isInternActive = pathname.startsWith("/fg");
 
   return (
     <nav className={styles.nav}>
@@ -82,64 +28,104 @@ export function HeaderComponent() {
         <Link to="/">
           <LogoIcon size={40} />
         </Link>
-        <div className={styles.navHeadActions}>
-          <div className={styles.mobileThemeToggle}>
-            <ThemeToggle />
-          </div>
-          <button
-            className={styles.hamburger}
-            onClick={() => setShowHamburgerMenu((v) => !v)}
-            aria-label={showHamburgerMenu ? "Lukk meny" : "Åpne meny"}
-          >
-            {showHamburgerMenu ? <X size={28} /> : <Menu size={28} />}
-          </button>
-        </div>
       </div>
-      <div
-        className={[
-          styles.navMenuList,
-          showHamburgerMenu ? styles.navMenuListOpen : styles.navMenuListClosed,
-        ]
-          .filter(Boolean)
-          .join(" ")}
-      >
-        {menuLinks
-          .filter((link) => link.noAuth)
-          .map((link) => (
-            <Link
-              key={link.name}
-              className={styles.menuLink}
-              to={link.to}
-              onClick={() => setShowHamburgerMenu(false)}
-            >
-              {link.name} <link.icon size={18} />
-            </Link>
-          ))}
-      </div>
+
       <div className={styles.navContainer}>
-        <div className={styles.navList}>
-          <Link className={styles.navLink} to="/photos">
-            Bilder
-          </Link>
-          <Link className={styles.navLink} to="/search">
-            Søk
-          </Link>
-          <Link className={styles.navLink} to="/about">
-            Om oss
-          </Link>
-          {isAuthenticated && user?.securityLevel === "FG" && (
-            <Link className={styles.navLink} to="/fg">
-              FG
-            </Link>
-          )}
-        </div>
-        <div className={styles.loggContainer}>
-          <ThemeToggle />
-          <LoginButton />
-        </div>
+        <NavigationMenu viewport={false}>
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuLink asChild>
+                <Link to="/search" activeOptions={{ includeSearch: false }}>
+                  Søk i bilder
+                </Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger active={isInfoActive}>
+                Info
+              </NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <NavigationSubMenuLink
+                  subtext="Gjengen og dens historie"
+                  link={{ to: "/about/history" }}
+                >
+                  Om oss
+                </NavigationSubMenuLink>
+                <NavigationSubMenuLink
+                  subtext="Eksterne oppdrag og bildetrykk"
+                  link={{ to: "/about/info" }}
+                >
+                  Bestilling
+                </NavigationSubMenuLink>
+                <NavigationSubMenuLink
+                  subtext="Kreditering og lisens"
+                  link={{ to: "/about" }}
+                >
+                  Bruk av bilder
+                </NavigationSubMenuLink>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+
+            {isFg && (
+              <NavigationMenuItem>
+                <NavigationMenuTrigger active={isInternActive}>
+                  Intern
+                </NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <NavigationSubMenuLink
+                    subtext="Last opp og endre"
+                    icon={<Archive />}
+                    link={{ to: "/fg/upload" }}
+                  >
+                    Fotoarkivet
+                  </NavigationSubMenuLink>
+                  <NavigationSubMenuLink
+                    icon={<Star />}
+                    link={{ to: "/fg/archiveBoss" }}
+                    subtext="Administrer arkivet"
+                  >
+                    Arkivsjef
+                  </NavigationSubMenuLink>
+                  <NavigationSubMenuLink
+                    icon={<LayoutPanelLeft />}
+                    link={{ to: "/fg/projects" }}
+                    subtext="DeNye-prosjekter"
+                  >
+                    Prosjekter
+                  </NavigationSubMenuLink>
+                  <div className={styles.separator} />
+                  <NavigationSubMenuLink
+                    icon={<LinkIcon />}
+                    link={{ href: "https://wiki.samfundet.no" }}
+                    chevron="externalLink"
+                  >
+                    Samfundet wiki
+                  </NavigationSubMenuLink>
+                  <NavigationSubMenuLink
+                    icon={<LinkIcon />}
+                    link={{ href: "https://wiki.samfundet.no/fg/" }}
+                    chevron="externalLink"
+                  >
+                    FG wiki
+                  </NavigationSubMenuLink>
+                  <NavigationSubMenuLink
+                    icon={<LinkIcon />}
+                    link={{ href: "https://ufs.samfundet.no/" }}
+                    chevron="externalLink"
+                  >
+                    UFS
+                  </NavigationSubMenuLink>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+            )}
+          </NavigationMenuList>
+        </NavigationMenu>
+      </div>
+
+      <div className={styles.loggContainer}>
+        <ThemeToggle />
+        <LoginButton />
       </div>
     </nav>
   );
 }
-
-export default HeaderComponent;

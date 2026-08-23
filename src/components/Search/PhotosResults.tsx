@@ -1,3 +1,4 @@
+import { useDeferredValue } from "react";
 import { usePhotosByMotiveId } from "@/hooks/photo";
 import { MotiveDto } from "../../../generated";
 import { useNavigate, useRouter } from "@tanstack/react-router";
@@ -99,6 +100,12 @@ function MotivePhotoGroup({ motive }: MotivePhotoGroupProps) {
   } = usePhotosByMotiveId(motive.motiveId.id);
   const navigate = useNavigate({ from: "/search" });
 
+  // deffer photos so that we dont immediatly paint 200 imgs when loading the page
+  const deferredPhotos = useDeferredValue(
+    photos ?? [],
+    [] as NonNullable<typeof photos>,
+  );
+
   const openPhoto = (photoId: string) => {
     void navigate({
       search: (prev) => ({
@@ -120,9 +127,9 @@ function MotivePhotoGroup({ motive }: MotivePhotoGroupProps) {
         <PhotoGridSkeleton count={3} />
       ) : isError ? (
         <p className={styles.message}>Kunne ikke hente bilder.</p>
-      ) : photos && photos.length > 0 ? (
+      ) : deferredPhotos.length > 0 ? (
         <div className={styles.photoGrid}>
-          {photos.map((photo) => (
+          {deferredPhotos.map((photo) => (
             <div key={photo.photoId.id} className={styles.photo}>
               <Photo
                 photo={photo}
@@ -132,7 +139,9 @@ function MotivePhotoGroup({ motive }: MotivePhotoGroupProps) {
             </div>
           ))}
         </div>
-      ) : null}
+      ) : photos && photos.length === 0 ? null : (
+        <PhotoGridSkeleton count={3} />
+      )}
     </div>
   );
 }

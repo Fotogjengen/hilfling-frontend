@@ -3,20 +3,20 @@ import styles from "./SectionHeader.module.css";
 
 type SectionHeaderProps = {
   title: string;
-  linkTo?: LinkProps["to"];
+  link?: LinkProps;
   linkLabel?: string;
 };
 
 export default function SectionHeader({
   title,
-  linkTo,
+  link,
   linkLabel = "Se alle",
 }: SectionHeaderProps) {
   return (
     <div className={styles.header}>
       <h2 className={styles.title}>{title}</h2>
-      {linkTo && (
-        <Link to={linkTo} className={styles.link}>
+      {link && (
+        <Link {...link} className={styles.link}>
           {linkLabel} &rsaquo;
         </Link>
       )}
