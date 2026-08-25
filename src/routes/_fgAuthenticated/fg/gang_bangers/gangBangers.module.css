@@ -1,0 +1,19 @@
+.gangBangers {
+  background-color: white;
+  padding: 2rem;
+}
+
+.gangBangers h2 {
+  text-align: center;
+  border-bottom: 0.1rem solid #000000;
+  text-transform: uppercase;
+  padding-top: 0.8rem;
+  padding-bottom: 1rem;
+  color: #1b1b1b;
+}
+
+.users {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}

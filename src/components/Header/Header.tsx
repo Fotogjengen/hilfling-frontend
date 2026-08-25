@@ -13,7 +13,7 @@ import {
   NavigationMenuTrigger,
   NavigationSubMenuLink,
 } from "../ui/navigation/NavigationMenu";
-import { Archive, LayoutPanelLeft, LinkIcon, Star } from "lucide-react";
+import { Archive, LayoutPanelLeft, LinkIcon, Star, Users } from "lucide-react";
 
 export default function HeaderComponent() {
   const { isAuthenticated, user } = useAuth();
@@ -31,7 +31,7 @@ export default function HeaderComponent() {
       </div>
 
       <div className={styles.navContainer}>
-        <NavigationMenu viewport={false}>
+        <NavigationMenu viewport={false} delayDuration={1000}>
           <NavigationMenuList>
             <NavigationMenuItem>
               <NavigationMenuLink asChild>
@@ -78,6 +78,13 @@ export default function HeaderComponent() {
                     link={{ to: "/fg/upload" }}
                   >
                     Fotoarkivet
+                  </NavigationSubMenuLink>
+                  <NavigationSubMenuLink
+                    subtext="Alle aktive og panger"
+                    icon={<Users />}
+                    link={{ to: "/fg/gang_bangers" }}
+                  >
+                    Fotogjengere
                   </NavigationSubMenuLink>
                   <NavigationSubMenuLink
                     icon={<Star />}
