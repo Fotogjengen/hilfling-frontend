@@ -47,19 +47,19 @@ export default function HeaderComponent() {
               <NavigationMenuContent>
                 <NavigationSubMenuLink
                   subtext="Gjengen og dens historie"
-                  link={{ to: "/about/history" }}
+                  link={{ to: "/om-oss" }}
                 >
                   Om oss
                 </NavigationSubMenuLink>
                 <NavigationSubMenuLink
                   subtext="Eksterne oppdrag og bildetrykk"
-                  link={{ to: "/about/info" }}
+                  link={{ to: "/om-oss/bestilling" }}
                 >
                   Bestilling
                 </NavigationSubMenuLink>
                 <NavigationSubMenuLink
                   subtext="Kreditering og lisens"
-                  link={{ to: "/about" }}
+                  link={{ to: "/om-oss/bruk-av-bilder" }}
                 >
                   Bruk av bilder
                 </NavigationSubMenuLink>
