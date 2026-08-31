@@ -9,34 +9,33 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SearchRouteImport } from './routes/search'
-import { Route as LoginRouteImport } from './routes/login'
-import { Route as AboutRouteRouteImport } from './routes/about/route'
-import { Route as FgAuthenticatedRouteRouteImport } from './routes/_fgAuthenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as FgAuthenticatedRouteRouteImport } from './routes/_fgAuthenticated/route'
+import { Route as AboutRouteRouteImport } from './routes/about/route'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as SearchRouteImport } from './routes/search'
 import { Route as AboutIndexRouteImport } from './routes/about/index'
-import { Route as MotiveMotiveIdRouteImport } from './routes/motive.$motiveId'
-import { Route as AboutInfoRouteImport } from './routes/about/info'
 import { Route as AboutHistoryRouteImport } from './routes/about/history'
+import { Route as AboutInfoRouteImport } from './routes/about/info'
+import { Route as MotiveMotiveIdRouteImport } from './routes/motive.$motiveId'
 import { Route as FgAuthenticatedFgIndexRouteImport } from './routes/_fgAuthenticated/fg/index'
-import { Route as FgAuthenticatedFgUploadRouteImport } from './routes/_fgAuthenticated/fg/upload'
 import { Route as FgAuthenticatedFgProfileRouteImport } from './routes/_fgAuthenticated/fg/profile'
-import { Route as FgAuthenticatedFgProjectsIndexRouteImport } from './routes/_fgAuthenticated/fg/projects/index'
+import { Route as FgAuthenticatedFgUploadRouteImport } from './routes/_fgAuthenticated/fg/upload'
 import { Route as FgAuthenticatedFgArchiveBossIndexRouteImport } from './routes/_fgAuthenticated/fg/archiveBoss/index'
-import { Route as FgAuthenticatedFgProjectsKull26IndexRouteImport } from './routes/_fgAuthenticated/fg/projects/kull26/index'
-import { Route as FgAuthenticatedFgProjectsKull26ThirdgameRouteImport } from './routes/_fgAuthenticated/fg/projects/kull26/thirdgame'
-import { Route as FgAuthenticatedFgProjectsKull26SecondgameRouteImport } from './routes/_fgAuthenticated/fg/projects/kull26/secondgame'
-import { Route as FgAuthenticatedFgProjectsKull26FirstgameRouteImport } from './routes/_fgAuthenticated/fg/projects/kull26/firstgame'
+import { Route as FgAuthenticatedFgProjectsIndexRouteImport } from './routes/_fgAuthenticated/fg/projects/index'
 import { Route as FgAuthenticatedFgArchiveBossEditUserUserIdRouteImport } from './routes/_fgAuthenticated/fg/archiveBoss/editUser.$userId'
+import { Route as FgAuthenticatedFgProjectsKull26IndexRouteImport } from './routes/_fgAuthenticated/fg/projects/kull26/index'
+import { Route as FgAuthenticatedFgProjectsKull26FirstgameRouteImport } from './routes/_fgAuthenticated/fg/projects/kull26/firstgame'
+import { Route as FgAuthenticatedFgProjectsKull26SecondgameRouteImport } from './routes/_fgAuthenticated/fg/projects/kull26/secondgame'
+import { Route as FgAuthenticatedFgProjectsKull26ThirdgameRouteImport } from './routes/_fgAuthenticated/fg/projects/kull26/thirdgame'
 
-const SearchRoute = SearchRouteImport.update({
-  id: '/search',
-  path: '/search',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
+const FgAuthenticatedRouteRoute = FgAuthenticatedRouteRouteImport.update({
+  id: '/_fgAuthenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRouteRoute = AboutRouteRouteImport.update({
@@ -44,13 +43,14 @@ const AboutRouteRoute = AboutRouteRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const FgAuthenticatedRouteRoute = FgAuthenticatedRouteRouteImport.update({
-  id: '/_fgAuthenticated',
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutIndexRoute = AboutIndexRouteImport.update({
@@ -58,29 +58,24 @@ const AboutIndexRoute = AboutIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AboutRouteRoute,
 } as any)
-const MotiveMotiveIdRoute = MotiveMotiveIdRouteImport.update({
-  id: '/motive/$motiveId',
-  path: '/motive/$motiveId',
-  getParentRoute: () => rootRouteImport,
+const AboutHistoryRoute = AboutHistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => AboutRouteRoute,
 } as any)
 const AboutInfoRoute = AboutInfoRouteImport.update({
   id: '/info',
   path: '/info',
   getParentRoute: () => AboutRouteRoute,
 } as any)
-const AboutHistoryRoute = AboutHistoryRouteImport.update({
-  id: '/history',
-  path: '/history',
-  getParentRoute: () => AboutRouteRoute,
+const MotiveMotiveIdRoute = MotiveMotiveIdRouteImport.update({
+  id: '/motive/$motiveId',
+  path: '/motive/$motiveId',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const FgAuthenticatedFgIndexRoute = FgAuthenticatedFgIndexRouteImport.update({
   id: '/fg/',
   path: '/fg/',
-  getParentRoute: () => FgAuthenticatedRouteRoute,
-} as any)
-const FgAuthenticatedFgUploadRoute = FgAuthenticatedFgUploadRouteImport.update({
-  id: '/fg/upload',
-  path: '/fg/upload',
   getParentRoute: () => FgAuthenticatedRouteRoute,
 } as any)
 const FgAuthenticatedFgProfileRoute =
@@ -89,16 +84,27 @@ const FgAuthenticatedFgProfileRoute =
     path: '/fg/profile',
     getParentRoute: () => FgAuthenticatedRouteRoute,
   } as any)
+const FgAuthenticatedFgUploadRoute = FgAuthenticatedFgUploadRouteImport.update({
+  id: '/fg/upload',
+  path: '/fg/upload',
+  getParentRoute: () => FgAuthenticatedRouteRoute,
+} as any)
+const FgAuthenticatedFgArchiveBossIndexRoute =
+  FgAuthenticatedFgArchiveBossIndexRouteImport.update({
+    id: '/fg/archiveBoss/',
+    path: '/fg/archiveBoss/',
+    getParentRoute: () => FgAuthenticatedRouteRoute,
+  } as any)
 const FgAuthenticatedFgProjectsIndexRoute =
   FgAuthenticatedFgProjectsIndexRouteImport.update({
     id: '/fg/projects/',
     path: '/fg/projects/',
     getParentRoute: () => FgAuthenticatedRouteRoute,
   } as any)
-const FgAuthenticatedFgArchiveBossIndexRoute =
-  FgAuthenticatedFgArchiveBossIndexRouteImport.update({
-    id: '/fg/archiveBoss/',
-    path: '/fg/archiveBoss/',
+const FgAuthenticatedFgArchiveBossEditUserUserIdRoute =
+  FgAuthenticatedFgArchiveBossEditUserUserIdRouteImport.update({
+    id: '/fg/archiveBoss/editUser/$userId',
+    path: '/fg/archiveBoss/editUser/$userId',
     getParentRoute: () => FgAuthenticatedRouteRoute,
   } as any)
 const FgAuthenticatedFgProjectsKull26IndexRoute =
@@ -107,10 +113,10 @@ const FgAuthenticatedFgProjectsKull26IndexRoute =
     path: '/fg/projects/kull26/',
     getParentRoute: () => FgAuthenticatedRouteRoute,
   } as any)
-const FgAuthenticatedFgProjectsKull26ThirdgameRoute =
-  FgAuthenticatedFgProjectsKull26ThirdgameRouteImport.update({
-    id: '/fg/projects/kull26/thirdgame',
-    path: '/fg/projects/kull26/thirdgame',
+const FgAuthenticatedFgProjectsKull26FirstgameRoute =
+  FgAuthenticatedFgProjectsKull26FirstgameRouteImport.update({
+    id: '/fg/projects/kull26/firstgame',
+    path: '/fg/projects/kull26/firstgame',
     getParentRoute: () => FgAuthenticatedRouteRoute,
   } as any)
 const FgAuthenticatedFgProjectsKull26SecondgameRoute =
@@ -119,16 +125,10 @@ const FgAuthenticatedFgProjectsKull26SecondgameRoute =
     path: '/fg/projects/kull26/secondgame',
     getParentRoute: () => FgAuthenticatedRouteRoute,
   } as any)
-const FgAuthenticatedFgProjectsKull26FirstgameRoute =
-  FgAuthenticatedFgProjectsKull26FirstgameRouteImport.update({
-    id: '/fg/projects/kull26/firstgame',
-    path: '/fg/projects/kull26/firstgame',
-    getParentRoute: () => FgAuthenticatedRouteRoute,
-  } as any)
-const FgAuthenticatedFgArchiveBossEditUserUserIdRoute =
-  FgAuthenticatedFgArchiveBossEditUserUserIdRouteImport.update({
-    id: '/fg/archiveBoss/editUser/$userId',
-    path: '/fg/archiveBoss/editUser/$userId',
+const FgAuthenticatedFgProjectsKull26ThirdgameRoute =
+  FgAuthenticatedFgProjectsKull26ThirdgameRouteImport.update({
+    id: '/fg/projects/kull26/thirdgame',
+    path: '/fg/projects/kull26/thirdgame',
     getParentRoute: () => FgAuthenticatedRouteRoute,
   } as any)
 
@@ -267,25 +267,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/search': {
-      id: '/search'
-      path: '/search'
-      fullPath: '/search'
-      preLoaderRoute: typeof SearchRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_fgAuthenticated': {
@@ -295,11 +281,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FgAuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about/': {
@@ -309,12 +309,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutIndexRouteImport
       parentRoute: typeof AboutRouteRoute
     }
-    '/motive/$motiveId': {
-      id: '/motive/$motiveId'
-      path: '/motive/$motiveId'
-      fullPath: '/motive/$motiveId'
-      preLoaderRoute: typeof MotiveMotiveIdRouteImport
-      parentRoute: typeof rootRouteImport
+    '/about/history': {
+      id: '/about/history'
+      path: '/history'
+      fullPath: '/about/history'
+      preLoaderRoute: typeof AboutHistoryRouteImport
+      parentRoute: typeof AboutRouteRoute
     }
     '/about/info': {
       id: '/about/info'
@@ -323,25 +323,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutInfoRouteImport
       parentRoute: typeof AboutRouteRoute
     }
-    '/about/history': {
-      id: '/about/history'
-      path: '/history'
-      fullPath: '/about/history'
-      preLoaderRoute: typeof AboutHistoryRouteImport
-      parentRoute: typeof AboutRouteRoute
+    '/motive/$motiveId': {
+      id: '/motive/$motiveId'
+      path: '/motive/$motiveId'
+      fullPath: '/motive/$motiveId'
+      preLoaderRoute: typeof MotiveMotiveIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_fgAuthenticated/fg/': {
       id: '/_fgAuthenticated/fg/'
       path: '/fg'
       fullPath: '/fg/'
       preLoaderRoute: typeof FgAuthenticatedFgIndexRouteImport
-      parentRoute: typeof FgAuthenticatedRouteRoute
-    }
-    '/_fgAuthenticated/fg/upload': {
-      id: '/_fgAuthenticated/fg/upload'
-      path: '/fg/upload'
-      fullPath: '/fg/upload'
-      preLoaderRoute: typeof FgAuthenticatedFgUploadRouteImport
       parentRoute: typeof FgAuthenticatedRouteRoute
     }
     '/_fgAuthenticated/fg/profile': {
@@ -351,11 +344,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FgAuthenticatedFgProfileRouteImport
       parentRoute: typeof FgAuthenticatedRouteRoute
     }
-    '/_fgAuthenticated/fg/projects/': {
-      id: '/_fgAuthenticated/fg/projects/'
-      path: '/fg/projects'
-      fullPath: '/fg/projects/'
-      preLoaderRoute: typeof FgAuthenticatedFgProjectsIndexRouteImport
+    '/_fgAuthenticated/fg/upload': {
+      id: '/_fgAuthenticated/fg/upload'
+      path: '/fg/upload'
+      fullPath: '/fg/upload'
+      preLoaderRoute: typeof FgAuthenticatedFgUploadRouteImport
       parentRoute: typeof FgAuthenticatedRouteRoute
     }
     '/_fgAuthenticated/fg/archiveBoss/': {
@@ -365,25 +358,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FgAuthenticatedFgArchiveBossIndexRouteImport
       parentRoute: typeof FgAuthenticatedRouteRoute
     }
+    '/_fgAuthenticated/fg/projects/': {
+      id: '/_fgAuthenticated/fg/projects/'
+      path: '/fg/projects'
+      fullPath: '/fg/projects/'
+      preLoaderRoute: typeof FgAuthenticatedFgProjectsIndexRouteImport
+      parentRoute: typeof FgAuthenticatedRouteRoute
+    }
+    '/_fgAuthenticated/fg/archiveBoss/editUser/$userId': {
+      id: '/_fgAuthenticated/fg/archiveBoss/editUser/$userId'
+      path: '/fg/archiveBoss/editUser/$userId'
+      fullPath: '/fg/archiveBoss/editUser/$userId'
+      preLoaderRoute: typeof FgAuthenticatedFgArchiveBossEditUserUserIdRouteImport
+      parentRoute: typeof FgAuthenticatedRouteRoute
+    }
     '/_fgAuthenticated/fg/projects/kull26/': {
       id: '/_fgAuthenticated/fg/projects/kull26/'
       path: '/fg/projects/kull26'
       fullPath: '/fg/projects/kull26/'
       preLoaderRoute: typeof FgAuthenticatedFgProjectsKull26IndexRouteImport
-      parentRoute: typeof FgAuthenticatedRouteRoute
-    }
-    '/_fgAuthenticated/fg/projects/kull26/thirdgame': {
-      id: '/_fgAuthenticated/fg/projects/kull26/thirdgame'
-      path: '/fg/projects/kull26/thirdgame'
-      fullPath: '/fg/projects/kull26/thirdgame'
-      preLoaderRoute: typeof FgAuthenticatedFgProjectsKull26ThirdgameRouteImport
-      parentRoute: typeof FgAuthenticatedRouteRoute
-    }
-    '/_fgAuthenticated/fg/projects/kull26/secondgame': {
-      id: '/_fgAuthenticated/fg/projects/kull26/secondgame'
-      path: '/fg/projects/kull26/secondgame'
-      fullPath: '/fg/projects/kull26/secondgame'
-      preLoaderRoute: typeof FgAuthenticatedFgProjectsKull26SecondgameRouteImport
       parentRoute: typeof FgAuthenticatedRouteRoute
     }
     '/_fgAuthenticated/fg/projects/kull26/firstgame': {
@@ -393,11 +386,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FgAuthenticatedFgProjectsKull26FirstgameRouteImport
       parentRoute: typeof FgAuthenticatedRouteRoute
     }
-    '/_fgAuthenticated/fg/archiveBoss/editUser/$userId': {
-      id: '/_fgAuthenticated/fg/archiveBoss/editUser/$userId'
-      path: '/fg/archiveBoss/editUser/$userId'
-      fullPath: '/fg/archiveBoss/editUser/$userId'
-      preLoaderRoute: typeof FgAuthenticatedFgArchiveBossEditUserUserIdRouteImport
+    '/_fgAuthenticated/fg/projects/kull26/secondgame': {
+      id: '/_fgAuthenticated/fg/projects/kull26/secondgame'
+      path: '/fg/projects/kull26/secondgame'
+      fullPath: '/fg/projects/kull26/secondgame'
+      preLoaderRoute: typeof FgAuthenticatedFgProjectsKull26SecondgameRouteImport
+      parentRoute: typeof FgAuthenticatedRouteRoute
+    }
+    '/_fgAuthenticated/fg/projects/kull26/thirdgame': {
+      id: '/_fgAuthenticated/fg/projects/kull26/thirdgame'
+      path: '/fg/projects/kull26/thirdgame'
+      fullPath: '/fg/projects/kull26/thirdgame'
+      preLoaderRoute: typeof FgAuthenticatedFgProjectsKull26ThirdgameRouteImport
       parentRoute: typeof FgAuthenticatedRouteRoute
     }
   }
