@@ -6,7 +6,7 @@ export default function AboutUsBanner() {
     <div className={styles.wrapper}>
       <SectionHeader
         title="Om fotogjengen"
-        link={{ to: "/about" }}
+        link={{ to: "/om-oss" }}
         linkLabel="Les mer"
       />
       Her skal det stå en kjapp intro om fotogjengen, at du kan booke oss, kjøpe

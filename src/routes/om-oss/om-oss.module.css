@@ -77,3 +77,55 @@ h6 {
   display: flex;
   flex-wrap: wrap;
 }
+
+.aboutPage {
+  width: 100%;
+}
+
+.aboutContent {
+  max-width: 760px;
+  margin: 4rem auto 0;
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+
+.aboutContent h2,
+.aboutContent h3 {
+  margin: 1.25rem 0 0.2rem;
+}
+
+.aboutContent p {
+  margin: 0 0 1rem;
+}
+
+.aboutMembers {
+  margin-top: 4rem;
+}
+
+.aboutMemberGroup + .aboutMemberGroup {
+  margin-top: 2rem;
+}
+
+.textPage {
+  width: 100%;
+}
+
+.textContent {
+  max-width: 760px;
+  margin: 4rem auto 0;
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+
+.textContent h2 {
+  margin: 1.5rem 0 0;
+}
+
+.textContent p {
+  margin: 0 0 1rem;
+}
+
+.textContent ul {
+  margin: 0 0 1.5rem;
+  padding-left: 1.5rem;
+}
