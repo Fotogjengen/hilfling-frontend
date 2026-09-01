@@ -54,7 +54,7 @@ export function useCenterSelectedPhoto(
 ) {
   const { scroll, offsetStart, offsetSize, clientSize } = AXIS_PROPS[axis];
   const didInitialCenter = useRef(false);
-  const animation = useRef<ReturnType<typeof animate>>();
+  const animation = useRef<ReturnType<typeof animate> | null>(null);
   const animationStart = useRef(0);
 
   useEffect(() => {

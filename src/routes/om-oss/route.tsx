@@ -6,22 +6,24 @@ import {
 } from "@tanstack/react-router";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/navigation/Tabs";
 
-export const Route = createFileRoute("/about")({
+export const Route = createFileRoute("/om-oss")({
   component: RouteComponent,
 });
 
-type TabValue = "members" | "info" | "history";
+type TabValue = "about" | "order" | "useOurPictures";
 
 const TAB_ROUTES: Record<TabValue, string> = {
-  members: "/about",
-  info: "/about/info",
-  history: "/about/history",
+  about: "/om-oss",
+  order: "/om-oss/bestilling",
+  useOurPictures: "/om-oss/bruk-av-bilder",
 };
 
 function getTabValue(matchRoute: ReturnType<typeof useMatchRoute>): TabValue {
-  if (matchRoute({ to: "/about/info" })) return "info";
-  if (matchRoute({ to: "/about/history" })) return "history";
-  return "members";
+  if (matchRoute({ to: "/om-oss/bestilling" })) return "order";
+  if (matchRoute({ to: "/om-oss/bruk-av-bilder" })) {
+    return "useOurPictures";
+  }
+  return "about";
 }
 
 function RouteComponent() {
@@ -35,9 +37,9 @@ function RouteComponent() {
   return (
     <Tabs value={getTabValue(matchRoute)} onValueChange={handleTabChange}>
       <TabsList>
-        <TabsTrigger value="members">Fotogjengere</TabsTrigger>
-        <TabsTrigger value="info">Info</TabsTrigger>
-        <TabsTrigger value="history">Historie</TabsTrigger>
+        <TabsTrigger value="about">Om oss</TabsTrigger>
+        <TabsTrigger value="order">Bestilling</TabsTrigger>
+        <TabsTrigger value="useOurPictures">Bruk av bilder</TabsTrigger>
       </TabsList>
       <Outlet />
     </Tabs>

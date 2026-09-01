@@ -1,30 +1,31 @@
 import { createFileRoute } from "@tanstack/react-router";
-import cx from "classnames";
-import styles from "./about.module.css";
+import {
+  useActivePhotoGangBangers,
+  usePangPhotoGangBangers,
+} from "@/hooks/photoGangBangers";
+import PhotoGangBangerPublic from "../../components/About/PhotoGangBangerPublic";
+import styles from "./om-oss.module.css";
 
-export const Route = createFileRoute("/about/history")({
-  component: HistoryTab,
+export const Route = createFileRoute("/om-oss/")({
+  component: AboutTab,
 });
 
-function HistoryTab() {
+function AboutTab() {
+  const { data: activeGangBangers = [] } = useActivePhotoGangBangers();
+  const { data: activePangs = [] } = usePangPhotoGangBangers();
+
   return (
-    <div className={styles.twoCol}>
-      <div>
-        <h3>
-          <b>HVORFOR HAR VI FOTOGJENGEN PÅ SAMF?</b>
-        </h3>
+    <div className={styles.aboutPage}>
+      <section className={styles.aboutContent}>
+        <h3>Hvorfor har vi Fotogjengen på Samf?</h3>
         <p>
-          Fotogjengen er en gjeng ved{" "}
-          <a href="https://www.samfundet.no/">Studentersamfundet</a> i
-          Trondhjem. Vi har som oppgave å ta bilder av alt som skjer på
-          Samfundet, under UKA og under ISFiT. Vi består av 12 fotofunksjonærer
-          og webfunksjonærer. På denne siden finner du informasjon om oss og
-          hvilke tjenester vi tilbyr.
+          Fotogjengen er en gjeng ved Studentersamfundet i Trondhjem. Vi har som
+          oppgave å ta bilder av alt som skjer på Samfundet, under UKA og under
+          ISFiT. Vi består av 12 fotofunksjonærer og webfunksjonærer. På denne
+          siden finner du informasjon om oss og hvilke tjenester vi tilbyr.
         </p>
-        <br />
-        <h3>
-          <b>HISTORIE</b>
-        </h3>
+
+        <h2>Historie</h2>
         <p>
           I Finansstyremøtet den 7. oktober 1958 ble det bestemt at Fotogjengen
           (FG) skulle være en «gjeng» i Huset, underlagt Finansstyret. Barnet
@@ -32,23 +33,10 @@ function HistoryTab() {
           organiserte studentlynlys i Storsalen ble nemlig avfyrt under
           lørdagsmøtet 16. mars 1946. En liten gruppe utgått fra Studentenes
           Kameraklubb (S.K.) hadde fått Styrets tillatelse til å illustrere en
-          reportasje fra studentlivet. Som{" "}
-          <a href="https://fk.samfundet.no/">Forsterkerkomiteen</a> (FK) må også
-          FG medgi at et avgjørende iniativ ble tatt av rastløse entusiaster i{" "}
-          <a href="https://www.ark.no/">Akademisk Radioklubb</a> (ARK) i en
-          urtid.
+          reportasje fra studentlivet. Som Forsterkerkomiteen (FK) må også FG
+          medgi at et avgjørende initiativ ble tatt av rastløse entusiaster i
+          Akademisk Radioklubb (ARK) i en urtid.
         </p>
-        <div className={styles.circleRow}>
-          <div className={cx(styles.redBackground, styles.round)}>
-            <b>1942</b>
-          </div>
-          <div className={cx(styles.blueBackground, styles.round)}>
-            <b>FG</b>
-          </div>
-          <div className={cx(styles.greenBackground, styles.round)}>
-            <b>Hilfling</b>
-          </div>
-        </div>
         <p>
           Så tidlig som i 1938 stiftet noen fotograferende amatørstudenter fra
           ARK Studentenes Kameraklubb, og showet var i gang. Men mye hadde
@@ -61,12 +49,8 @@ function HistoryTab() {
           skildringer fra FGs liv, og bildematerialet som vises er rent
           symbolsk.
         </p>
-      </div>
 
-      <div>
-        <h3>
-          <b>HVEM VAR HILFLING</b>
-        </h3>
+        <h3>Hvem var Hilfling?</h3>
         <p>
           Fotograf Hilfling, senere hans sønn, Hilfling jr., var
           Studentersamfundets (og UKAs) faste fotograf fra starten i 1910 til og
@@ -80,15 +64,13 @@ function HistoryTab() {
           vederlag for adgang til lokaler å overta eventuell fotografering for
           Studentersamfundet. Slikt arbeide har allerede vært utført i mindre
           målestokk. En henviser til en bemerkning om UKA i Verdens Gang: «Det
-          var bare fotograf-direktoratet som manglet...» Vi er i stand til å
+          var bare fotograf-direktoratet som manglet... Vi er i stand til å
           fylle dette savn». Studentersamfundet kunne imidlertid ikke ha følt
           savnet som sårt. Søknaden om lokale ble innvilget, men det ble ikke
           gjort noen avtale om fotografering.
         </p>
-        <br />
-        <h3>
-          <b>OPPSTART AV FG</b>
-        </h3>
+
+        <h3>Oppstart av FG</h3>
         <p>
           Høsten 1946 skrev redaktør Nic. Stabell i Under Dusken (UD) et åpent
           brev til S.K. hvor han etterlyste en kontinuerlig fotografering av
@@ -114,7 +96,39 @@ function HistoryTab() {
           holde kontinuitet i bildearkivet fra Samfundets arrangementer. Urtida
           var over.
         </p>
-      </div>
+      </section>
+
+      <section className={styles.aboutMembers}>
+        <div className={styles.aboutMemberGroup}>
+          <h2>Aktive fotogjengere</h2>
+          <div className={styles.gangBangers}>
+            {activeGangBangers.map((photoGangBanger, index) => (
+              <PhotoGangBangerPublic
+                key={`active-gang-banger-${index}`}
+                firstName={photoGangBanger?.firstName || ""}
+                lastName={photoGangBanger?.lastName || ""}
+                position=""
+                email={photoGangBanger?.email || ""}
+                image={photoGangBanger?.profilePicture || ""}
+              />
+            ))}
+          </div>
+
+          <h2>Aktive panger</h2>
+          <div className={styles.gangBangers}>
+            {activePangs.map((photoGangBanger, index) => (
+              <PhotoGangBangerPublic
+                key={`active-pang-${index}`}
+                firstName={photoGangBanger?.firstName || ""}
+                lastName={photoGangBanger?.lastName || ""}
+                position=""
+                email={photoGangBanger?.email || ""}
+                image={photoGangBanger?.profilePicture || ""}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
