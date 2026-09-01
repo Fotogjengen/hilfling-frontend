@@ -24,6 +24,10 @@ import { Route as FgAuthenticatedFgUploadRouteImport } from './routes/_fgAuthent
 import { Route as FgAuthenticatedFgProfileRouteImport } from './routes/_fgAuthenticated/fg/profile'
 import { Route as FgAuthenticatedFgProjectsIndexRouteImport } from './routes/_fgAuthenticated/fg/projects/index'
 import { Route as FgAuthenticatedFgArchiveBossIndexRouteImport } from './routes/_fgAuthenticated/fg/archiveBoss/index'
+import { Route as FgAuthenticatedFgArchiveBossUsersRouteImport } from './routes/_fgAuthenticated/fg/archiveBoss/users'
+import { Route as FgAuthenticatedFgArchiveBossPlacesRouteImport } from './routes/_fgAuthenticated/fg/archiveBoss/places'
+import { Route as FgAuthenticatedFgArchiveBossCategoriesRouteImport } from './routes/_fgAuthenticated/fg/archiveBoss/categories'
+import { Route as FgAuthenticatedFgArchiveBossAlbumsRouteImport } from './routes/_fgAuthenticated/fg/archiveBoss/albums'
 import { Route as FgAuthenticatedFgProjectsKull26IndexRouteImport } from './routes/_fgAuthenticated/fg/projects/kull26/index'
 import { Route as FgAuthenticatedFgProjectsKull26ThirdgameRouteImport } from './routes/_fgAuthenticated/fg/projects/kull26/thirdgame'
 import { Route as FgAuthenticatedFgProjectsKull26SecondgameRouteImport } from './routes/_fgAuthenticated/fg/projects/kull26/secondgame'
@@ -107,6 +111,30 @@ const FgAuthenticatedFgArchiveBossIndexRoute =
     path: '/fg/archiveBoss/',
     getParentRoute: () => FgAuthenticatedRouteRoute,
   } as any)
+const FgAuthenticatedFgArchiveBossUsersRoute =
+  FgAuthenticatedFgArchiveBossUsersRouteImport.update({
+    id: '/fg/archiveBoss/users',
+    path: '/fg/archiveBoss/users',
+    getParentRoute: () => FgAuthenticatedRouteRoute,
+  } as any)
+const FgAuthenticatedFgArchiveBossPlacesRoute =
+  FgAuthenticatedFgArchiveBossPlacesRouteImport.update({
+    id: '/fg/archiveBoss/places',
+    path: '/fg/archiveBoss/places',
+    getParentRoute: () => FgAuthenticatedRouteRoute,
+  } as any)
+const FgAuthenticatedFgArchiveBossCategoriesRoute =
+  FgAuthenticatedFgArchiveBossCategoriesRouteImport.update({
+    id: '/fg/archiveBoss/categories',
+    path: '/fg/archiveBoss/categories',
+    getParentRoute: () => FgAuthenticatedRouteRoute,
+  } as any)
+const FgAuthenticatedFgArchiveBossAlbumsRoute =
+  FgAuthenticatedFgArchiveBossAlbumsRouteImport.update({
+    id: '/fg/archiveBoss/albums',
+    path: '/fg/archiveBoss/albums',
+    getParentRoute: () => FgAuthenticatedRouteRoute,
+  } as any)
 const FgAuthenticatedFgProjectsKull26IndexRoute =
   FgAuthenticatedFgProjectsKull26IndexRouteImport.update({
     id: '/fg/projects/kull26/',
@@ -151,6 +179,10 @@ export interface FileRoutesByFullPath {
   '/fg/profile': typeof FgAuthenticatedFgProfileRoute
   '/fg/upload': typeof FgAuthenticatedFgUploadRoute
   '/fg/': typeof FgAuthenticatedFgIndexRoute
+  '/fg/archiveBoss/albums': typeof FgAuthenticatedFgArchiveBossAlbumsRoute
+  '/fg/archiveBoss/categories': typeof FgAuthenticatedFgArchiveBossCategoriesRoute
+  '/fg/archiveBoss/places': typeof FgAuthenticatedFgArchiveBossPlacesRoute
+  '/fg/archiveBoss/users': typeof FgAuthenticatedFgArchiveBossUsersRoute
   '/fg/archiveBoss/': typeof FgAuthenticatedFgArchiveBossIndexRoute
   '/fg/projects/': typeof FgAuthenticatedFgProjectsIndexRoute
   '/fg/archiveBoss/editUser/$userId': typeof FgAuthenticatedFgArchiveBossEditUserUserIdRoute
@@ -171,6 +203,10 @@ export interface FileRoutesByTo {
   '/fg/profile': typeof FgAuthenticatedFgProfileRoute
   '/fg/upload': typeof FgAuthenticatedFgUploadRoute
   '/fg': typeof FgAuthenticatedFgIndexRoute
+  '/fg/archiveBoss/albums': typeof FgAuthenticatedFgArchiveBossAlbumsRoute
+  '/fg/archiveBoss/categories': typeof FgAuthenticatedFgArchiveBossCategoriesRoute
+  '/fg/archiveBoss/places': typeof FgAuthenticatedFgArchiveBossPlacesRoute
+  '/fg/archiveBoss/users': typeof FgAuthenticatedFgArchiveBossUsersRoute
   '/fg/archiveBoss': typeof FgAuthenticatedFgArchiveBossIndexRoute
   '/fg/projects': typeof FgAuthenticatedFgProjectsIndexRoute
   '/fg/archiveBoss/editUser/$userId': typeof FgAuthenticatedFgArchiveBossEditUserUserIdRoute
@@ -194,6 +230,10 @@ export interface FileRoutesById {
   '/_fgAuthenticated/fg/profile': typeof FgAuthenticatedFgProfileRoute
   '/_fgAuthenticated/fg/upload': typeof FgAuthenticatedFgUploadRoute
   '/_fgAuthenticated/fg/': typeof FgAuthenticatedFgIndexRoute
+  '/_fgAuthenticated/fg/archiveBoss/albums': typeof FgAuthenticatedFgArchiveBossAlbumsRoute
+  '/_fgAuthenticated/fg/archiveBoss/categories': typeof FgAuthenticatedFgArchiveBossCategoriesRoute
+  '/_fgAuthenticated/fg/archiveBoss/places': typeof FgAuthenticatedFgArchiveBossPlacesRoute
+  '/_fgAuthenticated/fg/archiveBoss/users': typeof FgAuthenticatedFgArchiveBossUsersRoute
   '/_fgAuthenticated/fg/archiveBoss/': typeof FgAuthenticatedFgArchiveBossIndexRoute
   '/_fgAuthenticated/fg/projects/': typeof FgAuthenticatedFgProjectsIndexRoute
   '/_fgAuthenticated/fg/archiveBoss/editUser/$userId': typeof FgAuthenticatedFgArchiveBossEditUserUserIdRoute
@@ -217,6 +257,10 @@ export interface FileRouteTypes {
     | '/fg/profile'
     | '/fg/upload'
     | '/fg/'
+    | '/fg/archiveBoss/albums'
+    | '/fg/archiveBoss/categories'
+    | '/fg/archiveBoss/places'
+    | '/fg/archiveBoss/users'
     | '/fg/archiveBoss/'
     | '/fg/projects/'
     | '/fg/archiveBoss/editUser/$userId'
@@ -237,6 +281,10 @@ export interface FileRouteTypes {
     | '/fg/profile'
     | '/fg/upload'
     | '/fg'
+    | '/fg/archiveBoss/albums'
+    | '/fg/archiveBoss/categories'
+    | '/fg/archiveBoss/places'
+    | '/fg/archiveBoss/users'
     | '/fg/archiveBoss'
     | '/fg/projects'
     | '/fg/archiveBoss/editUser/$userId'
@@ -259,6 +307,10 @@ export interface FileRouteTypes {
     | '/_fgAuthenticated/fg/profile'
     | '/_fgAuthenticated/fg/upload'
     | '/_fgAuthenticated/fg/'
+    | '/_fgAuthenticated/fg/archiveBoss/albums'
+    | '/_fgAuthenticated/fg/archiveBoss/categories'
+    | '/_fgAuthenticated/fg/archiveBoss/places'
+    | '/_fgAuthenticated/fg/archiveBoss/users'
     | '/_fgAuthenticated/fg/archiveBoss/'
     | '/_fgAuthenticated/fg/projects/'
     | '/_fgAuthenticated/fg/archiveBoss/editUser/$userId'
@@ -385,6 +437,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FgAuthenticatedFgArchiveBossIndexRouteImport
       parentRoute: typeof FgAuthenticatedRouteRoute
     }
+    '/_fgAuthenticated/fg/archiveBoss/users': {
+      id: '/_fgAuthenticated/fg/archiveBoss/users'
+      path: '/fg/archiveBoss/users'
+      fullPath: '/fg/archiveBoss/users'
+      preLoaderRoute: typeof FgAuthenticatedFgArchiveBossUsersRouteImport
+      parentRoute: typeof FgAuthenticatedRouteRoute
+    }
+    '/_fgAuthenticated/fg/archiveBoss/places': {
+      id: '/_fgAuthenticated/fg/archiveBoss/places'
+      path: '/fg/archiveBoss/places'
+      fullPath: '/fg/archiveBoss/places'
+      preLoaderRoute: typeof FgAuthenticatedFgArchiveBossPlacesRouteImport
+      parentRoute: typeof FgAuthenticatedRouteRoute
+    }
+    '/_fgAuthenticated/fg/archiveBoss/categories': {
+      id: '/_fgAuthenticated/fg/archiveBoss/categories'
+      path: '/fg/archiveBoss/categories'
+      fullPath: '/fg/archiveBoss/categories'
+      preLoaderRoute: typeof FgAuthenticatedFgArchiveBossCategoriesRouteImport
+      parentRoute: typeof FgAuthenticatedRouteRoute
+    }
+    '/_fgAuthenticated/fg/archiveBoss/albums': {
+      id: '/_fgAuthenticated/fg/archiveBoss/albums'
+      path: '/fg/archiveBoss/albums'
+      fullPath: '/fg/archiveBoss/albums'
+      preLoaderRoute: typeof FgAuthenticatedFgArchiveBossAlbumsRouteImport
+      parentRoute: typeof FgAuthenticatedRouteRoute
+    }
     '/_fgAuthenticated/fg/projects/kull26/': {
       id: '/_fgAuthenticated/fg/projects/kull26/'
       path: '/fg/projects/kull26'
@@ -427,6 +507,10 @@ interface FgAuthenticatedRouteRouteChildren {
   FgAuthenticatedFgProfileRoute: typeof FgAuthenticatedFgProfileRoute
   FgAuthenticatedFgUploadRoute: typeof FgAuthenticatedFgUploadRoute
   FgAuthenticatedFgIndexRoute: typeof FgAuthenticatedFgIndexRoute
+  FgAuthenticatedFgArchiveBossAlbumsRoute: typeof FgAuthenticatedFgArchiveBossAlbumsRoute
+  FgAuthenticatedFgArchiveBossCategoriesRoute: typeof FgAuthenticatedFgArchiveBossCategoriesRoute
+  FgAuthenticatedFgArchiveBossPlacesRoute: typeof FgAuthenticatedFgArchiveBossPlacesRoute
+  FgAuthenticatedFgArchiveBossUsersRoute: typeof FgAuthenticatedFgArchiveBossUsersRoute
   FgAuthenticatedFgArchiveBossIndexRoute: typeof FgAuthenticatedFgArchiveBossIndexRoute
   FgAuthenticatedFgProjectsIndexRoute: typeof FgAuthenticatedFgProjectsIndexRoute
   FgAuthenticatedFgArchiveBossEditUserUserIdRoute: typeof FgAuthenticatedFgArchiveBossEditUserUserIdRoute
@@ -440,6 +524,14 @@ const FgAuthenticatedRouteRouteChildren: FgAuthenticatedRouteRouteChildren = {
   FgAuthenticatedFgProfileRoute: FgAuthenticatedFgProfileRoute,
   FgAuthenticatedFgUploadRoute: FgAuthenticatedFgUploadRoute,
   FgAuthenticatedFgIndexRoute: FgAuthenticatedFgIndexRoute,
+  FgAuthenticatedFgArchiveBossAlbumsRoute:
+    FgAuthenticatedFgArchiveBossAlbumsRoute,
+  FgAuthenticatedFgArchiveBossCategoriesRoute:
+    FgAuthenticatedFgArchiveBossCategoriesRoute,
+  FgAuthenticatedFgArchiveBossPlacesRoute:
+    FgAuthenticatedFgArchiveBossPlacesRoute,
+  FgAuthenticatedFgArchiveBossUsersRoute:
+    FgAuthenticatedFgArchiveBossUsersRoute,
   FgAuthenticatedFgArchiveBossIndexRoute:
     FgAuthenticatedFgArchiveBossIndexRoute,
   FgAuthenticatedFgProjectsIndexRoute: FgAuthenticatedFgProjectsIndexRoute,

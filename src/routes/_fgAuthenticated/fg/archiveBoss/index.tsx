@@ -14,6 +14,9 @@ import ArchiveBossOverView from "@/components/Arkivsjef/ArchiveBossOverView/Arch
 import { createFileRoute } from "@tanstack/react-router";
 import { Button } from "@/components/ui/input/Button";
 import { Pagination } from "@/components/ui/navigation/Pagination";
+import ArchiveBossSidebar from "@/components/Arkivsjef/ArchiveBossSidebar/ArchiveBossSidebar";
+
+
 
 export const Route = createFileRoute("/_fgAuthenticated/fg/archiveBoss/")({
   component: ArchiveBoss,
@@ -110,6 +113,8 @@ function ArchiveBoss() {
   }, [update, albumsPage, placesPage, categoriesPage]);
 
   return (
+
+    
     <ArchiveBossContext.Provider
       value={{
         setAlbums,
@@ -122,7 +127,17 @@ function ArchiveBoss() {
         setUpdate,
       }}
     >
-      <div className={styles.archiveBoss}>
+      <div className = {styles.archiveBoss}>
+
+      <ArchiveBossSidebar />
+      <main className={styles.content}>
+
+      </main>
+
+      </div>
+
+
+      {/* <div className={styles.archiveBoss}>
         <h2>Arkivsjef</h2>
 
         <div className={styles.users}>
@@ -232,7 +247,8 @@ function ArchiveBoss() {
             </>
           )}
         </ArchiveBossAccordion>
-      </div>
+      </div> */}
     </ArchiveBossContext.Provider>
+
   );
 }
