@@ -1,6 +1,6 @@
 import { Label } from "radix-ui";
 import styles from "./TextInput.module.css";
-import { forwardRef, InputHTMLAttributes, ReactNode } from "react";
+import { forwardRef, InputHTMLAttributes, ReactNode, useId } from "react";
 
 interface TextInputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "className" | "prefix"> {
@@ -17,7 +17,8 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     { label, error, hint, className, id, prefix, suffix, ...props },
     ref,
   ) {
-    const inputId = id ?? `text-input-${props.name}`;
+    const generatedId = useId();
+    const inputId = id ?? `text-input-${generatedId}`;
     const describedBy = error
       ? `${inputId}-error`
       : hint
