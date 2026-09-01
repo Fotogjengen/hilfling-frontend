@@ -108,3 +108,32 @@
   width: 18rem;
   border-radius: var(--size-radius-200);
 }
+
+@media (max-width: 1000px) {
+  .photoGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .photoGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 500px) {
+  .motiveTitle {
+    font-size: 1rem;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+  }
+
+  .motiveSubtitle {
+    font-size: 0.6rem;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    flex-wrap: wrap;
+  }
+}
