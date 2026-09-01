@@ -1,6 +1,12 @@
 .archiveBoss {
-  background-color: white;
+  /* background-color: white;
   padding: 2rem;
+  margin : 0; */
+  display: flex;
+	width: 100%;
+	min-height: 100vh;
+	margin: 0;
+	padding: 0;
 }
 .archiveBoss h2 {
   text-align: center;
