@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { z } from "zod";
-import type { MemberPositionDto, PhotoGangBangerDto } from "@/../generated";
+import type { MemberPositionDto } from "@/../generated";
 import { Button } from "@/components/ui/input/Button";
 import { Dialog } from "@/components/ui/overlay/Dialog";
 import { toast } from "@/components/ui/overlay/Toaster";
 import { useCreatePhotoGangBanger } from "@/hooks/photoGangBangers";
 import { PositionApi } from "@/utils/api/PositionApi";
+import type { PhotoGangBangerCreateRequest } from "@/utils/api/PhotoGangBangerApi";
 import useAppForm from "@/utils/form/FormContext";
 import styles from "./CreatePhotoGangBangerDialog.module.css";
 
@@ -71,8 +72,7 @@ export function CreatePhotoGangBangerDialog({
             },
           ]
         : [];
-      const photoGangBanger: PhotoGangBangerDto = {
-        photoGangBangerId: { id: crypto.randomUUID() },
+      const photoGangBanger: PhotoGangBangerCreateRequest = {
         semesterStart,
         isActive: value.isActive,
         isPang: value.isPang,

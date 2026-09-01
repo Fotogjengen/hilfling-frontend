@@ -1,4 +1,7 @@
-import { PhotoGangBangerApi } from "@/utils/api/PhotoGangBangerApi";
+import {
+  PhotoGangBangerApi,
+  type PhotoGangBangerCreateRequest,
+} from "@/utils/api/PhotoGangBangerApi";
 import type { PhotoGangBangerDto } from "@/../generated";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -39,7 +42,7 @@ export const useCreatePhotoGangBanger = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (photoGangBanger: PhotoGangBangerDto) =>
+    mutationFn: (photoGangBanger: PhotoGangBangerCreateRequest) =>
       PhotoGangBangerApi.post(photoGangBanger),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ["photoGangBangers"] });

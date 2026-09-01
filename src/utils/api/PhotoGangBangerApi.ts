@@ -2,6 +2,11 @@ import { api } from "./api";
 import { PhotoGangBangerDto } from "../../../generated";
 import { PaginatedResultData } from "./types";
 
+export type PhotoGangBangerCreateRequest = Omit<
+  PhotoGangBangerDto,
+  "photoGangBangerId"
+>;
+
 export const PhotoGangBangerApi = {
   getAll: async function (): Promise<PaginatedResultData<PhotoGangBangerDto>> {
     const res = await api.get<PaginatedResultData<PhotoGangBangerDto>>(
@@ -37,7 +42,7 @@ export const PhotoGangBangerApi = {
       .patch<PhotoGangBangerDto>("/photo_gang_bangers", photoGangBanger)
       .then((res) => res.data);
   },
-  post: async function (user: PhotoGangBangerDto): Promise<number> {
+  post: async function (user: PhotoGangBangerCreateRequest): Promise<number> {
     return api
       .post<number>("/photo_gang_bangers", user)
       .then((res) => res.data);
