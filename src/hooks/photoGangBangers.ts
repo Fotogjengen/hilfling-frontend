@@ -14,3 +14,10 @@ export const usePangPhotoGangBangers = () => {
     queryFn: () => PhotoGangBangerApi.getAllActivePangsPublic(),
   });
 };
+
+export const usePhotoGangBangers = () => {
+  return useQuery({
+    queryKey: ["photoGangBangers"],
+    queryFn: () => PhotoGangBangerApi.getAll(),
+  });
+};
