@@ -12,14 +12,6 @@ function ArchiveBossSidebar() {
 
     <NavigationMenu.Root orientation="vertical" className = {styles.Root}>
         <NavigationMenu.List className = {styles.MenuList}>
-            <NavigationMenu.Item className = {styles.titleWrapper} >
-                <NavigationMenu.Link className = {styles.Trigger} asChild>  
-                     <Link 
-                     to="/fg/archiveBoss/users">
-                        Brukere             
-                    </Link>
-                </NavigationMenu.Link>
-            </NavigationMenu.Item>
             <NavigationMenu.Item className = {styles.titleWrapper}>
                 <NavigationMenu.Link className = {styles.Trigger} asChild>  
                      <Link 

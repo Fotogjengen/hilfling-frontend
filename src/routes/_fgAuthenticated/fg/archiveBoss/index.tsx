@@ -129,7 +129,7 @@ function ArchiveBoss() {
     >
       <div className = {styles.archiveBoss}>
 
-      <ArchiveBossSidebar />
+      {/* <ArchiveBossSidebar /> */}
       <main className={styles.content}>
 
       </main>

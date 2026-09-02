@@ -1,0 +1,39 @@
+
+.item{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    
+    width: 100%;
+    padding: var(--size-space-800);
+
+    padding: 12px 16px;
+    margin-bottom: 8px;
+
+    /* border-bottom: 1px solid var(--color-border-default-default); */
+    /* border-radius: 8px; */
+}
+
+.actions{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    gap: var(--size-space-600);
+}
+
+.editButton,
+.deleteButton {
+  width: fit-content;
+  gap: var(--size-space-200);
+  white-space: nowrap;
+}
+
+.album_names{
+gap: var(--size-space-200);
+  color: var(--color-text-default-default);
+  font-family: var(--typography-body-font-family);
+  font-size: var(--typography-body-size-medium);
+
+}

@@ -1,0 +1,12 @@
+
+.archiveBoss {
+  display: flex;
+  width: 100%;
+  min-height: 100dvh;
+}
+
+.archiveBoss main {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+}

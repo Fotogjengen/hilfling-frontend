@@ -1,0 +1,96 @@
+.album_page {
+  min-height: 100%;
+  background-color: var(--color-background-default-default);
+  color: var(--color-text-default-default);
+  padding: var(--size-space-800);
+}
+
+
+.pageHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-300);
+  margin-bottom: var(--size-space-600);
+}
+
+.pageHeader h1 {
+  margin: 0;
+  color: var(--color-text-default-default);
+  font-family: var(--typography-title-page-font-family);
+  font-size: var(--typography-title-page-size-small);
+  font-weight: var(--typography-title-page-font-weight);
+  line-height: 1.1;
+}
+
+.toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-200);
+  margin-bottom: var(--size-space-600);
+}
+.search {
+  width: 100%;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--size-space-300);
+}
+
+.sortControl {
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-200);
+  color: var(--color-text-default-default);
+  font-family: var(--typography-body-font-family);
+  font-size: var(--typography-body-size-medium);
+}
+
+.sortSelect {
+  min-width: 11rem;
+}
+.iconTextButton {
+  width: fit-content;
+  gap: var(--size-space-200);
+  white-space: nowrap;
+}
+
+.table{
+    width: 100%;
+    border-collapse: collapse;
+    color: var(--color-text-default-default);
+    font-family: var(--typography-body-font-family);
+    font-size: var(--typography-body-size-medium);
+}
+
+.table th:first-child,
+.table td:first-child {
+  width: 70%;
+}
+
+.table th:last-child,
+.table td:last-child {
+  width: 30%;
+}
+
+
+.table th,
+.table td {
+  padding: var(--size-space-400);
+  border-bottom: var(--size-stroke-border) solid
+    var(--color-border-default-default);
+  text-align: left;
+  vertical-align: middle;
+  
+}
+
+.table th {
+  color: var(--color-text-default-default);
+  font-weight: var(--typography-body-font-weight-strong);
+}
+
+.table tbody tr:hover {
+  background-color: var(--color-background-default-default-hover);
+}
