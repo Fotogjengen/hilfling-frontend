@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/input/Button";
 import "./EditProfilepic.css";
-import { DragNDropFile } from "../../../types";
 import { useDropzone } from "react-dropzone";
 
 interface Props {
@@ -13,7 +12,7 @@ const EditProfilepic = ({ setEditProfilepic }: Props) => {
   const [noPictureUploaded, setnoPictureUploade] = useState(true);
   const [preview, setPreview] = useState<string>("");
 
-  const [file, setFile] = useState<DragNDropFile | null>(null); // stores the uploaded files
+  const [file, setFile] = useState<File | null>(null); // stores the uploaded file
 
   // const [fileName, setFileName] = useState<string> (""); // first part of the logic needed to create url for profilepictures, commented out beacuse of lint errors in PR
   // const [filePath, setFilePath] = useState<string> ("");
@@ -25,7 +24,7 @@ const EditProfilepic = ({ setEditProfilepic }: Props) => {
 
   useEffect(() => {
     if (acceptedFiles.length > 0) {
-      const file_new = acceptedFiles[0] as DragNDropFile;
+      const file_new = acceptedFiles[0];
       setFile(file_new);
 
       setnoPictureUploade(false);
