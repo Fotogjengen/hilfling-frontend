@@ -1,5 +1,6 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState, useMemo, useCallback, useEffect } from "react";
+import { ArrowLeft } from "lucide-react";
 import "./secondgame.css";
 import { questions } from "@/components/NewProjects/questions";
 import { random } from "lodash";
@@ -153,6 +154,11 @@ function Secondgame() {
 
   return (
     <div id="secondgame">
+      <Link className="back-button" to="/fg/projects/kull26">
+        <ArrowLeft size={18} />
+        <span>Tilbake</span>
+      </Link>
+
       <div className="splash-container">
         {droplets.map((d) => (
           <div

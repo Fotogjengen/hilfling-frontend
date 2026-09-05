@@ -29,8 +29,12 @@ export function Dialog({
                 {title}
               </DialogPrimitive.Title>
             )}
-            <DialogPrimitive.Close className={styles.close}>
-              <X size={16} />
+            <DialogPrimitive.Close
+              type="button"
+              className={styles.close}
+              aria-label="Lukk dialog"
+            >
+              <X size={16} aria-hidden="true" />
             </DialogPrimitive.Close>
           </div>
           <div className={styles.body}>{children}</div>

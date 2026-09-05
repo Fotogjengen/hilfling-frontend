@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from "react";
+import { InputHTMLAttributes, useId } from "react";
 import { Search, X } from "lucide-react";
 import styles from "./SearchField.module.css";
 
@@ -14,11 +14,15 @@ export function SearchField({
   onClear,
   className,
   disabled,
+  id,
   ...props
 }: SearchFieldProps) {
+  const generatedId = useId();
+
   return (
     <div className={[styles.wrapper, className].filter(Boolean).join(" ")}>
       <input
+        id={id ?? `search-field-${generatedId}`}
         type="text"
         value={value}
         disabled={disabled}

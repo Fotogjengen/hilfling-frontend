@@ -1,5 +1,6 @@
 import { Select as SelectPrimitive } from "radix-ui";
 import { ChevronDown } from "lucide-react";
+import { useId } from "react";
 import styles from "./Select.module.css";
 
 interface SelectOption {
@@ -16,6 +17,8 @@ interface SelectProps {
   error?: string;
   disabled?: boolean;
   className?: string;
+  id?: string;
+  name?: string;
 }
 
 export function Select({
@@ -27,16 +30,27 @@ export function Select({
   error,
   disabled,
   className,
+  id,
+  name,
 }: SelectProps) {
+  const generatedId = useId();
+  const triggerId = id ?? `select-${generatedId}`;
+
   return (
     <div className={[styles.wrapper, className].filter(Boolean).join(" ")}>
-      {label && <label className={styles.label}>{label}</label>}
+      {label && (
+        <label className={styles.label} htmlFor={triggerId}>
+          {label}
+        </label>
+      )}
       <SelectPrimitive.Root
+        name={name}
         value={value}
         onValueChange={onValueChange}
         disabled={disabled}
       >
         <SelectPrimitive.Trigger
+          id={triggerId}
           className={[styles.trigger, error ? styles.triggerError : null]
             .filter(Boolean)
             .join(" ")}
