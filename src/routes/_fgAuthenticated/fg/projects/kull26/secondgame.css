@@ -3,6 +3,22 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
+  padding: 16px;
+}
+
+.back-button {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #555;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.back-button:hover {
+  color: #ad2f33;
 }
 
 #gameTitle {

@@ -57,6 +57,8 @@ export function NavigationMenuItem({
   );
 }
 
+const CLOSE_GUARD_MS = 250;
+
 export function NavigationMenuTrigger({
   className,
   children,
@@ -65,13 +67,36 @@ export function NavigationMenuTrigger({
 }: React.ComponentProps<typeof NavigationMenuPrimitive.Trigger> & {
   active?: boolean;
 }) {
+  const ref = React.useRef<HTMLButtonElement>(null);
+  const openedAt = React.useRef(0);
+
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new MutationObserver(() => {
+      if (el.getAttribute("data-state") === "open") {
+        openedAt.current = Date.now();
+      }
+    });
+    observer.observe(el, { attributes: true, attributeFilter: ["data-state"] });
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <NavigationMenuPrimitive.Trigger
+      ref={ref}
       data-slot="navigation-menu-trigger"
       data-active={active ? "" : undefined}
       className={[styles.navigationMenuTrigger, className]
         .filter(Boolean)
         .join(" ")}
+      onClick={(e) => {
+        const isOpen = e.currentTarget.getAttribute("data-state") === "open";
+        if (isOpen && Date.now() - openedAt.current < CLOSE_GUARD_MS) {
+          e.preventDefault();
+        }
+        props.onClick?.(e);
+      }}
       {...props}
     >
       {children}{" "}
