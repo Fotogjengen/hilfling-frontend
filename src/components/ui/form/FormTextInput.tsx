@@ -18,6 +18,7 @@ export function FormTextInput({
 
   return (
     <TextInput
+      name={field.name}
       label={label}
       hint={hint}
       placeholder={placeholder}
