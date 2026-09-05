@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo} from "react";
 
 import styles from "./albums.module.css";
 
@@ -26,58 +26,62 @@ export const Route = createFileRoute('/_fgAuthenticated/fg/archiveBoss/albums')(
 )
 
 const sortOptions = [
-  { label: "Nyeste først", value: "newest" },
-  { label: "Eldste først", value: "oldest" },
-  { label: "Navn A-AA", value: "nameAsc" },
+  // { label: "Nyeste først", value: "newest" },
+  // { label: "Eldste først", value: "oldest" },
+  { label: "Navn A-Å", value: "nameAsc" },
+  { label: "Navn Å-A", value: "nameDesc" },
 ];
 
 
 function AlbumsPage() {
   const [search, setSearch] = useState("");
-  const [sort, setSort] = useState("newest");
-
+  const [sort, setSort] = useState("nameAsc");
   const [albums, setAlbums] = useState<AlbumDto[]>([]);
-  const [albumsPage, setAlbumsPage] = useState(1);
-  // const [albumsTotalPages, setAlbumsTotalPages] = useState(1);
+  const [sortedAlbums, setSortedAlbums] = useState<AlbumDto[]>([])
 
-  const [update, setUpdate] = useState(false);
 
-  const [loading, setLoading] = useState({
-    albums: false,
-    places: false,
-    categories: false,});
+  // const [albumsPage, setAlbumsPage] = useState(1);
+
+
+  // const [update, setUpdate] = useState(false);
 
   const itemsPerPage = 20;
-  const setError = (e: string) => toast.error(e);
 
-  // const { data, isLoading, isError } = useAlbums();
+  const {
+    data,
+    isLoading,
+    isError,
+    // fetchNextPage,
+    // hasNextPage,
+    // isFetchingNextPage,
+    } = useAlbums();
+    
+    useEffect (() => {
+      setAlbums(data ?? [])
+    },[data])
 
-  // const albumsList = data?.currentList ?? [];
-  
-  const fetchAlbums = async (page: number) => {
-    setLoading((prev) => ({ ...prev, albums: true }));
-    try {
-      const res = await AlbumApi.getAll({
-        page: page - 1,
-        // pageSize: itemsPerPage,
-      });
-      setAlbums(res.data.currentList);
-      // setAlbumsTotalPages(res.data.totalPages);
-    } catch (err) {
-      setError(err as string);
-    } finally {
-      setLoading((prev) => ({ ...prev, albums: false }));
-    }
-  };
-  useEffect(() => {
-    void fetchAlbums(1);
-  }, []);
-  useEffect(() => {
-    if (update) {
-      void fetchAlbums(albumsPage);
-      setUpdate(false);
-    }
-  }, [update, albumsPage]);
+const filteredAndSortedAlbums = useMemo(() => {
+  const normalizedSearch = search.trim().toLowerCase();
+
+  // First filter
+  const filtered = albums.filter((album) =>
+    album.name.toLowerCase().includes(normalizedSearch)
+  );
+
+  // Then sort
+    return filtered.toSorted((a, b) => {
+      switch (sort) {
+        case "nameAsc":
+          return a.name.localeCompare(b.name);
+
+        case "nameDesc":
+          return b.name.localeCompare(a.name);
+
+        default:
+          return 0;
+      }
+    });
+  }, [albums, sort, search]);
 
   return (
     <div className={styles.album_page}>
@@ -85,7 +89,7 @@ function AlbumsPage() {
         <h1>Album</h1>
         </header>
       <div className={styles.toolbar}>
-        <SearchField
+        <SearchField 
           value={search}
           onChange={(event) => setSearch(event.target.value)}
           onClear={() => setSearch("")}
@@ -94,12 +98,8 @@ function AlbumsPage() {
           className={styles.search}
         />
         <div className={styles.controls}>
-          {/* <Button variant="neutral" size="sm" className={styles.iconTextButton}>
-            <Filter size={16} aria-hidden="true" />
-            Filter
-          </Button> */}
           <label className={styles.sortControl}>
-            <span>Sorter</span>
+            <span> Sorter </span>
             <Select
               options={sortOptions}
               value={sort}
@@ -110,20 +110,19 @@ function AlbumsPage() {
         </div>
       </div>
 
-    {loading.albums ? (
-      <p>Laster album...</p>) : (
-        <div >
+    {isLoading ? (
+      <p> Laster album... </p>) : (
+        <div>
           <table className={styles.table}>
             <thead>
               <tr>
                 <th> Album </th>
-                <th>Handlinger</th>
+                <th> Handlinger </th>
               </tr>
             </thead>
           <tbody>
 
-          {albums.map((album, index) => (
-           
+          {filteredAndSortedAlbums.map((album, index) => (
             <ArchiveBossItem
               key={index}
               text={album.name}
@@ -133,7 +132,6 @@ function AlbumsPage() {
             
           ))}
           </tbody>
-
           </table>
         </div>
           )}

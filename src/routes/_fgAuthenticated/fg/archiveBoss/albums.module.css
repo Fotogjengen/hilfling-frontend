@@ -5,7 +5,6 @@
   padding: var(--size-space-800);
 }
 
-
 .pageHeader {
   display: flex;
   flex-direction: column;
@@ -37,6 +36,7 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--size-space-300);
+  margin-top: var(--size-space-300);
 }
 
 .sortControl {
@@ -50,6 +50,7 @@
 
 .sortSelect {
   min-width: 11rem;
+  
 }
 .iconTextButton {
   width: fit-content;
