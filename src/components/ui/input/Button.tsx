@@ -3,12 +3,7 @@ import { forwardRef } from "react";
 import styles from "./Button.module.css";
 
 type ButtonVariant =
-  | "primary"
-  | "neutral"
-  | "subtle"
-  | "transparent"
-  | "danger"
-  | "subtle-danger";
+  "primary" | "neutral" | "subtle" | "transparent" | "danger" | "subtle-danger";
 type ButtonSize = "sm" | "md";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
