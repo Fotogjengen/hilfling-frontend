@@ -60,23 +60,17 @@ function AlbumsPage() {
       setAlbums(data ?? [])
     },[data])
 
-const filteredAndSortedAlbums = useMemo(() => {
+  const filteredAndSortedAlbums = useMemo(() => {
   const normalizedSearch = search.trim().toLowerCase();
 
-  // First filter
   const filtered = albums.filter((album) =>
-    album.name.toLowerCase().includes(normalizedSearch)
-  );
-
-  // Then sort
+    album.name.toLowerCase().includes(normalizedSearch));
     return filtered.toSorted((a, b) => {
       switch (sort) {
         case "nameAsc":
           return a.name.localeCompare(b.name);
-
         case "nameDesc":
           return b.name.localeCompare(a.name);
-
         default:
           return 0;
       }
@@ -117,6 +111,7 @@ const filteredAndSortedAlbums = useMemo(() => {
             <thead>
               <tr>
                 <th> Album </th>
+                <th> Beskrivelse </th>
                 <th> Handlinger </th>
               </tr>
             </thead>
@@ -125,7 +120,7 @@ const filteredAndSortedAlbums = useMemo(() => {
           {filteredAndSortedAlbums.map((album, index) => (
             <ArchiveBossItem
               key={index}
-              text={album.name}
+              text={[album.name, album.description]}
               id={album.albumId.id}
               type="album"
             />

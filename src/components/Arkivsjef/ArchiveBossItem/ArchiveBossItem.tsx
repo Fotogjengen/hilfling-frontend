@@ -5,7 +5,8 @@ import {Pencil, Album, Trash2 } from "lucide-react";
 
 
 interface Props {
-  text: string | undefined;
+  text: (string | undefined)[] | [];
+
   id: string;
   type: string;
 }
@@ -14,11 +15,12 @@ function ArchiveBossItem({text, id, type }: Props) {
 
     return (
       <tr>
+        {text.map((item) => 
         <td> 
           <div className={styles.album_names}>
-            {text} 
+            {item} 
           </div>
-        </td> 
+        </td>)}
         <td >
           <div  className={styles.actions}>
 
