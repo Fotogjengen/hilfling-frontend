@@ -33,10 +33,10 @@
     "react": "^19.2.8",
     "react-day-picker": "^10.0.1",
     "react-dom": "^19.2.8",
-    "react-dropzone": "^15.0.0",
+    "react-dropzone": "^20.1.1",
     "react-intersection-observer": "^10.0.3",
     "sonner": "^2.0.7",
-    "typescript": "^5.0.0",
+    "typescript": "~6.0.3",
     "zod": "^4.4.3"
   },
   "devDependencies": {
@@ -54,7 +54,7 @@
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-react": "^7.37.5",
     "lint-staged": "16.1.6",
-    "prettier": "3.6.2",
+    "prettier": "3.9.6",
     "typescript-eslint": "^8.56.1",
     "vite": "^8.1.3"
   }

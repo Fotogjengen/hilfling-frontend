@@ -2,6 +2,7 @@
   background-color: var(--color-background-photo-modal);
   position: fixed;
   inset: 0;
+  z-index: 100;
 }
 
 .dialogContent {
@@ -10,6 +11,7 @@
   inset: 0;
   display: flex;
   outline: none;
+  z-index: 100;
 }
 
 .fadeInAnimation {
