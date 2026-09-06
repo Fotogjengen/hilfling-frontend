@@ -104,7 +104,10 @@ function GangBangers() {
         accessorKey: "isActive",
         header: "Status",
         cell: ({ row }) => (
-          <StatusBadge active={row.original.isActive} pang={row.original.isPang} />
+          <StatusBadge
+            active={row.original.isActive}
+            pang={row.original.isPang}
+          />
         ),
       },
       {
