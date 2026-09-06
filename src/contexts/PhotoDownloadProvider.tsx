@@ -1,11 +1,23 @@
-import { createContext, useContext, useMemo, useRef, useState } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { PhotoDto } from "../../generated";
-import CreditPopUp from "@/components/DownloadImages/CreditPopUp/CreditPopUp";
 import { useAuth } from "@/contexts/AuthProvider";
+import { toast } from "@/components/ui/overlay/Toaster";
+import { Dialog } from "@/components/ui/overlay/Dialog";
+import { CreditAcknowledgement } from "@/components/DownloadImages/CreditAcknowledgement";
+import { Button } from "@/components/ui/input/Button";
+import { QualitySelector } from "@/components/DownloadImages/QualitySelector";
+import { PhotoQuality } from "@/types";
 
 /** Downloads a specific photo */
-async function downloadImage(photo: PhotoDto) {
-  const url = photo.imageProd ?? photo.imageWeb;
+async function downloadImage(photo: PhotoDto, quality: PhotoQuality) {
+  const url = quality === "prod" ? photo.imageProd! : photo.imageWeb!;
   if (!url) return;
 
   const fileName = url.split("/").pop() || `${photo.imageNumber}.jpg`;
@@ -34,54 +46,106 @@ const PhotoDownloadContext = createContext<PhotoDownloadContext>(
 
 export const usePhotoDownload = () => useContext(PhotoDownloadContext);
 
+// quality leads into credit, if credit has not already been accepted
+type PopupPhase = "quality" | "credit";
+
 const PhotoDownloadProvider = ({ children }: { children: React.ReactNode }) => {
   const { isAuthenticated } = useAuth();
-  const [showCreditPopUp, setShowCreditPopUp] = useState(false);
+  const [shouldShowPopup, setShouldShowPopup] = useState(false);
+  const [popupPhase, setPopupPhase] = useState<PopupPhase>("quality");
   const [creditAccepted, setCreditAccepted] = useState(false);
+  const [selectedQuality, setSelectedQuality] = useState<PhotoQuality>(
+    isAuthenticated ? "prod" : "web",
+  );
+  const [nextButtonShouldBeDisabled, setNextButtonShouldBeDisabled] =
+    useState(false);
+
+  useEffect(() => {
+    if (selectedQuality === "prod" && isAuthenticated === false) {
+      setNextButtonShouldBeDisabled(true);
+      return;
+    }
+    setNextButtonShouldBeDisabled(false);
+  }, [selectedQuality]);
+
   const pendingPhoto = useRef<PhotoDto | null>(null);
 
   const value = useMemo(
     () => ({
       requestDownload: (photo: PhotoDto) => {
-        if (creditAccepted) {
-          downloadImage(photo).catch((error) =>
-            console.error("Download failed:", error),
-          );
-        } else {
-          pendingPhoto.current = photo;
-          setShowCreditPopUp(true);
-        }
+        pendingPhoto.current = photo;
+        setShouldShowPopup(true);
+        setPopupPhase("quality");
       },
     }),
     [creditAccepted],
   );
 
-  const handleAccept = () => {
+  const handleCreditAccept = () => {
     setCreditAccepted(true);
-    setShowCreditPopUp(false);
+    setShouldShowPopup(false);
+    downloadPhoto();
+  };
+
+  const downloadPhoto = () => {
     const photo = pendingPhoto.current;
     pendingPhoto.current = null;
     if (photo) {
-      downloadImage(photo).catch((error) =>
-        console.error("Download failed:", error),
+      downloadImage(photo, selectedQuality).catch((error) =>
+        toast.error("Kunne ikke laste ned bildet", {
+          description: `Noe gikk galt. Feilkode: ${error}`,
+        }),
       );
     }
   };
 
   const handleAbort = () => {
     pendingPhoto.current = null;
-    setShowCreditPopUp(false);
+    setShouldShowPopup(false);
+  };
+
+  const handleNextStep = () => {
+    if (popupPhase === "quality") {
+      if (!creditAccepted) {
+        setPopupPhase("credit");
+      } else {
+        setShouldShowPopup(false);
+        downloadPhoto();
+      }
+      return;
+    }
+
+    handleCreditAccept();
   };
 
   return (
     <PhotoDownloadContext.Provider value={value}>
       {children}
-      {showCreditPopUp && (
-        <CreditPopUp
-          isAuthenticated={isAuthenticated}
-          onAccept={handleAccept}
-          onAbort={handleAbort}
-        />
+      {shouldShowPopup && (
+        <Dialog
+          open
+          onOpenChange={handleAbort}
+          title={
+            popupPhase === "credit" ? "Husk kreditering!" : "Velg kvalitet"
+          }
+          actions={
+            <Button
+              disabled={nextButtonShouldBeDisabled}
+              onClick={() => handleNextStep()}
+            >
+              Last ned
+            </Button>
+          }
+        >
+          {popupPhase === "quality" && (
+            <QualitySelector
+              onQualitySelect={(quality) => setSelectedQuality(quality)}
+            />
+          )}
+          {popupPhase === "credit" && (
+            <CreditAcknowledgement isAuthenticated={isAuthenticated} />
+          )}
+        </Dialog>
       )}
     </PhotoDownloadContext.Provider>
   );
