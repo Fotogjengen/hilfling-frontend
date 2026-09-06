@@ -2,6 +2,7 @@
   position: fixed;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.4);
+  z-index: 200;
 }
 
 .content {
@@ -19,6 +20,7 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  z-index: 200;
 }
 
 .header {

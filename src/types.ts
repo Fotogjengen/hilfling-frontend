@@ -121,3 +121,5 @@ export const photoViewModalOptions = z.discriminatedUnion("modalType", [
 ]);
 
 export type PhotoViewModalOptions = z.infer<typeof photoViewModalOptions>;
+
+export type PhotoQuality = "thumb" | "web" | "prod";
