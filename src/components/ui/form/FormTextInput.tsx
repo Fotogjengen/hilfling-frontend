@@ -1,4 +1,5 @@
 import { useFieldContext } from "@/utils/form/FormContext";
+import { getFieldErrorMessage } from "@/utils/form/getFieldErrorMessage";
 import { TextInput } from "../input/TextInput";
 
 interface FormTextInputProps {
@@ -26,7 +27,7 @@ export function FormTextInput({
       value={field.state.value}
       onChange={(e) => field.handleChange(e.target.value)}
       onBlur={field.handleBlur}
-      error={field.state.meta.errors[0]?.toString()}
+      error={getFieldErrorMessage(field.state.meta.errors[0])}
     />
   );
 }

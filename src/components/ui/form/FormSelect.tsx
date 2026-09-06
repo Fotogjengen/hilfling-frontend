@@ -1,4 +1,5 @@
 import { useFieldContext } from "@/utils/form/FormContext";
+import { getFieldErrorMessage } from "@/utils/form/getFieldErrorMessage";
 import { Select } from "../input/Select";
 
 interface FormSelectProps {
@@ -25,7 +26,7 @@ export function FormSelect({
       value={field.state.value}
       disabled={disabled}
       onValueChange={(v) => field.handleChange(v)}
-      error={field.state.meta.errors[0]?.toString()}
+      error={getFieldErrorMessage(field.state.meta.errors[0])}
     />
   );
 }

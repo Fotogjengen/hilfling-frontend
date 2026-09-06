@@ -1,5 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
+import {
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getSortedRowModel,
+  useReactTable,
+  type ColumnDef,
+  type RowSelectionState,
+  type SortingState,
+} from "@tanstack/react-table";
 import { Filter, Pencil, Plus, Trash2 } from "lucide-react";
 import type { PhotoGangBangerDto } from "@/../generated";
 import { ProfileImage } from "@/components/ui/display/ProfileImage";
@@ -22,6 +32,8 @@ const sortOptions = [
   { label: "Navn A-AA", value: "nameAsc" },
 ];
 
+const emptyUsers: PhotoGangBangerDto[] = [];
+
 function GangBangers() {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("newest");
@@ -29,72 +41,142 @@ function GangBangers() {
   const [editingUser, setEditingUser] = useState<PhotoGangBangerDto | null>(
     null,
   );
-  const [selectedUserIds, setSelectedUserIds] = useState<Set<string>>(
-    () => new Set(),
-  );
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const { data, isLoading, isError } = usePhotoGangBangers();
+  const users = data?.currentList ?? emptyUsers;
 
-  const users = data?.currentList ?? [];
+  const columns = useMemo<ColumnDef<PhotoGangBangerDto>[]>(
+    () => [
+      {
+        id: "select",
+        header: ({ table }) => (
+          <Checkbox
+            checked={
+              table.getIsAllPageRowsSelected()
+                ? true
+                : table.getIsSomePageRowsSelected()
+                  ? "indeterminate"
+                  : false
+            }
+            onCheckedChange={(checked) =>
+              table.toggleAllPageRowsSelected(checked === true)
+            }
+            disabled={table.getRowModel().rows.length === 0}
+            className={styles.checkbox}
+          />
+        ),
+        cell: ({ row }) => (
+          <Checkbox
+            checked={row.getIsSelected()}
+            onCheckedChange={(checked) => row.toggleSelected(checked === true)}
+            className={styles.checkbox}
+          />
+        ),
+      },
+      {
+        id: "name",
+        accessorFn: getFullName,
+        header: "Navn",
+        sortingFn: (a, b) =>
+          getFullName(a.original).localeCompare(getFullName(b.original), "nb"),
+        cell: ({ row }) => (
+          <div className={styles.userCell}>
+            <ProfileImage
+              src={row.original.profilePicture}
+              alt={getFullName(row.original)}
+              size={32}
+            />
+            <span>{getFullName(row.original)}</span>
+          </div>
+        ),
+      },
+      {
+        accessorKey: "email",
+        header: "Epost",
+        cell: ({ row }) => <EmailAddresses user={row.original} />,
+      },
+      {
+        accessorKey: "phoneNumber",
+        header: "Telefon",
+        cell: ({ row }) => row.original.phoneNumber || "-",
+      },
+      {
+        accessorKey: "isActive",
+        header: "Status",
+        cell: ({ row }) => (
+          <StatusBadge active={row.original.isActive} pang={row.original.isPang} />
+        ),
+      },
+      {
+        id: "positions",
+        accessorFn: getPositions,
+        header: "Verv",
+      },
+      {
+        id: "actions",
+        header: "Handlinger",
+        cell: ({ row }) => (
+          <div className={styles.actions}>
+            <Button
+              size="sm"
+              className={styles.iconTextButton}
+              onClick={() => setEditingUser(row.original)}
+            >
+              <Pencil size={16} aria-hidden="true" />
+              Rediger
+            </Button>
+            <Button
+              variant="danger"
+              size="sm"
+              className={styles.iconTextButton}
+              disabled
+            >
+              <Trash2 size={16} aria-hidden="true" />
+              Slett
+            </Button>
+          </div>
+        ),
+      },
+      {
+        id: "semester",
+        accessorFn: getSemesterSortValue,
+        sortingFn: "basic",
+      },
+    ],
+    [],
+  );
 
-  const visibleUsers = useMemo(() => {
-    const normalizedSearch = search.trim().toLowerCase();
-    const filteredUsers = normalizedSearch
-      ? users.filter((user) => getSearchText(user).includes(normalizedSearch))
-      : users;
+  // Keep sorting stable across dialog and selection updates to avoid reset loops.
+  const sorting = useMemo<SortingState>(
+    () => [
+      {
+        id: sort === "nameAsc" ? "name" : "semester",
+        desc: sort === "newest",
+      },
+    ],
+    [sort],
+  );
 
-    return [...filteredUsers].sort((a, b) => {
-      if (sort === "nameAsc") {
-        return getFullName(a).localeCompare(getFullName(b), "nb");
-      }
-
-      const aSemester = getSemesterSortValue(a);
-      const bSemester = getSemesterSortValue(b);
-
-      return sort === "oldest" ? aSemester - bSemester : bSemester - aSemester;
-    });
-  }, [search, sort, users]);
-
-  const selectedVisibleCount = visibleUsers.filter((user) =>
-    selectedUserIds.has(user.photoGangBangerId.id),
-  ).length;
-  const allVisibleSelected =
-    visibleUsers.length > 0 && selectedVisibleCount === visibleUsers.length;
-  const selectAllState =
-    selectedVisibleCount === 0
-      ? false
-      : allVisibleSelected
-        ? true
-        : "indeterminate";
-
-  const toggleUser = (userId: string, checked: boolean | "indeterminate") => {
-    setSelectedUserIds((current) => {
-      const next = new Set(current);
-
-      if (checked) {
-        next.add(userId);
-      } else {
-        next.delete(userId);
-      }
-
-      return next;
-    });
-  };
-
-  const toggleVisibleUsers = (checked: boolean | "indeterminate") => {
-    setSelectedUserIds((current) => {
-      const next = new Set(current);
-
-      visibleUsers.forEach((user) => {
-        if (checked) {
-          next.add(user.photoGangBangerId.id);
-        } else {
-          next.delete(user.photoGangBangerId.id);
-        }
-      });
-
-      return next;
-    });
-  };
+  const table = useReactTable({
+    data: users,
+    columns,
+    getRowId: (user) => user.photoGangBangerId.id,
+    state: {
+      rowSelection,
+      globalFilter: search,
+      sorting,
+    },
+    initialState: { columnVisibility: { semester: false } },
+    onRowSelectionChange: setRowSelection,
+    onGlobalFilterChange: setSearch,
+    // Search the combined user fields once per row, including position emails.
+    getColumnCanGlobalFilter: (column) => column.id === "name",
+    globalFilterFn: (row, _columnId, value: string) =>
+      getSearchText(row.original).includes(value.trim().toLowerCase()),
+    getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+  });
 
   return (
     <div className={styles.gangBangers}>
@@ -148,7 +230,7 @@ function GangBangers() {
             variant="danger"
             size="sm"
             className={styles.iconTextButton}
-            disabled={selectedUserIds.size === 0}
+            disabled={table.getSelectedRowModel().rows.length === 0}
           >
             <Trash2 size={16} aria-hidden="true" />
             Slett alle markerte
@@ -158,86 +240,56 @@ function GangBangers() {
         <div className={styles.tableScroller}>
           <table className={styles.table}>
             <thead>
-              <tr>
-                <th className={styles.checkCell}>
-                  <Checkbox
-                    checked={selectAllState}
-                    onCheckedChange={toggleVisibleUsers}
-                    disabled={visibleUsers.length === 0}
-                    className={styles.checkbox}
-                  />
-                </th>
-                <th>Navn</th>
-                <th>Epost</th>
-                <th>Telefon</th>
-                <th>Status</th>
-                <th>Verv</th>
-                <th className={styles.actionsHeader}>Handlinger</th>
-              </tr>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <tr key={headerGroup.id}>
+                  {headerGroup.headers.map((header) => (
+                    <th
+                      key={header.id}
+                      colSpan={header.colSpan}
+                      className={
+                        header.column.id === "select"
+                          ? styles.checkCell
+                          : header.column.id === "actions"
+                            ? styles.actionsHeader
+                            : undefined
+                      }
+                    >
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+                    </th>
+                  ))}
+                </tr>
+              ))}
             </thead>
             <tbody>
-              {visibleUsers.map((user) => {
-                const userId = user.photoGangBangerId.id;
-                const fullName = getFullName(user);
-
-                return (
-                  <tr key={userId}>
-                    <td className={styles.checkCell}>
-                      <Checkbox
-                        checked={selectedUserIds.has(userId)}
-                        onCheckedChange={(checked) =>
-                          toggleUser(userId, checked)
-                        }
-                        className={styles.checkbox}
-                      />
+              {table.getRowModel().rows.map((row) => (
+                <tr key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <td
+                      key={cell.id}
+                      className={
+                        cell.column.id === "select"
+                          ? styles.checkCell
+                          : undefined
+                      }
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
                     </td>
-                    <td>
-                      <div className={styles.userCell}>
-                        <ProfileImage
-                          src={user.profilePicture}
-                          alt={fullName}
-                          size={32}
-                        />
-                        <span>{fullName}</span>
-                      </div>
-                    </td>
-                    <td>
-                      <EmailAddresses user={user} />
-                    </td>
-                    <td>{user.phoneNumber || "-"}</td>
-                    <td>
-                      <StatusBadge active={user.isActive} />
-                    </td>
-                    <td>{getPositions(user)}</td>
-                    <td>
-                      <div className={styles.actions}>
-                        <Button
-                          size="sm"
-                          className={styles.iconTextButton}
-                          onClick={() => setEditingUser(user)}
-                        >
-                          <Pencil size={16} aria-hidden="true" />
-                          Rediger
-                        </Button>
-                        <Button
-                          variant="danger"
-                          size="sm"
-                          className={styles.iconTextButton}
-                          disabled
-                        >
-                          <Trash2 size={16} aria-hidden="true" />
-                          Slett
-                        </Button>
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
+                  ))}
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
 
-        {!isLoading && !isError && visibleUsers.length === 0 && (
+        {!isLoading && !isError && table.getRowModel().rows.length === 0 && (
           <p className={styles.emptyState}>Ingen fotogjengere matcher soket.</p>
         )}
         {isError && (
@@ -264,7 +316,7 @@ function GangBangers() {
   );
 }
 
-function StatusBadge({ active }: { active: boolean }) {
+function StatusBadge({ active, pang }: { active: boolean; pang: boolean }) {
   return (
     <span
       className={[styles.statusBadge, active ? styles.active : styles.inactive]
@@ -272,7 +324,7 @@ function StatusBadge({ active }: { active: boolean }) {
         .join(" ")}
     >
       <span aria-hidden="true" />
-      {active ? "Aktiv" : "Inaktiv"}
+      {active ? (pang ? "Aktiv Pang" : "Aktiv") : "Pang"}
     </span>
   );
 }

@@ -18,7 +18,9 @@ const schema = z.object({
   username: z.string().trim().min(1, "Brukernavn er obligatorisk"),
   firstName: z.string().trim().min(1, "Fornavn er obligatorisk"),
   lastName: z.string().trim().min(1, "Etternavn er obligatorisk"),
-  phoneNumber: z.string().regex(/^[1-9]\d{7}$/, "Ugyldig telefonnummer"),
+  phoneNumber: z
+    .string()
+    .regex(/^[49]\d{7}$/, "Mobilnummer må ha 8 sifre og starte med 4 eller 9"),
   email: z.string().email("Ugyldig e-postadresse"),
   semesterStart: z.string().min(1, "Velg startsemester"),
   positionId: z.string(),

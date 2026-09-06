@@ -1,4 +1,5 @@
 import { useFieldContext } from "@/utils/form/FormContext";
+import { getFieldErrorMessage } from "@/utils/form/getFieldErrorMessage";
 import { DatePicker } from "../input/DatePicker";
 
 interface FormDatePickerProps {
@@ -15,7 +16,7 @@ export function FormDatePicker({ label, placeholder }: FormDatePickerProps) {
       placeholder={placeholder}
       value={field.state.value}
       onChange={(date) => field.handleChange(date)}
-      error={field.state.meta.errors[0]?.toString()}
+      error={getFieldErrorMessage(field.state.meta.errors[0])}
     />
   );
 }

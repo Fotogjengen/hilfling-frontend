@@ -67,6 +67,7 @@ export default function PlacementDetails({
       {isOpen ? (
         <div className={styles.fields}>
           <Select
+            name="securityLevelType"
             label="Sikkerhetsnivå"
             value={securityLevelType}
             onValueChange={(v) =>
@@ -77,6 +78,7 @@ export default function PlacementDetails({
             )}
           />
           <Select
+            name="albumId"
             label="Album"
             value={albumId}
             onValueChange={onAlbumChange}
@@ -87,6 +89,7 @@ export default function PlacementDetails({
             }))}
           />
           <Select
+            name="analogAlbumId"
             label="Analogt album"
             value={analogAlbumId}
             onValueChange={onAnalogAlbumChange}
@@ -97,6 +100,7 @@ export default function PlacementDetails({
             }))}
           />
           <Select
+            name="eventOwnerId"
             label="Eier"
             value={eventOwnerId}
             onValueChange={onEventOwnerChange}
