@@ -21,7 +21,6 @@
     "@tanstack/react-router-devtools": "^1.166.7",
     "axios": "^1.13.2",
     "classnames": "2.5.1",
-    "crypto-js": "^4.2.0",
     "date-fns": "^4.2.1",
     "dayjs": "^1.11.18",
     "framer-motion": "^12.40.0",

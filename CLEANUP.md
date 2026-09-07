@@ -1,7 +1,7 @@
 # Ting som kan fjernes:
  - ~~[Redirect util](src/utils/Redirect/Redirect.tsx)~~
  - ~~[Encryption util](src/utils/encryption/encrypt.ts)~~
- - CryptoJS (brukes bare i encryption util greia)
+ - ~~CryptoJS (brukes bare i encryption util greia)~~
  - [Alert context](src/contexts/AlertContext.ts) (antar det var ment for typ toasts? Bruker nå sonner)
  - [Travis ci greier](.travis.yml) (brukte travis for ci før, bruker github actions nå)
  - [deploy_key.enc](deploy_key.enc)? Tror den ble brukt sammen med travis før
