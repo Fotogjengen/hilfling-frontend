@@ -7,7 +7,7 @@ import { toast } from "@/components/ui/overlay/Toaster";
 import { useCreatePhotoGangBanger } from "@/hooks/photoGangBangers";
 import { PositionApi } from "@/utils/api/PositionApi";
 import type { PhotoGangBangerCreateRequest } from "@/utils/api/PhotoGangBangerApi";
-import useAppForm from "@/utils/form/FormContext";
+import useAppForm from "@/contexts/FormContext";
 import styles from "./CreatePhotoGangBangerDialog.module.css";
 
 interface CreatePhotoGangBangerDialogProps {
@@ -63,14 +63,14 @@ export function CreatePhotoGangBangerDialog({
       const semesterStart = { value: value.semesterStart };
       const memberPositions: MemberPositionDto[] = selectedPosition
         ? [
-            {
-              positionId: selectedPosition.positionId,
-              title: selectedPosition.title,
-              email: selectedPosition.email,
-              semesterStart,
-              isActive: value.isActive,
-            },
-          ]
+          {
+            positionId: selectedPosition.positionId,
+            title: selectedPosition.title,
+            email: selectedPosition.email,
+            semesterStart,
+            isActive: value.isActive,
+          },
+        ]
         : [];
       const photoGangBanger: PhotoGangBangerCreateRequest = {
         semesterStart,

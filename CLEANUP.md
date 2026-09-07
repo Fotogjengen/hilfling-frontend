@@ -11,6 +11,6 @@
  - ~~.vscode mappen gjør ingenting annet enn å sette formatOnSave~~
 
 # Annet
- - Flytt [FormContext.ts](src/utils/form/FormContext.ts) fra utils til contexts mappen, sammen med alle andre contexts
+ - ~~Flytt [FormContext.ts](src/utils/form/FormContext.ts) fra utils til contexts mappen, sammen med alle andre contexts~~
  - Oppdater README til å inneholde faktisk informasjon
  - Legg til `bun.lock` i gitignore
