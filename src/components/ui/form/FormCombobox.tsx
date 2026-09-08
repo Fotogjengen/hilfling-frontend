@@ -1,4 +1,5 @@
 import { useFieldContext } from "@/utils/form/FormContext";
+import { getFieldErrorMessage } from "@/utils/form/getFieldErrorMessage";
 import { Combobox } from "../input/Combobox";
 
 interface FormComboboxProps<T> {
@@ -24,7 +25,7 @@ export function FormCombobox<T>({
       placeholder={placeholder}
       value={field.state.value}
       onChange={(v) => field.handleChange(v)}
-      error={field.state.meta.errors[0]?.toString()}
+      error={getFieldErrorMessage(field.state.meta.errors[0])}
     />
   );
 }

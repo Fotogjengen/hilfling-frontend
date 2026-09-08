@@ -17,7 +17,7 @@ export const Route = createFileRoute(
 const schema = z.object({
   firstName: z.string().min(1, "Fornavn er påkrevd"),
   lastName: z.string().min(1, "Etternavn er påkrevd"),
-  phoneNumber: z.string().regex(/^[1-9]\d{7}$/, "Ugyldig telefonnummer"),
+  phoneNumber: z.string().regex(/^[49]\d{7}$/, "Ugyldig telefonnummer"),
   email: z.string().email("Ugyldig e-postadresse"),
   isActive: z.boolean(),
   isPang: z.boolean(),

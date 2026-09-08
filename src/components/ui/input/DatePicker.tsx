@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useId, useState } from "react";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Matcher } from "react-day-picker";
@@ -33,14 +33,26 @@ export function DatePicker({
   className,
 }: DatePickerProps) {
   const [open, setOpen] = useState(false);
+  const triggerId = useId();
+  const labelId = `${triggerId}-label`;
+  const valueId = `${triggerId}-value`;
+  const errorId = `${triggerId}-error`;
 
   return (
     <div className={[styles.wrapper, className].filter(Boolean).join(" ")}>
-      {label && <label className={styles.label}>{label}</label>}
+      {label && (
+        <label id={labelId} htmlFor={triggerId} className={styles.label}>
+          {label}
+        </label>
+      )}
       <PopoverRoot open={open} onOpenChange={(o) => !disabled && setOpen(o)}>
         <PopoverTrigger asChild>
           <button
+            id={triggerId}
             type="button"
+            aria-labelledby={label ? `${labelId} ${valueId}` : undefined}
+            aria-invalid={!!error}
+            aria-describedby={error ? errorId : undefined}
             className={[
               styles.trigger,
               error ? styles.triggerError : null,
@@ -50,10 +62,13 @@ export function DatePicker({
               .join(" ")}
             disabled={disabled}
           >
-            <span className={value ? styles.value : styles.placeholder}>
+            <span
+              id={valueId}
+              className={value ? styles.value : styles.placeholder}
+            >
               {value ? format(value, "dd.MM.yyyy") : placeholder}
             </span>
-            <CalendarIcon size={16} />
+            <CalendarIcon size={16} aria-hidden="true" />
           </button>
         </PopoverTrigger>
         <PopoverContent
@@ -74,7 +89,7 @@ export function DatePicker({
         </PopoverContent>
       </PopoverRoot>
       {error && (
-        <span className={styles.error} role="alert">
+        <span id={errorId} className={styles.error} role="alert">
           {error}
         </span>
       )}

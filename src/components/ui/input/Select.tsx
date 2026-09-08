@@ -35,11 +35,13 @@ export function Select({
 }: SelectProps) {
   const generatedId = useId();
   const triggerId = id ?? `select-${generatedId}`;
+  const labelId = `${triggerId}-label`;
+  const valueId = `${triggerId}-value`;
 
   return (
     <div className={[styles.wrapper, className].filter(Boolean).join(" ")}>
       {label && (
-        <label className={styles.label} htmlFor={triggerId}>
+        <label id={labelId} className={styles.label} htmlFor={triggerId}>
           {label}
         </label>
       )}
@@ -51,11 +53,14 @@ export function Select({
       >
         <SelectPrimitive.Trigger
           id={triggerId}
+          aria-labelledby={label ? `${labelId} ${valueId}` : undefined}
+          aria-invalid={!!error}
+          aria-describedby={error ? `${triggerId}-error` : undefined}
           className={[styles.trigger, error ? styles.triggerError : null]
             .filter(Boolean)
             .join(" ")}
         >
-          <SelectPrimitive.Value placeholder={placeholder} />
+          <SelectPrimitive.Value id={valueId} placeholder={placeholder} />
           <ChevronDown
             size={16}
             className={styles.chevron}
@@ -85,7 +90,7 @@ export function Select({
         </SelectPrimitive.Portal>
       </SelectPrimitive.Root>
       {error && (
-        <span className={styles.error} role="alert">
+        <span id={`${triggerId}-error`} className={styles.error} role="alert">
           {error}
         </span>
       )}
