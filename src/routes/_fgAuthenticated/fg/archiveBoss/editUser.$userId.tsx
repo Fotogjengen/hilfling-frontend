@@ -19,7 +19,7 @@ const schema = z.object({
   lastName: z.string().min(1, "Etternavn er påkrevd"),
   phoneNumber: z
     .string()
-    .regex(/^[49]\d{7}$/, "Mobilnummer må ha 8 sifre og starte med 4 eller 9"),
+    .regex(/^[49]\d{7}$/, "Ugyldig telefonnummer"),
   email: z.string().email("Ugyldig e-postadresse"),
   isActive: z.boolean(),
   isPang: z.boolean(),

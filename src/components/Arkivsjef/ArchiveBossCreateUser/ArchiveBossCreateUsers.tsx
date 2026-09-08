@@ -61,7 +61,7 @@ function ArchiveBossCreateUsers({ setCreateUser }: Props) {
       setIsPhoneNumberValid(false);
       setPhoneNumberError(
         user.phoneNumber
-          ? "Mobilnummer må ha 8 sifre og starte med 4 eller 9"
+          ? "Ugyldig telefonnummer"
           : "",
       );
     }

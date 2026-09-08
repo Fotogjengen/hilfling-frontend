@@ -197,8 +197,8 @@ function GangBangers() {
           value={search}
           onChange={(event) => setSearch(event.target.value)}
           onClear={() => setSearch("")}
-          placeholder="Sok etter navn, epost eller telefon"
-          aria-label="Sok etter fotogjenger"
+          placeholder="søk etter navn, epost eller telefon"
+          aria-label="søk etter fotogjenger"
           className={styles.search}
         />
         <div className={styles.controls}>
@@ -293,7 +293,7 @@ function GangBangers() {
         </div>
 
         {!isLoading && !isError && table.getRowModel().rows.length === 0 && (
-          <p className={styles.emptyState}>Ingen fotogjengere matcher soket.</p>
+          <p className={styles.emptyState}>Ingen fotogjengere matcher søket.</p>
         )}
         {isError && (
           <p className={styles.emptyState}>
