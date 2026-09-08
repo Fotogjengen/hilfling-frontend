@@ -16,7 +16,7 @@ import { ScrollArea } from  "radix-ui";
 import { SearchField } from "@/components/ui/input/SearchField";
 import { Select } from "@/components/ui/input/Select";
 import { Button } from "@/components/ui/input/Button";
-import { useAlbums } from '@/hooks/album';
+import { useAlbums, useDeleteAlbum } from '@/hooks/album';
 
 
 export const Route = createFileRoute('/_fgAuthenticated/fg/archiveBoss/albums')(
@@ -37,44 +37,36 @@ function AlbumsPage() {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("nameAsc");
   const [albums, setAlbums] = useState<AlbumDto[]>([]);
-  const [sortedAlbums, setSortedAlbums] = useState<AlbumDto[]>([])
 
 
   // const [albumsPage, setAlbumsPage] = useState(1);
 
-
   // const [update, setUpdate] = useState(false);
 
   const itemsPerPage = 20;
-
-  const {
-    data,
-    isLoading,
-    isError,
-    // fetchNextPage,
-    // hasNextPage,
-    // isFetchingNextPage,
-    } = useAlbums();
-    
-    useEffect (() => {
-      setAlbums(data ?? [])
-    },[data])
+    const {
+      data,
+      isLoading,
+      isError,
+      } = useAlbums();
+      useEffect (() => {
+        setAlbums(data ?? [])
+      },[data])
 
   const filteredAndSortedAlbums = useMemo(() => {
-  const normalizedSearch = search.trim().toLowerCase();
-
-  const filtered = albums.filter((album) =>
-    album.name.toLowerCase().includes(normalizedSearch));
-    return filtered.toSorted((a, b) => {
-      switch (sort) {
-        case "nameAsc":
-          return a.name.localeCompare(b.name);
-        case "nameDesc":
-          return b.name.localeCompare(a.name);
-        default:
-          return 0;
-      }
-    });
+    const normalizedSearch = search.trim().toLowerCase();
+    const filtered = albums.filter((album) =>
+      album.name.toLowerCase().includes(normalizedSearch));
+      return filtered.toSorted((a, b) => {
+        switch (sort) {
+          case "nameAsc":
+            return a.name.localeCompare(b.name);
+          case "nameDesc":
+            return b.name.localeCompare(a.name);
+          default:
+            return 0;
+        }
+      });
   }, [albums, sort, search]);
 
   return (
@@ -107,6 +99,8 @@ function AlbumsPage() {
     {isLoading ? (
       <p> Laster album... </p>) : (
         <div>
+        <ScrollArea.Root className={styles.scrollArea}>
+          <ScrollArea.Viewport className={styles.scrollAreaViewport}>
           <table className={styles.table}>
             <thead>
               <tr>
@@ -124,10 +118,14 @@ function AlbumsPage() {
               id={album.albumId.id}
               type="album"
             />
-            
           ))}
           </tbody>
           </table>
+          </ScrollArea.Viewport>
+            <ScrollArea.Scrollbar orientation="vertical">
+              <ScrollArea.Thumb />
+            </ScrollArea.Scrollbar>
+          </ScrollArea.Root>
         </div>
           )}
     </div>
