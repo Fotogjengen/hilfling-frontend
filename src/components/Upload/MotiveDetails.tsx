@@ -56,7 +56,7 @@ export default function MotiveDetails({
       <div className={styles.wrapper}>
         <MotiveForm
           onSaved={(motive) => onSaved?.(motive)}
-          onCancel={onCancel ?? (() => { })}
+          onCancel={onCancel ?? (() => {})}
         />
       </div>
     );

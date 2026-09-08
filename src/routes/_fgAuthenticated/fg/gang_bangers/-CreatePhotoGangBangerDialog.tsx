@@ -63,14 +63,14 @@ export function CreatePhotoGangBangerDialog({
       const semesterStart = { value: value.semesterStart };
       const memberPositions: MemberPositionDto[] = selectedPosition
         ? [
-          {
-            positionId: selectedPosition.positionId,
-            title: selectedPosition.title,
-            email: selectedPosition.email,
-            semesterStart,
-            isActive: value.isActive,
-          },
-        ]
+            {
+              positionId: selectedPosition.positionId,
+              title: selectedPosition.title,
+              email: selectedPosition.email,
+              semesterStart,
+              isActive: value.isActive,
+            },
+          ]
         : [];
       const photoGangBanger: PhotoGangBangerCreateRequest = {
         semesterStart,
