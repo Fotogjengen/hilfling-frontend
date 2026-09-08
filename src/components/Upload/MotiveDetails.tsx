@@ -15,7 +15,7 @@ import {
 import { usePhotosByMotiveId } from "@/hooks/photo";
 import { Spinner } from "../Icons/Spinner";
 import { Button } from "../ui/input/Button";
-import useAppForm from "@/utils/form/FormContext";
+import useAppForm from "@/contexts/FormContext";
 import PlacementDetails from "./PlacementDetails";
 import styles from "./MotiveDetails.module.css";
 

@@ -9,7 +9,7 @@ import { ArchiveBossContext } from "../../../contexts/ArchiveBossContext";
 import { toast } from "@/components/ui/overlay/Toaster";
 import { Dialog } from "@/components/ui/overlay/Dialog";
 import { Button } from "@/components/ui/input/Button";
-import useAppForm from "@/utils/form/FormContext";
+import useAppForm from "@/contexts/FormContext";
 
 const TYPES = ["Kategori", "Sted", "Album"] as const;
 

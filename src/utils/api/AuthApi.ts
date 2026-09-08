@@ -1,5 +1,8 @@
 import { api } from "./api";
-import { AuthToken } from "@/interfaces/AuthToken";
+
+interface AuthToken {
+  token: string;
+}
 
 export const AuthApi = {
   /**
