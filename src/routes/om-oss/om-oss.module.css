@@ -131,7 +131,7 @@ h6 {
 }
 
 @media (max-width: 630px) {
-  .aboutMemberGroup{
+  .aboutMemberGroup {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -140,7 +140,7 @@ h6 {
 }
 
 @media (max-width: 630px) {
-  .gangBangers{
+  .gangBangers {
     display: flex;
     align-items: center;
     justify-content: center;

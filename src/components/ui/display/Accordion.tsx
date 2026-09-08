@@ -15,9 +15,8 @@ export function AccordionItem(
   return <AccordionPrimitive.Item {...props} />;
 }
 
-interface AccordionTriggerProps extends ComponentProps<
-  typeof AccordionPrimitive.Trigger
-> {
+interface AccordionTriggerProps
+  extends ComponentProps<typeof AccordionPrimitive.Trigger> {
   children: ReactNode;
 }
 

@@ -52,7 +52,8 @@ function PhotoUpload() {
         />
       </div>
       <div className={styles.mobile}>
-        Denne siden krever en større skjerm. Åpne den på en datamaskin for å fortsette.
+        Denne siden krever en større skjerm. Åpne den på en datamaskin for å
+        fortsette.
       </div>
     </div>
   );

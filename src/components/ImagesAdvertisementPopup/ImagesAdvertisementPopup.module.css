@@ -116,7 +116,7 @@
   }
 }
 
-@media (max-width: 405px){
+@media (max-width: 405px) {
   .InnerPopup h3 {
     font-size: 0.8rem;
   }

@@ -5,7 +5,7 @@
 }
 
 @media (max-width: 500px) {
-  .toggle{
+  .toggle {
     display: flex;
     justify-content: center;
   }

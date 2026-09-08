@@ -14,7 +14,8 @@ const GuiFooter: FC = () => {
             fungerer, eller ønsker å rapportere bugs må du gjerne gjøre det her.
           </p>
           <p className={styles.mobileText}>
-            Hilfling er Fotogjengens nettside. Den er open source, så sjekk ut koden om du vil!
+            Hilfling er Fotogjengens nettside. Den er open source, så sjekk ut
+            koden om du vil!
           </p>
           <a
             href="https://github.com/Fotogjengen/hilfling-frontend/"

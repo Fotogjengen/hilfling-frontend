@@ -59,7 +59,7 @@
   background-color: var(--color-border-default-default);
 }
 
-.mobileText{
+.mobileText {
   display: none;
 }
 
@@ -73,7 +73,7 @@
     display: block;
   }
 
-  .desktopText{
+  .desktopText {
     display: none;
   }
 }
