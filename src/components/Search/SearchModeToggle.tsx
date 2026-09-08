@@ -23,6 +23,7 @@ export default function SearchModeToggle({
 }: SearchModeToggleProps) {
   return (
     <ToggleTabs
+      className={styles.toggle}
       value={mode}
       onValueChange={(value) => onModeChange(value as SearchMode)}
     >

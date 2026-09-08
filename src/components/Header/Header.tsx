@@ -36,7 +36,8 @@ export default function HeaderComponent() {
             <NavigationMenuItem>
               <NavigationMenuLink asChild>
                 <Link to="/search" activeOptions={{ includeSearch: false }}>
-                  Søk i bilder
+                  <p className={styles.desktopText}>Søk i bilder</p>
+                  <p className={styles.mobileText}>Søk</p>
                 </Link>
               </NavigationMenuLink>
             </NavigationMenuItem>

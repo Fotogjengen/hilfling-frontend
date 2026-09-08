@@ -11,3 +11,9 @@
   padding: 1rem;
   text-align: center;
 }
+
+@media (max-width: 480px) {
+  .title {
+    text-align: center;
+  }
+}

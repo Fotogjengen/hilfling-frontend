@@ -149,3 +149,34 @@
   white-space: nowrap;
   padding-right: var(--size-space-100);
 }
+
+@media (max-width: 768px) {
+  .actionPanel {
+    padding: 0;
+    border-radius: 999px;
+  }
+
+  .actionButtonRow {
+    gap: 8px;
+    padding: 6px;
+  }
+
+  .actionButtonRow .actionButton {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    padding: 4px;
+  }
+
+  .actionButton svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .actionPanelExpanded {
+    position: absolute;
+    width: 300px;
+    z-index: 999;
+    top: 200px;
+  }
+}
