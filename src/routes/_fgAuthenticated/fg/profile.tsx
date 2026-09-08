@@ -1,7 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import styles from "./profile.module.css";
-import axios from "axios";
+import type { PhotoGangBangerDto } from "@/../generated";
+import { PhotoGangBangerApi } from "@/utils/api/PhotoGangBangerApi";
+import { ProfileImage } from "@/components/ui/display/ProfileImage";
+import { Button } from "@/components/ui/input/Button";
 import EditProfilepic from "@/components/MyProfile/EditProfilepic/EditProfilpic";
 // import { AlertContext, severityEnum } from "../../contexts/AlertContext";
 
@@ -23,8 +26,7 @@ interface UserInfo {
 }
 
 const emptyUser: UserInfo = {
-  profilePicure:
-    "https://media1.tenor.com/images/79f8be09f39791c6462d30c5ce42e3be/tenor.gif?itemid=18386674",
+  profilePicure: "",
   firstName: " ",
   lastName: " ",
   userName: " ",
@@ -36,72 +38,63 @@ const emptyUser: UserInfo = {
   admissionSemester: " ",
 };
 
-//http://localhost:8000/photo_gang_bangers/7a89444f-25f6-44d9-8a73-94587d72b839
+function toUserInfo(member: PhotoGangBangerDto): UserInfo {
+  const positions = member.positions ?? [];
+  const currentPosition =
+    positions.find((position) => position.isActive)?.title ?? "";
+  return {
+    profilePicure: member.profilePicture,
+    firstName: member.firstName,
+    lastName: member.lastName,
+    userName: member.username,
+    phoneNumber: member.phoneNumber,
+    samfundetEMail: member.email,
+    currentPosition,
+    formerPositions: positions
+      .filter((position) => !position.isActive)
+      .map((position) => position.title),
+    role: [
+      "websjef",
+      "benkmester",
+      "opplæringsannsvarlig",
+      "webadmin",
+      "web",
+    ].includes(currentPosition.toLowerCase())
+      ? "Web"
+      : "Fotograf",
+    admissionSemester: member.semesterStart?.value ?? "",
+  };
+}
 
 function Profile() {
-  const webPositions: string[] = [
-    "websjef",
-    "benkmester",
-    "opplæringsannsvarlig",
-    "webAdmin",
-    "web",
-  ];
-
   const [currentUser, setCurrentUser] = useState<UserInfo>(emptyUser);
 
-  const [isHovered, setHoverVariable] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [editProfilepic, setEditProfilepic] = useState(false);
 
   useEffect(() => {
-    const getUser = () => {
-      //Make api-call
-      const url =
-        "http://localhost:8000/photo_gang_bangers/7a89444f-25f6-44d9-8a73-94587d72b839"; //For testing purpose. Has to be modified to make corrrect api call
-
-      axios
-        .get(url)
-
-        .then((response) => {
-          const profilePicure = response.data.profilePicture;
-          const firstName = response.data.firstName;
-          const lastName = response.data.lastName;
-          const userName = response.data.username;
-          const phoneNumber = response.data.phoneNumber;
-          const samfundetEMail = response.data.email;
-          const positions: { title: string }[] = response.data.positions ?? [];
-          const currentPosition = positions[0]?.title ?? "";
-          const formerPositions =
-            positions.length > 1
-              ? positions.slice(1).map((p: { title: string }) => p.title)
-              : [" "];
-          const admissionSemester = response.data.semesterStart?.value ?? "";
-          let role = "Fotograf";
-
-          if (webPositions.includes(currentPosition.toLowerCase())) {
-            role = "Web";
-          }
-
-          setCurrentUser({
-            profilePicure,
-            firstName,
-            lastName,
-            userName,
-            phoneNumber,
-            samfundetEMail,
-            currentPosition,
-            formerPositions,
-            role,
-            admissionSemester,
-          });
-        })
-
-        .catch((error) => {
-          console.error("Error fetching user:", error);
-        });
+    let active = true;
+    PhotoGangBangerApi.getMe()
+      .then((member) => {
+        if (active) setCurrentUser(toUserInfo(member));
+      })
+      .catch(() => {
+        if (active)
+          setError(
+            "Kunne ikke hente profilen. Last siden på nytt for å prøve igjen.",
+          );
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+    return () => {
+      active = false;
     };
-
-    getUser();
   }, []);
+
+  if (loading) return <p role="status">Henter profilen …</p>;
+  if (error) return <p role="alert">{error}</p>;
 
   return (
     <div className={styles.mainCard}>
@@ -116,33 +109,26 @@ function Profile() {
           {" "}
           {/* Contains profile picture and personal info*/}
           {editProfilepic && ( // Renders pop up for changing profile picture
-            <EditProfilepic setEditProfilepic={setEditProfilepic} />
+            <EditProfilepic
+              setEditProfilepic={setEditProfilepic}
+              currentPicture={currentUser.profilePicure}
+              onSaved={(member) => setCurrentUser(toUserInfo(member))}
+            />
           )}
-          <div
-            className={styles.profilePicture}
-            onMouseOver={() => setHoverVariable(true)}
-            onMouseLeave={() => setHoverVariable(false)}
-          >
+          <div className={styles.profilePicture}>
             <div className={styles.profilePictureImg}>
-              {!isHovered && (
-                <img
-                  src={currentUser.profilePicure}
-                  alt="Profile"
-                  height="225"
-                  width="225"
-                />
-              )}
-
-              {isHovered && (
-                <button
-                  className={styles.newProfilePictureButton}
-                  onClick={() => setEditProfilepic(true)}
-                >
-                  Legg til nytt profilbilde
-                </button>
-              )}
+              <ProfileImage
+                key={currentUser.profilePicure}
+                src={currentUser.profilePicure}
+                alt="Endre profilbilde"
+                size={225}
+                onClick={() => setEditProfilepic(true)}
+              />
             </div>
           </div>
+          <Button onClick={() => setEditProfilepic(true)}>
+            Endre profilbilde
+          </Button>
           <div className={styles.positions}>
             <h1 className={styles.positionsHeader}>{"Verv"}</h1>
             <h2 className={styles.positionsList}>

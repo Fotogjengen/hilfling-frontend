@@ -8,6 +8,34 @@ export type PhotoGangBangerCreateRequest = Omit<
 >;
 
 export const PhotoGangBangerApi = {
+  getMe: async function (): Promise<PhotoGangBangerDto> {
+    return api
+      .get<PhotoGangBangerDto>("/photo_gang_bangers/me")
+      .then((res) => res.data);
+  },
+
+  uploadProfilePicture: async function (
+    media: File,
+  ): Promise<PhotoGangBangerDto> {
+    const formData = new FormData();
+    formData.append("media", media);
+    return api
+      .post<PhotoGangBangerDto>(
+        "/photo_gang_bangers/me/profile-picture",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        },
+      )
+      .then((res) => res.data);
+  },
+
+  deleteProfilePicture: async function (): Promise<PhotoGangBangerDto> {
+    return api
+      .delete<PhotoGangBangerDto>("/photo_gang_bangers/me/profile-picture")
+      .then((res) => res.data);
+  },
+
   getAll: async function (): Promise<PaginatedResultData<PhotoGangBangerDto>> {
     const res = await api.get<PaginatedResultData<PhotoGangBangerDto>>(
       "/photo_gang_bangers",

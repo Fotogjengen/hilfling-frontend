@@ -1,117 +1,132 @@
-import React, { useEffect, useState } from "react";
-import { Button } from "@/components/ui/input/Button";
-import "./EditProfilepic.css";
+import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
+import { useQueryClient } from "@tanstack/react-query";
+import { isAxiosError } from "axios";
+import type { PhotoGangBangerDto } from "@/../generated";
+import { Button } from "@/components/ui/input/Button";
+import { Dialog } from "@/components/ui/overlay/Dialog";
+import { PhotoGangBangerApi } from "@/utils/api/PhotoGangBangerApi";
+import "./EditProfilepic.css";
 
 interface Props {
-  setEditProfilepic: React.Dispatch<React.SetStateAction<boolean>>;
+  setEditProfilepic: (open: boolean) => void;
+  currentPicture: string;
+  onSaved: (member: PhotoGangBangerDto) => void;
 }
 
-const EditProfilepic = ({ setEditProfilepic }: Props) => {
-  //this.fileInput.current.files[0].name
-  const [noPictureUploaded, setnoPictureUploade] = useState(true);
-  const [preview, setPreview] = useState<string>("");
+const EditProfilepic = ({
+  setEditProfilepic,
+  currentPicture,
+  onSaved,
+}: Props) => {
+  const [file, setFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+  const queryClient = useQueryClient();
 
-  const [file, setFile] = useState<File | null>(null); // stores the uploaded file
-
-  // const [fileName, setFileName] = useState<string> (""); // first part of the logic needed to create url for profilepictures, commented out beacuse of lint errors in PR
-  // const [filePath, setFilePath] = useState<string> ("");
-
-  const { acceptedFiles, getRootProps, getInputProps, open } = useDropzone({
-    noClick: true,
-    noKeyboard: true,
+  const { getRootProps, getInputProps, open } = useDropzone({
+    accept: {
+      "image/jpeg": [".jpg", ".jpeg"],
+      "image/png": [".png"],
+      "image/webp": [".webp"],
+    },
+    multiple: false,
+    maxSize: 10 * 1024 * 1024,
+    disabled: busy,
+    onDropAccepted: ([selected]) => {
+      setFile(selected);
+      setError("");
+    },
+    onDropRejected: () =>
+      setError("Velg ett bilde i JPEG, PNG eller WebP, maks 10 MB."),
   });
 
   useEffect(() => {
-    if (acceptedFiles.length > 0) {
-      const file_new = acceptedFiles[0];
-      setFile(file_new);
-
-      setnoPictureUploade(false);
-
-      // second part of the logic needed to create url for profilepictures, commented out beacuse of lint errors in PR
-
-      // if (file_new){
-
-      //     setFileName(file_new.name);
-
-      //     const url = "alle/fg_profile_pictures/" + file_new.name
-      //     setFilePath(url)
-
-      // }
+    if (!file) {
+      setPreview("");
+      return;
     }
-  }, [acceptedFiles]);
-
-  useEffect(() => {
-    if (!file) return;
-    const objectUrl = URL.createObjectURL(file);
-    setPreview(objectUrl);
+    const url = URL.createObjectURL(file);
+    setPreview(url);
+    return () => URL.revokeObjectURL(url);
   }, [file]);
 
-  const resteBtn = () => {
-    setnoPictureUploade(true);
+  const save = async (remove: boolean) => {
+    if (busy || (!remove && !file)) return;
+    setBusy(true);
+    setError("");
+    try {
+      const member = remove
+        ? await PhotoGangBangerApi.deleteProfilePicture()
+        : await PhotoGangBangerApi.uploadProfilePicture(file!);
+      onSaved(member);
+      void queryClient.invalidateQueries({ queryKey: ["photoGangBangers"] });
+      setEditProfilepic(false);
+    } catch (failure) {
+      const status = isAxiosError(failure)
+        ? failure.response?.status
+        : undefined;
+      setError(
+        status === 400 || status === 413
+          ? "Bildet kunne ikke leses eller er for stort. Velg JPEG, PNG eller WebP, maks 10 MB."
+          : "Kunne ikke lagre endringen. Prøv igjen.",
+      );
+    } finally {
+      setBusy(false);
+    }
   };
-
-  const useAsProfilepicture = () => {
-    setnoPictureUploade(true);
-    setEditProfilepic(false);
-  };
-
-  //https://foto.samfundet.no/media/alle/prod/DIGGE/digge0982.jpg
 
   return (
-    <div>
-      <div className="pop_up_box">
-        {" "}
-        {/*Main body for the pop up */}
-        <div className="picture_preview">
-          {" "}
-          {/* Contains a preview of the profile picture uploaded or a skeleton box*/}
-          {!noPictureUploaded && (
-            <img src={preview} alt="Profile" height="400" width="90%" />
+    <Dialog
+      open
+      title="Endre profilbilde"
+      onOpenChange={(isOpen) => {
+        if (!busy) setEditProfilepic(isOpen);
+      }}
+      actions={
+        <>
+          <Button disabled={busy || !file} onClick={() => void save(false)}>
+            {busy ? "Lagrer …" : "Bruk som profilbilde"}
+          </Button>
+          {currentPicture && (
+            <Button
+              variant="danger"
+              disabled={busy}
+              onClick={() => void save(true)}
+            >
+              Fjern profilbilde
+            </Button>
           )}
-          {noPictureUploaded && (
-            //  <Skeleton variant= "rectangular" width="90%" height={400}  />
-            <section>
-              <div {...getRootProps({ className: "dropzone" })}>
-                <input {...getInputProps()} />
-                <p>
-                  ------------------Dra og slipp filer her------------------
-                </p>
-              </div>
-            </section>
-          )}
-        </div>
-        <div className="nav_buttons">
-          {" "}
-          {/*Contains navigation buttons*/}
-          <Button
-            disabled={noPictureUploaded}
-            className="button_styling"
-            onClick={useAsProfilepicture}
-          >
-            Bruk som profilbilde
+          <Button disabled={busy} onClick={() => setEditProfilepic(false)}>
+            Avbryt
           </Button>
-          <Button className="button_styling" onClick={open}>
-            ... eller trykk her for å laste opp en fil
-          </Button>
-          <Button
-            variant="danger"
-            className="back_button_styling"
-            onClick={() => setEditProfilepic(false)}
-          >
-            Tilbake
-          </Button>
-          <Button
-            disabled={noPictureUploaded}
-            className="button_styling"
-            onClick={resteBtn}
-          >
-            Tilbakestill bilde
-          </Button>
-        </div>
+        </>
+      }
+    >
+      <p>Profilbildet vises også offentlig på «Om oss».</p>
+      <div {...getRootProps({ className: "profile-picture-dropzone" })}>
+        <input {...getInputProps({ "aria-label": "Velg profilbilde" })} />
+        {preview ? (
+          <img
+            className="profile-picture-preview"
+            src={preview}
+            alt="Forhåndsvisning av nytt profilbilde"
+          />
+        ) : (
+          <p>
+            Dra et bilde hit, eller trykk for å velge. JPEG, PNG eller WebP,
+            maks 10 MB.
+          </p>
+        )}
       </div>
-    </div>
+      {file && (
+        <Button disabled={busy} onClick={open}>
+          Velg et annet bilde
+        </Button>
+      )}
+      {error && <p role="alert">{error}</p>}
+    </Dialog>
   );
 };
 
