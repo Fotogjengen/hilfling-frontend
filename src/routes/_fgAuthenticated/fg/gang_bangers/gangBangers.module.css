@@ -1,0 +1,224 @@
+.gangBangers {
+  min-height: 100%;
+  background-color: var(--color-background-default-default);
+  color: var(--color-text-default-default);
+  padding: var(--size-space-800);
+}
+
+.pageHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-300);
+  margin-bottom: var(--size-space-600);
+}
+
+.pageHeader h1 {
+  margin: 0;
+  color: var(--color-text-default-default);
+  font-family: var(--typography-title-page-font-family);
+  font-size: var(--typography-title-page-size-small);
+  font-weight: var(--typography-title-page-font-weight);
+  line-height: 1.1;
+}
+
+.pageHeader p {
+  margin: 0;
+  color: var(--color-text-default-secondary);
+  font-family: var(--typography-body-font-family);
+  font-size: var(--typography-body-size-large);
+  font-weight: var(--typography-body-font-weight-regular);
+}
+
+.toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-200);
+  margin-bottom: var(--size-space-600);
+}
+
+.search {
+  width: 100%;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--size-space-300);
+}
+
+.sortControl {
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-200);
+  color: var(--color-text-default-default);
+  font-family: var(--typography-body-font-family);
+  font-size: var(--typography-body-size-medium);
+}
+
+.sortSelect {
+  min-width: 11rem;
+}
+
+.addButton,
+.iconTextButton {
+  width: fit-content;
+  gap: var(--size-space-200);
+  white-space: nowrap;
+}
+
+.addButton {
+  margin-bottom: var(--size-space-800);
+}
+
+.tableSection {
+  border-top: var(--size-stroke-border) solid
+    var(--color-border-default-default);
+}
+
+.tableActions {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--size-space-600) 0 var(--size-space-300);
+}
+
+.tableScroller {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  min-width: 58rem;
+  border-collapse: collapse;
+  color: var(--color-text-default-default);
+  font-family: var(--typography-body-font-family);
+  font-size: var(--typography-body-size-medium);
+}
+
+.table th,
+.table td {
+  padding: var(--size-space-400);
+  border-bottom: var(--size-stroke-border) solid
+    var(--color-border-default-default);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.table th {
+  color: var(--color-text-default-default);
+  font-weight: var(--typography-body-font-weight-strong);
+}
+
+.table tbody tr:hover {
+  background-color: var(--color-background-default-default-hover);
+}
+
+.checkCell {
+  width: var(--size-space-1200);
+}
+
+.checkbox {
+  width: fit-content;
+}
+
+.userCell {
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-300);
+  min-width: 10rem;
+}
+
+.emailCell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-100);
+  min-width: 12rem;
+}
+
+.emailCell span {
+  overflow-wrap: anywhere;
+}
+
+.positionEmail {
+  color: var(--color-text-default-default);
+  font-weight: var(--typography-body-font-weight-strong);
+}
+
+.personalEmail {
+  color: var(--color-text-default-secondary);
+  font-size: var(--typography-body-size-small);
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--size-space-100);
+  border-radius: var(--size-radius-full);
+  padding: var(--size-space-100) var(--size-space-200);
+  font-size: var(--typography-body-size-small);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.statusBadge span {
+  width: var(--size-space-150);
+  height: var(--size-space-150);
+  border-radius: var(--size-radius-full);
+}
+
+.active {
+  background-color: var(--color-background-danger-tertiary);
+  color: var(--color-text-danger-default);
+}
+
+.active span {
+  background-color: var(--color-background-danger-default);
+}
+
+.inactive {
+  background-color: var(--color-background-neutral-tertiary);
+  color: var(--color-text-neutral-secondary);
+}
+
+.inactive span {
+  background-color: var(--color-background-neutral-default);
+}
+
+.actionsHeader {
+  text-align: center;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--size-space-600);
+}
+
+.emptyState {
+  margin: 0;
+  padding: var(--size-space-600) var(--size-space-400);
+  color: var(--color-text-default-secondary);
+  font-size: var(--typography-body-size-medium);
+}
+
+@media (max-width: 720px) {
+  .gangBangers {
+    padding: var(--size-space-400);
+  }
+
+  .pageHeader h1 {
+    font-size: var(--typography-heading-size-large);
+  }
+
+  .controls {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .sortControl,
+  .sortSelect {
+    width: 100%;
+  }
+}

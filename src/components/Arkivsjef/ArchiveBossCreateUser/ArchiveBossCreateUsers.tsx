@@ -2,15 +2,12 @@ import { useEffect, useState } from "react";
 import styles from "./ArchiveBossCreateUser.module.css";
 import { toast } from "@/components/ui/overlay/Toaster";
 import { PhotoGangBangerApi } from "../../../utils/api/PhotoGangBangerApi";
-import {
-  MemberPositionDto,
-  PhotoGangBangerDto,
-  PositionDto,
-} from "@/../generated";
+import { MemberPositionDto, PositionDto } from "@/../generated";
 import { PositionApi } from "../../../utils/api/PositionApi";
 import { TextInput } from "@/components/ui/input/TextInput";
 import { Select } from "@/components/ui/input/Select";
 import { Button } from "@/components/ui/input/Button";
+import type { PhotoGangBangerCreateRequest } from "@/utils/api/PhotoGangBangerApi";
 
 interface Props {
   setCreateUser: React.Dispatch<React.SetStateAction<boolean>>;
@@ -91,9 +88,8 @@ function ArchiveBossCreateUsers({ setCreateUser }: Props) {
           },
         ]
       : [];
-    const dto: PhotoGangBangerDto = {
+    const dto: PhotoGangBangerCreateRequest = {
       ...user,
-      photoGangBangerId: { id: crypto.randomUUID() },
       positions: memberPositions,
     };
     void PhotoGangBangerApi.post(dto)

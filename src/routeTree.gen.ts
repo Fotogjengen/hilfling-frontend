@@ -22,6 +22,7 @@ import { Route as FgAuthenticatedFgIndexRouteImport } from './routes/_fgAuthenti
 import { Route as FgAuthenticatedFgProfileRouteImport } from './routes/_fgAuthenticated/fg/profile'
 import { Route as FgAuthenticatedFgUploadRouteImport } from './routes/_fgAuthenticated/fg/upload'
 import { Route as FgAuthenticatedFgArchiveBossIndexRouteImport } from './routes/_fgAuthenticated/fg/archiveBoss/index'
+import { Route as FgAuthenticatedFgGang_bangersIndexRouteImport } from './routes/_fgAuthenticated/fg/gang_bangers/index'
 import { Route as FgAuthenticatedFgProjectsIndexRouteImport } from './routes/_fgAuthenticated/fg/projects/index'
 import { Route as FgAuthenticatedFgArchiveBossEditUserUserIdRouteImport } from './routes/_fgAuthenticated/fg/archiveBoss/editUser.$userId'
 import { Route as FgAuthenticatedFgProjectsKull26IndexRouteImport } from './routes/_fgAuthenticated/fg/projects/kull26/index'
@@ -95,6 +96,12 @@ const FgAuthenticatedFgArchiveBossIndexRoute =
     path: '/fg/archiveBoss/',
     getParentRoute: () => FgAuthenticatedRouteRoute,
   } as any)
+const FgAuthenticatedFgGang_bangersIndexRoute =
+  FgAuthenticatedFgGang_bangersIndexRouteImport.update({
+    id: '/fg/gang_bangers/',
+    path: '/fg/gang_bangers/',
+    getParentRoute: () => FgAuthenticatedRouteRoute,
+  } as any)
 const FgAuthenticatedFgProjectsIndexRoute =
   FgAuthenticatedFgProjectsIndexRouteImport.update({
     id: '/fg/projects/',
@@ -145,6 +152,7 @@ export interface FileRoutesByFullPath {
   '/fg/upload': typeof FgAuthenticatedFgUploadRoute
   '/fg/': typeof FgAuthenticatedFgIndexRoute
   '/fg/archiveBoss/': typeof FgAuthenticatedFgArchiveBossIndexRoute
+  '/fg/gang_bangers/': typeof FgAuthenticatedFgGang_bangersIndexRoute
   '/fg/projects/': typeof FgAuthenticatedFgProjectsIndexRoute
   '/fg/archiveBoss/editUser/$userId': typeof FgAuthenticatedFgArchiveBossEditUserUserIdRoute
   '/fg/projects/kull26/firstgame': typeof FgAuthenticatedFgProjectsKull26FirstgameRoute
@@ -164,6 +172,7 @@ export interface FileRoutesByTo {
   '/fg/upload': typeof FgAuthenticatedFgUploadRoute
   '/fg': typeof FgAuthenticatedFgIndexRoute
   '/fg/archiveBoss': typeof FgAuthenticatedFgArchiveBossIndexRoute
+  '/fg/gang_bangers': typeof FgAuthenticatedFgGang_bangersIndexRoute
   '/fg/projects': typeof FgAuthenticatedFgProjectsIndexRoute
   '/fg/archiveBoss/editUser/$userId': typeof FgAuthenticatedFgArchiveBossEditUserUserIdRoute
   '/fg/projects/kull26/firstgame': typeof FgAuthenticatedFgProjectsKull26FirstgameRoute
@@ -186,6 +195,7 @@ export interface FileRoutesById {
   '/_fgAuthenticated/fg/upload': typeof FgAuthenticatedFgUploadRoute
   '/_fgAuthenticated/fg/': typeof FgAuthenticatedFgIndexRoute
   '/_fgAuthenticated/fg/archiveBoss/': typeof FgAuthenticatedFgArchiveBossIndexRoute
+  '/_fgAuthenticated/fg/gang_bangers/': typeof FgAuthenticatedFgGang_bangersIndexRoute
   '/_fgAuthenticated/fg/projects/': typeof FgAuthenticatedFgProjectsIndexRoute
   '/_fgAuthenticated/fg/archiveBoss/editUser/$userId': typeof FgAuthenticatedFgArchiveBossEditUserUserIdRoute
   '/_fgAuthenticated/fg/projects/kull26/firstgame': typeof FgAuthenticatedFgProjectsKull26FirstgameRoute
@@ -208,6 +218,7 @@ export interface FileRouteTypes {
     | '/fg/upload'
     | '/fg/'
     | '/fg/archiveBoss/'
+    | '/fg/gang_bangers/'
     | '/fg/projects/'
     | '/fg/archiveBoss/editUser/$userId'
     | '/fg/projects/kull26/firstgame'
@@ -227,6 +238,7 @@ export interface FileRouteTypes {
     | '/fg/upload'
     | '/fg'
     | '/fg/archiveBoss'
+    | '/fg/gang_bangers'
     | '/fg/projects'
     | '/fg/archiveBoss/editUser/$userId'
     | '/fg/projects/kull26/firstgame'
@@ -248,6 +260,7 @@ export interface FileRouteTypes {
     | '/_fgAuthenticated/fg/upload'
     | '/_fgAuthenticated/fg/'
     | '/_fgAuthenticated/fg/archiveBoss/'
+    | '/_fgAuthenticated/fg/gang_bangers/'
     | '/_fgAuthenticated/fg/projects/'
     | '/_fgAuthenticated/fg/archiveBoss/editUser/$userId'
     | '/_fgAuthenticated/fg/projects/kull26/firstgame'
@@ -358,6 +371,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FgAuthenticatedFgArchiveBossIndexRouteImport
       parentRoute: typeof FgAuthenticatedRouteRoute
     }
+    '/_fgAuthenticated/fg/gang_bangers/': {
+      id: '/_fgAuthenticated/fg/gang_bangers/'
+      path: '/fg/gang_bangers'
+      fullPath: '/fg/gang_bangers/'
+      preLoaderRoute: typeof FgAuthenticatedFgGang_bangersIndexRouteImport
+      parentRoute: typeof FgAuthenticatedRouteRoute
+    }
     '/_fgAuthenticated/fg/projects/': {
       id: '/_fgAuthenticated/fg/projects/'
       path: '/fg/projects'
@@ -408,6 +428,7 @@ interface FgAuthenticatedRouteRouteChildren {
   FgAuthenticatedFgUploadRoute: typeof FgAuthenticatedFgUploadRoute
   FgAuthenticatedFgIndexRoute: typeof FgAuthenticatedFgIndexRoute
   FgAuthenticatedFgArchiveBossIndexRoute: typeof FgAuthenticatedFgArchiveBossIndexRoute
+  FgAuthenticatedFgGang_bangersIndexRoute: typeof FgAuthenticatedFgGang_bangersIndexRoute
   FgAuthenticatedFgProjectsIndexRoute: typeof FgAuthenticatedFgProjectsIndexRoute
   FgAuthenticatedFgArchiveBossEditUserUserIdRoute: typeof FgAuthenticatedFgArchiveBossEditUserUserIdRoute
   FgAuthenticatedFgProjectsKull26FirstgameRoute: typeof FgAuthenticatedFgProjectsKull26FirstgameRoute
@@ -422,6 +443,8 @@ const FgAuthenticatedRouteRouteChildren: FgAuthenticatedRouteRouteChildren = {
   FgAuthenticatedFgIndexRoute: FgAuthenticatedFgIndexRoute,
   FgAuthenticatedFgArchiveBossIndexRoute:
     FgAuthenticatedFgArchiveBossIndexRoute,
+  FgAuthenticatedFgGang_bangersIndexRoute:
+    FgAuthenticatedFgGang_bangersIndexRoute,
   FgAuthenticatedFgProjectsIndexRoute: FgAuthenticatedFgProjectsIndexRoute,
   FgAuthenticatedFgArchiveBossEditUserUserIdRoute:
     FgAuthenticatedFgArchiveBossEditUserUserIdRoute,

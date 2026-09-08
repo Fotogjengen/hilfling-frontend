@@ -2,6 +2,7 @@
   position: fixed;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.4);
+  z-index: 200;
 }
 
 .content {
@@ -15,6 +16,11 @@
   padding: var(--size-space-400);
   width: 90vw;
   max-width: 480px;
+  max-height: calc(100vh - var(--size-space-800));
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  z-index: 200;
 }
 
 .header {
@@ -36,6 +42,7 @@
 }
 
 .body {
+  overflow-y: auto;
 }
 
 .actions {
@@ -44,4 +51,5 @@
   justify-content: flex-end;
   gap: var(--size-space-200);
   margin-top: var(--size-space-400);
+  flex-shrink: 0;
 }

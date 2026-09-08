@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { PhotoDto } from "../../generated";
+import { PhotoQuality } from "@/types";
 
 export type PhotoExif = {
   model?: string;
@@ -15,16 +16,31 @@ export type PhotoExif = {
   fileSize?: number;
 };
 
-export const useMetadata = (photo: PhotoDto) => {
+export const useMetadata = (photo: PhotoDto, quality?: PhotoQuality) => {
+  const getPhotoUrl = (photo: PhotoDto, quality?: PhotoQuality) => {
+    switch (quality || "prod") {
+      case "thumb":
+        return photo.imageThumb;
+      case "web":
+        if (!photo.imageWeb) {
+          throw new Error("The user does not have access to imageWeb");
+        }
+        return photo.imageWeb;
+      case "prod":
+        if (!photo.imageProd) {
+          throw new Error("The user does not have access to imageProd");
+        }
+        return photo.imageProd;
+    }
+  };
+
   return useQuery({
-    queryKey: ["photo", photo.photoId, "metadata"],
+    queryKey: ["photo", photo.photoId, "metadata", quality],
     staleTime: Infinity,
     queryFn: async (): Promise<PhotoExif> => {
-      if (!photo.imageProd) {
-        throw new Error("No photo to fetch metadata from");
-      }
+      const rawUrl = getPhotoUrl(photo, quality);
 
-      const url = photo.imageProd.replace("/media/", "/media/metadata/");
+      const url = rawUrl.replace("/media/", "/media/metadata/");
       const res = await fetch(url, { credentials: "include" });
       if (!res.ok) {
         throw new Error(`Failed to fetch metadata (${res.status})`);
