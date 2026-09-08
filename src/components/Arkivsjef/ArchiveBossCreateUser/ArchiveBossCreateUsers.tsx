@@ -59,11 +59,7 @@ function ArchiveBossCreateUsers({ setCreateUser }: Props) {
       setPhoneNumberError("");
     } else {
       setIsPhoneNumberValid(false);
-      setPhoneNumberError(
-        user.phoneNumber
-          ? "Ugyldig telefonnummer"
-          : "",
-      );
+      setPhoneNumberError(user.phoneNumber ? "Ugyldig telefonnummer" : "");
     }
   }, [user.phoneNumber]);
 
