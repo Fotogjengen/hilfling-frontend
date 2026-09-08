@@ -132,8 +132,15 @@
   .motiveSubtitle {
     font-size: 0.6rem;
     white-space: normal;
-    overflow: visible;
-    text-overflow: unset;
-    flex-wrap: wrap;
+  }
+
+  .chevronButton {
+    flex-shrink: 0;
+    width: 1rem;
+    height: 1rem;
+    padding: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }

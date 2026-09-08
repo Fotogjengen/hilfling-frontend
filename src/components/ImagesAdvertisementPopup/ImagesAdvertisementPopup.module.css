@@ -115,3 +115,13 @@
     font-size: 0.75rem;
   }
 }
+
+@media (max-width: 405px){
+  .InnerPopup h3 {
+    font-size: 0.8rem;
+  }
+
+  .PopupInfo {
+    font-size: 0.6rem;
+  }
+}

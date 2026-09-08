@@ -29,3 +29,27 @@
   overflow: hidden;
   background-color: var(--color-background-default-secondary);
 }
+
+.mobile{
+  display: none;
+}
+
+@media (max-width: 500px) {
+  .mobile {
+    position: fixed;
+    top: 64px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 99;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    box-sizing: border-box;
+    background-color: #ad2f33;
+    text-align: center;
+    color: white;
+    font-size: x-large;
+  }
+}

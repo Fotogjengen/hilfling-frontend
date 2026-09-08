@@ -3,3 +3,10 @@
   padding-top: var(--size-space-100);
   padding-bottom: var(--size-space-100);
 }
+
+@media (max-width: 500px) {
+  .toggle{
+    display: flex;
+    justify-content: center;
+  }
+}

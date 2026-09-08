@@ -58,3 +58,22 @@
   height: 1px;
   background-color: var(--color-border-default-default);
 }
+
+.mobileText{
+  display: none;
+}
+
+@media (max-width: 450px) {
+  .nav {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .mobileText {
+    display: block;
+  }
+
+  .desktopText{
+    display: none;
+  }
+}

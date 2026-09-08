@@ -8,12 +8,14 @@ const GuiFooter: FC = () => {
       <div className={styles.footerContent}>
         <div className={styles.section}>
           <h2>HILFLING</h2>
-          <p>
+          <p className={styles.desktopText}>
             Velkommen til Hilfling. Hilfling er fotogjengen sin nettside. Siden
             er open source, så om du er interessert i å vite hvordan siden
             fungerer, eller ønsker å rapportere bugs må du gjerne gjøre det her.
           </p>
-
+          <p className={styles.mobileText}>
+            Hilfling er Fotogjengens nettside. Den er open source, så sjekk ut koden om du vil!
+          </p>
           <a
             href="https://github.com/Fotogjengen/hilfling-frontend/"
             target="_blank"
@@ -33,7 +35,7 @@ const GuiFooter: FC = () => {
           </a>
         </div>
         <div className={styles.section}>
-          <h2>FØLG OSS </h2>
+          <h2>FØLG OSS</h2>
 
           <div>
             <a
@@ -47,11 +49,15 @@ const GuiFooter: FC = () => {
         </div>
         <div className={styles.section}>
           <h2>FOTOGJENGEN</h2>
-          <p>
+          <p className={styles.desktopText}>
             Fotogjengen er en gjeng ved Studentersamfundet i Trondhjem. Vi har
             som oppgave å ta bilder av alt som skjer på Samfundet, under UKA og
             under ISFiT. Vi består av 15 funksjonærer. På denne siden finner du
             informasjon om oss og hvilke tjenester vi tilbyr.
+          </p>
+          <p className={styles.mobileText}>
+            Fotogjengen er en gjeng ved Studentersamfundet i Trondhjem. Vi tar
+            bilder av alt på Samfundet, under UKA og ISFiT.
           </p>
         </div>
       </div>

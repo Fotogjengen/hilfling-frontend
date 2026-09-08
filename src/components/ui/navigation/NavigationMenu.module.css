@@ -310,3 +310,15 @@
   width: var(--size-icon-extra-small);
   height: var(--size-icon-extra-small);
 }
+
+@media (max-width: 770px) {
+  .navigationSubMenuLinkTextHeader {
+    font-size: 12px;
+    white-space: normal;
+  }
+
+  .navigationSubMenuLinkTextSubtext {
+    font-size: 10px;
+    white-space: normal;
+  }
+}
