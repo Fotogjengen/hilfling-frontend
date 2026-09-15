@@ -38,11 +38,6 @@ function AlbumsPage() {
   const [sort, setSort] = useState("nameAsc");
   const [albums, setAlbums] = useState<AlbumDto[]>([]);
 
-
-  // const [albumsPage, setAlbumsPage] = useState(1);
-
-  // const [update, setUpdate] = useState(false);
-
   const itemsPerPage = 20;
     const {
       data,
@@ -115,7 +110,8 @@ function AlbumsPage() {
             <ArchiveBossItem
               key={index}
               text={[album.name, album.description]}
-              id={album.albumId.id}
+              object = {album}
+              // id={album.albumId.id}
               type="album"
             />
           ))}

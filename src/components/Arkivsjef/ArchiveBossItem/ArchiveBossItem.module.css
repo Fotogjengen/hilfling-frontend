@@ -31,7 +31,7 @@
 }
 
 .album_names{
-gap: var(--size-space-200);
+  gap: var(--size-space-200);
   color: var(--color-text-default-default);
   font-family: var(--typography-body-font-family);
   font-size: var(--typography-body-size-medium);

@@ -1,0 +1,30 @@
+
+
+.pop_up{
+  z-index: 1;
+  position: fixed;
+  background-color: var(--color-background-default-default);
+  color: var(--color-text-default-default);
+  padding: var(--size-space-800);
+}
+
+.pageHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-300);
+  margin-bottom: var(--size-space-600);
+}
+
+.pageHeader h1 {
+  margin: 0;
+  color: var(--color-text-default-default);
+  font-family: var(--typography-title-page-font-family);
+  font-size: var(--typography-title-page-size-small);
+  font-weight: var(--typography-title-page-font-weight);
+  line-height: 1.1;
+}
+
+.list_item{
+  padding: var(--size-space-300);
+
+}

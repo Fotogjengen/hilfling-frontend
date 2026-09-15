@@ -1,16 +1,18 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { Button } from "@/components/ui/input/Button";
 import styles from "./ArchiveBossItem.module.css";
 import {Pencil, Album, Trash2 } from "lucide-react";
 import { useDeleteAlbum, useUpdateAlbum } from '@/hooks/album';
-import { AlbumPatchRequestDto } from "../../../../generated";
+import { AlbumPatchRequestDto, AlbumDto } from "../../../../generated";
+// import { useEffect} from "react";
 import { z } from "zod";
+import ArchiveBossAlbumSchema from "../ArchiveBossEditAlbumSchema/ArchiveBossEditAlbumSchema"
 
 interface Props {
   text: (string | undefined)[] | [];
-  id: string;
+  // id: string;
   type: string;
-
+  object:AlbumDto;
 }
 
 interface AlbumPatch {
@@ -31,12 +33,26 @@ const album_schema = z.object({
   isAnalog: z.boolean(),
 });
 
-function ArchiveBossItem({text, id, type }: Props) {
+function ArchiveBossItem({text, object, type }: Props) {
+  const [editAlbumPopUp, setEditAlbumPopUp] = useState(false)
+  const [editPlacePopUp, setEditPlacePopUp] = useState(false)
+  const [editCategoryPopUp, setEditCategoryPopUp] = useState(false)
+
+  const albumOnClose = () => {
+    setEditAlbumPopUp(false)
+  }
   
   const handleDelete = (id: string) => {
     if (type === 'album'){
     const deleteAlbum = useDeleteAlbum();
     deleteAlbum.mutate(id);
+    }
+  }
+
+  const handleEditClick = () => {
+    if (type === 'album'){
+      setEditAlbumPopUp(true)
+    }
   }
 
   const handleSubmitEdit = ( patchObject : any) =>{
@@ -46,8 +62,6 @@ function ArchiveBossItem({text, id, type }: Props) {
     }
   }
   
-};
-
     return (
       <tr>
         {text.map((item) => 
@@ -63,12 +77,15 @@ function ArchiveBossItem({text, id, type }: Props) {
               <Album size={16} aria-hidden="true" /> 
                 Sett som standard 
             </Button>)}
-            <Button variant="neutral" size="sm"  className={styles.editButton}>
+            <Button variant="neutral" size="sm" onClick={()=>handleEditClick()}  className={styles.editButton}>
               <Pencil size={16} aria-hidden="true" /> 
               Rediger 
             </Button>
+            {editAlbumPopUp && (
+              <ArchiveBossAlbumSchema album={object} onClose={albumOnClose}/>
+            )}
 
-            <Button size="sm" onClick={()=>handleDelete(id)} className= {styles.deleteButton}> 
+            <Button size="sm" onClick={()=>handleDelete(object.albumId.id)} className= {styles.deleteButton}> 
               <Trash2 size={16} aria-hidden="true" /> 
                 Slett 
             </Button>
