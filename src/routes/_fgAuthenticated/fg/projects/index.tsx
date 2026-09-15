@@ -17,7 +17,7 @@ function NewProjects() {
 
   return (
     <div>
-      <h1>Prosjekter laget av de nye</h1>
+      <h1 className={styles.title}>Prosjekter laget av de nye</h1>
       <div className={styles.grid}>
         {menuLinks.map((link, index) => (
           <Link key={index} to={link.to}>

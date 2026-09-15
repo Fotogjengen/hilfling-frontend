@@ -98,12 +98,6 @@ export function PhotoGalleryBody({
       </FadeInOut>
       {isMobile ? (
         <>
-          <div
-            className={`${actionStyles.actionPanelAnchor} ${styles.mobileActionGroup}`}
-          >
-            <PhotoActionPanel selectedPhoto={selectedPhoto} />
-          </div>
-
           <div className={styles.mobileContent}>
             <SwipeableMainPhoto
               selectedPhoto={selectedPhoto}
@@ -111,6 +105,12 @@ export function PhotoGalleryBody({
               onNext={goNext}
               onPrevious={goPrevious}
             />
+            <div className={styles.mobileBottomActions}>
+              <PhotoActionPanel selectedPhoto={selectedPhoto} />
+              {showMotiveLink && selectedPhoto && (
+                <MotiveLink photo={selectedPhoto} />
+              )}
+            </div>
             <PhotoViewBottomStrip
               photos={photos}
               pagination={pagination}

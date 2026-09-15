@@ -19,7 +19,7 @@
 .section {
   flex: 1;
   text-align: center;
-  padding: 20px 60px 20px 60px;
+  padding: 20px 60px;
 }
 
 .follow {
@@ -42,4 +42,52 @@
 
 .section a {
   font-size: 1.2rem;
+}
+
+.mobileText {
+  display: none;
+}
+
+@media (max-width: 930px) {
+  .footerContent {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .follow {
+    justify-content: center;
+    margin-left: 0;
+  }
+
+  .section p,
+  .section a {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 500px) {
+  .desktopText {
+    display: none;
+  }
+
+  .mobileText {
+    display: block;
+  }
+
+  .section {
+    padding: 16px 20px;
+  }
+
+  .section p {
+    font-size: 0.8rem;
+  }
+
+  .section a {
+    font-size: 0.8rem;
+  }
+
+  .section h2 {
+    font-weight: 600;
+    font-size: medium;
+  }
 }
