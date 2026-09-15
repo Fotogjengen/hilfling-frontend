@@ -48,6 +48,15 @@ export function useLogin() {
   };
 }
 
+export function useExternalLogin() {
+  const { login } = useAuth();
+
+  return async function (username: string, password: string): Promise<void> {
+    const { token } = await AuthApi.loginExternal(username, password);
+    login(token);
+  };
+}
+
 const decodeToken = (token: string): AuthUser =>
   JSON.parse(atob(token.split(".")[1])) as AuthUser;
 

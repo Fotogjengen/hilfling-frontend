@@ -65,10 +65,20 @@ export type DateRange = {
   to?: Date;
 };
 
+/** Mirrors the backend Permission enum. */
+export type Permission =
+  | "PHOTO_DELETE_OLD"
+  | "ALBUM_MANAGE"
+  | "ARCHIVE_MANAGE"
+  | "POSITION_MANAGE"
+  | "USER_MANAGE";
+
 export type AuthUser = {
   username: string;
   positionId: string | null;
   securityLevel: SecurityLevelType;
+  permissions: Permission[];
+  isExternalUser: boolean;
   sub: string;
   iat: number;
   exp: number;
