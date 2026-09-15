@@ -3,13 +3,10 @@ import { useEffect, useState, useMemo} from "react";
 
 import styles from "./albums.module.css";
 
-import { toast } from "@/components/ui/overlay/Toaster";
-
 import { AlbumDto} from "@/../generated";
 import { AlbumApi } from "@/utils/api/AlbumApi";
 
 import ArchiveBossItem from "@/components/Arkivsjef/ArchiveBossItem/ArchiveBossItem";
-import { Pagination } from "@/components/ui/navigation/Pagination";
 
 import { ScrollArea } from  "radix-ui";
 
@@ -26,25 +23,18 @@ export const Route = createFileRoute('/_fgAuthenticated/fg/archiveBoss/albums')(
 )
 
 const sortOptions = [
-  // { label: "Nyeste først", value: "newest" },
-  // { label: "Eldste først", value: "oldest" },
   { label: "Navn A-Å", value: "nameAsc" },
   { label: "Navn Å-A", value: "nameDesc" },
 ];
-
 
 function AlbumsPage() {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("nameAsc");
   const [albums, setAlbums] = useState<AlbumDto[]>([]);
 
-  const itemsPerPage = 20;
-    const {
-      data,
-      isLoading,
-      isError,
-      } = useAlbums();
-      useEffect (() => {
+    const {data, isLoading} = useAlbums();
+    
+    useEffect (() => {
         setAlbums(data ?? [])
       },[data])
 
@@ -110,7 +100,7 @@ function AlbumsPage() {
             <ArchiveBossItem
               key={index}
               text={[album.name, album.description]}
-              object = {album}
+              album_object = {album}
               // id={album.albumId.id}
               type="album"
             />

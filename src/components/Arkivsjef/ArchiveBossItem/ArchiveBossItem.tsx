@@ -1,57 +1,77 @@
-import { ReactNode, useState } from "react";
+import { ReactNode, useState, useEffect } from "react";
 import { Button } from "@/components/ui/input/Button";
 import styles from "./ArchiveBossItem.module.css";
 import {Pencil, Album, Trash2 } from "lucide-react";
 import { useDeleteAlbum, useUpdateAlbum } from '@/hooks/album';
 import { AlbumPatchRequestDto, AlbumDto } from "../../../../generated";
-// import { useEffect} from "react";
-import { z } from "zod";
+import { CategoryDto} from "../../../../generated";
+import { PlaceDto} from "../../../../generated";
+
 import ArchiveBossAlbumSchema from "../ArchiveBossEditAlbumSchema/ArchiveBossEditAlbumSchema"
+import { useDeleteCategory } from "@/hooks/category";
 
 interface Props {
   text: (string | undefined)[] | [];
-  // id: string;
   type: string;
-  object:AlbumDto;
+  album_object?: AlbumDto;
+  category_object?: CategoryDto;
+  place_object?: PlaceDto;
 }
 
-interface AlbumPatch {
-  id: string;
-  name: string;
-  type: string;
-  description: string;
-  analog: boolean;
-}
 interface AlbumDialogProps {
   user: AlbumPatchRequestDto;
   onClose: () => void;
 }
 
-const album_schema = z.object({
-  navn: z.string().trim(),
-  beskrivelse: z.string().trim(),
-  isAnalog: z.boolean(),
-});
+function ArchiveBossItem({text, type, album_object, category_object, place_object}: Props) {
+  const deleteAlbum = useDeleteAlbum();
+  const deleteCategory = useDeleteCategory();
 
-function ArchiveBossItem({text, object, type }: Props) {
+  const [albumItem, setAlbumItem] = useState<AlbumDto| undefined>(album_object)
+  const [categoryItem, setCategoryItem] = useState<CategoryDto| undefined>(category_object)
+  const [placeItem, setPlaceItem] = useState<PlaceDto| undefined>(place_object)
+
+  const [objectId, setobjcetId] = useState<string>('')
+
   const [editAlbumPopUp, setEditAlbumPopUp] = useState(false)
   const [editPlacePopUp, setEditPlacePopUp] = useState(false)
   const [editCategoryPopUp, setEditCategoryPopUp] = useState(false)
+
+  useEffect (() => {
+    if (type === 'album' && albumItem !== undefined){
+      setobjcetId(albumItem.albumId.id)
+    }
+    else if (type === 'category' && categoryItem !== undefined){
+      setobjcetId(categoryItem.categoryId.id)
+    }
+    else if (type === 'place' && placeItem !== undefined){
+      setobjcetId(placeItem.placeId.id)
+    }
+    },[albumItem,categoryItem,placeItem])
 
   const albumOnClose = () => {
     setEditAlbumPopUp(false)
   }
   
   const handleDelete = (id: string) => {
+    console.log(id)
     if (type === 'album'){
-    const deleteAlbum = useDeleteAlbum();
     deleteAlbum.mutate(id);
+    }
+    else if (type === 'album'){
+    deleteCategory.mutate(id);
     }
   }
 
   const handleEditClick = () => {
     if (type === 'album'){
       setEditAlbumPopUp(true)
+    }
+    else if (type === 'category'){
+      setEditCategoryPopUp(true)
+    }
+    else if (type === 'place'){
+      setEditPlacePopUp(true)
     }
   }
 
@@ -72,7 +92,7 @@ function ArchiveBossItem({text, object, type }: Props) {
         </td>)}
         <td >
           <div className={styles.actions}>
-          { type === 'album' && (
+          { type === 'album' && albumItem !== undefined && (
             <Button variant="neutral" size="sm" className= {styles.deleteButton}> 
               <Album size={16} aria-hidden="true" /> 
                 Sett som standard 
@@ -81,15 +101,13 @@ function ArchiveBossItem({text, object, type }: Props) {
               <Pencil size={16} aria-hidden="true" /> 
               Rediger 
             </Button>
-            {editAlbumPopUp && (
-              <ArchiveBossAlbumSchema album={object} onClose={albumOnClose}/>
+            {editAlbumPopUp && albumItem !== undefined && (
+              <ArchiveBossAlbumSchema album={albumItem} onClose={albumOnClose}/>
             )}
-
-            <Button size="sm" onClick={()=>handleDelete(object.albumId.id)} className= {styles.deleteButton}> 
+            <Button size="sm" onClick={()=>handleDelete(objectId)} className= {styles.deleteButton}> 
               <Trash2 size={16} aria-hidden="true" /> 
                 Slett 
             </Button>
-
           </div>
         </td>
       </tr>

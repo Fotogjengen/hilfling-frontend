@@ -1,7 +1,4 @@
 import { AlbumApi } from "@/utils/api/AlbumApi";
-// import { useQuery } from "@tanstack/react-query";
-// import { useInfiniteQuery } from "@tanstack/react-query";
-
 import { AlbumPatchRequestDto } from "../../generated";
 import { toast } from "@/components/ui/overlay/Toaster";
 import {
@@ -54,29 +51,3 @@ export const useUpdateAlbum = () => {
     },
   });
 };
-
-// export const useInfiniteSCrollAlbums = () => {
-//   return useInfiniteQuery({
-//     queryKey: ["albums"],
-//     initialPageParam: 0,
-
-    
-//     queryFn: async ({ pageParam }) => {
-//       const res = await AlbumApi.getAll({
-//         page: pageParam,
-//       });
-
-//       return res.data;
-//     },
-
-//     getNextPageParam: (lastPage, allPages) => {
-//       const nextPage = allPages.length;
-
-//       if (nextPage >= lastPage.totalPages) {
-//         return undefined;
-//       }
-
-//       return nextPage;
-//     },
-//   });
-// };

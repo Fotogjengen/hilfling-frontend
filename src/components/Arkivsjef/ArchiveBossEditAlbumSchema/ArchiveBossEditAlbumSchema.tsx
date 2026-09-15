@@ -1,14 +1,12 @@
-import { useForm } from '@tanstack/react-form'
-import { ReactNode, useState } from "react";
+
+import { ReactNode } from "react";
 import styles from "./ArchiveBossEditAlbumSchema.module.css";
 import { AlbumPatchRequestDto, AlbumDto } from "../../../../generated";
-import {FormTextInput} from "../../ui/form/FormTextInput"
-import {FormSubmitButton} from "../../ui/form/FormSubmitButton"
 import {Button} from "../../ui/input/Button"
 import useAppForm from "@/utils/form/FormContext";
 import { Dialog } from '@/components/ui/overlay/Dialog';
 import { useUpdateAlbum } from '@/hooks/album';
-import { FormCheckbox } from "../../ui/form/FormCheckbox";
+
 
 
 interface Props{
@@ -61,7 +59,6 @@ function ArchiveBossAlbumSchema({album, onClose} : Props) {
       <div className = {styles.list_item}>
       <form.AppField
         name="name"
-        
         >
         {(field) => <field.TextInput label="Albumnavn"  autoFocus />}
       </form.AppField>
