@@ -12,15 +12,10 @@ interface Props extends DefaultProps {
 
 export default function Logo({ size, onClick, className, ...rest }: Props) {
   return (
-    <div
-      style={{ height: size }}
-      className={cx(styles.logo, className)}
-      onClick={onClick}
-      {...rest}
-    >
+    <div className={cx(styles.logo, className)} onClick={onClick} {...rest}>
       <LogoSvg size={size} />
-      <p style={{ fontSize: size * 0.7 }} className={styles.name}>
-        fotogjengen
+      <p style={{ fontSize: size * 0.9 }} className={styles.name}>
+        Fotogjengen
       </p>
     </div>
   );
