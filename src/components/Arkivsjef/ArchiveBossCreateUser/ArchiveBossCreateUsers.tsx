@@ -26,7 +26,7 @@ const initialUserState = {
 };
 
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-const phoneNumberRegex = /^[1-9]\d{7}$/;
+const phoneNumberRegex = /^[49]\d{7}$/;
 
 function generateAvailableSemesters() {
   const currentYear = new Date().getFullYear();
