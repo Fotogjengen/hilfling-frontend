@@ -167,6 +167,25 @@
     min-width: 28px;
     padding: 4px;
   }
+  
+  .actionButtonRow .actionButton:has(.copyLabel) {
+    width: fit-content;
+  }
+
+  .copyContent {
+    height: 20px;
+  }
+
+  .iconStack {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  .copyLabelText {
+    padding-right: 4px;
+    padding-left: 2px;
+  }
 
   .actionButton svg {
     width: 14px;

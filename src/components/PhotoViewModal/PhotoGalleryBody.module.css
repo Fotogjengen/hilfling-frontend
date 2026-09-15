@@ -1,6 +1,6 @@
 .closeButton {
   position: fixed;
-  top: 80px;
+  top: 35px;
   right: var(--size-space-400);
   z-index: 9999;
 }
