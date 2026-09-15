@@ -1,10 +1,12 @@
-import { useState } from "react";
-import styles from "./LoginPopUp.module.css";
-import { Button } from "@/components/ui/input/Button";
-import { TextInput } from "@/components/ui/input/TextInput";
 import { Dialog } from "@/components/ui/overlay/Dialog";
-import { Eye, EyeOff } from "lucide-react";
-import { useLogin } from "@/contexts/AuthProvider";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/navigation/Tabs";
+import InternalLoginForm from "./InternalLoginForm";
+import ExternalLoginForm from "./ExternalLoginForm";
 
 interface Props {
   open: boolean;
@@ -12,74 +14,20 @@ interface Props {
 }
 
 const LoginPopUp = ({ open, onOpenChange }: Props) => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const login = useLogin();
-
-  const handleLogin = async () => {
-    if (!username || !password) {
-      setError("Brukernavn og passord er påkrevd");
-      return;
-    }
-    setIsLoading(true);
-    setError(null);
-    try {
-      await login(username, password);
-      onOpenChange(false);
-    } catch {
-      setError("Innlogging feilet. Sjekk brukernavn og passord.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return (
-    <Dialog
-      open={open}
-      onOpenChange={onOpenChange}
-      title="LOGG INN SOM INTERN"
-      actions={
-        <Button
-          onClick={() => void handleLogin()}
-          disabled={isLoading}
-          className={styles.submitButton}
-        >
-          {isLoading ? "Logger inn..." : "Logg inn"}
-        </Button>
-      }
-    >
-      <div className={styles.form}>
-        <TextInput
-          label="Brukernavn"
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <TextInput
-          label="Passord"
-          type={showPassword ? "text" : "password"}
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") void handleLogin();
-          }}
-          suffix={
-            <button
-              type="button"
-              className={styles.eyeButton}
-              onClick={() => setShowPassword(!showPassword)}
-              aria-label={showPassword ? "Skjul passord" : "Vis passord"}
-            >
-              {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
-            </button>
-          }
-        />
-        {error && <p className={styles.error}>{error}</p>}
-      </div>
+    <Dialog open={open} onOpenChange={onOpenChange} title="Logg inn">
+      <Tabs defaultValue="intern">
+        <TabsList>
+          <TabsTrigger value="intern">Intern</TabsTrigger>
+          <TabsTrigger value="ekstern">Ekstern</TabsTrigger>
+        </TabsList>
+        <TabsContent value="intern">
+          <InternalLoginForm onSuccess={() => onOpenChange(false)} />
+        </TabsContent>
+        <TabsContent value="ekstern">
+          <ExternalLoginForm onSuccess={() => onOpenChange(false)} />
+        </TabsContent>
+      </Tabs>
     </Dialog>
   );
 };

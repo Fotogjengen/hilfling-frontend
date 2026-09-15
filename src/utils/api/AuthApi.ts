@@ -19,4 +19,15 @@ export const AuthApi = {
 
     return response.data;
   },
+  loginExternal: async function (
+    username: string,
+    password: string,
+  ): Promise<AuthToken> {
+    const response = await api.post<AuthToken>("/auth/external-login", {
+      username,
+      password,
+    });
+
+    return response.data;
+  },
 };
