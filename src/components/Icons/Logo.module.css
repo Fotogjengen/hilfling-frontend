@@ -1,11 +1,14 @@
 .logo {
   display: flex;
   flex-direction: row;
-  align-items: baseline;
+  align-items: center;
 }
 
 .name {
+  display: inline;
+  vertical-align: middle;
   padding-left: 1rem;
   margin: auto 0;
-  font-family: Roboto, Futura, "Trebuchet MS", Arial, sans-serif;
+  font-family: Satoshi, Roboto, Futura, "Trebuchet MS", Arial, sans-serif;
+  font-weight: 500;
 }
