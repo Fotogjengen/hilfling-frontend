@@ -255,9 +255,7 @@ const Wheel: React.FC<Props> = ({ participants }) => {
           onMouseLeave={(e) =>
             (e.currentTarget.style.backgroundColor = "#1e293b")
           }
-          onMouseDown={(e) =>
-            (e.currentTarget.style.transform = "scale(0.96)")
-          }
+          onMouseDown={(e) => (e.currentTarget.style.transform = "scale(0.96)")}
           onMouseUp={(e) => (e.currentTarget.style.transform = "scale(1)")}
         >
           Spin
