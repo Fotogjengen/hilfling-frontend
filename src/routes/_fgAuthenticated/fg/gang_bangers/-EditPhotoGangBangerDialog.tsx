@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/input/Button";
 import { Dialog } from "@/components/ui/overlay/Dialog";
 import { toast } from "@/components/ui/overlay/Toaster";
 import { useUpdatePhotoGangBanger } from "@/hooks/photoGangBangers";
-import useAppForm from "@/utils/form/FormContext";
+import useAppForm from "@/contexts/FormContext";
 import styles from "./EditPhotoGangBangerDialog.module.css";
 
 interface EditPhotoGangBangerDialogProps {
