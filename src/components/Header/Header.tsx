@@ -17,7 +17,8 @@ import { Archive, LayoutPanelLeft, LinkIcon, Star, Users } from "lucide-react";
 
 export default function HeaderComponent() {
   const { isAuthenticated, user } = useAuth();
-  const isFg = isAuthenticated && user?.securityLevel === "FG";
+  const isFg =
+    isAuthenticated && user?.securityLevel === "FG" && !user.isExternalUser;
   const { pathname } = useLocation();
   const isInfoActive = pathname.startsWith("/about");
   const isInternActive = pathname.startsWith("/fg");
@@ -36,7 +37,8 @@ export default function HeaderComponent() {
             <NavigationMenuItem>
               <NavigationMenuLink asChild>
                 <Link to="/search" activeOptions={{ includeSearch: false }}>
-                  Søk i bilder
+                  <p className={styles.desktopText}>Søk i bilder</p>
+                  <p className={styles.mobileText}>Søk</p>
                 </Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
