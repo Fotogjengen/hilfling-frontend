@@ -1,0 +1,40 @@
+.marquee {
+  --gap: 20px;
+  height: 18rem;
+  display: flex;
+  justify-content: stretch;
+  align-items: stretch;
+  align-self: stretch;
+  overflow-x: hidden;
+}
+
+.scrollGroup {
+  display: flex;
+  justify-content: start;
+  align-items: end;
+  gap: var(--gap);
+  animation: scroll var(--scroll-duration) linear infinite;
+}
+
+.photo {
+  height: 100%;
+  flex: 0;
+  background-color: var(--color-brand-400);
+}
+
+.landscape {
+  aspect-ratio: 3 / 2;
+}
+
+.portrait {
+  aspect-ratio: 2 / 3;
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-50% - var(--gap) / 2));
+  }
+}
