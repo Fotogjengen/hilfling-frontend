@@ -1,7 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import styles from "./index.module.css";
-import Logo from "@/components/Icons/Logo";
-import DeNyeBanner from "@/components/Frontpage/DeNyeBanner";
+import DeNyeBanner from "@/components/Frontpage/Hero/DeNyeBanner";
 import RecentEvents from "@/components/Frontpage/RecentEvents";
 import AboutUsBanner from "@/components/Frontpage/AboutUsBanner";
 import PhotoWall from "@/components/Frontpage/PhotoWall";
@@ -33,14 +32,7 @@ function RouteComponent() {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.heroWrapper}>
-        <div className={styles.logoWrapper}>
-          <Logo size={50} />
-        </div>
-        <div className={styles.heroContent}>
-          <DeNyeBanner />
-        </div>
-      </div>
+      <DeNyeBanner />
       <RecentEvents />
       <AboutUsBanner />
       <div className={styles.photoWallWrapper}>

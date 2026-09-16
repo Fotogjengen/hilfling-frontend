@@ -4,14 +4,6 @@
   gap: var(--size-space-400);
 }
 
-.heroWrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 50vh;
-}
-
 .logoWrapper {
   position: absolute;
   top: 1.5rem;
@@ -19,12 +11,6 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
-}
-
-.heroContent {
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .photoWallWrapper {
