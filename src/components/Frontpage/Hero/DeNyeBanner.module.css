@@ -1,0 +1,13 @@
+.hero {
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  background-color: var(--color-brand-700);
+}
+
+.logo {
+  padding-top: 2rem;
+}
