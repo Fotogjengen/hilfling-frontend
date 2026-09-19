@@ -2,12 +2,10 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type { PhotoGangBangerId } from "./PhotoGangBangerId";
-import type { PositionDto } from "./PositionDto";
+import type { PositionId } from "./PositionId";
 import type { SemesterStart } from "./SemesterStart";
-export type PhotoGangBangerPositionPatchRequestDto = {
-  photoGangBangerId: PhotoGangBangerId;
+export type PhotoGangBangerPositionRequestDto = {
+  positionId: PositionId;
   semesterStart: SemesterStart;
-  position?: PositionDto;
   semesterEnd?: SemesterStart;
 };

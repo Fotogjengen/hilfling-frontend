@@ -19,6 +19,7 @@ interface SelectProps {
   className?: string;
   id?: string;
   name?: string;
+  ariaLabel?: string;
 }
 
 export function Select({
@@ -32,6 +33,7 @@ export function Select({
   className,
   id,
   name,
+  ariaLabel,
 }: SelectProps) {
   const generatedId = useId();
   const triggerId = id ?? `select-${generatedId}`;
@@ -53,6 +55,7 @@ export function Select({
       >
         <SelectPrimitive.Trigger
           id={triggerId}
+          aria-label={ariaLabel}
           aria-labelledby={label ? `${labelId} ${valueId}` : undefined}
           aria-invalid={!!error}
           aria-describedby={error ? `${triggerId}-error` : undefined}

@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { z } from "zod";
+import { format } from "date-fns";
 import type { MemberPositionDto } from "@/../generated";
 import { Button } from "@/components/ui/input/Button";
 import { Dialog } from "@/components/ui/overlay/Dialog";
@@ -7,6 +8,7 @@ import { toast } from "@/components/ui/overlay/Toaster";
 import { useCreatePhotoGangBanger } from "@/hooks/photoGangBangers";
 import { PositionApi } from "@/utils/api/PositionApi";
 import type { PhotoGangBangerCreateRequest } from "@/utils/api/PhotoGangBangerApi";
+import { createSemesterOptions } from "@/utils/semester";
 import useAppForm from "@/contexts/FormContext";
 import styles from "./CreatePhotoGangBangerDialog.module.css";
 
@@ -16,12 +18,13 @@ interface CreatePhotoGangBangerDialogProps {
 
 const schema = z.object({
   username: z.string().trim().min(1, "Brukernavn er obligatorisk"),
-  firstName: z.string().trim().min(1, "Fornavn er obligatorisk"),
-  lastName: z.string().trim().min(1, "Etternavn er obligatorisk"),
+  name: z.string().trim().min(1, "Navn er obligatorisk"),
   phoneNumber: z.string().regex(/^[49]\d{7}$/, "Ugyldig telefonnummer"),
   email: z.string().email("Ugyldig e-postadresse"),
   semesterStart: z.string().min(1, "Velg startsemester"),
   positionId: z.string(),
+  foodPreference: z.string(),
+  birthday: z.union([z.date(), z.undefined()]),
   isActive: z.boolean(),
   isPang: z.boolean(),
 });
@@ -46,12 +49,13 @@ export function CreatePhotoGangBangerDialog({
   const form = useAppForm({
     defaultValues: {
       username: "",
-      firstName: "",
-      lastName: "",
+      name: "",
       phoneNumber: "",
       email: "",
       semesterStart: "",
       positionId: "",
+      foodPreference: "",
+      birthday: undefined as Date | undefined,
       isActive: true,
       isPang: false,
     },
@@ -76,12 +80,14 @@ export function CreatePhotoGangBangerDialog({
         semesterStart,
         isActive: value.isActive,
         isPang: value.isPang,
-        firstName: value.firstName.trim(),
-        lastName: value.lastName.trim(),
+        name: value.name.trim(),
         username: value.username.trim(),
         email: value.email.trim(),
-        profilePicture: "",
         phoneNumber: value.phoneNumber,
+        foodPreference: value.foodPreference.trim(),
+        birthday: value.birthday
+          ? format(value.birthday, "yyyy-MM-dd")
+          : undefined,
         positions: memberPositions,
       };
 
@@ -141,21 +147,9 @@ export function CreatePhotoGangBangerDialog({
           {(field) => <field.TextInput label="Brukernavn" autoFocus />}
         </form.AppField>
 
-        <div className={styles.nameFields}>
-          <form.AppField
-            name="firstName"
-            validators={{ onChange: schema.shape.firstName }}
-          >
-            {(field) => <field.TextInput label="Fornavn" />}
-          </form.AppField>
-
-          <form.AppField
-            name="lastName"
-            validators={{ onChange: schema.shape.lastName }}
-          >
-            {(field) => <field.TextInput label="Etternavn" />}
-          </form.AppField>
-        </div>
+        <form.AppField name="name" validators={{ onChange: schema.shape.name }}>
+          {(field) => <field.TextInput label="Navn" />}
+        </form.AppField>
 
         <form.AppField
           name="email"
@@ -170,6 +164,15 @@ export function CreatePhotoGangBangerDialog({
         >
           {(field) => <field.TextInput label="Telefonnummer" />}
         </form.AppField>
+
+        <div className={styles.selectFields}>
+          <form.AppField name="foodPreference">
+            {(field) => <field.TextInput label="Matpreferanse" />}
+          </form.AppField>
+          <form.AppField name="birthday">
+            {(field) => <field.DatePicker label="Bursdag" />}
+          </form.AppField>
+        </div>
 
         <div className={styles.selectFields}>
           <form.AppField
@@ -216,13 +219,4 @@ export function CreatePhotoGangBangerDialog({
       </form>
     </Dialog>
   );
-}
-
-function createSemesterOptions() {
-  const currentYear = new Date().getFullYear();
-
-  return [currentYear - 1, currentYear, currentYear + 1].flatMap((year) => [
-    { label: `V${year}`, value: `V${year}` },
-    { label: `H${year}`, value: `H${year}` },
-  ]);
 }
