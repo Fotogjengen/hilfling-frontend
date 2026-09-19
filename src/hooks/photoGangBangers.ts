@@ -29,6 +29,13 @@ export const usePhotoGangBangers = () => {
   });
 };
 
+export const useCurrentPhotoGangBanger = () => {
+  return useQuery({
+    queryKey: ["photoGangBangers", "me"],
+    queryFn: () => PhotoGangBangerApi.getCurrent(),
+  });
+};
+
 export const useUpdatePhotoGangBanger = () => {
   const queryClient = useQueryClient();
 

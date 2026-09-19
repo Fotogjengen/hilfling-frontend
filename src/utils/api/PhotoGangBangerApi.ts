@@ -22,6 +22,9 @@ export const PhotoGangBangerApi = {
   getById: async function (id: string): Promise<PhotoGangBangerDto> {
     return api.get(`/photo_gang_bangers/${id}`).then((res) => res.data);
   },
+  getCurrent: async function (): Promise<PhotoGangBangerDto> {
+    return api.get("/photo_gang_bangers/me").then((res) => res.data);
+  },
   getAllActivesPublic: async function (): Promise<PhotoGangBangerDto[]> {
     return api
       .get("/photo_gang_bangers/actives")
