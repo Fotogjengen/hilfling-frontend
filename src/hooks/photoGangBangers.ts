@@ -2,7 +2,10 @@ import {
   PhotoGangBangerApi,
   type PhotoGangBangerCreateRequest,
 } from "@/utils/api/PhotoGangBangerApi";
-import type { PhotoGangBangerDto } from "@/../generated";
+import type {
+  PhotoGangBangerPatchRequestDto,
+  PhotoGangBangerPositionsPutRequestDto,
+} from "@/../generated";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useActivePhotoGangBangers = () => {
@@ -30,7 +33,7 @@ export const useUpdatePhotoGangBanger = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (photoGangBanger: PhotoGangBangerDto) =>
+    mutationFn: (photoGangBanger: PhotoGangBangerPatchRequestDto) =>
       PhotoGangBangerApi.patch(photoGangBanger),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ["photoGangBangers"] });
@@ -44,6 +47,18 @@ export const useCreatePhotoGangBanger = () => {
   return useMutation({
     mutationFn: (photoGangBanger: PhotoGangBangerCreateRequest) =>
       PhotoGangBangerApi.post(photoGangBanger),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["photoGangBangers"] });
+    },
+  });
+};
+
+export const useReplacePhotoGangBangerPositions = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (request: PhotoGangBangerPositionsPutRequestDto) =>
+      PhotoGangBangerApi.putPositions(request),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ["photoGangBangers"] });
     },

@@ -15,8 +15,7 @@ export const Route = createFileRoute(
 });
 
 const schema = z.object({
-  firstName: z.string().min(1, "Fornavn er påkrevd"),
-  lastName: z.string().min(1, "Etternavn er påkrevd"),
+  name: z.string().min(1, "Navn er påkrevd"),
   phoneNumber: z.string().regex(/^[49]\d{7}$/, "Ugyldig telefonnummer"),
   email: z.string().email("Ugyldig e-postadresse"),
   isActive: z.boolean(),
@@ -28,8 +27,7 @@ function EditUserForm({ user }: { user: PhotoGangBangerDto }) {
 
   const form = useAppForm({
     defaultValues: {
-      firstName: user.firstName ?? "",
-      lastName: user.lastName ?? "",
+      name: user.name ?? "",
       phoneNumber: user.phoneNumber ?? "",
       email: user.email ?? "",
       isActive: user.isActive ?? false,
@@ -54,18 +52,8 @@ function EditUserForm({ user }: { user: PhotoGangBangerDto }) {
         void form.handleSubmit();
       }}
     >
-      <form.AppField
-        name="firstName"
-        validators={{ onChange: schema.shape.firstName }}
-      >
-        {(field) => <field.TextInput label="Fornavn" />}
-      </form.AppField>
-
-      <form.AppField
-        name="lastName"
-        validators={{ onChange: schema.shape.lastName }}
-      >
-        {(field) => <field.TextInput label="Etternavn" />}
+      <form.AppField name="name" validators={{ onChange: schema.shape.name }}>
+        {(field) => <field.TextInput label="Navn" />}
       </form.AppField>
 
       <form.AppField

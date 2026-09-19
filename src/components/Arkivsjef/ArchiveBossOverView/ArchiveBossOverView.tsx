@@ -46,8 +46,7 @@ function ArchiveBossOverView({ setOverview }: Props) {
               <thead>
                 <tr>
                   <th className={styles.headerCell}>Username</th>
-                  <th className={styles.headerCell}>First name</th>
-                  <th className={styles.headerCell}>Last name</th>
+                  <th className={styles.headerCell}>Name</th>
                   <th className={styles.headerCell}>Phone number</th>
                   <th className={styles.headerCell}>Email</th>
                   <th className={styles.headerCell}>Active</th>
@@ -59,8 +58,7 @@ function ArchiveBossOverView({ setOverview }: Props) {
                 {pageUsers.map((user) => (
                   <tr key={user.photoGangBangerId?.id}>
                     <td className={styles.cell}>{user.username}</td>
-                    <td className={styles.cell}>{user.firstName}</td>
-                    <td className={styles.cell}>{user.lastName}</td>
+                    <td className={styles.cell}>{user.name}</td>
                     <td className={styles.cell}>{user.phoneNumber}</td>
                     <td className={styles.cell}>{user.email}</td>
                     <td className={styles.cell}>
