@@ -6,8 +6,7 @@
 .profileMenuContent {
   display: flex;
   flex-direction: column;
-  min-width: 22rem;
-  max-width: 22rem;
+  width: min(22rem, calc(100vw - 3rem));
   gap: var(--size-space-200);
   padding: var(--size-space-100);
 }

@@ -1,11 +1,10 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Download, Info, ShieldCheck, TriangleAlert } from "lucide-react";
 import { useAuth } from "@/contexts/AuthProvider";
 import styles from "./ProfileViewer.module.css";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/overlay/DropdownMenu";
 import { ProfileImage } from "@/components/ui/display/ProfileImage";
@@ -14,15 +13,43 @@ import { LogoutButton } from "@/components/Login/LoginButton/LogoutButton";
 import { Button } from "@/components/ui/input/Button";
 import { Link } from "@tanstack/react-router";
 import { PhotoGangBangerHelpDialog } from "./PhotoGangBangerHelpDialog";
+import { FGInfo } from "./FGInfo";
 
 export function ProfileViewer() {
   const { data: currentPhotoGangBanger } = useCurrentPhotoGangBanger();
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
+  const [fgEditing, setFgEditing] = useState(false);
+  const blockNextCloseRef = useRef(false);
+
+  const handleOpenChange = (nextOpen: boolean) => {
+    // Only block the *next* auto-close attempt so the file-input blur
+    // does not destroy the form. Once that shot is used, outside clicks
+    // and Escape work again.
+    if (!nextOpen && blockNextCloseRef.current) {
+      blockNextCloseRef.current = false;
+      return;
+    }
+    setOpen(nextOpen);
+    if (!nextOpen) setFgEditing(false);
+  };
+
+  const handleSaved = () => {
+    setFgEditing(false);
+  };
+
+  const handleCancel = () => {
+    setFgEditing(false);
+  };
+
+  const handleClose = () => {
+    setFgEditing(false);
+    setOpen(false);
+  };
 
   return (
     <div>
-      <DropdownMenu open={open} onOpenChange={setOpen}>
+      <DropdownMenu open={open} onOpenChange={handleOpenChange}>
         <DropdownMenuTrigger asChild>
           <Button variant="subtle" className={styles.trigger}>
             <ProfileImage
@@ -32,20 +59,28 @@ export function ProfileViewer() {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
+          collisionPadding={12}
           onCloseAutoFocus={(event) => event.preventDefault()}
         >
           <div className={styles.profileMenuContent}>
-            <header className={styles.header}>
-              <span className={styles.username}>{user?.username}</span>
-            </header>
             {user?.isExternalUser && (
-              <ExternalUserInfo onNavigate={() => setOpen(false)} />
+              <ExternalUserInfo onNavigate={handleClose} />
             )}
             {user?.securityLevel === "HUSFOLK" && !user.isExternalUser && (
               <NonFGInfo />
             )}
-            <DropdownMenuSeparator className={styles.separator} />
-            <LogoutButton />
+            {user?.securityLevel === "FG" && !user.isExternalUser && (
+              <FGInfo
+                isEditing={fgEditing}
+                onStartEditing={() => setFgEditing(true)}
+                onSaved={handleSaved}
+                onCancel={handleCancel}
+                onClose={handleClose}
+                onFilePickerOpened={() => {
+                  blockNextCloseRef.current = true;
+                }}
+              />
+            )}
           </div>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -53,14 +88,17 @@ export function ProfileViewer() {
   );
 }
 
-interface ExternalUserInfoProps {
+interface OnNavigateProps {
   onNavigate: () => void;
 }
 
-function ExternalUserInfo({ onNavigate }: ExternalUserInfoProps) {
+function ExternalUserInfo({ onNavigate }: OnNavigateProps) {
   const { user } = useAuth();
   return (
     <>
+      <header className={styles.header}>
+        <span className={styles.username}>{user?.username}</span>
+      </header>
       <div className={styles.infoRow}>
         <Download size={20} className={styles.infoIcon} aria-hidden="true" />
         <div>
@@ -93,14 +131,19 @@ function ExternalUserInfo({ onNavigate }: ExternalUserInfoProps) {
           </p>
         </div>
       </div>
+      <LogoutButton />
     </>
   );
 }
 
 function NonFGInfo() {
   const [helpOpen, setHelpOpen] = useState(false);
+  const { user } = useAuth();
   return (
     <>
+      <header className={styles.header}>
+        <span className={styles.username}>{user?.username}</span>
+      </header>
       <div className={styles.infoRow}>
         <Info size={20} className={styles.infoIcon} aria-hidden="true" />
         <div>
@@ -119,6 +162,7 @@ function NonFGInfo() {
         <span>Jeg er fotogjenger, HJELP!</span>
       </button>
       <PhotoGangBangerHelpDialog open={helpOpen} onOpenChange={setHelpOpen} />
+      <LogoutButton />
     </>
   );
 }
