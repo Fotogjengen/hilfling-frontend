@@ -35,7 +35,7 @@ export const usePhotoGangBangers = () => {
 export const useCurrentPhotoGangBanger = () => {
   const { user } = useAuth();
   return useQuery({
-    enabled: user !== null,
+    enabled: user?.securityLevel === "FG" && !user.isExternalUser,
     queryKey: ["photoGangBangers", "me", user?.username],
     queryFn: () => PhotoGangBangerApi.getCurrent(),
   });
