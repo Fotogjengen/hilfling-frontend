@@ -1,5 +1,5 @@
 import { api } from "./api";
-import { PlaceDto } from "../../../generated";
+import { PlaceDto , PlacePatchRequestDto} from "../../../generated";
 import { DeletedResult, PaginatedResult } from "./types";
 
 interface PaginationParams {
@@ -25,6 +25,9 @@ export const PlaceApi = {
   deleteById: async function (id: string): Promise<DeletedResult> {
     return api.delete(`/places/${id}`);
   },
+  patch: async function (place: PlacePatchRequestDto): Promise<PlaceDto> {
+      return api.patch(`/places`, place).then((res) => res.data);
+    },
 
   post: async function (place: any): Promise<number> {
     return api

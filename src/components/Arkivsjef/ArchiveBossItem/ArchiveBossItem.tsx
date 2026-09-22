@@ -9,7 +9,12 @@ import { PlaceDto} from "../../../../generated";
 
 import ArchiveBossAlbumSchema from "../ArchiveBossEditAlbumSchema/ArchiveBossEditAlbumSchema"
 import ArchiveBossEditCategorySchema from "../ArchiveBossEditCategorySchema/ArchiveBossEditCategorySchema"
+import ArchiveBossEditPlaceSchema from "../ArchiveBossEditPlaceSchema/ArchiveBossEditPlaceSchema"
 import { useDeleteCategory } from "@/hooks/category";
+import { useDeletePlace } from "@/hooks/place";
+
+
+
 
 interface Props {
   text: (string | undefined)[] | [];
@@ -27,6 +32,7 @@ interface AlbumDialogProps {
 function ArchiveBossItem({text, type, album_object, category_object, place_object}: Props) {
   const deleteAlbum = useDeleteAlbum();
   const deleteCategory = useDeleteCategory();
+  const deletePlace = useDeletePlace();
 
   const [albumItem, setAlbumItem] = useState<AlbumDto| undefined>(album_object)
   const [categoryItem, setCategoryItem] = useState<CategoryDto| undefined>(category_object)
@@ -56,6 +62,9 @@ function ArchiveBossItem({text, type, album_object, category_object, place_objec
   const categoryOnClose = () => {
     setEditCategoryPopUp(false)
   }
+  const placeOnClose = () => {
+    setEditPlacePopUp(false)
+  }
   
   const handleDelete = (id: string) => {
     console.log(id)
@@ -64,6 +73,9 @@ function ArchiveBossItem({text, type, album_object, category_object, place_objec
     }
     else if (type === 'category'){
     deleteCategory.mutate(id);
+    }
+    else if (type === 'place'){
+    deletePlace.mutate(id);
     }
   }
 
@@ -76,13 +88,6 @@ function ArchiveBossItem({text, type, album_object, category_object, place_objec
     }
     else if (type === 'place'){
       setEditPlacePopUp(true)
-    }
-  }
-
-  const handleSubmitEdit = ( patchObject : any) =>{
-    if (type === 'album'){
-      const patchAlbum = useUpdateAlbum()
-      patchAlbum.mutate(patchObject)
     }
   }
   
@@ -110,6 +115,9 @@ function ArchiveBossItem({text, type, album_object, category_object, place_objec
             )}
             {editCategoryPopUp && categoryItem !== undefined && (
               <ArchiveBossEditCategorySchema category={categoryItem} onClose={categoryOnClose}/>
+            )}
+            {editPlacePopUp && placeItem !== undefined && (
+              <ArchiveBossEditPlaceSchema place={placeItem} onClose={placeOnClose}/>
             )}
             <Button size="sm" onClick={()=>handleDelete(objectId)} className= {styles.deleteButton}> 
               <Trash2 size={16} aria-hidden="true" /> 
