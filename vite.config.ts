@@ -93,7 +93,13 @@ export default defineConfig({
                 "base64",
               ).toString();
               const username = decoded.split(":")[0];
-              proxyReq.setHeader("X-Samfundet-Remote-User", username);
+              const path = proxyReq.path;
+              // append domain for the ITK login endpoint
+              const remoteUser =
+                path === "/auth/login" || path === "/auth/login/"
+                  ? `${username}@AD.SAMFUNDET.NO`
+                  : username;
+              proxyReq.setHeader("X-Samfundet-Remote-User", remoteUser);
             }
             proxyReq.removeHeader("authorization");
           });
