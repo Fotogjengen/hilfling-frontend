@@ -1,12 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-  Archive,
-  Upload,
-  BookOpen,
-  Camera,
-  Baby,
-  Wine,
-} from "lucide-react";
+import { Archive, Upload, BookOpen, Camera, Baby, Wine } from "lucide-react";
 import styles from "./fg.module.css";
 
 export const Route = createFileRoute("/_fgAuthenticated/fg/")({
