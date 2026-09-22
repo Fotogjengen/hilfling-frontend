@@ -8,6 +8,7 @@ import { CategoryDto} from "../../../../generated";
 import { PlaceDto} from "../../../../generated";
 
 import ArchiveBossAlbumSchema from "../ArchiveBossEditAlbumSchema/ArchiveBossEditAlbumSchema"
+import ArchiveBossEditCategorySchema from "../ArchiveBossEditCategorySchema/ArchiveBossEditCategorySchema"
 import { useDeleteCategory } from "@/hooks/category";
 
 interface Props {
@@ -52,13 +53,16 @@ function ArchiveBossItem({text, type, album_object, category_object, place_objec
   const albumOnClose = () => {
     setEditAlbumPopUp(false)
   }
+  const categoryOnClose = () => {
+    setEditCategoryPopUp(false)
+  }
   
   const handleDelete = (id: string) => {
     console.log(id)
     if (type === 'album'){
     deleteAlbum.mutate(id);
     }
-    else if (type === 'album'){
+    else if (type === 'category'){
     deleteCategory.mutate(id);
     }
   }
@@ -103,6 +107,9 @@ function ArchiveBossItem({text, type, album_object, category_object, place_objec
             </Button>
             {editAlbumPopUp && albumItem !== undefined && (
               <ArchiveBossAlbumSchema album={albumItem} onClose={albumOnClose}/>
+            )}
+            {editCategoryPopUp && categoryItem !== undefined && (
+              <ArchiveBossEditCategorySchema category={categoryItem} onClose={categoryOnClose}/>
             )}
             <Button size="sm" onClick={()=>handleDelete(objectId)} className= {styles.deleteButton}> 
               <Trash2 size={16} aria-hidden="true" /> 
