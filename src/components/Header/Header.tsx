@@ -14,6 +14,7 @@ import {
   NavigationSubMenuLink,
 } from "../ui/navigation/NavigationMenu";
 import { Archive, LayoutPanelLeft, LinkIcon, Star, Users } from "lucide-react";
+import { ProfileViewer } from "./Profile/ProfileViewer";
 
 export default function HeaderComponent() {
   const { isAuthenticated, user } = useAuth();
@@ -133,7 +134,7 @@ export default function HeaderComponent() {
 
       <div className={styles.loggContainer}>
         <ThemeToggle />
-        <LoginButton />
+        {!isAuthenticated ? <LoginButton /> : <ProfileViewer />}
       </div>
     </nav>
   );

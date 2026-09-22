@@ -72,6 +72,11 @@ export default defineConfig({
         changeOrigin: true,
       },
 
+      "/api/user-uploads/upload": {
+        target: DJANGO,
+        changeOrigin: true,
+      },
+
       // auth: mimic ITK auth
       "/api/auth": {
         target: BACKEND,

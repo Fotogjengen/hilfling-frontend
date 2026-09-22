@@ -1,92 +1,73 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import {
-  flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getSortedRowModel,
   useReactTable,
   type ColumnDef,
   type RowSelectionState,
-  type SortingState,
 } from "@tanstack/react-table";
-import { Filter, Pencil, Plus, Trash2 } from "lucide-react";
+import { MoreHorizontal, Pencil, Plus, Tags, Trash2 } from "lucide-react";
+import { format, parseISO } from "date-fns";
 import type { PhotoGangBangerDto } from "@/../generated";
+import { CreatePhotoGangBangerDialog } from "@/components/PhotoGangBangers/CreatePhotoGangBangerDialog";
+import { EditPhotoGangBangerDialog } from "@/components/PhotoGangBangers/EditPhotoGangBangerDialog";
+import { EditPositionsDialog } from "@/components/PhotoGangBangers/EditPositionsDialog";
+import { DataTable } from "@/components/ui/display/DataTable";
 import { ProfileImage } from "@/components/ui/display/ProfileImage";
 import { Button } from "@/components/ui/input/Button";
-import { Checkbox } from "@/components/ui/input/Checkbox";
 import { SearchField } from "@/components/ui/input/SearchField";
-import { Select } from "@/components/ui/input/Select";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/overlay/DropdownMenu";
 import { usePhotoGangBangers } from "@/hooks/photoGangBangers";
-import { CreatePhotoGangBangerDialog } from "./-CreatePhotoGangBangerDialog";
-import { EditPhotoGangBangerDialog } from "./-EditPhotoGangBangerDialog";
+import { semesterSortValue } from "@/utils/semester";
 import styles from "./gangBangers.module.css";
+import { useAuth } from "@/contexts/AuthProvider";
 
 export const Route = createFileRoute("/_fgAuthenticated/fg/gang_bangers/")({
   component: GangBangers,
 });
 
-const sortOptions = [
-  { label: "Nyeste først", value: "newest" },
-  { label: "Eldste først", value: "oldest" },
-  { label: "Navn A-AA", value: "nameAsc" },
-];
-
 const emptyUsers: PhotoGangBangerDto[] = [];
 
 function GangBangers() {
   const [search, setSearch] = useState("");
-  const [sort, setSort] = useState("newest");
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<PhotoGangBangerDto | null>(
+    null,
+  );
+  const [positionsUser, setPositionsUser] = useState<PhotoGangBangerDto | null>(
     null,
   );
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const { data, isLoading, isError } = usePhotoGangBangers();
   const users = data?.currentList ?? emptyUsers;
+  const { user } = useAuth();
+
+  const canEditUsers = useMemo(() => {
+    return user?.permissions.includes("USER_MANAGE");
+  }, [user]);
 
   const columns = useMemo<ColumnDef<PhotoGangBangerDto>[]>(
     () => [
       {
-        id: "select",
-        header: ({ table }) => (
-          <Checkbox
-            checked={
-              table.getIsAllPageRowsSelected()
-                ? true
-                : table.getIsSomePageRowsSelected()
-                  ? "indeterminate"
-                  : false
-            }
-            onCheckedChange={(checked) =>
-              table.toggleAllPageRowsSelected(checked === true)
-            }
-            disabled={table.getRowModel().rows.length === 0}
-            className={styles.checkbox}
-          />
-        ),
-        cell: ({ row }) => (
-          <Checkbox
-            checked={row.getIsSelected()}
-            onCheckedChange={(checked) => row.toggleSelected(checked === true)}
-            className={styles.checkbox}
-          />
-        ),
-      },
-      {
-        id: "name",
-        accessorFn: getFullName,
+        accessorKey: "name",
         header: "Navn",
         sortingFn: (a, b) =>
-          getFullName(a.original).localeCompare(getFullName(b.original), "nb"),
+          a.original.name.localeCompare(b.original.name, "nb"),
         cell: ({ row }) => (
           <div className={styles.userCell}>
             <ProfileImage
-              src={row.original.profilePicture}
-              alt={getFullName(row.original)}
+              src={row.original.profilePicture?.link}
+              alt={row.original.name}
               size={32}
             />
-            <span>{getFullName(row.original)}</span>
+            <span>{row.original.name}</span>
           </div>
         ),
       },
@@ -114,50 +95,74 @@ function GangBangers() {
         id: "positions",
         accessorFn: getPositions,
         header: "Verv",
+        cell: ({ row }) => <Positions user={row.original} />,
       },
       {
-        id: "actions",
-        header: "Handlinger",
-        cell: ({ row }) => (
-          <div className={styles.actions}>
-            <Button
-              size="sm"
-              className={styles.iconTextButton}
-              onClick={() => setEditingUser(row.original)}
-            >
-              <Pencil size={16} aria-hidden="true" />
-              Rediger
-            </Button>
-            <Button
-              variant="danger"
-              size="sm"
-              className={styles.iconTextButton}
-              disabled
-            >
-              <Trash2 size={16} aria-hidden="true" />
-              Slett
-            </Button>
-          </div>
-        ),
+        accessorKey: "semesterStart",
+        header: "Startsemester",
+        cell: ({ row }) => row.original.semesterStart.value || "-",
       },
+      {
+        accessorKey: "birthday",
+        header: "Bursdag",
+        cell: ({ row }) =>
+          row.original.birthday
+            ? format(parseISO(row.original.birthday), "dd.MM.yyyy")
+            : "-",
+      },
+      {
+        accessorKey: "foodPreference",
+        header: "Matpreferanse",
+        cell: ({ row }) => row.original.foodPreference || "-",
+      },
+      ...(canEditUsers
+        ? [
+            {
+              id: "actions",
+              cell: ({ row }) => (
+                <div className={styles.actions}>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button
+                        variant="neutral"
+                        size="sm"
+                        className={styles.menuButton}
+                        aria-label={`Handlinger for ${row.original.name}`}
+                      >
+                        <MoreHorizontal size={16} aria-hidden="true" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem
+                        onSelect={() => setEditingUser(row.original)}
+                      >
+                        <Pencil size={16} aria-hidden="true" />
+                        Rediger
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onSelect={() => setPositionsUser(row.original)}
+                      >
+                        <Tags size={16} aria-hidden="true" />
+                        Oppdater verv
+                      </DropdownMenuItem>
+                      <DropdownMenuItem disabled>
+                        <Trash2 size={16} aria-hidden="true" />
+                        Slett
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+              ),
+            } satisfies ColumnDef<PhotoGangBangerDto>,
+          ]
+        : []),
       {
         id: "semester",
         accessorFn: getSemesterSortValue,
         sortingFn: "basic",
       },
     ],
-    [],
-  );
-
-  // Keep sorting stable across dialog and selection updates to avoid reset loops.
-  const sorting = useMemo<SortingState>(
-    () => [
-      {
-        id: sort === "nameAsc" ? "name" : "semester",
-        desc: sort === "newest",
-      },
-    ],
-    [sort],
+    [canEditUsers],
   );
 
   const table = useReactTable({
@@ -167,9 +172,11 @@ function GangBangers() {
     state: {
       rowSelection,
       globalFilter: search,
-      sorting,
     },
-    initialState: { columnVisibility: { semester: false } },
+    initialState: {
+      columnVisibility: { semester: false },
+      sorting: [{ id: "semester", desc: true }],
+    },
     onRowSelectionChange: setRowSelection,
     onGlobalFilterChange: setSearch,
     // Search the combined user fields once per row, including position emails.
@@ -190,6 +197,16 @@ function GangBangers() {
             ? "Laster fotogjengere..."
             : `Det finnes ${data?.totalRecords ?? users.length} fotogjengere i databasen`}
         </p>
+        {canEditUsers && (
+          <Button
+            size="sm"
+            className={styles.addButton}
+            onClick={() => setIsCreateDialogOpen(true)}
+          >
+            <Plus size={16} aria-hidden="true" />
+            Legg til fotogjenger
+          </Button>
+        )}
       </header>
 
       <div className={styles.toolbar}>
@@ -201,105 +218,19 @@ function GangBangers() {
           aria-label="søk etter fotogjenger"
           className={styles.search}
         />
-        <div className={styles.controls}>
-          <Button variant="neutral" size="sm" className={styles.iconTextButton}>
-            <Filter size={16} aria-hidden="true" />
-            Filter
-          </Button>
-          <label className={styles.sortControl}>
-            <span>Sorter</span>
-            <Select
-              options={sortOptions}
-              value={sort}
-              onValueChange={setSort}
-              className={styles.sortSelect}
-            />
-          </label>
-        </div>
       </div>
 
-      <Button
-        size="sm"
-        className={styles.addButton}
-        onClick={() => setIsCreateDialogOpen(true)}
-      >
-        <Plus size={16} aria-hidden="true" />
-        Legg til fotogjenger
-      </Button>
-
       <section className={styles.tableSection} aria-label="Fotogjengere">
-        <div className={styles.tableActions}>
-          <Button
-            variant="danger"
-            size="sm"
-            className={styles.iconTextButton}
-            disabled={table.getSelectedRowModel().rows.length === 0}
-          >
-            <Trash2 size={16} aria-hidden="true" />
-            Slett alle markerte
-          </Button>
-        </div>
-
-        <div className={styles.tableScroller}>
-          <table className={styles.table}>
-            <thead>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <tr key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <th
-                      key={header.id}
-                      colSpan={header.colSpan}
-                      className={
-                        header.column.id === "select"
-                          ? styles.checkCell
-                          : header.column.id === "actions"
-                            ? styles.actionsHeader
-                            : undefined
-                      }
-                    >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext(),
-                          )}
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
-            <tbody>
-              {table.getRowModel().rows.map((row) => (
-                <tr key={row.id}>
-                  {row.getVisibleCells().map((cell) => (
-                    <td
-                      key={cell.id}
-                      className={
-                        cell.column.id === "select"
-                          ? styles.checkCell
-                          : undefined
-                      }
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </td>
-                  ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-
-        {!isLoading && !isError && table.getRowModel().rows.length === 0 && (
-          <p className={styles.emptyState}>Ingen fotogjengere matcher søket.</p>
-        )}
-        {isError && (
-          <p className={styles.emptyState}>
-            Kunne ikke hente fotogjengere akkurat naa.
-          </p>
-        )}
+        <DataTable
+          table={table}
+          isLoading={isLoading}
+          isError={isError}
+          emptyMessage="Ingen fotogjengere matcher søket."
+          errorMessage="Kunne ikke hente fotogjengere akkurat naa."
+          columnClassNames={{
+            select: { header: styles.checkCell, cell: styles.checkCell },
+          }}
+        />
       </section>
 
       {editingUser && (
@@ -307,6 +238,14 @@ function GangBangers() {
           key={editingUser.photoGangBangerId.id}
           user={editingUser}
           onClose={() => setEditingUser(null)}
+        />
+      )}
+
+      {positionsUser && (
+        <EditPositionsDialog
+          key={positionsUser.photoGangBangerId.id}
+          user={positionsUser}
+          onClose={() => setPositionsUser(null)}
         />
       )}
 
@@ -332,41 +271,50 @@ function StatusBadge({ active, pang }: { active: boolean; pang: boolean }) {
   );
 }
 
-function getFullName(user: PhotoGangBangerDto) {
-  return `${user.firstName} ${user.lastName}`.trim() || user.username;
-}
-
 function EmailAddresses({ user }: { user: PhotoGangBangerDto }) {
-  const positionEmails = getPositionEmails(user);
-
   return (
     <div className={styles.emailCell}>
-      {positionEmails.map((email) => (
-        <span key={email} className={styles.positionEmail}>
-          {email}
-        </span>
-      ))}
-      <span
-        className={positionEmails.length ? styles.personalEmail : undefined}
-      >
-        {user.email || "-"}
-      </span>
+      <span className={styles.personalEmail}>{user.email || "-"}</span>
     </div>
   );
 }
 
-function getPositionEmails(user: PhotoGangBangerDto) {
-  const seenEmails = new Set([user.email.trim().toLowerCase()]);
-
-  return user.positions.flatMap((position) => {
-    const email = position.email?.value?.trim() ?? "";
-    const normalizedEmail = email.toLowerCase();
-
-    if (!email || seenEmails.has(normalizedEmail)) return [];
-
-    seenEmails.add(normalizedEmail);
-    return [email];
+function Positions({ user }: { user: PhotoGangBangerDto }) {
+  const positions = [...user.positions].sort((a, b) => {
+    if (a.isActive !== b.isActive) {
+      return a.isActive ? -1 : 1;
+    }
+    return (
+      semesterSortValue(b.semesterStart.value) -
+      semesterSortValue(a.semesterStart.value)
+    );
   });
+
+  if (positions.length === 0) {
+    return "-";
+  }
+
+  return (
+    <ul className={styles.positionsCell}>
+      {positions.map((position) => (
+        <li
+          key={`${position.positionId.id}-${position.semesterStart.value}`}
+          className={[
+            styles.positionItem,
+            position.isActive ? null : styles.positionItemOld,
+          ]
+            .filter(Boolean)
+            .join(" ")}
+        >
+          <span>{position.title}</span>
+          <span className={styles.positionSemesters}>
+            {position.semesterStart.value}
+            {position.semesterEnd ? `–${position.semesterEnd.value}` : "–d.d."}
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
 }
 
 function getPositions(user: PhotoGangBangerDto) {
@@ -382,12 +330,15 @@ function getPositions(user: PhotoGangBangerDto) {
 
 function getSearchText(user: PhotoGangBangerDto) {
   return [
-    getFullName(user),
+    user.name,
     user.username,
     user.email,
-    getPositionEmails(user).join(" "),
     user.phoneNumber,
-    getPositions(user),
+    ...user.positions.flatMap((position) => [
+      position.title,
+      position.semesterStart.value,
+      position.semesterEnd?.value ?? "",
+    ]),
   ]
     .join(" ")
     .toLowerCase();

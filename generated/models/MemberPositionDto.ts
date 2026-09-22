@@ -11,4 +11,5 @@ export type MemberPositionDto = {
   email: Email;
   semesterStart: SemesterStart;
   isActive: boolean;
+  semesterEnd?: SemesterStart;
 };

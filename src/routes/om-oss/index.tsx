@@ -105,11 +105,10 @@ function AboutTab() {
             {activeGangBangers.map((photoGangBanger, index) => (
               <PhotoGangBangerPublic
                 key={`active-gang-banger-${index}`}
-                firstName={photoGangBanger?.firstName || ""}
-                lastName={photoGangBanger?.lastName || ""}
+                name={photoGangBanger.name}
                 position=""
                 email={photoGangBanger?.email || ""}
-                image={photoGangBanger?.profilePicture || ""}
+                image={photoGangBanger?.profilePicture?.link || ""}
               />
             ))}
           </div>
@@ -119,11 +118,10 @@ function AboutTab() {
             {activePangs.map((photoGangBanger, index) => (
               <PhotoGangBangerPublic
                 key={`active-pang-${index}`}
-                firstName={photoGangBanger?.firstName || ""}
-                lastName={photoGangBanger?.lastName || ""}
+                name={photoGangBanger.name}
                 position=""
                 email={photoGangBanger?.email || ""}
-                image={photoGangBanger?.profilePicture || ""}
+                image={photoGangBanger?.profilePicture?.link || ""}
               />
             ))}
           </div>

@@ -6,14 +6,6 @@
   gap: var(--size-space-100);
 }
 
-.loggContainer > * {
-  cursor: pointer;
-}
-
-.loggContainer > *:hover {
-  transform: scale(1.05);
-}
-
 .navLink {
   font-size: var(--typography-body-size-large);
 }

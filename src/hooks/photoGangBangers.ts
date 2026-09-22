@@ -2,8 +2,14 @@ import {
   PhotoGangBangerApi,
   type PhotoGangBangerCreateRequest,
 } from "@/utils/api/PhotoGangBangerApi";
-import type { PhotoGangBangerDto } from "@/../generated";
+import { UserUploadApi } from "@/utils/api/UserUploadApi";
+import type {
+  PhotoGangBangerPatchRequestDto,
+  PhotoGangBangerPositionsPutRequestDto,
+} from "@/../generated";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "@/components/ui/overlay/Toaster";
+import { useAuth } from "@/contexts/AuthProvider";
 
 export const useActivePhotoGangBangers = () => {
   return useQuery({
@@ -26,11 +32,20 @@ export const usePhotoGangBangers = () => {
   });
 };
 
+export const useCurrentPhotoGangBanger = () => {
+  const { user } = useAuth();
+  return useQuery({
+    enabled: user?.securityLevel === "FG" && !user.isExternalUser,
+    queryKey: ["photoGangBangers", "me", user?.username],
+    queryFn: () => PhotoGangBangerApi.getCurrent(),
+  });
+};
+
 export const useUpdatePhotoGangBanger = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (photoGangBanger: PhotoGangBangerDto) =>
+    mutationFn: (photoGangBanger: PhotoGangBangerPatchRequestDto) =>
       PhotoGangBangerApi.patch(photoGangBanger),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ["photoGangBangers"] });
@@ -46,6 +61,29 @@ export const useCreatePhotoGangBanger = () => {
       PhotoGangBangerApi.post(photoGangBanger),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ["photoGangBangers"] });
+    },
+  });
+};
+
+export const useReplacePhotoGangBangerPositions = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (request: PhotoGangBangerPositionsPutRequestDto) =>
+      PhotoGangBangerApi.putPositions(request),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["photoGangBangers"] });
+    },
+  });
+};
+
+export const useUploadProfilePicture = () => {
+  return useMutation({
+    mutationFn: (file: File) => UserUploadApi.upload(file),
+    onError: (error) => {
+      toast.error("Kunne ikke laste opp profilbilde", {
+        description: error instanceof Error ? error.message : "Ukjent feil",
+      });
     },
   });
 };

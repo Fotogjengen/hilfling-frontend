@@ -19,7 +19,6 @@ import { Route as OmOssIndexRouteImport } from './routes/om-oss/index'
 import { Route as OmOssBestillingRouteImport } from './routes/om-oss/bestilling'
 import { Route as OmOssBrukAvBilderRouteImport } from './routes/om-oss/bruk-av-bilder'
 import { Route as FgAuthenticatedFgIndexRouteImport } from './routes/_fgAuthenticated/fg/index'
-import { Route as FgAuthenticatedFgProfileRouteImport } from './routes/_fgAuthenticated/fg/profile'
 import { Route as FgAuthenticatedFgUploadRouteImport } from './routes/_fgAuthenticated/fg/upload'
 import { Route as FgAuthenticatedFgArchiveBossIndexRouteImport } from './routes/_fgAuthenticated/fg/archiveBoss/index'
 import { Route as FgAuthenticatedFgGang_bangersIndexRouteImport } from './routes/_fgAuthenticated/fg/gang_bangers/index'
@@ -79,12 +78,6 @@ const FgAuthenticatedFgIndexRoute = FgAuthenticatedFgIndexRouteImport.update({
   path: '/fg/',
   getParentRoute: () => FgAuthenticatedRouteRoute,
 } as any)
-const FgAuthenticatedFgProfileRoute =
-  FgAuthenticatedFgProfileRouteImport.update({
-    id: '/fg/profile',
-    path: '/fg/profile',
-    getParentRoute: () => FgAuthenticatedRouteRoute,
-  } as any)
 const FgAuthenticatedFgUploadRoute = FgAuthenticatedFgUploadRouteImport.update({
   id: '/fg/upload',
   path: '/fg/upload',
@@ -148,7 +141,6 @@ export interface FileRoutesByFullPath {
   '/om-oss/bestilling': typeof OmOssBestillingRoute
   '/om-oss/bruk-av-bilder': typeof OmOssBrukAvBilderRoute
   '/om-oss/': typeof OmOssIndexRoute
-  '/fg/profile': typeof FgAuthenticatedFgProfileRoute
   '/fg/upload': typeof FgAuthenticatedFgUploadRoute
   '/fg/': typeof FgAuthenticatedFgIndexRoute
   '/fg/archiveBoss/': typeof FgAuthenticatedFgArchiveBossIndexRoute
@@ -168,7 +160,6 @@ export interface FileRoutesByTo {
   '/om-oss/bestilling': typeof OmOssBestillingRoute
   '/om-oss/bruk-av-bilder': typeof OmOssBrukAvBilderRoute
   '/om-oss': typeof OmOssIndexRoute
-  '/fg/profile': typeof FgAuthenticatedFgProfileRoute
   '/fg/upload': typeof FgAuthenticatedFgUploadRoute
   '/fg': typeof FgAuthenticatedFgIndexRoute
   '/fg/archiveBoss': typeof FgAuthenticatedFgArchiveBossIndexRoute
@@ -191,7 +182,6 @@ export interface FileRoutesById {
   '/om-oss/bestilling': typeof OmOssBestillingRoute
   '/om-oss/bruk-av-bilder': typeof OmOssBrukAvBilderRoute
   '/om-oss/': typeof OmOssIndexRoute
-  '/_fgAuthenticated/fg/profile': typeof FgAuthenticatedFgProfileRoute
   '/_fgAuthenticated/fg/upload': typeof FgAuthenticatedFgUploadRoute
   '/_fgAuthenticated/fg/': typeof FgAuthenticatedFgIndexRoute
   '/_fgAuthenticated/fg/archiveBoss/': typeof FgAuthenticatedFgArchiveBossIndexRoute
@@ -214,7 +204,6 @@ export interface FileRouteTypes {
     | '/om-oss/bestilling'
     | '/om-oss/bruk-av-bilder'
     | '/om-oss/'
-    | '/fg/profile'
     | '/fg/upload'
     | '/fg/'
     | '/fg/archiveBoss/'
@@ -234,7 +223,6 @@ export interface FileRouteTypes {
     | '/om-oss/bestilling'
     | '/om-oss/bruk-av-bilder'
     | '/om-oss'
-    | '/fg/profile'
     | '/fg/upload'
     | '/fg'
     | '/fg/archiveBoss'
@@ -256,7 +244,6 @@ export interface FileRouteTypes {
     | '/om-oss/bestilling'
     | '/om-oss/bruk-av-bilder'
     | '/om-oss/'
-    | '/_fgAuthenticated/fg/profile'
     | '/_fgAuthenticated/fg/upload'
     | '/_fgAuthenticated/fg/'
     | '/_fgAuthenticated/fg/archiveBoss/'
@@ -350,13 +337,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FgAuthenticatedFgIndexRouteImport
       parentRoute: typeof FgAuthenticatedRouteRoute
     }
-    '/_fgAuthenticated/fg/profile': {
-      id: '/_fgAuthenticated/fg/profile'
-      path: '/fg/profile'
-      fullPath: '/fg/profile'
-      preLoaderRoute: typeof FgAuthenticatedFgProfileRouteImport
-      parentRoute: typeof FgAuthenticatedRouteRoute
-    }
     '/_fgAuthenticated/fg/upload': {
       id: '/_fgAuthenticated/fg/upload'
       path: '/fg/upload'
@@ -424,7 +404,6 @@ declare module '@tanstack/react-router' {
 }
 
 interface FgAuthenticatedRouteRouteChildren {
-  FgAuthenticatedFgProfileRoute: typeof FgAuthenticatedFgProfileRoute
   FgAuthenticatedFgUploadRoute: typeof FgAuthenticatedFgUploadRoute
   FgAuthenticatedFgIndexRoute: typeof FgAuthenticatedFgIndexRoute
   FgAuthenticatedFgArchiveBossIndexRoute: typeof FgAuthenticatedFgArchiveBossIndexRoute
@@ -438,7 +417,6 @@ interface FgAuthenticatedRouteRouteChildren {
 }
 
 const FgAuthenticatedRouteRouteChildren: FgAuthenticatedRouteRouteChildren = {
-  FgAuthenticatedFgProfileRoute: FgAuthenticatedFgProfileRoute,
   FgAuthenticatedFgUploadRoute: FgAuthenticatedFgUploadRoute,
   FgAuthenticatedFgIndexRoute: FgAuthenticatedFgIndexRoute,
   FgAuthenticatedFgArchiveBossIndexRoute:

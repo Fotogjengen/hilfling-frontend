@@ -1,0 +1,102 @@
+.intro {
+  margin: 0 0 var(--size-space-400);
+  font-size: var(--typography-body-size-medium);
+  line-height: 1.5;
+  color: var(--color-text-default-secondary);
+}
+
+.steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-600);
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--size-space-300);
+}
+
+.stepNumber {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--size-radius-full);
+  background-color: var(--color-background-brand-default);
+  color: var(--color-text-brand-on-brand);
+  font-size: var(--typography-body-size-small);
+  font-weight: var(--typography-weight-semibold);
+}
+
+.stepContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-200);
+  min-width: 0;
+  flex: 1;
+}
+
+.stepTitle {
+  font-size: var(--typography-body-size-medium);
+  font-weight: var(--typography-weight-semibold);
+  color: var(--color-text-default-default);
+}
+
+.stepText {
+  margin: 0;
+  font-size: var(--typography-body-size-small);
+  line-height: 1.5;
+  color: var(--color-text-default-secondary);
+}
+
+.stepButton {
+  align-self: flex-start;
+  gap: var(--size-space-100);
+}
+
+.contactCard {
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-300);
+  padding: var(--size-space-300);
+  border-radius: var(--size-radius-200);
+  background-color: var(--color-background-default-secondary);
+}
+
+.contactIcon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--size-radius-full);
+  background-color: var(--color-background-brand-tertiary);
+  color: var(--color-icon-brand-secondary);
+}
+
+.contactInfo {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.contactName {
+  font-weight: var(--typography-weight-semibold);
+  color: var(--color-text-default-default);
+}
+
+.contactEmail {
+  font-size: var(--typography-body-size-small);
+  color: var(--color-text-default-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

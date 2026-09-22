@@ -1,0 +1,172 @@
+.userInfoTrigger {
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-300);
+  width: 100%;
+  padding: var(--size-space-300);
+  border: none;
+  border-radius: var(--size-radius-200);
+  background-color: var(--color-background-default-secondary);
+  cursor: pointer;
+  text-align: left;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.userInfoTrigger:hover {
+  background-color: var(--color-background-default-secondary-hover);
+}
+
+.userInfoText {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  gap: var(--size-space-050);
+}
+
+.username {
+  font-size: var(--typography-body-size-large);
+  color: var(--color-text-default-default);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.positionTitle {
+  font-size: var(--typography-body-size-small);
+  color: var(--color-text-default-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.picturesLink {
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-300);
+  width: 100%;
+  padding: var(--size-space-300);
+  border: 1px solid var(--color-border-default-default);
+  border-radius: var(--size-radius-200);
+  background-color: var(--color-background-default-default);
+  color: var(--color-text-default-default);
+  font-size: var(--typography-body-size-medium);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.picturesLink:hover {
+  background-color: var(--color-background-default-secondary);
+}
+
+.picturesLink > svg:first-child {
+  flex-shrink: 0;
+  color: var(--color-icon-default-default);
+}
+
+.picturesLink > span {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.picturesLink > svg:last-child {
+  flex-shrink: 0;
+  color: var(--color-icon-default-default);
+}
+
+/* Edit form */
+
+.editForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-300);
+}
+
+.editFormImageLabel {
+  display: block;
+  margin-bottom: var(--size-space-100);
+  font-size: var(--typography-body-size-medium);
+  color: var(--color-text-default-default);
+}
+
+.imagePicker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--size-space-300);
+  border: 1px solid var(--color-border-default-default);
+  border-radius: var(--size-radius-200);
+  background-color: var(--color-background-default-default);
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.imagePicker:hover {
+  background-color: var(--color-background-default-secondary);
+}
+
+.imagePickerLabel {
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-200);
+  font-size: var(--typography-body-size-medium);
+  color: var(--color-text-default-default);
+}
+
+.readonlySection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-200);
+}
+
+.readonlySectionLabel {
+  margin: 0;
+  font-size: var(--typography-body-size-medium);
+  color: var(--color-text-default-default);
+}
+
+.readonlyCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-200);
+  padding: var(--size-space-300);
+  border-radius: var(--size-radius-200);
+  background-color: var(--color-background-default-secondary);
+}
+
+.readonlyRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.readonlyKey {
+  font-size: var(--typography-body-size-small);
+  color: var(--color-text-default-secondary);
+}
+
+.readonlyValue {
+  font-size: var(--typography-body-size-small);
+  color: var(--color-text-default-default);
+}
+
+.editFormActions {
+  display: flex;
+  gap: var(--size-space-300);
+}
+
+.cancelButton {
+  flex: 1;
+}
+
+.saveButton {
+  flex: 3;
+}
+
+.link {
+  text-decoration: underline;
+}

@@ -5,7 +5,7 @@
   padding-top: var(--size-space-200);
 }
 
-.nameFields {
+.selectFields {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--size-space-300);
@@ -33,7 +33,7 @@
 }
 
 @media (max-width: 480px) {
-  .nameFields {
+  .selectFields {
     grid-template-columns: minmax(0, 1fr);
   }
 }

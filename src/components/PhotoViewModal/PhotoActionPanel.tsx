@@ -183,7 +183,7 @@ function PhotoMetadata({
     ["Sted", photo.motive.placeDto.name],
     ["Kategori", photo.motive.categoryDto.name],
     ["Arrangør", photo.motive.eventOwnerDto.name],
-    ["Fotograf", `${photographer.firstName} ${photographer.lastName}`.trim()],
+    ["Fotograf", photographer.name],
     [
       "Album",
       album && [album.name, album.description].filter(Boolean).join(" - "),

@@ -17,11 +17,9 @@ const initialUserState = {
   semesterStart: { value: "" },
   isActive: true,
   isPang: false,
-  firstName: "",
-  lastName: "",
+  name: "",
   username: "",
   email: "",
-  profilePicture: "/images/profile/johndoe.png",
   phoneNumber: "",
 };
 
@@ -125,16 +123,10 @@ function ArchiveBossCreateUsers({ setCreateUser }: Props) {
           onChange={(e) => setUser({ ...user, username: e.target.value })}
         />
         <TextInput
-          label="Fornavn"
+          label="Navn"
           required
-          value={user.firstName}
-          onChange={(e) => setUser({ ...user, firstName: e.target.value })}
-        />
-        <TextInput
-          label="Etternavn"
-          required
-          value={user.lastName}
-          onChange={(e) => setUser({ ...user, lastName: e.target.value })}
+          value={user.name}
+          onChange={(e) => setUser({ ...user, name: e.target.value })}
         />
         <TextInput
           label="Telefonnummer"
