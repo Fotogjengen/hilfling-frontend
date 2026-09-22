@@ -9,6 +9,7 @@ import type {
 } from "@/../generated";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "@/components/ui/overlay/Toaster";
+import { useAuth } from "@/contexts/AuthProvider";
 
 export const useActivePhotoGangBangers = () => {
   return useQuery({
@@ -32,8 +33,10 @@ export const usePhotoGangBangers = () => {
 };
 
 export const useCurrentPhotoGangBanger = () => {
+  const { user } = useAuth();
   return useQuery({
-    queryKey: ["photoGangBangers", "me"],
+    enabled: user !== null,
+    queryKey: ["photoGangBangers", "me", user?.username],
     queryFn: () => PhotoGangBangerApi.getCurrent(),
   });
 };
