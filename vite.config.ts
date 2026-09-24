@@ -28,7 +28,8 @@ function getGitBranch(): string | undefined {
 
 const sentryRelease = getGitCommitHash();
 const currentBranch = getGitBranch();
-const isProductionBranch = currentBranch === "master" || currentBranch === "main";
+const isProductionBranch =
+  currentBranch === "master" || currentBranch === "main";
 
 // api/photos/delete/{id} needs to go through the photo provider
 function djangoPhotoDeleteProxy(): PluginOption {
@@ -88,14 +89,15 @@ export default defineConfig({
       url: process.env.SENTRY_URL || "https://sentry.klve.no",
       authToken: process.env.SENTRY_AUTH_TOKEN,
       telemetry: false,
-      release: isProductionBranch && sentryRelease
-        ? {
-            name: sentryRelease,
-            setCommits: {
-              auto: true,
-            },
-          }
-        : undefined,
+      release:
+        isProductionBranch && sentryRelease
+          ? {
+              name: sentryRelease,
+              setCommits: {
+                auto: true,
+              },
+            }
+          : undefined,
     }),
   ],
   resolve: {

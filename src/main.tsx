@@ -14,7 +14,8 @@ import * as Sentry from "@sentry/react";
 Sentry.init({
   dsn: "https://e914ff2a103391d81503f40753b9c50b@sentry.klve.no/2",
   environment: import.meta.env.MODE,
-  release: (typeof __SENTRY_RELEASE__ !== "undefined" ? __SENTRY_RELEASE__ : undefined),
+  release:
+    typeof __SENTRY_RELEASE__ !== "undefined" ? __SENTRY_RELEASE__ : undefined,
   dataCollection: {
     // To disable sending user data and HTTP bodies, uncomment the lines below. For more info visit:
     // https://docs.sentry.io/platforms/javascript/guides/react/configuration/options/#dataCollection
