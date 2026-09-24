@@ -7,6 +7,7 @@ import {
   useRef,
   useState,
 } from "react";
+import * as Sentry from "@sentry/react";
 import { AxiosError } from "axios";
 import { useQueryClient } from "@tanstack/react-query";
 import { router } from "../router";
@@ -71,8 +72,13 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     (token: string) => {
       isLoggingOut.current = false;
       setToken(token);
-      setUser(decodeToken(token));
+      const decodedUser = decodeToken(token);
+      setUser(decodedUser);
       setIsAuthenticated(true);
+      Sentry.setUser({
+        id: decodedUser.sub,
+        username: decodedUser.username,
+      });
       void queryClient.invalidateQueries();
     },
     [queryClient],
@@ -82,6 +88,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     clearToken();
     setUser(null);
     setIsAuthenticated(false);
+    Sentry.setUser(null);
     void queryClient.invalidateQueries();
   }, [queryClient]);
 
@@ -90,8 +97,13 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     if (token) {
       try {
-        setUser(decodeToken(token));
+        const decodedUser = decodeToken(token);
+        setUser(decodedUser);
         setIsAuthenticated(true);
+        Sentry.setUser({
+          id: decodedUser.sub,
+          username: decodedUser.username,
+        });
       } catch {
         // token is somehow malformed, we are unauthenticated
       }
