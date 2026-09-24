@@ -13,6 +13,7 @@ import * as Sentry from "@sentry/react";
 
 Sentry.init({
   dsn: "https://e914ff2a103391d81503f40753b9c50b@sentry.klve.no/2",
+  enabled: import.meta.env.PROD,
   environment: import.meta.env.MODE,
   release:
     typeof __SENTRY_RELEASE__ !== "undefined" ? __SENTRY_RELEASE__ : undefined,
