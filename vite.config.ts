@@ -1,12 +1,35 @@
 // vite.config.ts
+import { sentryVitePlugin } from "@sentry/vite-plugin";
 import { defineConfig, type PluginOption } from "vite";
 import react from "@vitejs/plugin-react";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import http from "node:http";
 import path from "node:path";
+import { execSync } from "node:child_process";
 
 const BACKEND = "http://localhost:8000";
 const DJANGO = "http://localhost:8888";
+
+function getGitCommitHash(): string | undefined {
+  try {
+    return execSync("git rev-parse HEAD").toString().trim();
+  } catch {
+    return undefined;
+  }
+}
+
+function getGitBranch(): string | undefined {
+  try {
+    return execSync("git rev-parse --abbrev-ref HEAD").toString().trim();
+  } catch {
+    return undefined;
+  }
+}
+
+const sentryRelease = getGitCommitHash();
+const currentBranch = getGitBranch();
+const isProductionBranch =
+  currentBranch === "master" || currentBranch === "main";
 
 // api/photos/delete/{id} needs to go through the photo provider
 function djangoPhotoDeleteProxy(): PluginOption {
@@ -47,6 +70,12 @@ function djangoPhotoDeleteProxy(): PluginOption {
 }
 
 export default defineConfig({
+  build: {
+    sourcemap: true,
+  },
+  define: {
+    __SENTRY_RELEASE__: JSON.stringify(sentryRelease),
+  },
   plugins: [
     tanstackRouter({
       target: "react",
@@ -54,6 +83,22 @@ export default defineConfig({
     }),
     react(),
     djangoPhotoDeleteProxy(),
+    sentryVitePlugin({
+      org: process.env.SENTRY_ORG,
+      project: process.env.SENTRY_PROJECT,
+      url: process.env.SENTRY_URL || "https://sentry.klve.no",
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+      telemetry: false,
+      release:
+        isProductionBranch && sentryRelease
+          ? {
+              name: sentryRelease,
+              setCommits: {
+                auto: true,
+              },
+            }
+          : undefined,
+    }),
   ],
   resolve: {
     alias: {
