@@ -9,3 +9,46 @@
   transition: background-color 0.2s ease-in-out;
   white-space: nowrap;
 }
+
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.25rem;
+  border: 0;
+  border-radius: var(--size-radius-200);
+  padding: var(--size-space-200);
+  background: transparent;
+  color: var(--color-text-default-default);
+  font-family: var(--typography-family-sans);
+  font-size: var(--typography-scale-02);
+  font-weight: var(--typography-body-font-weight-regular);
+  line-height: 1;
+  outline: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.trigger[data-state="open"] {
+  background: var(--color-background-default-secondary);
+}
+
+.trigger:hover,
+.trigger:focus-visible,
+.trigger[data-state="open"]:hover,
+.trigger[data-state="open"]:focus-visible {
+  background: var(--color-background-default-secondary-hover);
+}
+
+.chevron {
+  position: relative;
+  top: 1px;
+  width: 12px;
+  height: 12px;
+  margin-left: 4px;
+  transition: transform 250ms ease;
+}
+
+.trigger[data-state="open"] .chevron {
+  transform: rotate(180deg);
+}
