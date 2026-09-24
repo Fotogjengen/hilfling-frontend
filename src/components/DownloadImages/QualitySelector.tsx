@@ -2,8 +2,7 @@ import { useAuth } from "@/contexts/AuthProvider";
 import { Card } from "../ui/display/Card";
 import styles from "./QualitySelector.module.css";
 import { ReactNode, useState } from "react";
-import { Button } from "../ui/input/Button";
-import LoginPopUp from "../Login/LoginPopUp/LoginPopUp";
+import LoginButton from "../Login/LoginButton/LoginButton";
 import { PhotoQuality } from "@/types";
 interface Props {
   onQualitySelect?: (quality: PhotoQuality) => void;
@@ -48,29 +47,23 @@ export function QualitySelector({ onQualitySelect }: Props) {
 }
 
 function FullQualityLoginPrompt() {
-  const [isLoggingIn, setIsloggingIn] = useState(false);
-
   return (
-    <>
-      <div className={styles.fullQualityLoginPromptWrapper}>
-        <div>
-          Du trenger en Samfundet intern-bruker for eller en gjestebruker for å
-          laste ned i full kvalitet
-        </div>
-        <div className={styles.fullQualityLoginPromptLoginSection}>
-          <Button onClick={() => setIsloggingIn(true)}>Logg inn</Button>{" "}
-          <div className={styles.fullQualityLoginPromptGuestUserText}>
-            Eller <a>be om gjestebruker</a>
-          </div>
-        </div>
-        <div>
-          Om du ikke trenger å laste ned mange bilder kan du{" "}
-          <a>be om å få bilder tilsendt</a>
+    <div className={styles.fullQualityLoginPromptWrapper}>
+      <div>
+        Du trenger en Samfundet intern-bruker for eller en gjestebruker for å
+        laste ned i full kvalitet
+      </div>
+      <div className={styles.fullQualityLoginPromptLoginSection}>
+        <LoginButton />{" "}
+        <div className={styles.fullQualityLoginPromptGuestUserText}>
+          Eller <a>be om gjestebruker</a>
         </div>
       </div>
-
-      <LoginPopUp open={isLoggingIn} onOpenChange={setIsloggingIn} />
-    </>
+      <div>
+        Om du ikke trenger å laste ned mange bilder kan du{" "}
+        <a>be om å få bilder tilsendt</a>
+      </div>
+    </div>
   );
 }
 

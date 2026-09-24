@@ -69,6 +69,50 @@ function djangoPhotoDeleteProxy(): PluginOption {
   };
 }
 
+// Mimck itk auth challenge.
+// 100% chat, bryr meg ikke
+function itkAuthChallengeProxy(): PluginOption {
+  const challenge = (res: http.ServerResponse) => {
+    res.statusCode = 401;
+    res.setHeader(
+      "WWW-Authenticate",
+      'Basic realm="Samfundet", charset="UTF-8"',
+    );
+    res.end();
+  };
+
+  const isClearingCredentials = (authHeader: string) =>
+    authHeader.startsWith("Basic ") &&
+    Buffer.from(authHeader.slice(6), "base64").toString() === "logme:out";
+
+  return {
+    name: "itk-auth-challenge-proxy",
+    configureServer(server) {
+      server.middlewares.use("/api/auth/login", (req, res, next) => {
+        const authHeader = req.headers.authorization;
+
+        if (!authHeader) {
+          challenge(res);
+          return;
+        }
+
+        if (req.method !== "POST") {
+          res.statusCode = 200;
+          res.end();
+          return;
+        }
+
+        if (isClearingCredentials(authHeader)) {
+          challenge(res);
+          return;
+        }
+
+        next();
+      });
+    },
+  };
+}
+
 export default defineConfig({
   build: {
     sourcemap: true,
@@ -83,6 +127,7 @@ export default defineConfig({
     }),
     react(),
     djangoPhotoDeleteProxy(),
+    itkAuthChallengeProxy(),
     sentryVitePlugin({
       org: process.env.SENTRY_ORG,
       project: process.env.SENTRY_PROJECT,
@@ -141,7 +186,7 @@ export default defineConfig({
               const path = proxyReq.path;
               // append domain for the ITK login endpoint
               const remoteUser =
-                path === "/auth/login" || path === "/auth/login/"
+                path === "/api/auth/login" || path === "/api/auth/login/"
                   ? `${username}@AD.SAMFUNDET.NO`
                   : username;
               proxyReq.setHeader("X-Samfundet-Remote-User", remoteUser);

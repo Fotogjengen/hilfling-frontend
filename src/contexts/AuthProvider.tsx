@@ -12,6 +12,7 @@ import { AxiosError } from "axios";
 import { useQueryClient } from "@tanstack/react-query";
 import { router } from "../router";
 import { AuthUser } from "../types";
+import { clearBasicAuthCredentials } from "@/utils/auth/basicAuth";
 import { clearToken, getToken, setToken } from "@/utils/auth/authToken";
 import { api } from "@/utils/api/api";
 import { AuthApi } from "@/utils/api/AuthApi";
@@ -37,15 +38,16 @@ const AuthenticationContext =
 export const useAuth = () => useContext(AuthenticationContext);
 
 /**
- * Hook for logging in: authenticates against the backend, then stores the
- * resulting token in auth state.
+ * Hook for internal login
  */
 export function useLogin() {
   const { login } = useAuth();
 
-  return async function (username: string, password: string): Promise<void> {
-    const { token } = await AuthApi.login(username, password);
+  return async function (): Promise<void> {
+    const { token } = await AuthApi.login();
     login(token);
+    // clear credentials after login
+    clearBasicAuthCredentials();
   };
 }
 
