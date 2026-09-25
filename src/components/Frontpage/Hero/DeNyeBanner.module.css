@@ -1,5 +1,5 @@
 .hero {
-  height: 80vh;
+  height: 90dvh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -9,5 +9,5 @@
 }
 
 .logo {
-  padding-top: 2rem;
+  padding-top: 1rem;
 }
