@@ -1,5 +1,5 @@
-.marquee {
-  --gap: 20px;
+.viewport {
+  --photo-track-gap: 20px;
   height: 18rem;
   display: flex;
   justify-content: stretch;
@@ -8,16 +8,17 @@
   overflow-x: hidden;
 }
 
-.scrollGroup {
+.track {
   display: flex;
   justify-content: start;
   align-items: end;
-  gap: var(--gap);
-  animation: scroll var(--scroll-duration) linear infinite;
+  gap: var(--photo-track-gap);
+  animation: photoTrackScroll var(--photo-track-animation-duration) linear
+    infinite;
 }
 
-.photo {
-  height: 100%;
+.photoTile {
+  height: calc(100% * var(--photo-tile-scale, 1));
   flex: 0;
   background-color: var(--color-brand-400);
 }
@@ -30,11 +31,11 @@
   aspect-ratio: 2 / 3;
 }
 
-@keyframes scroll {
+@keyframes photoTrackScroll {
   from {
     transform: translateX(0);
   }
   to {
-    transform: translateX(calc(-50% - var(--gap) / 2));
+    transform: translateX(calc(-50% - var(--photo-track-gap) / 2));
   }
 }
