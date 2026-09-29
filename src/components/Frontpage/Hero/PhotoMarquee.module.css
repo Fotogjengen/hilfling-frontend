@@ -1,38 +1,38 @@
-.viewport {
-  --photo-track-gap: 20px;
+.marquee {
+  --photo-track-gap: 10px;
   height: 18rem;
   display: flex;
   justify-content: stretch;
   align-items: stretch;
   align-self: stretch;
   overflow-x: hidden;
-}
 
-.track {
-  display: flex;
-  justify-content: start;
-  align-items: end;
-  gap: var(--photo-track-gap);
-  animation: photoTrackScroll 200s linear infinite;
-}
+  .track {
+    display: flex;
+    justify-content: left;
+    align-items: end;
+    gap: var(--photo-track-gap);
+    animation: photoTrackScroll 200s linear infinite;
 
-.photoTile {
-  height: 95%;
-  flex: 0;
-  background-color: var(--color-brand-400);
-  transition: height 300ms ease;
-}
+    .photoTile {
+      height: 95%;
+      flex: 0;
+      background-color: var(--color-brand-400);
+      transition: height 300ms ease;
 
-.photoTile:hover {
-  height: 100%;
-}
+      &:hover {
+        height: 100%;
+      }
 
-.landscape {
-  aspect-ratio: 3 / 2;
-}
+      &.landscape {
+        aspect-ratio: 3 / 2;
+      }
 
-.portrait {
-  aspect-ratio: 2 / 3;
+      &.portrait {
+        aspect-ratio: 2 / 3;
+      }
+    }
+  }
 }
 
 @keyframes photoTrackScroll {
