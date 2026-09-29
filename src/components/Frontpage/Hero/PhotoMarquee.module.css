@@ -13,12 +13,11 @@
   justify-content: start;
   align-items: end;
   gap: var(--photo-track-gap);
-  animation: photoTrackScroll var(--photo-track-animation-duration) linear
-    infinite;
+  animation: photoTrackScroll 80s linear infinite;
 }
 
 .photoTile {
-  height: calc(100% * var(--photo-tile-scale, 1));
+  height: 100%;
   flex: 0;
   background-color: var(--color-brand-400);
 }
