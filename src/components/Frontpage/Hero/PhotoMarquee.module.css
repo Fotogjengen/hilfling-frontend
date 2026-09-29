@@ -1,6 +1,6 @@
 .marquee {
   --photo-track-gap: 10px;
-  height: 18rem;
+  height: 20rem;
   display: flex;
   justify-content: stretch;
   align-items: stretch;
@@ -15,10 +15,10 @@
     animation: photoTrackScroll 200s linear infinite;
 
     .photoTile {
-      height: 95%;
+      height: 90%;
       flex: 0;
       background-color: var(--color-brand-400);
-      transition: height 300ms ease;
+      transition: height 300ms ease-out;
 
       &:hover {
         height: 100%;
