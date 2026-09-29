@@ -13,13 +13,18 @@
   justify-content: start;
   align-items: end;
   gap: var(--photo-track-gap);
-  animation: photoTrackScroll 80s linear infinite;
+  animation: photoTrackScroll 200s linear infinite;
 }
 
 .photoTile {
-  height: 100%;
+  height: 95%;
   flex: 0;
   background-color: var(--color-brand-400);
+  transition: height 300ms ease;
+}
+
+.photoTile:hover {
+  height: 100%;
 }
 
 .landscape {
