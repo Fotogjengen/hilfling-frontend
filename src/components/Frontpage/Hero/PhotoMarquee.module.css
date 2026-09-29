@@ -2,14 +2,14 @@
   --photo-track-gap: 10px;
   height: 20rem;
   display: flex;
-  justify-content: stretch;
+  justify-content: start;
   align-items: stretch;
   align-self: stretch;
   overflow-x: hidden;
 
   .track {
     display: flex;
-    justify-content: left;
+    justify-content: start;
     align-items: end;
     gap: var(--photo-track-gap);
     animation: photoTrackScroll 200s linear infinite;
