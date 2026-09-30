@@ -8,7 +8,7 @@ type Photo = {
   orientation: "landscape" | "portrait";
 };
 
-const photoItems: Photo[] = Array.from({ length: 20 }, (_, i) => ({
+const photoObjects: Photo[] = Array.from({ length: 20 }, (_, i) => ({
   id: i,
   orientation: Math.random() > 0.4 ? "landscape" : "portrait",
 }));
@@ -26,7 +26,7 @@ export default function PhotoMarquee() {
     <>
       <div className={style.marquee}>
         <div ref={trackRef} className={style.track}>
-          {[...photoItems, ...photoItems].map((photo, index) => (
+          {[...photoObjects, ...photoObjects].map((photo, index) => (
             <div
               className={cx(
                 style.photoTile,
