@@ -3,8 +3,10 @@ import { TextInput } from "./TextInput";
 import { isValidSemester, normalizeSemester } from "@/utils/semester";
 import type { TextInputProps } from "./TextInput";
 
-export interface SemesterPickerProps
-  extends Omit<TextInputProps, "value" | "onChange" | "onBlur"> {
+export interface SemesterPickerProps extends Omit<
+  TextInputProps,
+  "value" | "onChange" | "onBlur"
+> {
   value: string;
   onChange: (value: string) => void;
   onBlur?: () => void;
@@ -45,7 +47,8 @@ export const SemesterPicker = forwardRef<HTMLInputElement, SemesterPickerProps>(
     const isValid =
       allowEmpty && !hasValue ? true : isValidSemester(dirtyValue);
     const displayError =
-      error || (!isValid && hasValue
+      error ||
+      (!isValid && hasValue
         ? "Ugyldig semester (format: V25 eller H25)"
         : undefined);
 
