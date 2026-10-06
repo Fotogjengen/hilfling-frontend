@@ -12,7 +12,7 @@ import {
 import { Dialog } from "@/components/ui/overlay/Dialog";
 import { toast } from "@/components/ui/overlay/Toaster";
 import { useUpdatePhotoGangBanger } from "@/hooks/photoGangBangers";
-import { createSemesterOptions } from "@/utils/semester";
+import { isValidSemester } from "@/utils/semester";
 import useAppForm from "@/contexts/FormContext";
 import styles from "./EditPhotoGangBangerDialog.module.css";
 
@@ -26,7 +26,13 @@ const schema = z.object({
   name: z.string().trim().min(1, "Navn er obligatorisk"),
   phoneNumber: z.string().regex(/^[49]\d{7}$/, "Ugyldig telefonnummer"),
   email: z.string().email("Ugyldig e-postadresse"),
-  semesterStart: z.string().min(1, "Velg startsemester"),
+  semesterStart: z
+    .string()
+    .min(1, "Startsemester er obligatorisk")
+    .refine(
+      (v) => isValidSemester(v),
+      "Ugyldig semester (format: V25 eller H25)",
+    ),
   foodPreference: z.string(),
   birthday: z.union([z.date(), z.undefined()]),
   isActive: z.boolean(),
@@ -42,10 +48,6 @@ export function EditPhotoGangBangerDialog({
   const fullName = user.name || user.username;
 
   const [annetValue, setAannetValue] = useState("");
-
-  const semesterOptions = createSemesterOptions(
-    user.semesterStart ? [user.semesterStart.value] : [],
-  );
 
   const isSaving = updateUser.isPending;
 
@@ -212,10 +214,9 @@ export function EditPhotoGangBangerDialog({
                     validators={{ onChange: schema.shape.semesterStart }}
                   >
                     {(field) => (
-                      <field.Select
+                      <field.SemesterPicker
                         label="Startsemester"
-                        placeholder="Velg semester"
-                        options={semesterOptions}
+                        placeholder="f.eks. V25"
                       />
                     )}
                   </form.AppField>

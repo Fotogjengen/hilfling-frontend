@@ -2,7 +2,7 @@ import { Label } from "radix-ui";
 import styles from "./TextInput.module.css";
 import { forwardRef, InputHTMLAttributes, ReactNode, useId } from "react";
 
-interface TextInputProps extends Omit<
+export interface TextInputProps extends Omit<
   InputHTMLAttributes<HTMLInputElement>,
   "className" | "prefix"
 > {
