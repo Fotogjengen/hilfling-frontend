@@ -1,0 +1,17 @@
+.container {
+  padding-top: 4rem;
+  width: 50%;
+  margin: auto;
+  text-align: center;
+}
+
+.error h1 {
+  font-family: "Raleway", Arial, Helvetica, sans-serif;
+}
+
+.error p {
+  padding-top: 2rem;
+  font-size: 15pt;
+  text-align: left;
+  font-family: "Raleway", Arial, Helvetica, sans-serif;
+}
