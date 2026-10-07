@@ -214,7 +214,7 @@ function GangBangers() {
           value={search}
           onChange={(event) => setSearch(event.target.value)}
           onClear={() => setSearch("")}
-          placeholder="søk etter navn, epost eller telefon"
+          placeholder="Søk etter navn, epost eller telefon"
           aria-label="søk etter fotogjenger"
           className={styles.search}
         />
