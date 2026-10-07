@@ -1,6 +1,8 @@
 import { createRouter } from "@tanstack/react-router";
+import * as Sentry from "@sentry/react";
 import { routeTree } from "./routeTree.gen";
 import NotFound from "./components/NotFound/NotFound";
+import RouteError from "./components/RouteError/RouteError";
 
 export const router = createRouter({
   routeTree,
@@ -9,6 +11,14 @@ export const router = createRouter({
   defaultStructuralSharing: true,
   defaultPreloadStaleTime: 0,
   defaultNotFoundComponent: NotFound,
+  // Note: defaultOnCatch only fires when an error component is set,
+  // so these two options must be used together.
+  defaultErrorComponent: RouteError,
+  defaultOnCatch: (error, errorInfo) => {
+    Sentry.captureException(error, {
+      contexts: { react: { componentStack: errorInfo.componentStack } },
+    });
+  },
   context: {
     auth: {
       isAuthenticated: false,

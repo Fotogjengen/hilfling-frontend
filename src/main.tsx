@@ -1,7 +1,12 @@
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider } from "@tanstack/react-router";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  MutationCache,
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 
 import "./index.css";
 import { router } from "./router";
@@ -36,7 +41,26 @@ Sentry.init({
   replaysOnErrorSampleRate: 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
 });
 
+// Report unexpected errors (server errors and non-axios errors) to Sentry.
+// Expected 4xx client errors are skipped.
+const shouldReportToSentry = (error: unknown) =>
+  !isAxiosError(error) || (error.response?.status ?? 0) >= 500;
+
 const queryClient = new QueryClient({
+  queryCache: new QueryCache({
+    onError: (error) => {
+      if (shouldReportToSentry(error)) {
+        Sentry.captureException(error);
+      }
+    },
+  }),
+  mutationCache: new MutationCache({
+    onError: (error) => {
+      if (shouldReportToSentry(error)) {
+        Sentry.captureException(error);
+      }
+    },
+  }),
   defaultOptions: {
     queries: {
       retry: (failureCount, error) => {
