@@ -18,7 +18,7 @@ import * as Sentry from "@sentry/react";
 
 Sentry.init({
   dsn: "https://e914ff2a103391d81503f40753b9c50b@sentry.klve.no/2",
-  enabled: import.meta.env.PROD,
+  enabled: import.meta.env.PROD, // disabled in dev
   environment: import.meta.env.MODE,
   release:
     typeof __SENTRY_RELEASE__ !== "undefined" ? __SENTRY_RELEASE__ : undefined,
@@ -41,10 +41,8 @@ Sentry.init({
   replaysOnErrorSampleRate: 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
 });
 
-// Report unexpected errors (server errors and non-axios errors) to Sentry.
-// Expected 4xx client errors are skipped.
-const shouldReportToSentry = (error: unknown) =>
-  !isAxiosError(error) || (error.response?.status ?? 0) >= 500;
+// Report non-axios errors to Sentry
+const shouldReportToSentry = (error: unknown) => !isAxiosError(error);
 
 const queryClient = new QueryClient({
   queryCache: new QueryCache({
