@@ -14,6 +14,7 @@ import { CreditAcknowledgement } from "@/components/DownloadImages/CreditAcknowl
 import { Button } from "@/components/ui/input/Button";
 import { QualitySelector } from "@/components/DownloadImages/QualitySelector";
 import { PhotoQuality } from "@/types";
+import * as Sentry from "@sentry/react";
 
 /** Downloads a specific photo */
 async function downloadImage(photo: PhotoDto, quality: PhotoQuality) {
@@ -23,6 +24,9 @@ async function downloadImage(photo: PhotoDto, quality: PhotoQuality) {
   const fileName = url.split("/").pop() || `${photo.imageNumber}.jpg`;
 
   const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Kunne ikke laste ned bildet (HTTP ${response.status})`);
+  }
   const blob = await response.blob();
   const objectUrl = URL.createObjectURL(blob);
 
@@ -91,11 +95,13 @@ const PhotoDownloadProvider = ({ children }: { children: React.ReactNode }) => {
     const photo = pendingPhoto.current;
     pendingPhoto.current = null;
     if (photo) {
-      downloadImage(photo, selectedQuality).catch((error) =>
+      downloadImage(photo, selectedQuality).catch((error) => {
+        // since this does not go through axios, we need to capture an error here manually
+        Sentry.captureException(error);
         toast.error("Kunne ikke laste ned bildet", {
           description: `Noe gikk galt. Feilkode: ${error}`,
-        }),
-      );
+        });
+      });
     }
   };
 
