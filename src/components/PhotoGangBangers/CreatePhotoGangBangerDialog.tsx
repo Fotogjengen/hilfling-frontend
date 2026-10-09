@@ -8,7 +8,7 @@ import { toast } from "@/components/ui/overlay/Toaster";
 import { useCreatePhotoGangBanger } from "@/hooks/photoGangBangers";
 import { PositionApi } from "@/utils/api/PositionApi";
 import type { PhotoGangBangerCreateRequest } from "@/utils/api/PhotoGangBangerApi";
-import { createSemesterOptions } from "@/utils/semester";
+import { isValidSemester } from "@/utils/semester";
 import useAppForm from "@/contexts/FormContext";
 import styles from "./CreatePhotoGangBangerDialog.module.css";
 
@@ -21,7 +21,13 @@ const schema = z.object({
   name: z.string().trim().min(1, "Navn er obligatorisk"),
   phoneNumber: z.string().regex(/^[49]\d{7}$/, "Ugyldig telefonnummer"),
   email: z.string().email("Ugyldig e-postadresse"),
-  semesterStart: z.string().min(1, "Velg startsemester"),
+  semesterStart: z
+    .string()
+    .min(1, "Startsemester er obligatorisk")
+    .refine(
+      (v) => isValidSemester(v),
+      "Ugyldig semester (format: V25 eller H25)",
+    ),
   positionId: z.string(),
   foodPreference: z.string(),
   birthday: z.union([z.date(), z.undefined()]),
@@ -29,7 +35,6 @@ const schema = z.object({
   isPang: z.boolean(),
 });
 
-const semesterOptions = createSemesterOptions();
 const formId = "create-photo-gang-banger-form";
 
 export function CreatePhotoGangBangerDialog({
@@ -180,10 +185,9 @@ export function CreatePhotoGangBangerDialog({
             validators={{ onChange: schema.shape.semesterStart }}
           >
             {(field) => (
-              <field.Select
+              <field.SemesterPicker
                 label="Startsemester"
-                placeholder="Velg semester"
-                options={semesterOptions}
+                placeholder="f.eks. V25"
               />
             )}
           </form.AppField>
