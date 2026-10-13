@@ -12,7 +12,16 @@ export function semesterSortValue(semester: string): number {
     return Number.isNaN(timestamp) ? 0 : timestamp;
   }
 
-  const year = Number(match[2].length === 2 ? `20${match[2]}` : match[2]);
+  let year: number;
+  if (match[2].length === 4) {
+    year = Number(match[2]);
+  } else {
+    // the current year is the newest value, going back in time. We need to fix this when
+    // fotogjengen is 100 years old, so in about 30 years :)
+    const currentTwoDigit = new Date().getFullYear() % 100;
+    const twoDigit = Number(match[2]);
+    year = twoDigit <= currentTwoDigit ? 2000 + twoDigit : 1900 + twoDigit;
+  }
 
   return year * 2 + (match[1] === "H" ? 1 : 0);
 }
