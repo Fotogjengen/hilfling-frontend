@@ -8,8 +8,8 @@ import type { KType } from "./KType";
 import type { KTypeParameter } from "./KTypeParameter";
 export type KClassObject = {
   visibility?: KClassObject.visibility;
-  sealedSubclasses: Array<KClassObject>;
   isValue: boolean;
+  sealedSubclasses: Array<KClassObject>;
   isInner: boolean;
   isCompanion: boolean;
   isFun: boolean;
