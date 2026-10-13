@@ -1,7 +1,3 @@
-![Master tests](https://travis-ci.org/Fotogjengen/hilfling-frontend-extern.svg?branch=master) Master
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 ## Available Scripts
 
 In the project directory, there is the big 3:
@@ -24,4 +20,4 @@ Your app is ready to be deployed!
 
 ### `npx prettier -w .`
 
-Runs prettier on everything 
+Runs prettier on everything
