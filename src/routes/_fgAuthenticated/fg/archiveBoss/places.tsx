@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { useEffect, useState, useMemo} from "react";
 
-import styles from "./categories.module.css";
+import styles from "./places.module.css";
 
 import { PlaceDto} from "@/../generated";
 

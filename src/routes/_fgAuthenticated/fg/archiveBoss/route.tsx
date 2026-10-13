@@ -13,21 +13,18 @@ export const Route = createFileRoute('/_fgAuthenticated/fg/archiveBoss')({
 })
 
 function ArchiveBossLayout() {
-      const [albums, setAlbums] = useState<AlbumDto[]>([]);
-      const [places, setPlaces] = useState<PlaceDto[]>([]);
-      const [categories, setCategories] = useState<CategoryDto[]>([]);
+      // const [albums, setAlbums] = useState<AlbumDto[]>([]);
+      // const [places, setPlaces] = useState<PlaceDto[]>([]);
+      // const [categories, setCategories] = useState<CategoryDto[]>([]);
     
-      const [albumsPage, setAlbumsPage] = useState(1);
-      const [placesPage, setPlacesPage] = useState(1);
-      const [categoriesPage, setCategoriesPage] = useState(1);
+      // const [albumsPage, setAlbumsPage] = useState(1);
+      // const [placesPage, setPlacesPage] = useState(1);
+      // const [categoriesPage, setCategoriesPage] = useState(1);
     
-      const [albumsTotalPages, setAlbumsTotalPages] = useState(1);
-      const [placesTotalPages, setPlacesTotalPages] = useState(1);
-      const [categoriesTotalPages, setCategoriesTotalPages] = useState(1);
-
+      // const [albumsTotalPages, setAlbumsTotalPages] = useState(1);
+      // const [placesTotalPages, setPlacesTotalPages] = useState(1);
+      // const [categoriesTotalPages, setCategoriesTotalPages] = useState(1);
   return (
-
-  
   <div className = {styles.archiveBoss}>
 
     <ArchiveBossSidebar />

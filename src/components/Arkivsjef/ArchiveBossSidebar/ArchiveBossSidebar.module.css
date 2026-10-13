@@ -33,6 +33,10 @@
 		var(--color-border-default-default); */
 
 	overflow-y: auto;
+	overflow-anchor: none;
+  	user-select: none;
+  	scrollbar-width: none;
+	cursor: pointer;
 
 }
 
