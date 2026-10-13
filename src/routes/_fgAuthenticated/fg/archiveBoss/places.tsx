@@ -1,24 +1,24 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { useEffect, useState, useMemo} from "react";
+import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState, useMemo } from "react";
 
 import styles from "./places.module.css";
 
-import { PlaceDto} from "@/../generated";
+import { PlaceDto } from "@/../generated";
 
 import ArchiveBossItem from "@/components/Arkivsjef/ArchiveBossItem/ArchiveBossItem";
 
-import { ScrollArea } from  "radix-ui";
+import { ScrollArea } from "radix-ui";
 
 import { SearchField } from "@/components/ui/input/SearchField";
 import { Select } from "@/components/ui/input/Select";
 
-import { usePlaces } from '@/hooks/place';
+import { usePlaces } from "@/hooks/place";
 
-export const Route = createFileRoute('/_fgAuthenticated/fg/archiveBoss/places')(
+export const Route = createFileRoute("/_fgAuthenticated/fg/archiveBoss/places")(
   {
     component: Places,
   },
-)
+);
 
 const sortOptions = [
   { label: "Navn A-Å", value: "nameAsc" },
@@ -30,35 +30,36 @@ function Places() {
   const [sort, setSort] = useState("nameAsc");
   const [places, setPlaces] = useState<PlaceDto[]>([]);
 
-    const {data, isLoading} = usePlaces();
-    
-    useEffect (() => {
-        setPlaces(data ?? [])
-      },[data])
+  const { data, isLoading } = usePlaces();
+
+  useEffect(() => {
+    setPlaces(data ?? []);
+  }, [data]);
 
   const filteredAndSortedAlbums = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase();
     const filtered = places.filter((place) =>
-      place.name.toLowerCase().includes(normalizedSearch));
-      return filtered.toSorted((a, b) => {
-        switch (sort) {
-          case "nameAsc":
-            return a.name.localeCompare(b.name);
-          case "nameDesc":
-            return b.name.localeCompare(a.name);
-          default:
-            return 0;
-        }
-      });
+      place.name.toLowerCase().includes(normalizedSearch),
+    );
+    return filtered.toSorted((a, b) => {
+      switch (sort) {
+        case "nameAsc":
+          return a.name.localeCompare(b.name);
+        case "nameDesc":
+          return b.name.localeCompare(a.name);
+        default:
+          return 0;
+      }
+    });
   }, [places, sort, search]);
 
   return (
     <div className={styles.album_page}>
-        <header className={styles.pageHeader}>
+      <header className={styles.pageHeader}>
         <h1> Steder </h1>
-        </header>
+      </header>
       <div className={styles.toolbar}>
-        <SearchField 
+        <SearchField
           value={search}
           onChange={(event) => setSearch(event.target.value)}
           onClear={() => setSearch("")}
@@ -79,37 +80,37 @@ function Places() {
         </div>
       </div>
 
-    {isLoading ? (
-      <p> Laster steder... </p>) : (
+      {isLoading ? (
+        <p> Laster steder... </p>
+      ) : (
         <div>
-        <ScrollArea.Root className={styles.scrollArea}>
-          <ScrollArea.Viewport className={styles.scrollAreaViewport}>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th> Steder </th>
-                <th> Handlinger </th>
-              </tr>
-            </thead>
-          <tbody>
-
-          {filteredAndSortedAlbums.map((place, index) => (
-            <ArchiveBossItem
-              key={index}
-              text={[place.name]}
-              place_object = {place}
-              type= "place"
-            />
-          ))}
-          </tbody>
-          </table>
-          </ScrollArea.Viewport>
+          <ScrollArea.Root className={styles.scrollArea}>
+            <ScrollArea.Viewport className={styles.scrollAreaViewport}>
+              <table className={styles.table}>
+                <thead>
+                  <tr>
+                    <th> Steder </th>
+                    <th> Handlinger </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredAndSortedAlbums.map((place, index) => (
+                    <ArchiveBossItem
+                      key={index}
+                      text={[place.name]}
+                      place_object={place}
+                      type="place"
+                    />
+                  ))}
+                </tbody>
+              </table>
+            </ScrollArea.Viewport>
             <ScrollArea.Scrollbar orientation="vertical">
               <ScrollArea.Thumb />
             </ScrollArea.Scrollbar>
           </ScrollArea.Root>
         </div>
-          )}
+      )}
     </div>
-  )
+  );
 }

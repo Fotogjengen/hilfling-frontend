@@ -1,6 +1,4 @@
-
-
-.pop_up{
+.pop_up {
   z-index: 1;
   position: fixed;
   background-color: var(--color-background-default-default);
@@ -24,7 +22,6 @@
   line-height: 1.1;
 }
 
-.list_item{
+.list_item {
   padding: var(--size-space-300);
-
 }

@@ -6,8 +6,8 @@ import type { KType } from "./KType";
 export type KTypeParameter = {
   isReified: boolean;
   variance: KTypeParameter.variance;
-  upperBounds: Array<KType>;
   name: string;
+  upperBounds: Array<KType>;
 };
 export namespace KTypeParameter {
   export enum variance {

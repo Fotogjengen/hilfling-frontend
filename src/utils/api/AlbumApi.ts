@@ -31,8 +31,8 @@ export const AlbumApi = {
     return api.delete(`/albums/${id}`);
   },
   patch: async function (album: AlbumPatchRequestDto): Promise<AlbumDto> {
-      return api.patch(`/albums`, album).then((res) => res.data);
-    },
+    return api.patch(`/albums`, album).then((res) => res.data);
+  },
 
   post: async function (album: any): Promise<number> {
     return api

@@ -50,7 +50,6 @@
 
 .sortSelect {
   min-width: 11rem;
-  
 }
 .iconTextButton {
   width: fit-content;
@@ -67,12 +66,12 @@
   width: 100%;
 }
 
-.table{
-    width: 100%;
-    border-collapse: collapse;
-    color: var(--color-text-default-default);
-    font-family: var(--typography-body-font-family);
-    font-size: var(--typography-body-size-medium);
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--color-text-default-default);
+  font-family: var(--typography-body-font-family);
+  font-size: var(--typography-body-size-medium);
 }
 
 .table th:first-child,
@@ -89,7 +88,6 @@
   width: 30%;
 }
 
-
 .table th,
 .table td {
   padding: var(--size-space-400);
@@ -97,7 +95,6 @@
     var(--color-border-default-default);
   text-align: left;
   vertical-align: middle;
-  
 }
 
 .table th {

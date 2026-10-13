@@ -1,11 +1,7 @@
 import { AlbumApi } from "@/utils/api/AlbumApi";
 import { AlbumPatchRequestDto } from "../../generated";
 import { toast } from "@/components/ui/overlay/Toaster";
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const useAlbums = () => {
   return useQuery({
@@ -18,7 +14,7 @@ export const useDeleteAlbum = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (albumId: string) => AlbumApi.deleteById(albumId),
-    onSuccess: (_,albumId) => {
+    onSuccess: (_, albumId) => {
       void queryClient.invalidateQueries({
         queryKey: ["albums"],
       });
@@ -26,7 +22,7 @@ export const useDeleteAlbum = () => {
       void queryClient.invalidateQueries({
         queryKey: ["album", albumId],
       });
-      toast.success("Albumet ble slettet.")
+      toast.success("Albumet ble slettet.");
     },
     onError: (error) => {
       toast.error("Kunne ikke slette album.", {
@@ -42,7 +38,7 @@ export const useUpdateAlbum = () => {
     mutationFn: (album: AlbumPatchRequestDto) => AlbumApi.patch(album),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ["albums"] });
-      toast.success("Albumet ble oppdatert.")
+      toast.success("Albumet ble oppdatert.");
     },
     onError: (error) => {
       toast.error("Kunne ikke oppdatere albumet.", {

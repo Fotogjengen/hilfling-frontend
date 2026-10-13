@@ -1,10 +1,6 @@
 import { PlaceApi } from "@/utils/api/PlaceApi";
 import { toast } from "@/components/ui/overlay/Toaster";
-import {
-  useMutation,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { PlacePatchRequestDto } from "../../generated";
 
 export const usePlaces = () => {
@@ -17,7 +13,7 @@ export const useDeletePlace = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (placeId: string) => PlaceApi.deleteById(placeId),
-    onSuccess: (_,placeId) => {
+    onSuccess: (_, placeId) => {
       void queryClient.invalidateQueries({
         queryKey: ["place"],
       });
@@ -25,7 +21,7 @@ export const useDeletePlace = () => {
       void queryClient.invalidateQueries({
         queryKey: ["place", placeId],
       });
-      toast.success("Stedet ble slettet.")
+      toast.success("Stedet ble slettet.");
     },
     onError: (error) => {
       toast.error("Kunne ikke slette stedet.", {
@@ -41,7 +37,7 @@ export const useUpdatePlace = () => {
     mutationFn: (category: PlacePatchRequestDto) => PlaceApi.patch(category),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ["albums"] });
-      toast.success("Kategorien ble oppdatert.")
+      toast.success("Kategorien ble oppdatert.");
     },
     onError: (error) => {
       toast.error("Kunne ikke oppdatere kategori.", {
