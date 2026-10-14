@@ -4,7 +4,7 @@
 /* eslint-disable */
 export type PhotoUploadRequestDto = {
   goodPicture: boolean;
-  analog: boolean;
+  mediaId: string;
   motiveId: string;
   gangId?: string;
   dateTaken: string;

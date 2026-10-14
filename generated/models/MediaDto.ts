@@ -1,0 +1,10 @@
+/* generated using openapi-typescript-codegen -- do not edit */
+/* istanbul ignore file */
+/* tslint:disable */
+/* eslint-disable */
+import type { MediaId } from "./MediaId";
+export type MediaDto = {
+  mediaId: MediaId;
+  medium: string;
+  analog: boolean;
+};

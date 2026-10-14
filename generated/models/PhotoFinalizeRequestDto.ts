@@ -4,7 +4,7 @@
 /* eslint-disable */
 export type PhotoFinalizeRequestDto = {
   goodPicture: boolean;
-  analog: boolean;
+  mediaId: string;
   pageNumber: number;
   imageNumber: number;
   imageProd?: string;

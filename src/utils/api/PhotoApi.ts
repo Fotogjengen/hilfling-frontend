@@ -12,7 +12,7 @@ export interface PhotoUploadRequest {
   gangId?: string;
   date: string;
   goodPicture?: boolean;
-  analog?: boolean;
+  mediaId: string;
   media: File;
   securityLevel: string;
 }
@@ -73,8 +73,7 @@ export const PhotoApi = {
     formData.append("date", request.date);
     if (request.goodPicture !== undefined)
       formData.append("good_picture", String(request.goodPicture));
-    if (request.analog !== undefined)
-      formData.append("analog", String(request.analog));
+    formData.append("media_id", request.mediaId);
     formData.append("media", request.media);
     formData.append("security_level", request.securityLevel);
     return api

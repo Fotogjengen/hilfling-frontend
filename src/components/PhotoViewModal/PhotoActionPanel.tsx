@@ -170,7 +170,7 @@ function PhotoMetadata({
   const { user } = useAuth();
   const { data: metadata, isLoading: metadataLoading } = useMetadata(photo);
   const photographer = photo.photoGangBangerDto;
-  const album = photo.analog
+  const album = photo.media.analog
     ? photo.motive.analogAlbumDto
     : photo.motive.albumDto;
   const rows: [string, string | undefined][] = [
@@ -192,7 +192,7 @@ function PhotoMetadata({
       "Sidenummer/Bildenummer",
       String(photo.pageNumber + "/" + photo.imageNumber),
     ],
-    ["Type", photo.analog ? "Analog" : "Digital"],
+    ["Medium", photo.media.medium],
     [
       "Sikkerhetsnivå",
       user && user.securityLevel !== "ALLE"
