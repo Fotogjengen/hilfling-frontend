@@ -5,7 +5,7 @@ import style from "./DeNyeBanner.module.css";
 export default function DeNyeBanner() {
   return (
     <section className={style.hero}>
-      <Logo size={90} className={style.logo} />
+      <Logo size={90} />
       <PhotoMarquee />
     </section>
   );

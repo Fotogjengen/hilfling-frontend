@@ -1,7 +1,11 @@
 import { RefObject, useEffect } from "react";
 
-const easeOutQuad = (t: number) => t * (2 - t);
+const easingFunc = (t: number) => t * (1.5 - 0.5 * t);
 
+/**
+ * Starter og stopper looping-animasjonen
+ * til marquee-en smoothly på hover
+ */
 export default function useMarqueeHover(
   trackRef: RefObject<HTMLElement | null>,
   easeDuration: number,
@@ -31,7 +35,7 @@ export default function useMarqueeHover(
       if (t === 0) {
         anim.pause();
       } else {
-        anim.updatePlaybackRate(easeOutQuad(t));
+        anim.updatePlaybackRate(easingFunc(t));
         if (anim.playState === "paused") anim.play();
       }
 
