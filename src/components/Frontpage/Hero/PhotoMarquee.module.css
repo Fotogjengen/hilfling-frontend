@@ -1,38 +1,13 @@
 .marquee {
   --photo-track-gap: 10px;
-  height: 20rem;
-  display: flex;
-  justify-content: start;
-  align-items: stretch;
+
   align-self: stretch;
   overflow-x: hidden;
 
-  .track {
-    display: flex;
-    justify-content: start;
-    align-items: end;
+  &>.track {
+    display: inline-flex;
     gap: var(--photo-track-gap);
-    animation: photoTrackScroll 200s linear infinite;
-
-    .photoTile {
-      height: 90%;
-      flex: 0;
-      background-color: var(--color-brand-400);
-      cursor: pointer;
-      transition: height 300ms ease-out;
-
-      &:hover {
-        height: 100%;
-      }
-
-      &.landscape {
-        aspect-ratio: 3 / 2;
-      }
-
-      &.portrait {
-        aspect-ratio: 2 / 3;
-      }
-    }
+    animation: photoTrackScroll 100s linear infinite;
   }
 }
 
@@ -40,6 +15,7 @@
   from {
     transform: translateX(0);
   }
+
   to {
     transform: translateX(calc(-50% - var(--photo-track-gap) / 2));
   }
