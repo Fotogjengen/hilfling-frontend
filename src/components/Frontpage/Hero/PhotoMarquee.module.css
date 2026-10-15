@@ -17,6 +17,6 @@
   }
 
   to {
-    transform: translateX(calc(-50% - var(--photo-track-gap) / 2));
+    transform: translateX(var(--photo-track-offset));
   }
 }
