@@ -6,7 +6,7 @@ import PhotoTile from "./PhotoTile";
 import photos from "./Photos";
 
 const HOVER_SPEED_EASE_SECONDS = 0.45;
-const SCROLL_SPEED_PX_PER_SECOND = 20;
+const SCROLL_SPEED_PX_PER_SECOND = 30;
 
 export default function PhotoMarquee() {
   const trackRef = useRef<HTMLDivElement>(null);

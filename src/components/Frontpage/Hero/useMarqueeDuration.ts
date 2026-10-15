@@ -8,22 +8,14 @@ export default function useMarqueeDuration(
     const track = trackRef.current;
     if (!track) return;
 
-    const updateDuration = () => {
-      const trackWidth = track.getBoundingClientRect().width;
-      const gap = Number.parseFloat(getComputedStyle(track).columnGap) || 0;
-      const distance = trackWidth / 2 + gap / 2;
+    const trackWidth = track.getBoundingClientRect().width;
+    const gap = Number.parseFloat(getComputedStyle(track).columnGap) || 0;
+    const distance = trackWidth / 2 + gap / 2;
 
-      track.style.setProperty(
-        "--photo-track-duration",
-        `${distance / speedPxPerSecond}s`,
-      );
-    };
-
-    updateDuration();
-
-    const observer = new ResizeObserver(updateDuration);
-    observer.observe(track);
-
-    return () => observer.disconnect();
+    track.style.setProperty("--photo-track-offset", `${-distance}px`);
+    track.style.setProperty(
+      "--photo-track-duration",
+      `${distance / speedPxPerSecond}s`,
+    );
   }, [trackRef, speedPxPerSecond]);
 }
