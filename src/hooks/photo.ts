@@ -9,7 +9,11 @@ import {
 import { toast } from "@/components/ui/overlay/Toaster";
 import { useMemo } from "react";
 import { AxiosProgressEvent } from "axios";
-import { PhotoDto, PhotoGoodPictureToggleRequestDto } from "../../generated";
+import {
+  PhotoDto,
+  PhotoGoodPictureToggleRequestDto,
+  PhotoPatchRequestDto,
+} from "../../generated";
 import { PaginatedResultData } from "../utils/api/types";
 
 export const usePhotosByMotiveId = (motiveId: string) => {
@@ -69,6 +73,68 @@ export const useDeletePhoto = (motiveId: string) => {
     },
     onError: (error) => {
       toast.error("Kunne ikke slette bildet.", {
+        description: `Feilkode: ${error instanceof Error ? error.message : "Unknown error"}`,
+      });
+    },
+  });
+};
+
+type SavePhotoChangesRequest = {
+  photoPatches: { photoId: string; patch: PhotoPatchRequestDto }[];
+  deletedPhotoIds: string[];
+};
+
+export const useSavePhotoChanges = (motiveId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ photoPatches, deletedPhotoIds }: SavePhotoChangesRequest) =>
+      Promise.all([
+        ...photoPatches.map(({ photoId, patch }) =>
+          PhotoApi.patch(photoId, patch),
+        ),
+        ...deletedPhotoIds.map((photoId) => PhotoApi.delete(photoId)),
+      ]),
+    onSuccess: (_, { photoPatches, deletedPhotoIds }) => {
+      const count = photoPatches.length + deletedPhotoIds.length;
+      toast.success(
+        count === 1 ? "Ett bilde ble endret" : `${count} bilder ble endret`,
+      );
+    },
+    onSettled: () => {
+      void queryClient.invalidateQueries({
+        queryKey: ["photos", "motive", motiveId],
+      });
+    },
+    onError: (error) => {
+      toast.error("Kunne ikke lagre alle endringene.", {
+        description: `Feilkode: ${error instanceof Error ? error.message : "Unknown error"}`,
+      });
+    },
+  });
+};
+
+type MovePhotosRequest = {
+  photoIds: string[];
+  targetMotiveId: string;
+};
+
+export const useMovePhotos = (motiveId: string) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ photoIds, targetMotiveId }: MovePhotosRequest) =>
+      Promise.all(
+        photoIds.map((photoId) => PhotoApi.move(photoId, targetMotiveId)),
+      ),
+    onSettled: (_, __, variables) => {
+      void queryClient.invalidateQueries({
+        queryKey: ["photos", "motive", motiveId],
+      });
+      void queryClient.invalidateQueries({
+        queryKey: ["photos", "motive", variables.targetMotiveId],
+      });
+    },
+    onError: (error) => {
+      toast.error("Kunne ikke flytte alle bildene.", {
         description: `Feilkode: ${error instanceof Error ? error.message : "Unknown error"}`,
       });
     },

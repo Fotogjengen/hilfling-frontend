@@ -5,6 +5,7 @@
 export type PhotoFinalizeRequestDto = {
   goodPicture: boolean;
   mediaId: string;
+  securityLevel: string;
   pageNumber: number;
   imageNumber: number;
   imageProd?: string;

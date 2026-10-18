@@ -76,7 +76,7 @@ function PhotoActionButtons({
   onShowMetadata,
 }: {
   selectedPhoto?: PhotoDto;
-  requestDownload: (photo: PhotoDto) => void;
+  requestDownload: (photos: PhotoDto[]) => void;
   copied: boolean;
   copy: (options: { text: string }) => void;
   onShowMetadata: () => void;
@@ -87,7 +87,7 @@ function PhotoActionButtons({
         variant="subtle"
         aria-label="Last ned bildet"
         className={styles.actionButton}
-        onClick={() => selectedPhoto && requestDownload(selectedPhoto)}
+        onClick={() => selectedPhoto && requestDownload([selectedPhoto])}
       >
         <Download />
       </IconButton>

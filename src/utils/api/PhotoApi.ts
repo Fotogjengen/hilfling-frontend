@@ -2,6 +2,7 @@ import { api } from "./api";
 import {
   PhotoDto,
   PhotoGoodPictureToggleRequestDto,
+  PhotoPatchRequestDto,
   PhotoPositionDto,
 } from "../../../generated";
 import { PaginatedResult, PaginatedResultData } from "./types";
@@ -143,9 +144,22 @@ export const PhotoApi = {
     return api.get(`/photos?${queryString}`);
   },
 
+  move: async function (id: string, targetMotiveId: string): Promise<PhotoDto> {
+    return api
+      .post(`/photos/${id}/move`, { targetMotiveId })
+      .then((res) => res.data);
+  },
+
   updateGoodPicture: async function (
     request: PhotoGoodPictureToggleRequestDto,
   ) {
     return api.put(`/photos/${request.photoId}/good-picture`, request);
+  },
+
+  patch: async function (
+    id: string,
+    request: PhotoPatchRequestDto,
+  ): Promise<PhotoDto> {
+    return api.patch(`/photos/${id}`, request).then((res) => res.data);
   },
 };

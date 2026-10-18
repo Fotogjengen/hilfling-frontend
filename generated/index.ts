@@ -64,9 +64,8 @@ export type { PhotoGangBangerPositionsPutRequestDto } from "./models/PhotoGangBa
 export type { PhotoGoodPictureToggleRequestDto } from "./models/PhotoGoodPictureToggleRequestDto";
 export type { PhotographyRequest } from "./models/PhotographyRequest";
 export type { PhotoId } from "./models/PhotoId";
-export type { PhotoMoveFinalizeRequestDto } from "./models/PhotoMoveFinalizeRequestDto";
 export type { PhotoMoveRequestDto } from "./models/PhotoMoveRequestDto";
-export type { PhotoMoveReserveResponseDto } from "./models/PhotoMoveReserveResponseDto";
+export type { PhotoPatchRequestDto } from "./models/PhotoPatchRequestDto";
 export type { PhotoPositionDto } from "./models/PhotoPositionDto";
 export type { PhotoReservationDto } from "./models/PhotoReservationDto";
 export type { PhotoUploadRequestDto } from "./models/PhotoUploadRequestDto";

@@ -1,0 +1,19 @@
+.selectCell {
+  width: var(--size-space-1200);
+}
+
+.thumbnail {
+  display: block;
+  width: var(--size-space-2400);
+  height: var(--size-space-2400);
+  object-fit: cover;
+  border-radius: var(--size-radius-200);
+}
+
+.secondaryCell {
+  color: var(--color-text-default-secondary);
+}
+
+.filledStar {
+  fill: currentColor;
+}

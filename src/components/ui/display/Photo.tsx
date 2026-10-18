@@ -49,7 +49,7 @@ export function Photo({
           variant="transparent"
           onClick={(e) => {
             e.stopPropagation();
-            requestDownload(photo);
+            requestDownload([photo]);
           }}
         >
           <Download />

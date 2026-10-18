@@ -16,6 +16,7 @@ type DataTableProps<TData> = {
   errorMessage?: ReactNode;
   columnClassNames?: Record<string, ColumnClassNames | undefined>;
   className?: string;
+  borderless?: boolean;
 };
 
 function SortIndicator({ direction }: { direction: false | "asc" | "desc" }) {
@@ -38,13 +39,18 @@ export function DataTable<TData>({
   errorMessage,
   columnClassNames,
   className,
+  borderless = false,
 }: DataTableProps<TData>) {
   const rows = table.getRowModel().rows;
 
   return (
     <div className={className}>
       <div className={styles.tableScroller}>
-        <table className={styles.table}>
+        <table
+          className={[styles.table, borderless ? styles.borderless : null]
+            .filter(Boolean)
+            .join(" ")}
+        >
           <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
