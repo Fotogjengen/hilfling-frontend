@@ -1,6 +1,13 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import {
+  Group,
+  Panel,
+  Separator,
+  useDefaultLayout,
+  useGroupRef,
+} from "react-resizable-panels";
 import { z } from "zod";
 import styles from "./upload.module.css";
 import MotiveSelector from "@/components/Upload/MotiveSelector";
@@ -21,6 +28,11 @@ export const Route = createFileRoute("/_fgAuthenticated/fg/upload")({
   validateSearch: uploadSearchSchema,
 });
 
+const DEFAULT_SIDEBAR_LAYOUTS = {
+  empty: { selector: 80, details: 20 },
+  motiveSelected: { selector: 30, details: 70 },
+};
+
 function PhotoUpload() {
   const { motive, view = "grid", creating } = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
@@ -28,6 +40,41 @@ function PhotoUpload() {
   const isCreatingNewMotive = creating === true;
   const motiveId = isCreatingNewMotive ? undefined : motive;
   const { data: selectedMotive = null, isError } = useMotive(motiveId);
+
+  const sidebarRef = useGroupRef();
+  const horizontalLayout = useDefaultLayout({
+    id: "upload-horizontal",
+    onlySaveAfterUserInteractions: true,
+  });
+  const emptySidebarLayout = useDefaultLayout({
+    id: "upload-sidebar-empty",
+    onlySaveAfterUserInteractions: true,
+  });
+  const motiveSelectedSidebarLayout = useDefaultLayout({
+    id: "upload-sidebar-motive-selected",
+    onlySaveAfterUserInteractions: true,
+  });
+  const hasMotive = motiveId !== undefined || isCreatingNewMotive;
+  const sidebarLayout = hasMotive
+    ? motiveSelectedSidebarLayout
+    : emptySidebarLayout;
+  const defaultSidebarLayout = hasMotive
+    ? DEFAULT_SIDEBAR_LAYOUTS.motiveSelected
+    : DEFAULT_SIDEBAR_LAYOUTS.empty;
+
+  const previousHasMotive = useRef(hasMotive);
+  useEffect(() => {
+    if (previousHasMotive.current === hasMotive) return;
+    previousHasMotive.current = hasMotive;
+    sidebarRef.current?.setLayout(
+      sidebarLayout.defaultLayout ?? defaultSidebarLayout,
+    );
+  }, [
+    hasMotive,
+    sidebarRef,
+    sidebarLayout.defaultLayout,
+    defaultSidebarLayout,
+  ]);
 
   useEffect(() => {
     if (!isError) return;
@@ -68,31 +115,56 @@ function PhotoUpload() {
 
   return (
     <div className={styles.photoUpload}>
-      <div
-        className={`${styles.sideBar} ${motiveId || isCreatingNewMotive ? styles.sideBarMotiveSelected : ""}`}
+      <Group
+        className={styles.panels}
+        orientation="horizontal"
+        defaultLayout={horizontalLayout.defaultLayout}
+        onLayoutChanged={horizontalLayout.onLayoutChanged}
       >
-        <MotiveSelector
-          value={selectedMotive}
-          isCreatingNew={isCreatingNewMotive}
-          onChange={selectMotive}
-          onCreateNew={startCreatingMotive}
-        />
-        <MotiveDetails
-          motive={selectedMotive}
-          isCreatingNew={isCreatingNewMotive}
-          onSaved={selectMotive}
-          onCancel={() => selectMotive(null)}
-          onCreateNew={startCreatingMotive}
-        />
-      </div>
-      <div className={styles.mainContent}>
-        <MotiveImages
-          motive={selectedMotive}
-          isCreatingNewMotive={isCreatingNewMotive}
-          viewMode={view}
-          onViewModeChange={setViewMode}
-        />
-      </div>
+        <Panel
+          id="sidebar"
+          className={styles.sideBar}
+          defaultSize="25%"
+          minSize="15%"
+          maxSize="50%"
+        >
+          <Group
+            className={styles.sideBarPanels}
+            orientation="vertical"
+            groupRef={sidebarRef}
+            defaultLayout={sidebarLayout.defaultLayout ?? defaultSidebarLayout}
+            onLayoutChanged={sidebarLayout.onLayoutChanged}
+          >
+            <Panel id="selector" className={styles.sideBarPanel} minSize="15%">
+              <MotiveSelector
+                value={selectedMotive}
+                isCreatingNew={isCreatingNewMotive}
+                onChange={selectMotive}
+                onCreateNew={startCreatingMotive}
+              />
+            </Panel>
+            <Separator className={styles.separatorHorizontal} />
+            <Panel id="details" className={styles.sideBarPanel} minSize="15%">
+              <MotiveDetails
+                motive={selectedMotive}
+                isCreatingNew={isCreatingNewMotive}
+                onSaved={selectMotive}
+                onCancel={() => selectMotive(null)}
+                onCreateNew={startCreatingMotive}
+              />
+            </Panel>
+          </Group>
+        </Panel>
+        <Separator className={styles.separatorVertical} />
+        <Panel id="main" className={styles.mainContent} minSize="30%">
+          <MotiveImages
+            motive={selectedMotive}
+            isCreatingNewMotive={isCreatingNewMotive}
+            viewMode={view}
+            onViewModeChange={setViewMode}
+          />
+        </Panel>
+      </Group>
       <div className={styles.mobile}>
         Denne siden krever en større skjerm. Åpne den på en datamaskin for å
         fortsette.
