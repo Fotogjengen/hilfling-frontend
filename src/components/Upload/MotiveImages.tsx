@@ -1,4 +1,3 @@
-import { useState } from "react";
 import type { UseQueryResult } from "@tanstack/react-query";
 import { usePhotosByMotiveId } from "@/hooks/photo";
 import { MotiveDto, PhotoDto } from "../../../generated";
@@ -13,14 +12,16 @@ import { PhotoTableState, usePhotoTableState } from "./usePhotoTableState";
 type MotiveImagesProps = {
   motive?: MotiveDto | null;
   isCreatingNewMotive?: boolean;
+  viewMode: ImageViewMode;
+  onViewModeChange: (mode: ImageViewMode) => void;
 };
 
 export default function MotiveImages({
   motive,
   isCreatingNewMotive,
+  viewMode,
+  onViewModeChange,
 }: MotiveImagesProps) {
-  const [viewMode, setViewMode] = useState<ImageViewMode>("grid");
-
   return (
     <div className={styles.wrapper}>
       {motive && !isCreatingNewMotive ? (
@@ -28,7 +29,7 @@ export default function MotiveImages({
           key={motive.motiveId.id}
           motive={motive}
           viewMode={viewMode}
-          onViewModeChange={setViewMode}
+          onViewModeChange={onViewModeChange}
         />
       ) : (
         <div className={styles.scrollArea}>
