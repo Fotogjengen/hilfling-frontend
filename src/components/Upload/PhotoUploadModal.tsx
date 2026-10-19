@@ -78,6 +78,8 @@ export default function PhotoUploadModal({ motive }: PhotoUploadModalProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const filesRef = useRef(files);
   filesRef.current = files;
+  const activeUploadsRef = useRef(0);
+  const [batch, setBatch] = useState({ totalBytes: 0, completedBytes: 0 });
   const queryClient = useQueryClient();
 
   const uploadFile = useCallback(
@@ -85,6 +87,14 @@ export default function PhotoUploadModal({ motive }: PhotoUploadModalProps) {
       if (!motive || !mediaId) return;
       const selectedFile = filesRef.current.find((f) => f.id === id);
       if (!selectedFile || selectedFile.status === "uploading") return;
+
+      const size = selectedFile.file.size;
+      const startsNewBatch = activeUploadsRef.current === 0;
+      activeUploadsRef.current++;
+      setBatch((prev) => ({
+        totalBytes: (startsNewBatch ? 0 : prev.totalBytes) + size,
+        completedBytes: startsNewBatch ? 0 : prev.completedBytes,
+      }));
 
       setFiles((prev) =>
         prev.map((f) =>
@@ -112,11 +122,19 @@ export default function PhotoUploadModal({ motive }: PhotoUploadModalProps) {
           },
         );
 
+        setBatch((prev) => ({
+          ...prev,
+          completedBytes: prev.completedBytes + size,
+        }));
         setFiles((prev) => prev.filter((f) => f.id !== id));
         void queryClient.invalidateQueries({
           queryKey: ["photos", "motive", motive.motiveId.id],
         });
       } catch (error) {
+        setBatch((prev) => ({
+          ...prev,
+          totalBytes: prev.totalBytes - size,
+        }));
         setFiles((prev) =>
           prev.map((f) =>
             f.id === id ? { ...f, status: "error" as const, progress: 0 } : f,
@@ -125,6 +143,8 @@ export default function PhotoUploadModal({ motive }: PhotoUploadModalProps) {
         toast.error("Kunne ikke laste opp bildet.", {
           description: `Feilkode: ${error instanceof Error ? error.message : "Unknown error"}`,
         });
+      } finally {
+        activeUploadsRef.current--;
       }
     },
     [motive, mediaId, queryClient],
@@ -232,11 +252,14 @@ export default function PhotoUploadModal({ motive }: PhotoUploadModalProps) {
   const hasFiles = files.length > 0;
   const uploadingFiles = files.filter((f) => f.status === "uploading");
   const isAnyUploading = uploadingFiles.length > 0;
+  const uploadingBytes = uploadingFiles.reduce(
+    (sum, f) => sum + (f.file.size * f.progress) / 100,
+    0,
+  );
   const overallProgress =
-    uploadingFiles.length > 0
+    batch.totalBytes > 0
       ? Math.round(
-          uploadingFiles.reduce((sum, f) => sum + f.progress, 0) /
-            uploadingFiles.length,
+          ((batch.completedBytes + uploadingBytes) * 100) / batch.totalBytes,
         )
       : 0;
 
@@ -443,6 +466,9 @@ function FileRow({
           <X size={16} />
         </IconButton>
       </div>
+      {isUploading && (
+        <Progress value={selectedFile.progress} className={styles.fileProgress} />
+      )}
     </div>
   );
 }

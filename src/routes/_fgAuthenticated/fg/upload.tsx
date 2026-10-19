@@ -33,6 +33,8 @@ const DEFAULT_SIDEBAR_LAYOUTS = {
   motiveSelected: { selector: 30, details: 70 },
 };
 
+const COMPACT_SIDEBAR_LAYOUT = { selector: 70, details: 30 };
+
 function PhotoUpload() {
   const { motive, view = "grid", creating } = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
@@ -75,6 +77,19 @@ function PhotoUpload() {
     sidebarLayout.defaultLayout,
     defaultSidebarLayout,
   ]);
+
+  const toggleSidebarLayout = () => {
+    const current = sidebarRef.current?.getLayout();
+    const isAtDefault =
+      current !== undefined &&
+      Math.abs(current.selector - defaultSidebarLayout.selector) < 1;
+    const applied = sidebarRef.current?.setLayout(
+      isAtDefault ? COMPACT_SIDEBAR_LAYOUT : defaultSidebarLayout,
+    );
+    if (applied) {
+      sidebarLayout.onLayoutChanged(applied, { isUserInteraction: true });
+    }
+  };
 
   useEffect(() => {
     if (!isError) return;
@@ -143,7 +158,11 @@ function PhotoUpload() {
                 onCreateNew={startCreatingMotive}
               />
             </Panel>
-            <Separator className={styles.separatorHorizontal} />
+            <Separator
+              className={styles.separatorHorizontal}
+              disableDoubleClick
+              onDoubleClick={toggleSidebarLayout}
+            />
             <Panel id="details" className={styles.sideBarPanel} minSize="15%">
               <MotiveDetails
                 motive={selectedMotive}

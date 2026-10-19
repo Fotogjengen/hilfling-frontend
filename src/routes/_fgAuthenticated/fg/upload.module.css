@@ -40,16 +40,32 @@
 
 .separatorVertical,
 .separatorHorizontal {
+  position: relative;
+  z-index: 1;
   background-color: var(--color-border-default-default);
   transition: background-color 0.15s;
+}
+
+.separatorVertical::before,
+.separatorHorizontal::before {
+  content: "";
+  position: absolute;
 }
 
 .separatorVertical {
   width: var(--size-stroke-border);
 }
 
+.separatorVertical::before {
+  inset: 0 -4px;
+}
+
 .separatorHorizontal {
   height: var(--size-stroke-border);
+}
+
+.separatorHorizontal::before {
+  inset: -4px 0;
 }
 
 .separatorVertical:hover,
