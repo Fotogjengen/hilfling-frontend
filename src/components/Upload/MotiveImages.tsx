@@ -1,4 +1,5 @@
 import type { UseQueryResult } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
 import { usePhotosByMotiveId } from "@/hooks/photo";
 import { MotiveDto, PhotoDto } from "../../../generated";
 import styles from "./MotiveImages.module.css";
@@ -92,6 +93,8 @@ function MotiveImagesBody({
   viewMode: ImageViewMode;
   tableState: PhotoTableState;
 }) {
+  const navigate = useNavigate({ from: "/fg/upload" });
+
   if (photosQuery.isPending) {
     return (
       <div className={styles.grid}>
@@ -108,6 +111,20 @@ function MotiveImagesBody({
 
   const photos = photosQuery.data;
 
+  const openPhoto = (photoId: string) => {
+    void navigate({
+      search: (prev) => ({
+        ...prev,
+        photoViewModal: {
+          modalType: "searchMotive" as const,
+          motiveId: motive.motiveId.id,
+          photoId,
+        },
+      }),
+      resetScroll: false,
+    });
+  };
+
   if (photos.length === 0) {
     return (
       <div className={styles.noMotiveSelected}>
@@ -117,7 +134,13 @@ function MotiveImagesBody({
   }
 
   if (viewMode === "table") {
-    return <PhotoTable photos={photos} tableState={tableState} />;
+    return (
+      <PhotoTable
+        photos={photos}
+        tableState={tableState}
+        onOpenPhoto={openPhoto}
+      />
+    );
   }
 
   return (
@@ -126,6 +149,7 @@ function MotiveImagesBody({
         <UploadedPhoto
           photo={photo}
           motiveId={motive.motiveId.id}
+          onOpen={() => openPhoto(photo.photoId.id)}
           key={photo.photoId.id}
         />
       ))}

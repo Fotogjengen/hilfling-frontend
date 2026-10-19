@@ -8,6 +8,7 @@
   height: var(--size-space-2400);
   object-fit: cover;
   border-radius: var(--size-radius-200);
+  cursor: pointer;
 }
 
 .secondaryCell {

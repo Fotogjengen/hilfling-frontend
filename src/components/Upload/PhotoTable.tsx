@@ -21,6 +21,7 @@ import styles from "./PhotoTable.module.css";
 type PhotoTableProps = {
   photos: PhotoDto[];
   tableState: PhotoTableState;
+  onOpenPhoto: (photoId: string) => void;
 };
 
 function getFileName(photo: PhotoDto) {
@@ -43,7 +44,11 @@ function FavoriteStar({ isFavorite }: { isFavorite: boolean }) {
   );
 }
 
-export default function PhotoTable({ photos, tableState }: PhotoTableProps) {
+export default function PhotoTable({
+  photos,
+  tableState,
+  onOpenPhoto,
+}: PhotoTableProps) {
   const {
     mode,
     rowSelection,
@@ -114,6 +119,7 @@ export default function PhotoTable({ photos, tableState }: PhotoTableProps) {
             className={styles.thumbnail}
             src={row.original.imageThumb}
             alt="Opplastet bilde"
+            onClick={() => onOpenPhoto(row.original.photoId.id)}
           />
         ),
       },
@@ -188,7 +194,7 @@ export default function PhotoTable({ photos, tableState }: PhotoTableProps) {
           ]
         : []),
     ],
-    [mode, pendingGoodPictures, pendingMedias, mediaGroups],
+    [mode, pendingGoodPictures, pendingMedias, mediaGroups, onOpenPhoto],
   );
 
   const table = useReactTable({
