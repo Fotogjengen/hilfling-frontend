@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { Tooltip as RadixTooltip } from "radix-ui";
 import styles from "./Tooltip.module.css";
 
@@ -9,9 +9,11 @@ interface TooltipProps {
 }
 
 export function Tooltip({ content, children, disabled }: TooltipProps) {
+  const [open, setOpen] = useState(false);
+
   return (
     <RadixTooltip.Provider delayDuration={200}>
-      <RadixTooltip.Root open={disabled ? false : undefined}>
+      <RadixTooltip.Root open={open && !disabled} onOpenChange={setOpen}>
         <RadixTooltip.Trigger asChild>
           <span className={styles.trigger} tabIndex={0}>
             {children}

@@ -88,7 +88,7 @@ function ConfirmDialogContent({
           <Button
             variant={severity === "error" ? "danger" : "primary"}
             disabled={isPending}
-            onClick={void handleConfirm}
+            onClick={() => void handleConfirm()}
           >
             {confirmLabel}
           </Button>
