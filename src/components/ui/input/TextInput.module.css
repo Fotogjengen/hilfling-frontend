@@ -55,6 +55,12 @@
   outline: none;
 }
 
+.input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px var(--color-background-default-default) inset;
+  -webkit-text-fill-color: var(--color-text-default-default);
+  caret-color: var(--color-text-default-default);
+}
+
 .input:disabled {
   color: var(--color-text-disabled-on-disabled);
   cursor: not-allowed;

@@ -7,7 +7,7 @@
     var(--color-black-200);
   padding: var(--size-space-200);
   overflow: hidden;
-  z-index: 100;
+  z-index: 210;
 }
 
 .item {

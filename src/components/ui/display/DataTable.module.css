@@ -1,0 +1,58 @@
+.tableScroller {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--color-text-default-default);
+  font-family: var(--typography-body-font-family);
+  font-size: var(--typography-body-size-medium);
+}
+
+.table th,
+.table td {
+  padding: var(--size-space-400);
+  border-bottom: var(--size-stroke-border) solid
+    var(--color-border-default-default);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.table th {
+  color: var(--color-text-default-default);
+  font-weight: var(--typography-body-font-weight-strong);
+}
+
+.sortButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--size-space-200);
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-weight: inherit;
+  cursor: pointer;
+}
+
+.sortButton:hover {
+  color: var(--color-text-default-secondary);
+}
+
+.sortIconIdle {
+  color: var(--color-text-default-tertiary);
+}
+
+.table tbody tr:hover {
+  background-color: var(--color-background-default-default-hover);
+}
+
+.emptyState {
+  margin: 0;
+  padding: var(--size-space-600) var(--size-space-400);
+  color: var(--color-text-default-secondary);
+  font-size: var(--typography-body-size-medium);
+}

@@ -16,11 +16,23 @@ function Firstgame() {
   const [players, setPlayers] = useState<string[]>([""]);
   const [gameStarted, setGameStarted] = useState(false);
 
-  const addInput = () => setPlayers([...players, ""]);
-  const handleChange = (i: number, v: string) => {
-    const next = [...players];
-    next[i] = v;
-    setPlayers(next);
+  const addInput = () => {
+    setPlayers((prev) => [...prev, ""]);
+  };
+
+  const handleChange = (i: number, value: string) => {
+    setPlayers((prev) =>
+      prev.map((player, index) => (index === i ? value : player)),
+    );
+  };
+
+  const startGame = () => {
+    const validPlayers = players.filter((player) => player.trim() !== "");
+
+    if (validPlayers.length > 0) {
+      setPlayers(validPlayers);
+      setGameStarted(true);
+    }
   };
 
   if (gameStarted) {
@@ -32,21 +44,24 @@ function Firstgame() {
       <h1 id="game1">Her er game 1</h1>
       <h2>Skriv inn navnet på deltakerne</h2>
 
-      <div>
-        {players.map((val, i) => (
-          <TextInput
-            key={val || i}
-            label={`Deltaker ${i + 1}`}
-            value={val}
-            onChange={(e) => handleChange(i, e.target.value)}
-          />
+      <div id="player-inputs">
+        {players.map((player, i) => (
+          <div className="playerInput" key={i}>
+            <TextInput
+              label={`Deltaker ${i + 1}`}
+              value={player}
+              onChange={(e) => handleChange(i, e.target.value)}
+            />
+          </div>
         ))}
       </div>
+
       <div id="button-box">
         <Button id="add-button" onClick={addInput}>
           Legg til
         </Button>
-        <Button id="play-button" onClick={() => setGameStarted(true)}>
+
+        <Button id="play-button" onClick={startGame}>
           Start game
         </Button>
       </div>
@@ -57,9 +72,9 @@ function Firstgame() {
 function FirstGameStarts({ players }: { players: string[] }) {
   return (
     <div id="fullsizeDiv">
-      <div id="div2" style={{ textAlign: "center", fontFamily: "Inter" }}>
-        <h1>Spillet starter!</h1>
+      <h1 id="game-start-title">Spillet starter!</h1>
 
+      <div id="gameScale">
         <div className="wheelCenter">
           <Wheel participants={players} />
 

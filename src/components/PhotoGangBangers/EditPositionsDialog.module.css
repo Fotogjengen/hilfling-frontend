@@ -1,0 +1,95 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-400);
+  padding-top: var(--size-space-200);
+}
+
+.positionsList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-300);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.positionCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-200);
+  padding: var(--size-space-300);
+  border: var(--size-stroke-border) solid var(--color-border-default-default);
+  border-radius: var(--size-radius-200);
+}
+
+.positionCardError {
+  border-color: var(--color-border-danger-default);
+}
+
+.positionCardHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--size-space-200);
+}
+
+.positionSelect {
+  flex: 1;
+  min-width: 0;
+}
+
+.positionRemove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--size-space-200);
+  background: none;
+  border: none;
+  border-radius: var(--size-radius-100);
+  color: var(--color-icon-default-default);
+  cursor: pointer;
+}
+
+.positionRemove:hover {
+  background-color: var(--color-background-danger-tertiary);
+  color: var(--color-icon-danger-default);
+}
+
+.positionSemesters {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--size-space-200);
+}
+
+.positionSemesterLabel {
+  color: var(--color-text-default-secondary);
+  font-size: var(--typography-body-size-small);
+  white-space: nowrap;
+}
+
+.positionError {
+  font-size: var(--typography-body-size-small);
+  color: var(--color-text-danger-default);
+}
+
+.addPositionButton {
+  width: fit-content;
+  gap: var(--size-space-200);
+  align-self: flex-start;
+}
+
+.positionsEmpty {
+  margin: 0;
+  color: var(--color-text-default-secondary);
+}
+
+.helpText {
+  margin: 0;
+}
+
+.helpText a {
+  text-decoration: underline;
+  word-break: normal;
+  overflow-wrap: normal;
+}

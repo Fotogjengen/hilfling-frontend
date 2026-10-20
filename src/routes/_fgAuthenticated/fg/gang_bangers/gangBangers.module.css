@@ -1,0 +1,164 @@
+.gangBangers {
+  min-height: 100%;
+  background-color: var(--color-background-default-default);
+  color: var(--color-text-default-default);
+  padding: var(--size-space-800);
+}
+
+.pageHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-300);
+  margin-bottom: var(--size-space-600);
+}
+
+.pageHeader h1 {
+  margin: 0;
+  color: var(--color-text-default-default);
+  font-family: var(--typography-title-page-font-family);
+  font-size: var(--typography-title-page-size-small);
+  font-weight: var(--typography-title-page-font-weight);
+  line-height: 1.1;
+}
+
+.pageHeader p {
+  margin: 0;
+  color: var(--color-text-default-secondary);
+  font-family: var(--typography-body-font-family);
+  font-size: var(--typography-body-size-large);
+  font-weight: var(--typography-body-font-weight-regular);
+}
+
+.toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-200);
+  margin-bottom: var(--size-space-600);
+}
+
+.search {
+  width: 100%;
+}
+
+.addButton,
+.iconTextButton {
+  width: fit-content;
+  gap: var(--size-space-200);
+  white-space: nowrap;
+}
+
+.tableActions {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--size-space-600) 0 var(--size-space-300);
+}
+
+.tableSection table {
+  min-width: 72rem;
+}
+
+.checkCell {
+  width: var(--size-space-1200);
+}
+
+.checkbox {
+  width: fit-content;
+}
+
+.userCell {
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-300);
+  min-width: 10rem;
+}
+
+.emailCell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-100);
+  min-width: 12rem;
+}
+
+.emailCell span {
+  overflow-wrap: anywhere;
+}
+
+.positionsCell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-100);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  min-width: 8rem;
+}
+
+.positionItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-100);
+}
+
+.positionItemOld {
+  color: var(--color-text-default-secondary);
+}
+
+.positionSemesters {
+  font-size: var(--typography-body-size-small);
+  color: var(--color-text-default-secondary);
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--size-space-100);
+  border-radius: var(--size-radius-full);
+  padding: var(--size-space-100) var(--size-space-200);
+  font-size: var(--typography-body-size-small);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.statusBadge span {
+  width: var(--size-space-150);
+  height: var(--size-space-150);
+  border-radius: var(--size-radius-full);
+}
+
+.active {
+  background-color: var(--color-background-danger-tertiary);
+  color: var(--color-text-danger-default);
+}
+
+.active span {
+  background-color: var(--color-background-danger-default);
+}
+
+.inactive {
+  background-color: var(--color-background-neutral-tertiary);
+  color: var(--color-text-neutral-secondary);
+}
+
+.inactive span {
+  background-color: var(--color-background-neutral-default);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.menuButton {
+  width: fit-content;
+}
+
+@media (max-width: 720px) {
+  .gangBangers {
+    padding: var(--size-space-400);
+  }
+
+  .pageHeader h1 {
+    font-size: var(--typography-heading-size-large);
+  }
+}

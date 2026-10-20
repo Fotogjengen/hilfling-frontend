@@ -1,14 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-  Archive,
-  Upload,
-  User,
-  BookOpen,
-  Camera,
-  Baby,
-  Wine,
-} from "lucide-react";
-import { useAuth } from "@/contexts/AuthProvider";
+import { Archive, Upload, BookOpen, Camera, Baby, Wine } from "lucide-react";
 import styles from "./fg.module.css";
 
 export const Route = createFileRoute("/_fgAuthenticated/fg/")({
@@ -16,12 +7,9 @@ export const Route = createFileRoute("/_fgAuthenticated/fg/")({
 });
 
 function FgNav() {
-  const { user } = useAuth();
-
   const mainLinks = [
     { name: "Last opp", to: "/fg/upload", icon: <Upload size={100} /> },
     { name: "Arkiv", to: "/fg/archiveBoss", icon: <Archive size={100} /> },
-    { name: "Min profil", to: "/fg/profile", icon: <User size={100} /> },
     { name: "De nye", to: "/fg/projects", icon: <Baby size={100} /> },
   ];
 
@@ -39,14 +27,11 @@ function FgNav() {
     { name: "µFS", to: "https://ufs.samfundet.no/", icon: <Wine size={50} /> },
   ];
 
-  const visibleMainLinks =
-    user?.securityLevel !== "FG" ? [mainLinks[0], mainLinks[4]] : mainLinks;
-
   return (
     <>
       <h4>Internsider</h4>
       <div className={styles.grid}>
-        {visibleMainLinks.map((link) => (
+        {mainLinks.map((link) => (
           <Link key={link.to} to={link.to}>
             <div className={styles.card}>
               {link.icon}

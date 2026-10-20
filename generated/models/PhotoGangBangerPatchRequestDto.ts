@@ -4,15 +4,17 @@
 /* eslint-disable */
 import type { PhotoGangBangerId } from "./PhotoGangBangerId";
 import type { SemesterStart } from "./SemesterStart";
+import type { UserUploadId } from "./UserUploadId";
 export type PhotoGangBangerPatchRequestDto = {
   photoGangBangerId: PhotoGangBangerId;
   semesterStart?: SemesterStart;
   isActive?: boolean;
   isPang?: boolean;
-  firstName?: string;
-  lastName?: string;
+  name?: string;
+  foodPreference?: string;
+  birthday?: string;
   username?: string;
   email?: string;
-  profilePicture?: string;
   phoneNumber?: string;
+  profilePictureId?: UserUploadId;
 };

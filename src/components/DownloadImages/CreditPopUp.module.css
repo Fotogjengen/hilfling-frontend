@@ -1,0 +1,13 @@
+.textContainerStyle {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.textDisclaimerStyle {
+  font-size: small;
+}
+
+.OKbuttonStyle {
+  width: 100%;
+}

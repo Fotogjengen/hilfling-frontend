@@ -19,13 +19,13 @@ export function ProfileImage({
   const showFallback = !src || errored;
 
   const inner = showFallback ? (
-    <User size={size * 0.55} />
+    <User size={Math.round(size * 0.55)} aria-hidden="true" />
   ) : (
     <img
       src={src}
       alt={alt}
       onError={() => setErrored(true)}
-      style={{ width: "100%", height: "100%", objectFit: "cover" }}
+      className={styles.image}
     />
   );
 
@@ -33,7 +33,7 @@ export function ProfileImage({
     return (
       <button
         type="button"
-        className={styles.profileImage}
+        className={[styles.profileImage, styles.clickable].join(" ")}
         style={{ width: size, height: size }}
         onClick={onClick}
         aria-label={alt}

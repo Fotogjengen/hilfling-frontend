@@ -1,5 +1,6 @@
 import { Select as SelectPrimitive } from "radix-ui";
 import { ChevronDown } from "lucide-react";
+import { useId } from "react";
 import styles from "./Select.module.css";
 
 interface SelectOption {
@@ -16,6 +17,9 @@ interface SelectProps {
   error?: string;
   disabled?: boolean;
   className?: string;
+  id?: string;
+  name?: string;
+  ariaLabel?: string;
 }
 
 export function Select({
@@ -27,21 +31,39 @@ export function Select({
   error,
   disabled,
   className,
+  id,
+  name,
+  ariaLabel,
 }: SelectProps) {
+  const generatedId = useId();
+  const triggerId = id ?? `select-${generatedId}`;
+  const labelId = `${triggerId}-label`;
+  const valueId = `${triggerId}-value`;
+
   return (
     <div className={[styles.wrapper, className].filter(Boolean).join(" ")}>
-      {label && <label className={styles.label}>{label}</label>}
+      {label && (
+        <label id={labelId} className={styles.label} htmlFor={triggerId}>
+          {label}
+        </label>
+      )}
       <SelectPrimitive.Root
+        name={name}
         value={value}
         onValueChange={onValueChange}
         disabled={disabled}
       >
         <SelectPrimitive.Trigger
+          id={triggerId}
+          aria-label={ariaLabel}
+          aria-labelledby={label ? `${labelId} ${valueId}` : undefined}
+          aria-invalid={!!error}
+          aria-describedby={error ? `${triggerId}-error` : undefined}
           className={[styles.trigger, error ? styles.triggerError : null]
             .filter(Boolean)
             .join(" ")}
         >
-          <SelectPrimitive.Value placeholder={placeholder} />
+          <SelectPrimitive.Value id={valueId} placeholder={placeholder} />
           <ChevronDown
             size={16}
             className={styles.chevron}
@@ -71,7 +93,7 @@ export function Select({
         </SelectPrimitive.Portal>
       </SelectPrimitive.Root>
       {error && (
-        <span className={styles.error} role="alert">
+        <span id={`${triggerId}-error`} className={styles.error} role="alert">
           {error}
         </span>
       )}

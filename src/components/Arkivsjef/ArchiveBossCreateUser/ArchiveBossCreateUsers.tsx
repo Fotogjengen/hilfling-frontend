@@ -1,0 +1,180 @@
+import { useEffect, useState } from "react";
+import styles from "./ArchiveBossCreateUser.module.css";
+import { toast } from "@/components/ui/overlay/Toaster";
+import { PhotoGangBangerApi } from "../../../utils/api/PhotoGangBangerApi";
+import { MemberPositionDto, PositionDto } from "@/../generated";
+import { PositionApi } from "../../../utils/api/PositionApi";
+import { TextInput } from "@/components/ui/input/TextInput";
+import { Select } from "@/components/ui/input/Select";
+import { Button } from "@/components/ui/input/Button";
+import type { PhotoGangBangerCreateRequest } from "@/utils/api/PhotoGangBangerApi";
+
+interface Props {
+  setCreateUser: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const initialUserState = {
+  semesterStart: { value: "" },
+  isActive: true,
+  isPang: false,
+  name: "",
+  username: "",
+  email: "",
+  phoneNumber: "",
+};
+
+const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const phoneNumberRegex = /^[49]\d{7}$/;
+
+function generateAvailableSemesters() {
+  const currentYear = new Date().getFullYear();
+  return [currentYear - 1, currentYear, currentYear + 1].flatMap((year) => [
+    `V${year}`,
+    `H${year}`,
+  ]);
+}
+
+const availableSemesters = generateAvailableSemesters();
+
+function ArchiveBossCreateUsers({ setCreateUser }: Props) {
+  const [user, setUser] = useState(initialUserState);
+  const [selectedPositionId, setSelectedPositionId] = useState<string>("");
+  const [isPhoneNumberValid, setIsPhoneNumberValid] = useState(false);
+  const [phoneNumberError, setPhoneNumberError] = useState("");
+  const [isEmailValid, setIsEmailValid] = useState(false);
+  const [emailError, setEmailError] = useState("");
+  const [positions, setPositions] = useState<PositionDto[]>([]);
+
+  useEffect(() => {
+    void PositionApi.getAll()
+      .then((res) => setPositions(res.data.currentList))
+      .catch((err) => console.log(err));
+  }, []);
+
+  useEffect(() => {
+    if (user.phoneNumber && phoneNumberRegex.test(user.phoneNumber)) {
+      setIsPhoneNumberValid(true);
+      setPhoneNumberError("");
+    } else {
+      setIsPhoneNumberValid(false);
+      setPhoneNumberError(user.phoneNumber ? "Ugyldig telefonnummer" : "");
+    }
+  }, [user.phoneNumber]);
+
+  useEffect(() => {
+    if (user.email && emailRegex.test(user.email)) {
+      setIsEmailValid(true);
+      setEmailError("");
+    } else {
+      setIsEmailValid(false);
+      setEmailError(user.email ? "Ugyldig e-postadresse" : "");
+    }
+  }, [user.email]);
+
+  const createUser = () => {
+    const selectedPosition = positions.find(
+      (p) => p.positionId?.id === selectedPositionId,
+    );
+    const memberPositions: MemberPositionDto[] = selectedPosition
+      ? [
+          {
+            positionId: selectedPosition.positionId,
+            title: selectedPosition.title ?? "",
+            email: selectedPosition.email,
+            semesterStart: user.semesterStart,
+            isActive: user.isActive,
+          },
+        ]
+      : [];
+    const dto: PhotoGangBangerCreateRequest = {
+      ...user,
+      positions: memberPositions,
+    };
+    void PhotoGangBangerApi.post(dto)
+      .then(() => {
+        setUser(initialUserState);
+        setSelectedPositionId("");
+        toast.success("Bruker ble opprettet");
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error("Det oppsto en feil, bruker ble ikke opprettet");
+      });
+  };
+
+  const handleCreateUserClick = () => {
+    if (isPhoneNumberValid && isEmailValid) {
+      createUser();
+    } else {
+      let errorMessage = "Kan ikke opprette bruker: ";
+      if (!isPhoneNumberValid) errorMessage += "Telefonnummer er ugyldig. ";
+      if (!isEmailValid) errorMessage += "E-postadressen er ugyldig.";
+      toast.error(errorMessage);
+    }
+  };
+
+  return (
+    <div className={styles.popup}>
+      <div className={styles.container}>
+        <TextInput
+          label="Brukernavn"
+          required
+          value={user.username}
+          onChange={(e) => setUser({ ...user, username: e.target.value })}
+        />
+        <TextInput
+          label="Navn"
+          required
+          value={user.name}
+          onChange={(e) => setUser({ ...user, name: e.target.value })}
+        />
+        <TextInput
+          label="Telefonnummer"
+          required
+          value={user.phoneNumber}
+          error={
+            user.phoneNumber !== "" && !isPhoneNumberValid
+              ? phoneNumberError
+              : undefined
+          }
+          onChange={(e) => setUser({ ...user, phoneNumber: e.target.value })}
+        />
+        <TextInput
+          label="Email"
+          required
+          value={user.email}
+          error={user.email !== "" && !isEmailValid ? emailError : undefined}
+          onChange={(e) => setUser({ ...user, email: e.target.value })}
+        />
+        <Select
+          label="Startsemester"
+          value={user.semesterStart.value}
+          onValueChange={(value) =>
+            setUser({ ...user, semesterStart: { value } })
+          }
+          options={availableSemesters.map((s) => ({ label: s, value: s }))}
+        />
+        <Select
+          label="Verv"
+          value={positions.length > 0 ? selectedPositionId : ""}
+          onValueChange={setSelectedPositionId}
+          options={positions.map((p) => ({
+            label: p.title ?? "",
+            value: p.positionId?.id ?? "",
+          }))}
+        />
+
+        <div className={styles.nav_buttons}>
+          <Button onClick={handleCreateUserClick} type="button">
+            Lag bruker
+          </Button>
+          <Button variant="neutral" onClick={() => setCreateUser(false)}>
+            Tilbake
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default ArchiveBossCreateUsers;

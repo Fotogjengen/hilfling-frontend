@@ -6,14 +6,6 @@
   gap: var(--size-space-100);
 }
 
-.loggContainer > * {
-  cursor: pointer;
-}
-
-.loggContainer > *:hover {
-  transform: scale(1.05);
-}
-
 .navLink {
   font-size: var(--typography-body-size-large);
 }
@@ -57,4 +49,23 @@
   margin: 0.5rem auto;
   height: 1px;
   background-color: var(--color-border-default-default);
+}
+
+.mobileText {
+  display: none;
+}
+
+@media (max-width: 450px) {
+  .nav {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .mobileText {
+    display: block;
+  }
+
+  .desktopText {
+    display: none;
+  }
 }

@@ -1,0 +1,15 @@
+.cardWrapper {
+  border-radius: var(--size-radius-100);
+  border-color: var(--color-border-default-default);
+  border-width: var(--size-stroke-border);
+  border-style: solid;
+  padding-left: var(--size-space-400);
+  padding-right: var(--size-space-400);
+  padding-top: var(--size-space-200);
+  padding-bottom: var(--size-space-200);
+}
+
+.cardWrapper.active {
+  border-color: var(--color-border-brand-tertiary);
+  background-color: var(--color-background-brand-tertiary);
+}

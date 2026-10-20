@@ -1,5 +1,4 @@
-// src/views/Fg/NewProjects/components/Wheel.tsx
-import React, { useRef, useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import blitzIcon from "../icons/blitz.png";
 import blitzSfx from "./sound.mp3";
 
@@ -11,7 +10,7 @@ const CHALLENGES_URL = new URL("./challenges.txt", import.meta.url).href;
 
 const Wheel: React.FC<Props> = ({ participants }) => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null); // <-- ref til lyd
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const [rotation, setRotation] = useState(0);
   const [spinning, setSpinning] = useState(false);
@@ -21,7 +20,6 @@ const Wheel: React.FC<Props> = ({ participants }) => {
   const [showOverlay, setShowOverlay] = useState(false);
   const [showBlitz, setShowBlitz] = useState(false);
 
-  // Last challenges.txt
   useEffect(() => {
     fetch(CHALLENGES_URL)
       .then((r) => {
@@ -41,26 +39,31 @@ const Wheel: React.FC<Props> = ({ participants }) => {
 
   const n = Math.max(1, participants.length);
 
-  // Tegn hjulet
+  const capitalize = (s?: string) =>
+    (s ?? "").replace(/^\s*(.)/, (_, c: string) => c.toUpperCase());
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const W = canvas.width,
-      H = canvas.height;
+    const W = canvas.width;
+    const H = canvas.height;
     const r = Math.min(W, H) / 2;
 
     ctx.clearRect(0, 0, W, H);
     ctx.save();
     ctx.translate(W / 2, H / 2);
     ctx.rotate((rotation * Math.PI) / 180);
+
     const slice = (2 * Math.PI) / n;
 
     for (let i = 0; i < n; i++) {
-      const a0 = i * slice,
-        a1 = (i + 1) * slice;
+      const a0 = i * slice;
+      const a1 = (i + 1) * slice;
+
       ctx.beginPath();
       ctx.moveTo(0, 0);
       ctx.arc(0, 0, r, a0, a1);
@@ -70,41 +73,33 @@ const Wheel: React.FC<Props> = ({ participants }) => {
 
       ctx.save();
       ctx.rotate(a0 + slice / 2);
-      ctx.fillStyle = "#ffffffff";
-      ctx.font = " 23px Inter";
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "23px Inter";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
+
       const label = participants[i] ? capitalize(participants[i]) : "";
       ctx.fillText(label, r * 0.55, 0);
       ctx.restore();
     }
+
     ctx.restore();
   }, [participants, rotation, n]);
 
-  const capitalize = (s?: string) =>
-    (s ?? "").replace(/^\s*(.)/, (_, c: string) => c.toUpperCase());
-
-  // Spill av lyd når blitzen vises
   useEffect(() => {
     if (showBlitz && audioRef.current) {
-      // restart og spill
       audioRef.current.currentTime = 0;
-      // Kan feile i noen nettlesere hvis ingen bruker-handling har skjedd
-      audioRef.current.play().catch(() => {
-        /* ignorer */
-      });
+      audioRef.current.play().catch(() => {});
     }
   }, [showBlitz]);
 
-  // Spin
   const spin = () => {
-    if (spinning || participants.length === 0) return; // fjernet showOverlay
+    if (spinning || participants.length === 0) return;
 
-    // Rydd før ny spinn
     setShowOverlay(false);
     setShowBlitz(false);
+
     if (audioRef.current) {
-      // stopp lyden hvis den spiller
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
     }
@@ -128,14 +123,14 @@ const Wheel: React.FC<Props> = ({ participants }) => {
     const tick = (now: number) => {
       const t = Math.min(1, (now - start) / duration);
       const eased = easeOutCubic(t);
+
       setRotation(current + targetDeg * eased);
 
       if (t < 1) {
         requestAnimationFrame(tick);
       } else {
         setSpinning(false);
-        const w = participants[chosenIdx];
-        setWinner(w);
+        setWinner(participants[chosenIdx]);
 
         if (challenges.length > 0) {
           const idx = Math.floor(Math.random() * challenges.length);
@@ -143,6 +138,7 @@ const Wheel: React.FC<Props> = ({ participants }) => {
         } else {
           setChallenge("Ingen challenges tilgjengelig.");
         }
+
         setShowOverlay(true);
         setShowBlitz(true);
       }
@@ -153,7 +149,6 @@ const Wheel: React.FC<Props> = ({ participants }) => {
 
   return (
     <div style={{ textAlign: "center", width: CANVAS_SIZE, margin: "0 auto" }}>
-      {/* skjult lyd-element */}
       <audio ref={audioRef} src={blitzSfx} preload="auto" />
 
       <div
@@ -198,20 +193,30 @@ const Wheel: React.FC<Props> = ({ participants }) => {
               alignItems: "center",
               justifyContent: "center",
               zIndex: 3,
+              color: "#000000",
             }}
           >
-            <div>
+            <div style={{ color: "#000000" }}>
               <div
                 style={{
                   fontWeight: 1000,
                   marginBottom: 8,
                   fontFamily: "Inter",
                   textTransform: "uppercase",
+                  color: "#000000",
                 }}
               >
                 {winner ? capitalize(winner) : ""}
               </div>
-              <div style={{ width: 200, fontWeight: 100, fontFamily: "Inter" }}>
+
+              <div
+                style={{
+                  width: 200,
+                  fontWeight: 100,
+                  fontFamily: "Inter",
+                  color: "#000000",
+                }}
+              >
                 {challenge}
               </div>
             </div>
@@ -232,7 +237,7 @@ const Wheel: React.FC<Props> = ({ participants }) => {
           onClick={spin}
           disabled={spinning || participants.length === 0}
           style={{
-            backgroundColor: "#1e293b", // mørk blågrå
+            backgroundColor: "#1e293b",
             color: "white",
             fontFamily: "Inter",
             fontWeight: 400,

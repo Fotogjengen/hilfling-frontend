@@ -7,10 +7,12 @@ import {
   useRef,
   useState,
 } from "react";
+import * as Sentry from "@sentry/react";
 import { AxiosError } from "axios";
 import { useQueryClient } from "@tanstack/react-query";
 import { router } from "../router";
 import { AuthUser } from "../types";
+import { clearBasicAuthCredentials } from "@/utils/auth/basicAuth";
 import { clearToken, getToken, setToken } from "@/utils/auth/authToken";
 import { api } from "@/utils/api/api";
 import { AuthApi } from "@/utils/api/AuthApi";
@@ -36,14 +38,24 @@ const AuthenticationContext =
 export const useAuth = () => useContext(AuthenticationContext);
 
 /**
- * Hook for logging in: authenticates against the backend, then stores the
- * resulting token in auth state.
+ * Hook for internal login
  */
 export function useLogin() {
   const { login } = useAuth();
 
+  return async function (): Promise<void> {
+    const { token } = await AuthApi.login();
+    login(token);
+    // clear credentials after login
+    clearBasicAuthCredentials();
+  };
+}
+
+export function useExternalLogin() {
+  const { login } = useAuth();
+
   return async function (username: string, password: string): Promise<void> {
-    const { token } = await AuthApi.login(username, password);
+    const { token } = await AuthApi.loginExternal(username, password);
     login(token);
   };
 }
@@ -62,8 +74,13 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     (token: string) => {
       isLoggingOut.current = false;
       setToken(token);
-      setUser(decodeToken(token));
+      const decodedUser = decodeToken(token);
+      setUser(decodedUser);
       setIsAuthenticated(true);
+      Sentry.setUser({
+        id: decodedUser.sub,
+        username: decodedUser.username,
+      });
       void queryClient.invalidateQueries();
     },
     [queryClient],
@@ -73,6 +90,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     clearToken();
     setUser(null);
     setIsAuthenticated(false);
+    Sentry.setUser(null);
     void queryClient.invalidateQueries();
   }, [queryClient]);
 
@@ -81,8 +99,13 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     if (token) {
       try {
-        setUser(decodeToken(token));
+        const decodedUser = decodeToken(token);
+        setUser(decodedUser);
         setIsAuthenticated(true);
+        Sentry.setUser({
+          id: decodedUser.sub,
+          username: decodedUser.username,
+        });
       } catch {
         // token is somehow malformed, we are unauthenticated
       }

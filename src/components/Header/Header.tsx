@@ -13,11 +13,13 @@ import {
   NavigationMenuTrigger,
   NavigationSubMenuLink,
 } from "../ui/navigation/NavigationMenu";
-import { Archive, LayoutPanelLeft, LinkIcon, Star } from "lucide-react";
+import { Archive, LayoutPanelLeft, LinkIcon, Star, Users } from "lucide-react";
+import { ProfileViewer } from "./Profile/ProfileViewer";
 
 export default function HeaderComponent() {
   const { isAuthenticated, user } = useAuth();
-  const isFg = isAuthenticated && user?.securityLevel === "FG";
+  const isFg =
+    isAuthenticated && user?.securityLevel === "FG" && !user.isExternalUser;
   const { pathname } = useLocation();
   const isInfoActive = pathname.startsWith("/about");
   const isInternActive = pathname.startsWith("/fg");
@@ -31,12 +33,13 @@ export default function HeaderComponent() {
       </div>
 
       <div className={styles.navContainer}>
-        <NavigationMenu viewport={false}>
+        <NavigationMenu viewport={false} delayDuration={0}>
           <NavigationMenuList>
             <NavigationMenuItem>
               <NavigationMenuLink asChild>
                 <Link to="/search" activeOptions={{ includeSearch: false }}>
-                  Søk i bilder
+                  <p className={styles.desktopText}>Søk i bilder</p>
+                  <p className={styles.mobileText}>Søk</p>
                 </Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
@@ -78,6 +81,13 @@ export default function HeaderComponent() {
                     link={{ to: "/fg/upload" }}
                   >
                     Fotoarkivet
+                  </NavigationSubMenuLink>
+                  <NavigationSubMenuLink
+                    subtext="Alle aktive og panger"
+                    icon={<Users />}
+                    link={{ to: "/fg/gang_bangers" }}
+                  >
+                    Fotogjengere
                   </NavigationSubMenuLink>
                   <NavigationSubMenuLink
                     icon={<Star />}
@@ -124,7 +134,7 @@ export default function HeaderComponent() {
 
       <div className={styles.loggContainer}>
         <ThemeToggle />
-        <LoginButton />
+        {!isAuthenticated ? <LoginButton /> : <ProfileViewer />}
       </div>
     </nav>
   );

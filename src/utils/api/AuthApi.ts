@@ -1,21 +1,26 @@
 import { api } from "./api";
-import { AuthToken } from "@/interfaces/AuthToken";
+
+interface AuthToken {
+  token: string;
+}
 
 export const AuthApi = {
   /**
-   * Logs a user in by fetching the session token from the backend
+   * Logs a intern user in
    */
-  login: async function (
+  login: async function (): Promise<AuthToken> {
+    const response = await api.post<AuthToken>("/auth/login", {});
+
+    return response.data;
+  },
+  loginExternal: async function (
     username: string,
     password: string,
   ): Promise<AuthToken> {
-    const basicAuth = "Basic " + btoa(`${username}:${password}`);
-
-    const response = await api.post<AuthToken>(
-      "/auth/login",
-      {},
-      { headers: { Authorization: basicAuth } },
-    );
+    const response = await api.post<AuthToken>("/auth/external-login", {
+      username,
+      password,
+    });
 
     return response.data;
   },

@@ -101,10 +101,7 @@ function MotivePhotoGroup({ motive }: MotivePhotoGroupProps) {
   const navigate = useNavigate({ from: "/search" });
 
   // deffer photos so that we dont immediatly paint 200 imgs when loading the page
-  const deferredPhotos = useDeferredValue(
-    photos ?? [],
-    [] as NonNullable<typeof photos>,
-  );
+  const deferredPhotos = useDeferredValue(photos ?? []);
 
   const openPhoto = (photoId: string) => {
     void navigate({

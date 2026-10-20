@@ -40,3 +40,24 @@
   width: var(--size-icon-extra-small);
   height: var(--size-icon-extra-small);
 }
+
+@media (max-width: 770px) {
+  .md {
+    gap: 6px;
+    padding: 8px 10px;
+    border-radius: 10px;
+  }
+
+  .motiveTitle {
+    font-size: 12px;
+  }
+
+  .motiveDate {
+    font-size: 10px;
+  }
+
+  .chevron {
+    width: 12px;
+    height: 12px;
+  }
+}
