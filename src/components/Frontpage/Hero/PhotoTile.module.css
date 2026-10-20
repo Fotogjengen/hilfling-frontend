@@ -11,17 +11,17 @@
   flex: none;
   cursor: pointer;
 
-  &:hover>.photoContainer>.photo {
+  &:hover .photoContainer .photo {
     height: 100%;
   }
 
-  &>.photoContainer {
+  .photoContainer {
     height: var(--photo-height);
     display: flex;
     flex-direction: column;
     justify-content: end;
 
-    &>.photo {
+    .photo {
       height: 90%;
       display: block;
       object-fit: cover;
@@ -37,7 +37,7 @@
     }
   }
 
-  &>.label {
+  .label {
     font-size: var(--label-font-size);
   }
 }
