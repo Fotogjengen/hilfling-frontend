@@ -3,7 +3,7 @@ import { RefObject, useEffect } from "react";
 const easingFunc = (t: number) => t * (1.5 - 0.5 * t);
 
 /**
- * Starter og stopper looping-animasjonen
+ * Starter og stopper scroll-animasjonen
  * til marquee-en smoothly på hover
  */
 export default function useMarqueeHover(

@@ -1,5 +1,8 @@
 import { useLayoutEffect, type RefObject } from "react";
 
+/**
+ * Setter lengden på scroll-animasjonen som en funksjon av hastighet
+ */
 export default function useMarqueeDuration(
   trackRef: RefObject<HTMLDivElement | null>,
   speedPxPerSecond: number,
