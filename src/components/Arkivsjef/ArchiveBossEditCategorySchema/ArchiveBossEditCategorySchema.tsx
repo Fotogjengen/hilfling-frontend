@@ -17,7 +17,7 @@ function ArchiveBossEditCategorySchema({ category, onClose }: Props) {
     defaultValues: {
       name: category.name,
     },
-    onSubmit: async ({ value }) => {
+    onSubmit: ({ value }) => {
       console.log(value);
 
       const patch_object: CategoryPatchRequestDto = {
@@ -51,7 +51,7 @@ function ArchiveBossEditCategorySchema({ category, onClose }: Props) {
         onSubmit={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          form.handleSubmit();
+          void form.handleSubmit();
         }}
       >
         <div className={styles.list_item}>

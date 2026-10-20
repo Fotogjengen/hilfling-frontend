@@ -19,7 +19,7 @@ function ArchiveBossAlbumSchema({ album, onClose }: Props) {
       description: album.description,
       isAnalog: album.analog,
     },
-    onSubmit: async ({ value }) => {
+    onSubmit: ({ value }) => {
       console.log(value);
 
       const patch_object: AlbumPatchRequestDto = {
@@ -56,7 +56,7 @@ function ArchiveBossAlbumSchema({ album, onClose }: Props) {
         onSubmit={(e) => {
           e.preventDefault();
           e.stopPropagation();
-          form.handleSubmit();
+          void form.handleSubmit();
         }}
       >
         <div className={styles.list_item}>
