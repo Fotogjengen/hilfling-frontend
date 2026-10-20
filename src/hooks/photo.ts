@@ -12,11 +12,11 @@ import { AxiosProgressEvent } from "axios";
 import { PhotoDto, PhotoGoodPictureToggleRequestDto } from "../../generated";
 import { PaginatedResultData } from "../utils/api/types";
 
-export const usePhotosByMotiveId = (motiveId: string) => {
+export const usePhotosByMotiveId = (motiveId: string, enabled = true) => {
   return useQuery({
     queryKey: ["photos", "motive", motiveId],
     queryFn: () => PhotoApi.getAllByMotiveId(motiveId),
-    enabled: !!motiveId,
+    enabled: !!motiveId && enabled,
   });
 };
 

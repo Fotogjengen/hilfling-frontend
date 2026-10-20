@@ -1,9 +1,9 @@
 import { format } from "date-fns";
 import { nb } from "date-fns/locale";
-import { useGoodPhotosByMotiveId } from "@/hooks/photo";
+import { useGoodPhotosByMotiveId, usePhotosByMotiveId } from "@/hooks/photo";
 import styles from "./EventCard.module.css";
 import { MotiveDto, PhotoDto } from "../../../../generated";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { ImageOff } from "lucide-react";
 import { useRouter } from "@tanstack/react-router";
 
@@ -14,11 +14,51 @@ type EventCardProps = {
 
 const MAX_PHOTOS = 4;
 
-type Orientation = "Standing" | "Laying" | "Full";
+type Shape = "Standing" | "Laying";
+type Orientation = Shape | "Full";
+type Measurement = Shape | "Failed";
+type Placement = { photo: PhotoDto; orientation?: Orientation };
 
-function pickPhotos(photos: PhotoDto[]) {
-  const shuffled = [...photos].sort(() => Math.random() - 0.5);
-  return shuffled.slice(0, MAX_PHOTOS);
+function pickPhotos(photos: PhotoDto[], limit: number) {
+  const shuffled = photos
+    .filter((photo) => photo.imageWeb)
+    .sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, limit);
+}
+
+function arrange(measured: { photo: PhotoDto; shape: Shape }[]): Placement[] {
+  const photos = measured.map((m) => m.photo);
+  const standing = measured
+    .filter((m) => m.shape === "Standing")
+    .map((m) => m.photo);
+  const laying = measured
+    .filter((m) => m.shape === "Laying")
+    .map((m) => m.photo);
+  const place = (list: PhotoDto[], orientation: Orientation) =>
+    list.map((photo) => ({ photo, orientation }));
+
+  if (photos.length === 0) return [];
+
+  if (photos.length === 1) return place(photos, "Full");
+
+  if (photos.length === 2) return place(photos, "Standing");
+
+  if (standing.length >= 3 || (standing.length === 2 && laying.length === 1)) {
+    return place(standing.slice(0, 2), "Standing");
+  }
+
+  if (laying.length === 4) return place(laying, "Laying");
+
+  const tall = standing[0] ?? laying[0];
+  const wide = place(
+    laying.filter((photo) => photo !== tall).slice(0, 2),
+    "Laying",
+  );
+  const [tallPlacement] = place([tall], "Standing");
+
+  return Math.random() < 0.5
+    ? [tallPlacement, ...wide]
+    : [wide[0], tallPlacement, wide[1]];
 }
 
 export default function EventCard({ motive, size = "large" }: EventCardProps) {
@@ -28,125 +68,43 @@ export default function EventCard({ motive, size = "large" }: EventCardProps) {
     isError,
   } = useGoodPhotosByMotiveId(motive.motiveId.id);
 
-  const photos = useMemo(() => pickPhotos(goodPictures ?? []), [goodPictures]);
+  const hasNoGoodPictures = goodPictures?.length === 0;
+  const { data: allPictures, isLoading: isFallbackLoading } =
+    usePhotosByMotiveId(motive.motiveId.id, hasNoGoodPictures);
+
+  const photos = useMemo(
+    () =>
+      hasNoGoodPictures
+        ? pickPhotos(allPictures ?? [], 1)
+        : pickPhotos(goodPictures ?? [], MAX_PHOTOS),
+    [hasNoGoodPictures, allPictures, goodPictures],
+  );
   const { navigate } = useRouter();
 
-  const [orientations, setOrientations] = useState<Record<string, Orientation>>(
+  const [measurements, setMeasurements] = useState<Record<string, Measurement>>(
     {},
   );
 
-  const sortedPhotos = useMemo(() => {
-    const order = Object.keys(orientations);
-    if (order.length === 0) return photos;
-    // render photos in the order their ids were inserted into `orientations`;
-    // hidden photos (not in the map) go last.
-    const rank = (id: string) => {
-      const idx = order.indexOf(id);
-      return idx === -1 ? Infinity : idx;
-    };
-    return [...photos].sort((a, b) => rank(a.photoId.id) - rank(b.photoId.id));
-  }, [photos, orientations]);
-
-  const handleLoad = (
-    e: React.SyntheticEvent<HTMLImageElement, Event>,
-    id: string,
-  ) => {
-    const orientation: Orientation =
-      e.currentTarget.naturalWidth > e.currentTarget.naturalHeight
-        ? "Laying"
-        : "Standing";
-
-    setLoadedImages((prev) => {
-      if (prev.some((p) => p.id === id)) return prev;
-      return [...prev, { orientation, id }];
-    });
+  const record = (id: string, measurement: Measurement) => {
+    setMeasurements((prev) =>
+      id in prev ? prev : { ...prev, [id]: measurement },
+    );
   };
 
-  const [loadedImages, setLoadedImages] = useState<
-    {
-      orientation: Orientation;
-      id: string;
-    }[]
-  >([]);
+  const settled = photos.every((photo) => photo.photoId.id in measurements);
 
-  const [unsupportedLayout, setUnsupportedLayout] = useState(false);
+  const placements = useMemo<Placement[]>(() => {
+    if (!settled) return photos.map((photo) => ({ photo }));
 
-  useEffect(() => {
-    if (photos.length === 0) return;
-    if (loadedImages.length < Math.min(MAX_PHOTOS, photos.length)) return;
+    return arrange(
+      photos.flatMap((photo) => {
+        const shape = measurements[photo.photoId.id];
+        return shape === "Failed" ? [] : [{ photo, shape }];
+      }),
+    );
+  }, [photos, measurements, settled]);
 
-    const standing = loadedImages.filter((i) => i.orientation === "Standing");
-    const laying = loadedImages.filter((i) => i.orientation === "Laying");
-
-    if (loadedImages.length === 1) {
-      // one picture, pretend its laying (full)
-      setOrientations({ [loadedImages[0].id]: "Full" });
-      return;
-    }
-
-    if (loadedImages.length === 2) {
-      // Two pictures, pretend both of them are standing
-      setOrientations({
-        [loadedImages[0].id]: "Standing",
-        [loadedImages[1].id]: "Standing",
-      });
-      return;
-    }
-
-    if (standing.length > 2) {
-      // Two standing pictures next to each other (3x4)
-      setOrientations({
-        [standing[0].id]: "Standing",
-        [standing[1].id]: "Standing",
-      });
-      return;
-    }
-
-    if (standing.length === 2 && laying.length === 1) {
-      // Two standing pictures next to each other (3x4)
-      setOrientations({
-        [standing[0].id]: "Standing",
-        [standing[1].id]: "Standing",
-      });
-      return;
-    }
-
-    if (
-      (standing.length === 2 && laying.length === 2) ||
-      (standing.length === 1 && laying.length >= 2)
-    ) {
-      // One standing picture, two laying
-      setOrientations(
-        Math.random() < 0.5
-          ? {
-              [standing[0].id]: "Standing",
-              [laying[0].id]: "Laying",
-              [laying[1].id]: "Laying",
-            }
-          : {
-              [laying[0].id]: "Laying",
-              [standing[0].id]: "Standing",
-              [laying[1].id]: "Laying",
-            },
-      );
-      return;
-    }
-
-    if (laying.length === 4) {
-      setOrientations({
-        [laying[0].id]: "Laying",
-        [laying[1].id]: "Laying",
-        [laying[2].id]: "Laying",
-        [laying[3].id]: "Laying",
-      });
-
-      return;
-    }
-
-    setUnsupportedLayout(true);
-  }, [loadedImages, photos]);
-
-  if (isPending) {
+  if (isPending || isFallbackLoading) {
     return <EventCardSkeleton size={size} />;
   }
 
@@ -167,22 +125,30 @@ export default function EventCard({ motive, size = "large" }: EventCardProps) {
       }
     >
       <div className={styles.photoGridWrapper}>
-        {(unsupportedLayout || photos.length === 0) && (
+        {settled && placements.length === 0 && (
           <div className={styles.photoPlaceholder}>
             <ImageOff className={styles.placeholderIcon} />
           </div>
         )}
         <div className={`${styles.photoGrid}`}>
-          {sortedPhotos.map((photo) => (
+          {placements.map(({ photo, orientation }) => (
             <div
               key={photo.photoId.id}
-              className={`${styles.photo} ${orientations[photo.photoId.id] ? styles[orientations[photo.photoId.id]] : styles.hidePhoto}`}
+              className={`${styles.photo} ${orientation ? styles[orientation] : styles.hidePhoto}`}
             >
               <img
                 src={photo.imageWeb}
                 alt={`Bilde fra ${motive.title}`}
                 onLoad={(e) => {
-                  handleLoad(e, photo.photoId.id);
+                  record(
+                    photo.photoId.id,
+                    e.currentTarget.naturalWidth > e.currentTarget.naturalHeight
+                      ? "Laying"
+                      : "Standing",
+                  );
+                }}
+                onError={() => {
+                  record(photo.photoId.id, "Failed");
                 }}
               />
             </div>
