@@ -12,6 +12,7 @@ import { Spinner } from "@/components/Icons/Spinner";
 import { PhotoApi } from "@/utils/api/PhotoApi";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "@/components/ui/overlay/Toaster";
+import { Tooltip } from "@/components/ui/overlay/Tooltip";
 import { useMedias } from "@/hooks/media";
 
 type UploadStatus = "idle" | "uploading" | "error";
@@ -287,18 +288,27 @@ export default function PhotoUploadModal({ motive }: PhotoUploadModalProps) {
         >
           <div className={styles.controlBarRow}>
             <div className={styles.controlBarLeft}>
-              <Button
-                size="sm"
-                variant="primary"
-                disabled={disabled}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleUploadAll();
-                }}
+              <Tooltip
+                content={"Velg et arrangement for å laste opp bilder."}
+                disabled={!disabled}
               >
-                {isAnyUploading ? <Spinner size={15} /> : <Upload size={15} />}
-                Last opp
-              </Button>
+                <Button
+                  size="sm"
+                  variant="primary"
+                  disabled={disabled}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleUploadAll();
+                  }}
+                >
+                  {isAnyUploading ? (
+                    <Spinner size={15} />
+                  ) : (
+                    <Upload size={15} />
+                  )}
+                  Last opp
+                </Button>
+              </Tooltip>
               <Button
                 variant="subtle"
                 onClick={(e) => {
@@ -447,15 +457,20 @@ function FileRow({
             className={selectedFile.isStarred ? styles.starFilled : undefined}
           />
         </IconButton>
-        <IconButton
-          aria-label="Last opp dette bildet"
-          variant="neutral"
-          size="md"
-          disabled={uploadDisabled || isUploading}
-          onClick={onUpload}
+        <Tooltip
+          content={"Velg et arrangement for å laste opp bilder."}
+          disabled={!uploadDisabled}
         >
-          {isUploading ? <Spinner size={16} /> : <Upload size={16} />}
-        </IconButton>
+          <IconButton
+            aria-label="Last opp dette bildet"
+            variant="neutral"
+            size="md"
+            disabled={uploadDisabled || isUploading}
+            onClick={onUpload}
+          >
+            {isUploading ? <Spinner size={16} /> : <Upload size={16} />}
+          </IconButton>
+        </Tooltip>
         <IconButton
           aria-label="Fjern"
           variant="subtle"
@@ -467,7 +482,10 @@ function FileRow({
         </IconButton>
       </div>
       {isUploading && (
-        <Progress value={selectedFile.progress} className={styles.fileProgress} />
+        <Progress
+          value={selectedFile.progress}
+          className={styles.fileProgress}
+        />
       )}
     </div>
   );

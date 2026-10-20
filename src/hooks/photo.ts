@@ -67,6 +67,7 @@ export const useDeletePhoto = (motiveId: string) => {
   return useMutation({
     mutationFn: (photoId: string) => PhotoApi.delete(photoId),
     onSuccess: () => {
+      toast.success("Bildet ble slettet");
       void queryClient.invalidateQueries({
         queryKey: ["photos", "motive", motiveId],
       });
@@ -79,6 +80,79 @@ export const useDeletePhoto = (motiveId: string) => {
   });
 };
 
+type BatchMessages = {
+  progress: string;
+  success: string;
+  failure: string;
+};
+
+async function runBatchWithToast(
+  tasks: (() => Promise<unknown>)[],
+  messages: BatchMessages,
+) {
+  const total = tasks.length;
+  const progressOptions = (done: number) => ({
+    description: `${done} av ${total}`,
+    value: (done / total) * 100,
+  });
+  const toastId = toast.progress(messages.progress, progressOptions(0));
+
+  let done = 0;
+  const results = await Promise.allSettled(
+    tasks.map(async (task) => {
+      try {
+        await task();
+      } finally {
+        done += 1;
+        toast.progress(messages.progress, {
+          id: toastId,
+          ...progressOptions(done),
+        });
+      }
+    }),
+  );
+
+  const failures = results.filter((result) => result.status === "rejected");
+  if (failures.length === 0) {
+    toast.success(messages.success, { id: toastId });
+    return;
+  }
+
+  const reason: unknown = failures[0].reason;
+  const failedCount = `${failures.length} av ${total} mislyktes`;
+  toast.error(messages.failure, {
+    id: toastId,
+    description: `${failedCount}. Feilkode: ${reason instanceof Error ? reason.message : "Unknown error"}`,
+  });
+  throw reason;
+}
+
+function countMessage(count: number, one: string, many: string) {
+  return count === 1 ? one : `${count} ${many}`;
+}
+
+export function pluralizePhotos(count: number) {
+  return `${count} ${count === 1 ? "bilde" : "bilder"}`;
+}
+
+export function describePhotoChanges(
+  changedCount: number,
+  deletedCount: number,
+  verbs: { changed: string; deleted: string },
+) {
+  const parts: string[] = [];
+  if (changedCount > 0) {
+    parts.push(`${verbs.changed} ${pluralizePhotos(changedCount)}`);
+  }
+  if (deletedCount > 0) {
+    const object =
+      parts.length > 0 ? String(deletedCount) : pluralizePhotos(deletedCount);
+    parts.push(`${verbs.deleted} ${object}`);
+  }
+  const text = parts.join(", ");
+  return text.charAt(0).toUpperCase() + text.slice(1);
+}
+
 type SavePhotoChangesRequest = {
   photoPatches: { photoId: string; patch: PhotoPatchRequestDto }[];
   deletedPhotoIds: string[];
@@ -88,26 +162,28 @@ export const useSavePhotoChanges = (motiveId: string) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ photoPatches, deletedPhotoIds }: SavePhotoChangesRequest) =>
-      Promise.all([
-        ...photoPatches.map(({ photoId, patch }) =>
-          PhotoApi.patch(photoId, patch),
-        ),
-        ...deletedPhotoIds.map((photoId) => PhotoApi.delete(photoId)),
-      ]),
-    onSuccess: (_, { photoPatches, deletedPhotoIds }) => {
-      const count = photoPatches.length + deletedPhotoIds.length;
-      toast.success(
-        count === 1 ? "Ett bilde ble endret" : `${count} bilder ble endret`,
-      );
-    },
+      runBatchWithToast(
+        [
+          ...photoPatches.map(
+            ({ photoId, patch }) =>
+              () =>
+                PhotoApi.patch(photoId, patch),
+          ),
+          ...deletedPhotoIds.map((photoId) => () => PhotoApi.delete(photoId)),
+        ],
+        {
+          progress: `${describePhotoChanges(photoPatches.length, deletedPhotoIds.length, { changed: "endrer", deleted: "sletter" })}…`,
+          success: describePhotoChanges(
+            photoPatches.length,
+            deletedPhotoIds.length,
+            { changed: "endret", deleted: "slettet" },
+          ),
+          failure: "Kunne ikke lagre alle endringene.",
+        },
+      ),
     onSettled: () => {
       void queryClient.invalidateQueries({
         queryKey: ["photos", "motive", motiveId],
-      });
-    },
-    onError: (error) => {
-      toast.error("Kunne ikke lagre alle endringene.", {
-        description: `Feilkode: ${error instanceof Error ? error.message : "Unknown error"}`,
       });
     },
   });
@@ -122,8 +198,17 @@ export const useMovePhotos = (motiveId: string) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: ({ photoIds, targetMotiveId }: MovePhotosRequest) =>
-      Promise.all(
-        photoIds.map((photoId) => PhotoApi.move(photoId, targetMotiveId)),
+      runBatchWithToast(
+        photoIds.map((photoId) => () => PhotoApi.move(photoId, targetMotiveId)),
+        {
+          progress: "Flytter bilder…",
+          success: countMessage(
+            photoIds.length,
+            "Ett bilde ble flyttet",
+            "bilder ble flyttet",
+          ),
+          failure: "Kunne ikke flytte alle bildene.",
+        },
       ),
     onSettled: (_, __, variables) => {
       void queryClient.invalidateQueries({
@@ -131,11 +216,6 @@ export const useMovePhotos = (motiveId: string) => {
       });
       void queryClient.invalidateQueries({
         queryKey: ["photos", "motive", variables.targetMotiveId],
-      });
-    },
-    onError: (error) => {
-      toast.error("Kunne ikke flytte alle bildene.", {
-        description: `Feilkode: ${error instanceof Error ? error.message : "Unknown error"}`,
       });
     },
   });

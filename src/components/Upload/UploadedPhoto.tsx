@@ -3,6 +3,7 @@ import { Star, Trash2 } from "lucide-react";
 import { PhotoDto } from "../../../generated";
 import styles from "./UploadedPhoto.module.css";
 import { IconButton } from "../ui/input/IconButton";
+import { confirmDialog } from "../ui/overlay/ConfirmDialog";
 import { useDeletePhoto, useUpdateGoodPicture } from "@/hooks/photo";
 
 type UploadedPhotoProps = {
@@ -74,7 +75,13 @@ export function UploadedPhoto({ photo, motiveId, onOpen }: UploadedPhotoProps) {
           aria-label="Slett bilde"
           variant="subtle-danger"
           size="sm"
-          onClick={() => deletePhoto(photo.photoId.id)}
+          onClick={() =>
+            confirmDialog.error("Slett bilde?", {
+              description: "Bildet slettes permanent. Dette kan ikke angres.",
+              confirmLabel: "Slett",
+              onConfirm: () => deletePhoto(photo.photoId.id),
+            })
+          }
         >
           <Trash2 size={20} />
         </IconButton>

@@ -2,11 +2,17 @@ import { useState } from "react";
 import { ArrowRight, Check, Download, Pencil, Save } from "lucide-react";
 import { PhotoDto } from "../../../generated";
 import { Button } from "../ui/input/Button";
+import { confirmDialog } from "../ui/overlay/ConfirmDialog";
 import MotiveImagesTopbar, { ImageViewMode } from "./MotiveImagesTopbar";
 import MovePhotosDialog from "./MovePhotosDialog";
 import PhotoTableBanner from "./PhotoTableBanner";
 import { PhotoTableState } from "./usePhotoTableState";
-import { useMovePhotos, useSavePhotoChanges } from "@/hooks/photo";
+import {
+  describePhotoChanges,
+  pluralizePhotos,
+  useMovePhotos,
+  useSavePhotoChanges,
+} from "@/hooks/photo";
 import { usePhotoDownload } from "@/contexts/PhotoDownloadProvider";
 
 type MotiveImagesHeaderProps = {
@@ -17,10 +23,6 @@ type MotiveImagesHeaderProps = {
   onViewModeChange: (mode: ImageViewMode) => void;
   tableState: PhotoTableState;
 };
-
-function pluralizePhotos(count: number) {
-  return `${count} ${count === 1 ? "bilde" : "bilder"}`;
-}
 
 export default function MotiveImagesHeader({
   title,
@@ -51,23 +53,34 @@ export default function MotiveImagesHeader({
     (photo) => rowSelection[photo.photoId.id],
   );
 
+  const save = () =>
+    saveChanges({ photoPatches, deletedPhotoIds }, { onSuccess: exitMode });
+
   if (mode === "edit") {
     return (
       <PhotoTableBanner
-        message={`Endret ${pluralizePhotos(changedCount)}`}
+        message={
+          describePhotoChanges(photoPatches.length, deletedPhotoIds.length, {
+            changed: "endret",
+            deleted: "slettet",
+          }) || "Ingen endringer"
+        }
         onClose={exitMode}
       >
         <Button
           size="sm"
           disabled={changedCount === 0 || isSaving}
           onClick={() =>
-            saveChanges(
-              {
-                photoPatches,
-                deletedPhotoIds,
-              },
-              { onSuccess: exitMode },
-            )
+            deletedPhotoIds.length > 0
+              ? confirmDialog.error(
+                  `Slett ${pluralizePhotos(deletedPhotoIds.length)}?`,
+                  {
+                    description: `Du er i ferd med å slette ${pluralizePhotos(deletedPhotoIds.length)} permanent. Dette kan ikke angres.`,
+                    confirmLabel: "Slett og lagre",
+                    onConfirm: save,
+                  },
+                )
+              : save()
           }
         >
           <Save size={16} aria-hidden="true" />

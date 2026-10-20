@@ -1,0 +1,25 @@
+.title {
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-200);
+}
+
+.icon {
+  flex-shrink: 0;
+}
+
+.error {
+  color: var(--color-text-danger-default);
+}
+
+.warning {
+  color: var(--color-text-warning-default);
+}
+
+.info {
+  color: var(--color-text-default-default);
+}
+
+.description {
+  margin: 0;
+}
