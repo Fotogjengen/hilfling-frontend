@@ -1,46 +1,37 @@
 .tile {
-  --photo-height: 15rem;
-  --gap: 10px;
-  --label-font-size: 1rem;
   --height-transition-duration: 0.35s;
 
   display: flex;
   flex-direction: column;
   align-items: end;
-  gap: var(--gap);
+  gap: var(--tile-gap);
   flex: none;
   cursor: pointer;
 
-  &:hover .photoContainer .photo {
-    height: 100%;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  &:hover .photo {
+    height: calc(var(--tile-photo-height) * var(--tile-photo-hover-scale));
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
   }
 
-  .photoContainer {
-    height: var(--photo-height);
-    display: flex;
-    flex-direction: column;
-    justify-content: end;
+  .photo {
+    height: var(--tile-photo-height);
+    display: block;
+    object-fit: cover;
+    transition:
+      height var(--height-transition-duration) ease,
+      box-shadow 0.2s;
 
-    .photo {
-      height: 90%;
-      display: block;
-      object-fit: cover;
-      transition:
-        height var(--height-transition-duration) ease,
-        box-shadow 0.2s ease-out;
+    &.landscape {
+      aspect-ratio: 3 / 2;
+    }
 
-      &.landscape {
-        aspect-ratio: 3 / 2;
-      }
-
-      &.portrait {
-        aspect-ratio: 2 / 3;
-      }
+    &.portrait {
+      aspect-ratio: 2 / 3;
     }
   }
 
   .label {
-    font-size: var(--label-font-size);
+    font-size: var(--tile-label-font-size);
+    line-height: var(--tile-label-line-height);
   }
 }

@@ -5,15 +5,13 @@ type Props = {
   url: string;
   orientation: "landscape" | "portrait";
   label: string;
-}
+};
 
 export default function PhotoTile({ url, orientation, label }: Props) {
   return (
     <div className={style.tile}>
-      <div className={style.photoContainer}>
-        <img src={url} className={cx(style.photo, style[orientation])} />
-      </div>
+      <img src={url} className={cx(style.photo, style[orientation])} />
       <span className={style.label}>{label}</span>
-    </div >
-  )
+    </div>
+  );
 }
