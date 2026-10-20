@@ -4,6 +4,19 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  gap: 1.2rem;
   background-color: var(--color-brand-700);
+
+  .textContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: space-between;
+    align-items: center;
+
+    span {
+      max-width: 75%;
+      font-size: 0.9rem;
+    }
+  }
 }
