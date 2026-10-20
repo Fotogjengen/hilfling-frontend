@@ -10,8 +10,6 @@ export type KClassObject = {
   visibility?: KClassObject.visibility;
   isValue: boolean;
   sealedSubclasses: Array<KClassObject>;
-  visibility?: KClassObject.visibility;
-  isValue: boolean;
   isInner: boolean;
   isCompanion: boolean;
   isFun: boolean;

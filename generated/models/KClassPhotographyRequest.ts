@@ -12,8 +12,6 @@ export type KClassPhotographyRequest = {
   visibility?: KClassPhotographyRequest.visibility;
   isValue: boolean;
   sealedSubclasses: Array<KClassPhotographyRequest>;
-  visibility?: KClassPhotographyRequest.visibility;
-  isValue: boolean;
   isInner: boolean;
   isCompanion: boolean;
   isFun: boolean;

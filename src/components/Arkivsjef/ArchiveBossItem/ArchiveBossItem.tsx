@@ -38,7 +38,6 @@ function ArchiveBossItem({
   const categoryItem = category_object;
   const placeItem = place_object;
 
-
   // const setAsDefault = (value : AlbumDto) => {
   //       const patch_object: AlbumPatchRequestDto = {
   //       albumId: value.albumId,
