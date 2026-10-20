@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import styles from "./ArchiveBossEditAlbumSchema.module.css";
 import { AlbumPatchRequestDto, AlbumDto } from "../../../../generated";
 import { Button } from "../../ui/input/Button";
-import useAppForm from "@/utils/form/FormContext";
+import useAppForm from "@/contexts/FormContext";
 import { Dialog } from "@/components/ui/overlay/Dialog";
 import { useUpdateAlbum } from "@/hooks/album";
 
@@ -28,7 +28,7 @@ function ArchiveBossAlbumSchema({ album, onClose }: Props) {
         name: value.name,
         description: value.description,
         analog: value.isAnalog,
-        isDefault: album.isDefault,
+        // isDefault: album.isDefault,
       };
       patchAlbum.mutate(patch_object);
     },
