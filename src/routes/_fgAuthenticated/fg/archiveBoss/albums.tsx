@@ -12,8 +12,7 @@ import { ScrollArea } from "radix-ui";
 
 import { SearchField } from "@/components/ui/input/SearchField";
 import { Select } from "@/components/ui/input/Select";
-import { Button } from "@/components/ui/input/Button";
-import { useAlbums, useDeleteAlbum } from "@/hooks/album";
+import { useAlbums } from "@/hooks/album";
 
 export const Route = createFileRoute("/_fgAuthenticated/fg/archiveBoss/albums")(
   {

@@ -2,16 +2,10 @@ import { Slot } from "radix-ui";
 import styles from "./IconButton.module.css";
 
 type IconButtonVariant =
-  | "primary"
-  | "neutral"
-  | "subtle"
-  | "transparent"
-  | "danger"
-  | "subtle-danger";
+  "primary" | "neutral" | "subtle" | "transparent" | "danger" | "subtle-danger";
 type IconButtonSize = "sm" | "md" | "lg";
 
-interface IconButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: IconButtonVariant;
   size?: IconButtonSize;
   asChild?: boolean;
