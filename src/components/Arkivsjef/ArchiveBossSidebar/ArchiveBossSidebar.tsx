@@ -5,8 +5,6 @@ import { Link } from "@tanstack/react-router";
 
 function ArchiveBossSidebar() {
   return (
-    // titleWrapper
-
     <NavigationMenu.Root orientation="vertical" className={styles.Root}>
       <NavigationMenu.List className={styles.MenuList}>
         <NavigationMenu.Item className={styles.titleWrapper}>

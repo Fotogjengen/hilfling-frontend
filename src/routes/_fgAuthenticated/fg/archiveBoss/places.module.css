@@ -76,11 +76,7 @@
 
 .table th:first-child,
 .table td:first-child {
-  width: 25%;
-}
-.table th:second-child,
-.table td:second-child {
-  width: 35%;
+  width: 70%;
 }
 
 .table th:last-child,

@@ -21,11 +21,6 @@ interface Props {
   place_object?: PlaceDto;
 }
 
-// interface AlbumDialogProps {
-//   user: AlbumPatchRequestDto;
-//   onClose: () => void;
-// }
-
 function ArchiveBossItem({
   text,
   type,
@@ -37,17 +32,12 @@ function ArchiveBossItem({
   const deleteCategory = useDeleteCategory();
   const deletePlace = useDeletePlace();
 
-  const patchAlbum = useUpdateAlbum();
+  // const patchAlbum = useUpdateAlbum();
 
-  const [albumItem, setAlbumItem] = useState<AlbumDto | undefined>(
-    album_object,
-  );
-  const [categoryItem, setCategoryItem] = useState<CategoryDto | undefined>(
-    category_object,
-  );
-  const [placeItem, setPlaceItem] = useState<PlaceDto | undefined>(
-    place_object,
-  );
+  const albumItem = album_object;
+  const categoryItem = category_object;
+  const placeItem = place_object;
+
 
   // const setAsDefault = (value : AlbumDto) => {
   //       const patch_object: AlbumPatchRequestDto = {

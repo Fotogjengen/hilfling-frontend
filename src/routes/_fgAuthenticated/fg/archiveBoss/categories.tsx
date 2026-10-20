@@ -1,17 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, useMemo } from "react";
-
 import styles from "./categories.module.css";
-
 import { CategoryDto } from "@/../generated";
-
 import ArchiveBossItem from "@/components/Arkivsjef/ArchiveBossItem/ArchiveBossItem";
-
 import { ScrollArea } from "radix-ui";
-
 import { SearchField } from "@/components/ui/input/SearchField";
 import { Select } from "@/components/ui/input/Select";
-// import { Button } from "@/components/ui/input/Button";
 import { useCategories } from "@/hooks/category";
 
 export const Route = createFileRoute(

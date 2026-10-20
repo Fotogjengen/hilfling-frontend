@@ -1,17 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, useMemo } from "react";
-
 import styles from "./places.module.css";
-
 import { PlaceDto } from "@/../generated";
-
 import ArchiveBossItem from "@/components/Arkivsjef/ArchiveBossItem/ArchiveBossItem";
-
 import { ScrollArea } from "radix-ui";
-
 import { SearchField } from "@/components/ui/input/SearchField";
 import { Select } from "@/components/ui/input/Select";
-
 import { usePlaces } from "@/hooks/place";
 
 export const Route = createFileRoute("/_fgAuthenticated/fg/archiveBoss/places")(
