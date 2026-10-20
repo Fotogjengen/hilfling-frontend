@@ -13,6 +13,7 @@
 
   &:hover .photoContainer .photo {
     height: 100%;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
   }
 
   .photoContainer {
@@ -25,7 +26,9 @@
       height: 90%;
       display: block;
       object-fit: cover;
-      transition: height var(--height-transition-duration) ease;
+      transition:
+        height var(--height-transition-duration) ease,
+        box-shadow 0.2s ease-out;
 
       &.landscape {
         aspect-ratio: 3 / 2;
