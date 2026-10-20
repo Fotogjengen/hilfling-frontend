@@ -28,6 +28,7 @@ function ArchiveBossAlbumSchema({ album, onClose }: Props) {
         name: value.name,
         description: value.description,
         analog: value.isAnalog,
+        isDefault: album.isDefault,
       };
       patchAlbum.mutate(patch_object);
     },
