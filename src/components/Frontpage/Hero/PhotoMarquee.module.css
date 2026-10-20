@@ -4,10 +4,11 @@
   align-self: stretch;
   overflow-x: hidden;
 
-  &>.track {
+  .track {
     display: inline-flex;
     gap: var(--photo-track-gap);
-    animation: photoTrackScroll var(--photo-track-duration, 100s) linear infinite;
+    animation: photoTrackScroll var(--photo-track-duration, 100s) linear
+      infinite;
   }
 }
 
