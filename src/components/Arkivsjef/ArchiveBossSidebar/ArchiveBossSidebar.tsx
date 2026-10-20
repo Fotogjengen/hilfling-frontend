@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import { NavigationMenu } from "radix-ui";
 import styles from "./ArchiveBossSidebar.module.css";
 import { Link } from "@tanstack/react-router";

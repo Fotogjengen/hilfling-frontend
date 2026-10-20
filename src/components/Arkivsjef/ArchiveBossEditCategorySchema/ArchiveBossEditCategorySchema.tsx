@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import styles from "./ArchiveBossEditCategorySchema.module.css";
 import { CategoryDto, CategoryPatchRequestDto } from "../../../../generated";
 import { Button } from "../../ui/input/Button";

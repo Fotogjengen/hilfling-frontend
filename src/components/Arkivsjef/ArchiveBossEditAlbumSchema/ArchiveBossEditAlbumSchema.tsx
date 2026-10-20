@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import styles from "./ArchiveBossEditAlbumSchema.module.css";
 import { AlbumPatchRequestDto, AlbumDto } from "../../../../generated";
 import { Button } from "../../ui/input/Button";

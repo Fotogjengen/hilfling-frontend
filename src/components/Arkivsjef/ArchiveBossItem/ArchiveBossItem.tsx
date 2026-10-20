@@ -1,9 +1,9 @@
-import { ReactNode, useState, useEffect } from "react";
+import {useState, useEffect } from "react";
 import { Button } from "@/components/ui/input/Button";
 import styles from "./ArchiveBossItem.module.css";
 import { Pencil, Album, Trash2 } from "lucide-react";
-import { useDeleteAlbum, useUpdateAlbum } from "@/hooks/album";
-import { AlbumPatchRequestDto, AlbumDto } from "../../../../generated";
+import { useDeleteAlbum } from "@/hooks/album";
+import { AlbumDto } from "../../../../generated";
 import { CategoryDto } from "../../../../generated";
 import { PlaceDto } from "../../../../generated";
 
