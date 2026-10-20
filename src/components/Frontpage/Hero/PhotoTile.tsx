@@ -5,12 +5,26 @@ type Props = {
   url: string;
   orientation: "landscape" | "portrait";
   label: string;
+  title: string;
+  description?: string;
 };
 
-export default function PhotoTile({ url, orientation, label }: Props) {
+export default function PhotoTile({
+  url,
+  orientation,
+  label,
+  title,
+  description,
+}: Props) {
   return (
     <div className={style.tile}>
-      <img src={url} className={cx(style.photo, style[orientation])} />
+      <div className={cx(style.photoFrame, style[orientation])}>
+        <img src={url} alt={description ?? title} className={style.photo} />
+        <div className={style.photoOverlay}>
+          <strong>{title}</strong>
+          {description}
+        </div>
+      </div>
       <span className={style.label}>{label}</span>
     </div>
   );

@@ -22,6 +22,8 @@ export default function PhotoMarquee() {
             url={photo.url}
             orientation={photo.orientation}
             label={photo.year.toString()}
+            title={photo.title}
+            description={photo.description}
             key={i}
           />
         ))}

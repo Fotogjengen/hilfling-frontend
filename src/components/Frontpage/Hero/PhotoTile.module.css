@@ -8,18 +8,21 @@
   flex: none;
   cursor: pointer;
 
-  &:hover .photo {
-    height: calc(var(--tile-photo-height) * var(--tile-photo-hover-scale));
-    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
-  }
-
-  .photo {
+  .photoFrame {
+    position: relative;
     height: var(--tile-photo-height);
-    display: block;
-    object-fit: cover;
     transition:
       height var(--height-transition-duration) ease,
       box-shadow 0.2s;
+
+    &:hover {
+      height: calc(var(--tile-photo-height) * var(--tile-photo-hover-scale));
+      box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+
+      .photoOverlay {
+        opacity: 1;
+      }
+    }
 
     &.landscape {
       aspect-ratio: 3 / 2;
@@ -27,6 +30,28 @@
 
     &.portrait {
       aspect-ratio: 2 / 3;
+    }
+
+    .photo {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .photoOverlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: end;
+      gap: 4px;
+      padding: 12px;
+      color: white;
+      background: rgba(0, 0, 0, 0.4);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
     }
   }
 
