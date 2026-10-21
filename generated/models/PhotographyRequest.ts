@@ -15,8 +15,8 @@ export type PhotographyRequest = {
   intern?: boolean;
   phone: string;
   id: string;
-  dateDeleted: string;
   dateCreated: string;
+  dateDeleted: string;
   properties: Record<string, any>;
   entityClass: KClassPhotographyRequest;
 };
