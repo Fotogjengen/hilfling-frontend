@@ -42,7 +42,7 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@sentry/vite-plugin": "^5.4.0",
+    "@sentry/vite-plugin": "^11.8.0",
     "@tanstack/router-plugin": "^1.166.7",
     "@types/crypto-js": "^4.2.2",
     "@types/js-cookie": "^3.0.6",
