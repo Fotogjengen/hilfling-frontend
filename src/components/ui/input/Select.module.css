@@ -81,6 +81,13 @@
   outline: none;
 }
 
+.groupLabel {
+  padding: var(--size-space-200) var(--size-space-300) var(--size-space-100);
+  font-size: var(--typography-scale-01, 0.6875rem);
+  font-weight: var(--typography-body-font-weight-regular);
+  color: var(--color-text-default-tertiary);
+}
+
 .item[data-highlighted] {
   background-color: var(--color-background-default-secondary);
 }

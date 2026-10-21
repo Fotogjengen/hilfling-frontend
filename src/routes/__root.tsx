@@ -12,6 +12,7 @@ import {
 import styles from "./__root.module.css";
 import { AuthState } from "../contexts/AuthProvider";
 import { Toaster } from "@/components/ui/overlay/Toaster";
+import { ConfirmDialogHost } from "@/components/ui/overlay/ConfirmDialog";
 import { z } from "zod";
 import PhotoViewModal from "@/components/PhotoViewModal/PhotoViewModal";
 import { photoViewModalOptions } from "@/types";
@@ -86,6 +87,7 @@ function RootComponent() {
         )}
       </AdBannerContext.Provider>
       <Toaster />
+      <ConfirmDialogHost />
       {photoViewModal && (
         <PhotoViewModal
           options={photoViewModal}

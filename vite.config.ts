@@ -31,44 +31,6 @@ const currentBranch = getGitBranch();
 const isProductionBranch =
   currentBranch === "master" || currentBranch === "main";
 
-// api/photos/delete/{id} needs to go through the photo provider
-function djangoPhotoDeleteProxy(): PluginOption {
-  return {
-    name: "django-photo-delete-proxy",
-    configureServer(server) {
-      server.middlewares.use((req, res, next) => {
-        const url = req.url ?? "";
-        // only DELETE /api/photos/<id>
-        if (
-          req.method !== "DELETE" ||
-          !/^\/api\/photos\/[^/]+(\?|$)/.test(url)
-        ) {
-          next();
-          return;
-        }
-        const proxyReq = http.request(
-          {
-            host: "localhost",
-            port: 8888,
-            method: "DELETE",
-            path: url,
-            headers: { ...req.headers, host: "localhost:8888" },
-          },
-          (proxyRes) => {
-            res.writeHead(proxyRes.statusCode ?? 502, proxyRes.headers);
-            proxyRes.pipe(res);
-          },
-        );
-        proxyReq.on("error", (err) => {
-          res.statusCode = 502;
-          res.end(`Django delete proxy error: ${err.message}`);
-        });
-        req.pipe(proxyReq);
-      });
-    },
-  };
-}
-
 // Mimck itk auth challenge.
 // 100% chat, bryr meg ikke
 function itkAuthChallengeProxy(): PluginOption {
@@ -126,7 +88,6 @@ export default defineConfig({
       autoCodeSplitting: true,
     }),
     react(),
-    djangoPhotoDeleteProxy(),
     itkAuthChallengeProxy(),
     sentryVitePlugin({
       org: process.env.SENTRY_ORG,

@@ -1,0 +1,13 @@
+.trigger {
+  display: inline-flex;
+}
+
+.content {
+  max-width: 15rem;
+  padding: var(--size-space-100) var(--size-space-200);
+  background-color: var(--color-background-neutral-default);
+  color: var(--color-text-neutral-on-neutral);
+  border-radius: var(--size-radius-200);
+  font-size: var(--typography-body-size-small);
+  z-index: 300;
+}

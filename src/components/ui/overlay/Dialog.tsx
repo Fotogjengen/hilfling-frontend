@@ -6,7 +6,7 @@ import styles from "./Dialog.module.css";
 interface DialogProps {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
-  title?: string;
+  title?: ReactNode;
   children?: ReactNode;
   actions?: ReactNode;
 }

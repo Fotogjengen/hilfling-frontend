@@ -8,8 +8,14 @@ interface SelectOption {
   value: string;
 }
 
-interface SelectProps {
+interface SelectGroup {
+  label: string;
   options: SelectOption[];
+}
+
+interface SelectProps {
+  options?: SelectOption[];
+  groups?: SelectGroup[];
   value?: string;
   onValueChange?: (value: string) => void;
   label?: string;
@@ -22,8 +28,17 @@ interface SelectProps {
   ariaLabel?: string;
 }
 
+function SelectItem({ option }: { option: SelectOption }) {
+  return (
+    <SelectPrimitive.Item value={option.value} className={styles.item}>
+      <SelectPrimitive.ItemText>{option.label}</SelectPrimitive.ItemText>
+    </SelectPrimitive.Item>
+  );
+}
+
 export function Select({
-  options,
+  options = [],
+  groups = [],
   value,
   onValueChange,
   label,
@@ -78,15 +93,17 @@ export function Select({
           >
             <SelectPrimitive.Viewport>
               {options.map((option) => (
-                <SelectPrimitive.Item
-                  key={option.value}
-                  value={option.value}
-                  className={styles.item}
-                >
-                  <SelectPrimitive.ItemText>
-                    {option.label}
-                  </SelectPrimitive.ItemText>
-                </SelectPrimitive.Item>
+                <SelectItem key={option.value} option={option} />
+              ))}
+              {groups.map((group) => (
+                <SelectPrimitive.Group key={group.label}>
+                  <SelectPrimitive.Label className={styles.groupLabel}>
+                    {group.label}
+                  </SelectPrimitive.Label>
+                  {group.options.map((option) => (
+                    <SelectItem key={option.value} option={option} />
+                  ))}
+                </SelectPrimitive.Group>
               ))}
             </SelectPrimitive.Viewport>
           </SelectPrimitive.Content>
