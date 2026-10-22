@@ -6,8 +6,12 @@ import ArchiveBossItem from "@/components/Arkivsjef/ArchiveBossItem/ArchiveBossI
 import { ScrollArea } from "radix-ui";
 import { SearchField } from "@/components/ui/input/SearchField";
 import { Select } from "@/components/ui/input/Select";
-import { useCategories, useDeleteCategory, useUpdateCAtegoey } from "@/hooks/category";
+import { useCategories, useDeleteCategory, useUpdateCAtegoey, usePostCategory } from "@/hooks/category";
 import ArchiveBossEditCategorySchema from "@/components/Arkivsjef/ArchiveBossEditCategorySchema/ArchiveBossEditCategorySchema";
+import type { CategoryCreateRequest } from "@/utils/api/CategoryApi";
+import { Button } from "@/components/ui/input/Button";
+import { Plus} from "lucide-react";
+import ArchiveBossCreateCategory from "@/components/Arkivsjef/ArchiveBossCreateCategory/ArchiveBossCreateCategory";
 
 export const Route = createFileRoute(
   "/_fgAuthenticated/fg/archiveBoss/categories",
@@ -25,14 +29,20 @@ function Categories() {
   const [categories, setCategories] = useState<CategoryDto[]>([]);
   const [editCategoryPopUp, setEditCategoryPopUp] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [newCategoryDialog, setNewCategoryDialog] = useState(false);
 
   const { data, isLoading } = useCategories();
-    const deleteCategory = useDeleteCategory();
-    const patchCayetory = useUpdateCAtegoey();
+  const deleteCategory = useDeleteCategory();
+  const patchCayetory = useUpdateCAtegoey();
+  const postCategory = usePostCategory();
 
   useEffect(() => {
     setCategories(data ?? []);
   }, [data]);
+
+  const onCreate = (newCategory: CategoryCreateRequest) => {
+    postCategory.mutate(newCategory)
+  }
 
   const onDelete = (category : CategoryDto) => {
     deleteCategory.mutate(category.categoryId.id);
@@ -55,6 +65,13 @@ function Categories() {
     setEditCategoryPopUp(true)
     setEditingId(category.categoryId.id)
   };
+
+  const onNewCategoryClick = () =>{
+    setNewCategoryDialog(true)
+  }
+  const onCloseCategoryDialog = () =>{
+    setNewCategoryDialog(false)
+  }
 
   const filteredAndSortedCategories = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase();
@@ -98,6 +115,21 @@ function Categories() {
             />
           </label>
         </div>
+      </div>
+      <div>
+          <Button
+            size="sm"
+            onClick={() => onNewCategoryClick()}
+            className={styles.newCategoryButton}
+          >
+            <Plus size={16} aria-hidden="true"/>
+            Opprett ny kategori
+          </Button>
+          {newCategoryDialog &&  (
+            <ArchiveBossCreateCategory 
+            onClose={onCloseCategoryDialog} 
+            onCreate = {onCreate} />
+          )}
       </div>
 
       {isLoading ? (

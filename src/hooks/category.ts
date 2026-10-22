@@ -1,7 +1,8 @@
 import { CategoryApi } from "@/utils/api/CategoryApi";
 import { toast } from "@/components/ui/overlay/Toaster";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
-import { CategoryPatchRequestDto } from "../../generated";
+import { CategoryPatchRequestDto, CategoryDto } from "../../generated";
+import type { CategoryCreateRequest } from "@/utils/api/CategoryApi";
 
 export const useCategories = () => {
   return useQuery({
@@ -43,6 +44,28 @@ export const useUpdateCAtegoey = () => {
     },
     onError: (error) => {
       toast.error("Kunne ikke oppdatere kategori.", {
+        description: `Feilkode: ${error instanceof Error ? error.message : "Unknown error"}`,
+      });
+    },
+  });
+};
+
+export const usePostCategory = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (place: CategoryCreateRequest) => CategoryApi.post(place),
+    onSuccess: (_, albumId) => {
+      void queryClient.invalidateQueries({
+        queryKey: ["place"],
+      });
+
+      void queryClient.invalidateQueries({
+        queryKey: ["place", albumId],
+      });
+      toast.success("Kategorien ble opprettet.");
+    },
+    onError: (error) => {
+      toast.error("Kunne ikke opprette kategorien.", {
         description: `Feilkode: ${error instanceof Error ? error.message : "Unknown error"}`,
       });
     },
