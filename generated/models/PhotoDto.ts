@@ -3,6 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 import type { GangDto } from "./GangDto";
+import type { MediaDto } from "./MediaDto";
 import type { MotiveDto } from "./MotiveDto";
 import type { PhotoGangBangerDto } from "./PhotoGangBangerDto";
 import type { PhotoId } from "./PhotoId";
@@ -10,15 +11,15 @@ import type { SecurityLevelDto } from "./SecurityLevelDto";
 export type PhotoDto = {
   photoId: PhotoId;
   goodPicture: boolean;
-  analog: boolean;
   imageNumber: number;
   pageNumber: number;
   imageProd?: string;
   imageWeb?: string;
   imageThumb: string;
   motive: MotiveDto;
-  securityLevel: SecurityLevelDto;
+  media: MediaDto;
   gang?: GangDto;
   photoGangBangerDto: PhotoGangBangerDto;
   dateUploaded: string;
+  securityLevel: SecurityLevelDto;
 };

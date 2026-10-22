@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { AlbumDto, EventOwnerDto, SecurityLevelDto } from "../../../generated";
+import { Alert } from "../ui/display/Alert";
 import { Select } from "../ui/input/Select";
 import { Button } from "../ui/input/Button";
 import styles from "./PlacementDetails.module.css";
@@ -13,6 +14,7 @@ type PlacementDetailsProps = {
   analogAlbumId: string;
   eventOwnerId: string;
   securityLevelType: SecurityLevelDto.securityLevelType;
+  isEditing: boolean;
   onAlbumChange: (id: string) => void;
   onAnalogAlbumChange: (id: string) => void;
   onEventOwnerChange: (id: string) => void;
@@ -27,6 +29,7 @@ export default function PlacementDetails({
   analogAlbumId,
   eventOwnerId,
   securityLevelType,
+  isEditing,
   onAlbumChange,
   onAnalogAlbumChange,
   onEventOwnerChange,
@@ -66,6 +69,12 @@ export default function PlacementDetails({
 
       {isOpen ? (
         <div className={styles.fields}>
+          {isEditing && (
+            <Alert severity="warning">
+              Dette kan endre filsti, bildenummer og sidenummer til alle bildene
+              i motivet. Vær forsiktig
+            </Alert>
+          )}
           <Select
             name="securityLevelType"
             label="Sikkerhetsnivå"

@@ -2,6 +2,7 @@ import { api } from "./api";
 import {
   PhotoDto,
   PhotoGoodPictureToggleRequestDto,
+  PhotoPatchRequestDto,
   PhotoPositionDto,
 } from "../../../generated";
 import { PaginatedResult, PaginatedResultData } from "./types";
@@ -12,7 +13,7 @@ export interface PhotoUploadRequest {
   gangId?: string;
   date: string;
   goodPicture?: boolean;
-  analog?: boolean;
+  mediaId: string;
   media: File;
   securityLevel: string;
 }
@@ -73,8 +74,7 @@ export const PhotoApi = {
     formData.append("date", request.date);
     if (request.goodPicture !== undefined)
       formData.append("good_picture", String(request.goodPicture));
-    if (request.analog !== undefined)
-      formData.append("analog", String(request.analog));
+    formData.append("media_id", request.mediaId);
     formData.append("media", request.media);
     formData.append("security_level", request.securityLevel);
     return api
@@ -144,9 +144,22 @@ export const PhotoApi = {
     return api.get(`/photos?${queryString}`);
   },
 
+  move: async function (id: string, targetMotiveId: string): Promise<PhotoDto> {
+    return api
+      .post(`/photos/${id}/move`, { targetMotiveId })
+      .then((res) => res.data);
+  },
+
   updateGoodPicture: async function (
     request: PhotoGoodPictureToggleRequestDto,
   ) {
     return api.put(`/photos/${request.photoId}/good-picture`, request);
+  },
+
+  patch: async function (
+    id: string,
+    request: PhotoPatchRequestDto,
+  ): Promise<PhotoDto> {
+    return api.patch(`/photos/${id}`, request).then((res) => res.data);
   },
 };

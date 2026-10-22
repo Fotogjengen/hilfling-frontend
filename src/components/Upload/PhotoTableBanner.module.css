@@ -1,0 +1,19 @@
+.banner {
+  margin: var(--size-space-400) var(--size-space-600) 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--size-space-400);
+  padding: var(--size-space-300) var(--size-space-400);
+  border: var(--size-stroke-border) solid var(--color-border-brand-tertiary);
+  border-radius: var(--size-radius-200);
+  background-color: var(--color-background-brand-tertiary);
+  color: var(--color-text-brand-default);
+  font-size: var(--typography-body-size-medium);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-200);
+}
