@@ -1,10 +1,11 @@
+import  {useState } from "react";
 import { Button } from "@/components/ui/input/Button";
 import styles from "./ArchiveBossItem.module.css";
 import { Pencil, Album, Trash2 } from "lucide-react";
 import { AlbumDto } from "../../../../generated";
 import { CategoryDto } from "../../../../generated";
 import { PlaceDto } from "../../../../generated";
-
+import { Dialog } from "@/components/ui/overlay/Dialog";
 
 interface Props {
   text: (string | undefined)[] | [];
@@ -32,8 +33,16 @@ interface Temp<T> {
   EditSchema: React.ComponentType<EditSchemaProps<T>>;
 };
 
-
 function ArchiveBossItem <T> ( {Type, dtoObject, columns, editPopUp, onDelete,onPatch, onClose, onEdit, EditSchema} : Temp<T>) {
+  const [deleteWarning, setDeleteWarning] = useState<boolean>(false);
+
+  const handleDeleteClick = () => {
+    setDeleteWarning(true)
+  }
+  const closeDeleteWarning = () => {
+    setDeleteWarning(false)
+  }
+  
   return (
     <tr>
       {columns.map((item) => (
@@ -61,9 +70,30 @@ function ArchiveBossItem <T> ( {Type, dtoObject, columns, editPopUp, onDelete,on
           {editPopUp &&  (
             <EditSchema dtoObject={dtoObject} onClose={onClose} onPatch = {onPatch} />
           )}
+          {deleteWarning &&  (
+            <Dialog
+                open
+                aria-describedby={"delete_warning"}
+                onOpenChange={(open) => {
+                  if (!open) closeDeleteWarning();
+                }}
+                title={`Advarsel`}
+                actions={
+                  <Button
+                    type="submit"
+                    size="sm"
+                    onClick={() => onDelete(dtoObject)}
+                    >
+                      Bekreft
+                  </Button>
+                }
+              >
+            <div> Er du sikker på at du vil slette dette? </div>
+          </Dialog> 
+                )}
           <Button
             size="sm"
-            onClick={() => onDelete(dtoObject)}
+            onClick={() => handleDeleteClick()}
             className={styles.deleteButton}
           >
             <Trash2 size={16} aria-hidden="true" />
