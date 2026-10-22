@@ -11,23 +11,22 @@ interface Props {
   onCreate: (newAlbum: AlbumCreateRequest) => void;
 }
 
-function ArchiveBossCreateAlbum({onClose, onCreate }: Props) {
-
+function ArchiveBossCreateAlbum({ onClose, onCreate }: Props) {
   const form = useAppForm({
     defaultValues: {
-        name: "",
-        description: "",
-        isAnalog: false,
+      name: "",
+      description: "",
+      isAnalog: false,
     },
-    
+
     onSubmit: ({ value }) => {
-      const newAlbum :AlbumCreateRequest = {
+      const newAlbum: AlbumCreateRequest = {
         name: value.name,
         description: value.description,
         analog: value.isAnalog,
         isDefault: false,
       };
-        onCreate(newAlbum)
+      onCreate(newAlbum);
     },
   });
   return (
@@ -39,11 +38,8 @@ function ArchiveBossCreateAlbum({onClose, onCreate }: Props) {
       }}
       title={`Opprett nytt album`}
       actions={
-        <Button
-          type="submit"
-          form={"new-album-form"}
-        >
-           Opprett
+        <Button type="submit" form={"new-album-form"}>
+          Opprett
         </Button>
       }
     >

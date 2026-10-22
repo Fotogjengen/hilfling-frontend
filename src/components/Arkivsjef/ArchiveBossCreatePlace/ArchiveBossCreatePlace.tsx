@@ -9,19 +9,18 @@ interface Props {
   onCreate: (newPlace: PlaceCreateRequest) => void;
 }
 
-function ArchiveBossCreateAlbum({onClose, onCreate }: Props) {
-
+function ArchiveBossCreateAlbum({ onClose, onCreate }: Props) {
   const form = useAppForm({
     defaultValues: {
-        name: "",
+      name: "",
     },
-    
+
     onSubmit: ({ value }) => {
-        console.log("hei")
-      const newPlace :PlaceCreateRequest = {
+      console.log("hei");
+      const newPlace: PlaceCreateRequest = {
         name: value.name,
       };
-        onCreate(newPlace)
+      onCreate(newPlace);
     },
   });
   return (
@@ -33,11 +32,8 @@ function ArchiveBossCreateAlbum({onClose, onCreate }: Props) {
       }}
       title={`Opprett nytt sted`}
       actions={
-        <Button
-          type="submit"
-          form={"new-place-form"}
-        >
-           Opprett
+        <Button type="submit" form={"new-place-form"}>
+          Opprett
         </Button>
       }
     >

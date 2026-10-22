@@ -6,11 +6,16 @@ import ArchiveBossItem from "@/components/Arkivsjef/ArchiveBossItem/ArchiveBossI
 import { ScrollArea } from "radix-ui";
 import { SearchField } from "@/components/ui/input/SearchField";
 import { Select } from "@/components/ui/input/Select";
-import { useCategories, useDeleteCategory, useUpdateCAtegoey, usePostCategory } from "@/hooks/category";
+import {
+  useCategories,
+  useDeleteCategory,
+  useUpdateCAtegoey,
+  usePostCategory,
+} from "@/hooks/category";
 import ArchiveBossEditCategorySchema from "@/components/Arkivsjef/ArchiveBossEditCategorySchema/ArchiveBossEditCategorySchema";
 import type { CategoryCreateRequest } from "@/utils/api/CategoryApi";
 import { Button } from "@/components/ui/input/Button";
-import { Plus} from "lucide-react";
+import { Plus } from "lucide-react";
 import ArchiveBossCreateCategory from "@/components/Arkivsjef/ArchiveBossCreateCategory/ArchiveBossCreateCategory";
 
 export const Route = createFileRoute(
@@ -41,14 +46,14 @@ function Categories() {
   }, [data]);
 
   const onCreate = (newCategory: CategoryCreateRequest) => {
-    postCategory.mutate(newCategory)
-  }
+    postCategory.mutate(newCategory);
+  };
 
-  const onDelete = (category : CategoryDto) => {
+  const onDelete = (category: CategoryDto) => {
     deleteCategory.mutate(category.categoryId.id);
     onClose();
   };
-  const onPatch = (category : CategoryDto) => {
+  const onPatch = (category: CategoryDto) => {
     const patch_object: CategoryPatchRequestDto = {
       categoryId: category.categoryId,
       name: category.name,
@@ -56,22 +61,22 @@ function Categories() {
     patchCayetory.mutate(patch_object);
     onClose();
   };
-  
-  const onClose = () =>{
-    setEditCategoryPopUp(false)
-  };
- 
-  const onEdit = (category: CategoryDto) => {
-    setEditCategoryPopUp(true)
-    setEditingId(category.categoryId.id)
+
+  const onClose = () => {
+    setEditCategoryPopUp(false);
   };
 
-  const onNewCategoryClick = () =>{
-    setNewCategoryDialog(true)
-  }
-  const onCloseCategoryDialog = () =>{
-    setNewCategoryDialog(false)
-  }
+  const onEdit = (category: CategoryDto) => {
+    setEditCategoryPopUp(true);
+    setEditingId(category.categoryId.id);
+  };
+
+  const onNewCategoryClick = () => {
+    setNewCategoryDialog(true);
+  };
+  const onCloseCategoryDialog = () => {
+    setNewCategoryDialog(false);
+  };
 
   const filteredAndSortedCategories = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase();
@@ -94,8 +99,8 @@ function Categories() {
     <div className={styles.album_page}>
       <header className={styles.pageHeader}>
         <h1>Kategori</h1>
-        <div className={styles.categoryDatabase}> 
-          Det finnes {categories.length} kategorier i databasen 
+        <div className={styles.categoryDatabase}>
+          Det finnes {categories.length} kategorier i databasen
         </div>
         <div className={styles.buttonDiv}>
           <Button
@@ -103,15 +108,16 @@ function Categories() {
             onClick={() => onNewCategoryClick()}
             className={styles.newCategoryButton}
           >
-            <Plus size={16} aria-hidden="true"/>
+            <Plus size={16} aria-hidden="true" />
             Opprett ny kategori
           </Button>
-          {newCategoryDialog &&  (
-            <ArchiveBossCreateCategory 
-            onClose={onCloseCategoryDialog} 
-            onCreate = {onCreate} />
+          {newCategoryDialog && (
+            <ArchiveBossCreateCategory
+              onClose={onCloseCategoryDialog}
+              onCreate={onCreate}
+            />
           )}
-      </div>
+        </div>
       </header>
       <div className={styles.toolbar}>
         <SearchField
@@ -135,7 +141,6 @@ function Categories() {
         </div>
       </div>
 
-
       {isLoading ? (
         <p> Laster kategorier... </p>
       ) : (
@@ -153,10 +158,13 @@ function Categories() {
                   {filteredAndSortedCategories.map((categories, index) => (
                     <ArchiveBossItem<CategoryDto>
                       key={categories.categoryId.id}
-                      Type = 'category'
+                      Type="category"
                       dtoObject={categories}
                       columns={[categories.name]}
-                      editPopUp ={(editingId === categories.categoryId.id) && editCategoryPopUp}
+                      editPopUp={
+                        editingId === categories.categoryId.id &&
+                        editCategoryPopUp
+                      }
                       onDelete={onDelete}
                       onPatch={onPatch}
                       onClose={onClose}

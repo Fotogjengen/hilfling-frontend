@@ -6,11 +6,16 @@ import ArchiveBossItem from "@/components/Arkivsjef/ArchiveBossItem/ArchiveBossI
 import { ScrollArea } from "radix-ui";
 import { SearchField } from "@/components/ui/input/SearchField";
 import { Select } from "@/components/ui/input/Select";
-import { usePlaces, useDeletePlace, useUpdatePlace, usePostPlace } from "@/hooks/place";
+import {
+  usePlaces,
+  useDeletePlace,
+  useUpdatePlace,
+  usePostPlace,
+} from "@/hooks/place";
 import ArchiveBossEditPlaceSchema from "@/components/Arkivsjef/ArchiveBossEditPlaceSchema/ArchiveBossEditPlaceSchema";
 import type { PlaceCreateRequest } from "@/utils/api/PlaceApi";
 import { Button } from "@/components/ui/input/Button";
-import { Plus} from "lucide-react";
+import { Plus } from "lucide-react";
 import ArchiveBossCreatePlace from "@/components/Arkivsjef/ArchiveBossCreatePlace/ArchiveBossCreatePlace";
 
 export const Route = createFileRoute("/_fgAuthenticated/fg/archiveBoss/places")(
@@ -41,15 +46,15 @@ function Places() {
     setPlaces(data ?? []);
   }, [data]);
 
-  const onClose = () =>{
-    setEditAlbumPopUp(false)
+  const onClose = () => {
+    setEditAlbumPopUp(false);
   };
 
   const onCreate = (newPlace: PlaceCreateRequest) => {
-    postPlace.mutate(newPlace)
-  }
+    postPlace.mutate(newPlace);
+  };
 
-  const onDelete = (place : PlaceDto) => {
+  const onDelete = (place: PlaceDto) => {
     deletePlace.mutate(place.placeId.id);
   };
 
@@ -63,15 +68,15 @@ function Places() {
   };
 
   const onEdit = (place: PlaceDto) => {
-    setEditAlbumPopUp(true)
-    setEditingId(place.placeId.id)
+    setEditAlbumPopUp(true);
+    setEditingId(place.placeId.id);
   };
-  const onNewPlaceClick = () =>{
-    setNewPlaceDialog(true)
-  }
-  const onClosePlaceDialog = () =>{
-    setNewPlaceDialog(false)
-  }
+  const onNewPlaceClick = () => {
+    setNewPlaceDialog(true);
+  };
+  const onClosePlaceDialog = () => {
+    setNewPlaceDialog(false);
+  };
 
   const filteredAndSortedAlbums = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase();
@@ -95,23 +100,24 @@ function Places() {
       <header className={styles.pageHeader}>
         <h1> Steder </h1>
       </header>
-        <div className={styles.PlaceDatabase}> 
-          Det finnes {places.length} steder i databasen 
-        </div>
-        <div className= {styles.buttonDiv}>
-          <Button
-                size="sm"
-                onClick={() => onNewPlaceClick()}
-                className={styles.newPlaceButton}
-              >
-                <Plus size={16} aria-hidden="true"/>
-                Opprett nytt sted
-              </Button>
-              {newPlaceDialog &&  (
-                <ArchiveBossCreatePlace 
-                onClose={onClosePlaceDialog} 
-                onCreate = {onCreate} />
-              )}
+      <div className={styles.PlaceDatabase}>
+        Det finnes {places.length} steder i databasen
+      </div>
+      <div className={styles.buttonDiv}>
+        <Button
+          size="sm"
+          onClick={() => onNewPlaceClick()}
+          className={styles.newPlaceButton}
+        >
+          <Plus size={16} aria-hidden="true" />
+          Opprett nytt sted
+        </Button>
+        {newPlaceDialog && (
+          <ArchiveBossCreatePlace
+            onClose={onClosePlaceDialog}
+            onCreate={onCreate}
+          />
+        )}
       </div>
       <div className={styles.toolbar}>
         <SearchField
@@ -152,10 +158,12 @@ function Places() {
                   {filteredAndSortedAlbums.map((place, index) => (
                     <ArchiveBossItem<PlaceDto>
                       key={place.placeId.id}
-                      Type = 'place'
+                      Type="place"
                       dtoObject={place}
                       columns={[place.name]}
-                      editPopUp ={(editingId === place.placeId.id) && editAlbumPopUp}
+                      editPopUp={
+                        editingId === place.placeId.id && editAlbumPopUp
+                      }
                       onDelete={onDelete}
                       onPatch={onPatch}
                       onClose={onClose}

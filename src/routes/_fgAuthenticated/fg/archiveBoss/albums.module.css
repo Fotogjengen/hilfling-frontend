@@ -21,10 +21,10 @@
   line-height: 1.1;
 }
 
-.albumDatabase{
+.albumDatabase {
   /* padding-bottom: var(--size-space-200); */
   padding-top: var(--size-space-200);
-    color: var(--color-text-default-secondary);
+  color: var(--color-text-default-secondary);
   font-family: var(--typography-body-font-family);
   font-size: var(--typography-body-size-large);
   font-weight: var(--typography-body-font-weight-regular);
@@ -35,10 +35,10 @@
   padding-top: var(--size-space-400);
 }
 
-.warningP{
+.warningP {
   padding-bottom: var(--size-space-200);
   padding-top: var(--size-space-200);
-    color: var(--color-text-default-secondary);
+  color: var(--color-text-default-secondary);
   font-family: var(--typography-body-font-family);
   font-size: var(--typography-body-size-large);
   font-weight: var(--typography-body-font-weight-regular);

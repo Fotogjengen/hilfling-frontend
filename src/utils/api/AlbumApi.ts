@@ -8,10 +8,7 @@ interface PaginationParams {
   pageSize?: number;
 }
 
-export type AlbumCreateRequest = Omit<
-  AlbumDto,
-  "albumId"
->;
+export type AlbumCreateRequest = Omit<AlbumDto, "albumId">;
 
 export const AlbumApi = {
   getAll: async function (

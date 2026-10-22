@@ -9,18 +9,17 @@ interface Props {
   onCreate: (newCategory: CategoryCreateRequest) => void;
 }
 
-function ArchiveBossCreateAlbum({onClose, onCreate }: Props) {
-
+function ArchiveBossCreateAlbum({ onClose, onCreate }: Props) {
   const form = useAppForm({
     defaultValues: {
-        name: "",
+      name: "",
     },
-    
+
     onSubmit: ({ value }) => {
-      const newCategory : CategoryCreateRequest = {
+      const newCategory: CategoryCreateRequest = {
         name: value.name,
       };
-        onCreate(newCategory)
+      onCreate(newCategory);
     },
   });
   return (
@@ -32,11 +31,8 @@ function ArchiveBossCreateAlbum({onClose, onCreate }: Props) {
       }}
       title={`Opprett ny kategori`}
       actions={
-        <Button
-          type="submit"
-          form={"new-category-form"}
-        >
-           Opprett
+        <Button type="submit" form={"new-category-form"}>
+          Opprett
         </Button>
       }
     >

@@ -11,7 +11,7 @@ interface Props {
   onPatch: (dtoObject: PlaceDto) => void;
 }
 
-function ArchiveBossEditPlaceSchema({dtoObject, onClose, onPatch }: Props) {
+function ArchiveBossEditPlaceSchema({ dtoObject, onClose, onPatch }: Props) {
   const patchPlace = useUpdatePlace();
   const place = dtoObject;
 
@@ -20,7 +20,6 @@ function ArchiveBossEditPlaceSchema({dtoObject, onClose, onPatch }: Props) {
       name: place.name,
     },
     onSubmit: ({ value }) => {
-
       const patch_object: PlaceDto = {
         placeId: place.placeId,
         name: value.name,

@@ -22,15 +22,14 @@ function ArchiveBossAlbumSchema({ dtoObject, onClose, onPatch }: Props) {
       isAnalog: album.analog,
     },
     onSubmit: ({ value }) => {
-
-      const newAlbum :AlbumDto = {
+      const newAlbum: AlbumDto = {
         albumId: album.albumId,
         name: value.name,
         description: value.description,
         analog: value.isAnalog,
         isDefault: album.isDefault,
       };
-      onPatch(newAlbum)
+      onPatch(newAlbum);
     },
   });
   return (

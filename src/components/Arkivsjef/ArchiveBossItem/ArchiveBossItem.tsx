@@ -1,4 +1,4 @@
-import  {useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/input/Button";
 import styles from "./ArchiveBossItem.module.css";
 import { Pencil, Album, Trash2 } from "lucide-react";
@@ -17,23 +17,33 @@ interface Temp<T> {
   dtoObject: any;
   columns: (string | undefined)[] | [];
   editPopUp: boolean;
-  onDelete(dtoObject : T) : any;
-  onPatch(dtoObject : T) : any;
+  onDelete(dtoObject: T): any;
+  onPatch(dtoObject: T): any;
   onClose(): any;
-  onEdit(dtoObject : T): any;
+  onEdit(dtoObject: T): any;
   EditSchema: React.ComponentType<EditSchemaProps<T>>;
-};
+}
 
-function ArchiveBossItem <T> ( {Type, dtoObject, columns, editPopUp, onDelete,onPatch, onClose, onEdit, EditSchema} : Temp<T>) {
+function ArchiveBossItem<T>({
+  Type,
+  dtoObject,
+  columns,
+  editPopUp,
+  onDelete,
+  onPatch,
+  onClose,
+  onEdit,
+  EditSchema,
+}: Temp<T>) {
   const [deleteWarning, setDeleteWarning] = useState<boolean>(false);
 
   const handleDeleteClick = () => {
-    setDeleteWarning(true)
-  }
+    setDeleteWarning(true);
+  };
   const closeDeleteWarning = () => {
-    setDeleteWarning(false)
-  }
-  
+    setDeleteWarning(false);
+  };
+
   return (
     <tr>
       {columns.map((item, index) => (
@@ -55,33 +65,37 @@ function ArchiveBossItem <T> ( {Type, dtoObject, columns, editPopUp, onDelete,on
             onClick={() => onEdit(dtoObject)}
             className={styles.editButton}
           >
-            <Pencil size={16} aria-hidden="true"/>
+            <Pencil size={16} aria-hidden="true" />
             Rediger
           </Button>
-          {editPopUp &&  (
-            <EditSchema dtoObject={dtoObject} onClose={onClose} onPatch = {onPatch} />
+          {editPopUp && (
+            <EditSchema
+              dtoObject={dtoObject}
+              onClose={onClose}
+              onPatch={onPatch}
+            />
           )}
-          {deleteWarning &&  (
+          {deleteWarning && (
             <Dialog
-                open
-                aria-describedby={"delete_warning"}
-                onOpenChange={(open) => {
-                  if (!open) closeDeleteWarning();
-                }}
-                title={`Advarsel`}
-                actions={
-                  <Button
-                    type="submit"
-                    size="sm"
-                    onClick={() => onDelete(dtoObject)}
-                    >
-                      Bekreft
-                  </Button>
-                }
-              >
-            <div> Er du sikker på at du vil slette dette? </div>
-          </Dialog> 
-                )}
+              open
+              aria-describedby={"delete_warning"}
+              onOpenChange={(open) => {
+                if (!open) closeDeleteWarning();
+              }}
+              title={`Advarsel`}
+              actions={
+                <Button
+                  type="submit"
+                  size="sm"
+                  onClick={() => onDelete(dtoObject)}
+                >
+                  Bekreft
+                </Button>
+              }
+            >
+              <div> Er du sikker på at du vil slette dette? </div>
+            </Dialog>
+          )}
           <Button
             size="sm"
             onClick={() => handleDeleteClick()}

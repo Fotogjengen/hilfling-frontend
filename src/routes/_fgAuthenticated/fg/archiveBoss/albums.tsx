@@ -1,16 +1,21 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, useMemo } from "react";
 import styles from "./albums.module.css";
-import { AlbumDto,AlbumPatchRequestDto } from "@/../generated";
+import { AlbumDto, AlbumPatchRequestDto } from "@/../generated";
 import ArchiveBossItem from "@/components/Arkivsjef/ArchiveBossItem/ArchiveBossItem";
 import { ScrollArea } from "radix-ui";
 import { SearchField } from "@/components/ui/input/SearchField";
 import { Select } from "@/components/ui/input/Select";
-import { useAlbums, useDeleteAlbum,useUpdateAlbum, usePostAlbum } from "@/hooks/album";
+import {
+  useAlbums,
+  useDeleteAlbum,
+  useUpdateAlbum,
+  usePostAlbum,
+} from "@/hooks/album";
 import ArchiveBossAlbumSchema from "@/components/Arkivsjef/ArchiveBossEditAlbumSchema/ArchiveBossEditAlbumSchema";
 import ArchiveBossCreateAlbum from "@/components/Arkivsjef/ArchiveBossCreateAlbum/ArchiveBossCreateAlbum";
 import { Button } from "@/components/ui/input/Button";
-import { Plus} from "lucide-react";
+import { Plus } from "lucide-react";
 import type { AlbumCreateRequest } from "@/utils/api/AlbumApi";
 
 export const Route = createFileRoute("/_fgAuthenticated/fg/archiveBoss/albums")(
@@ -32,21 +37,20 @@ function AlbumsPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [newAlbumDialog, setNewAlbumDialog] = useState(false);
 
-  const {data, isLoading } = useAlbums();
+  const { data, isLoading } = useAlbums();
   const deleteAlbum = useDeleteAlbum();
   const patchAlbum = useUpdateAlbum();
   const postAlbum = usePostAlbum();
-
 
   useEffect(() => {
     setAlbums(data ?? []);
   }, [data]);
 
   const onCreate = (newAlbum: AlbumCreateRequest) => {
-    postAlbum.mutate(newAlbum)
-  }
+    postAlbum.mutate(newAlbum);
+  };
 
-  const onDelete = (album : AlbumDto) => {
+  const onDelete = (album: AlbumDto) => {
     deleteAlbum.mutate(album.albumId.id);
   };
 
@@ -62,21 +66,21 @@ function AlbumsPage() {
     onClose();
   };
 
-  const onClose = () =>{
-    setEditAlbumPopUp(false)
+  const onClose = () => {
+    setEditAlbumPopUp(false);
   };
 
   const onEdit = (album: AlbumDto) => {
-    setEditAlbumPopUp(true)
-    setEditingId(album.albumId.id)
+    setEditAlbumPopUp(true);
+    setEditingId(album.albumId.id);
   };
 
-  const onNewAlbumClick = () =>{
-    setNewAlbumDialog(true)
-  }
-  const onCloseAlbumDialog = () =>{
-    setNewAlbumDialog(false)
-  }
+  const onNewAlbumClick = () => {
+    setNewAlbumDialog(true);
+  };
+  const onCloseAlbumDialog = () => {
+    setNewAlbumDialog(false);
+  };
 
   const filteredAndSortedAlbums = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase();
@@ -100,23 +104,24 @@ function AlbumsPage() {
       <header className={styles.pageHeader}>
         <h1>Album</h1>
       </header>
-      <div className={styles.albumDatabase}> 
-        Det finnes {albums.length} album i databasen 
-        </div>
+      <div className={styles.albumDatabase}>
+        Det finnes {albums.length} album i databasen
+      </div>
       <div className={styles.buttonDiv}>
-          <Button
-            size="sm"
-            onClick={() => onNewAlbumClick()}
-            className={styles.newAlbumButton}
-          >
-            <Plus size={16} aria-hidden="true"/>
-            Opprett nytt album
-          </Button>
-          {newAlbumDialog &&  (
-            <ArchiveBossCreateAlbum 
-            onClose={onCloseAlbumDialog} 
-            onCreate = {onCreate} />
-          )}
+        <Button
+          size="sm"
+          onClick={() => onNewAlbumClick()}
+          className={styles.newAlbumButton}
+        >
+          <Plus size={16} aria-hidden="true" />
+          Opprett nytt album
+        </Button>
+        {newAlbumDialog && (
+          <ArchiveBossCreateAlbum
+            onClose={onCloseAlbumDialog}
+            onCreate={onCreate}
+          />
+        )}
       </div>
       <div className={styles.toolbar}>
         <SearchField
@@ -161,10 +166,12 @@ function AlbumsPage() {
                   {filteredAndSortedAlbums.map((album, index) => (
                     <ArchiveBossItem<AlbumDto>
                       key={album.albumId.id}
-                      Type = 'album'
+                      Type="album"
                       dtoObject={album}
                       columns={[album.name, album.description]}
-                      editPopUp ={(editingId === album.albumId.id) && editAlbumPopUp}
+                      editPopUp={
+                        editingId === album.albumId.id && editAlbumPopUp
+                      }
                       onDelete={onDelete}
                       onPatch={onPatch}
                       onClose={onClose}

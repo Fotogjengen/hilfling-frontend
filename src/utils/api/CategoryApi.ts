@@ -7,10 +7,7 @@ interface PaginationParams {
   pageSize?: number;
 }
 
-export type CategoryCreateRequest = Omit<
-  CategoryDto,
-  "categoryId"
->;
+export type CategoryCreateRequest = Omit<CategoryDto, "categoryId">;
 
 export const CategoryApi = {
   getAll: async function (
