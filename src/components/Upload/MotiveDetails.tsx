@@ -15,6 +15,7 @@ import {
 import { usePhotosByMotiveId } from "@/hooks/photo";
 import { Spinner } from "../Icons/Spinner";
 import { Button } from "../ui/input/Button";
+import { Tooltip } from "../ui/overlay/Tooltip";
 import useAppForm from "@/contexts/FormContext";
 import PlacementDetails from "./PlacementDetails";
 import styles from "./MotiveDetails.module.css";
@@ -116,9 +117,6 @@ function MotiveDetailsDisplay({
   onEdit: () => void;
   onDeleted?: () => void;
 }) {
-  const { mutate: deleteMotive, isPending } = useDeleteMotive();
-  const { data: photos = [] } = usePhotosByMotiveId(motive.motiveId.id);
-  const hasPhotos = photos.length > 0;
   const formattedDate = motive.date
     ? new Date(motive.date).toLocaleDateString("nb-NO")
     : "-";
@@ -194,26 +192,43 @@ function MotiveDetailsDisplay({
           </div>
         </div>
 
-        <div className={styles.displayFooter}>
-          <Button
-            type="button"
-            variant="subtle-danger"
-            size="sm"
-            disabled={isPending || hasPhotos}
-            title={
-              hasPhotos
-                ? "Du kan ikke slette et arrangement med bilder."
-                : undefined
-            }
-            onClick={() =>
-              deleteMotive(motive.motiveId.id, { onSuccess: onDeleted })
-            }
-          >
-            {isPending ? <Spinner /> : <Trash2 size={14} />}
-            Slett arrangement
-          </Button>
-        </div>
+        <MotiveDisplayFooter
+          motiveId={motive.motiveId.id}
+          onDeleted={onDeleted}
+        />
       </div>
+    </div>
+  );
+}
+
+function MotiveDisplayFooter({
+  motiveId,
+  onDeleted,
+}: {
+  motiveId: string;
+  onDeleted?: () => void;
+}) {
+  const { mutate: deleteMotive, isPending } = useDeleteMotive();
+  const { data: photos = [] } = usePhotosByMotiveId(motiveId);
+  const hasPhotos = photos.length > 0;
+
+  return (
+    <div className={styles.displayFooter}>
+      <Tooltip
+        content="Du kan ikke slette et arrangement med bilder."
+        disabled={!hasPhotos}
+      >
+        <Button
+          type="button"
+          variant="subtle-danger"
+          size="sm"
+          disabled={isPending || hasPhotos}
+          onClick={() => deleteMotive(motiveId, { onSuccess: onDeleted })}
+        >
+          {isPending ? <Spinner /> : <Trash2 size={14} />}
+          Slett arrangement
+        </Button>
+      </Tooltip>
     </div>
   );
 }
@@ -399,6 +414,7 @@ function MotiveFormInner({
               analogAlbumId={values.analogAlbumId}
               eventOwnerId={values.eventOwnerId}
               securityLevelType={values.securityLevelType}
+              isEditing={isEditing}
               onAlbumChange={(id) => form.setFieldValue("albumId", id)}
               onAnalogAlbumChange={(id) =>
                 form.setFieldValue("analogAlbumId", id)

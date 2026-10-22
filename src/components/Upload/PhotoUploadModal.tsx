@@ -12,6 +12,8 @@ import { Spinner } from "@/components/Icons/Spinner";
 import { PhotoApi } from "@/utils/api/PhotoApi";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "@/components/ui/overlay/Toaster";
+import { Tooltip } from "@/components/ui/overlay/Tooltip";
+import { useMedias } from "@/hooks/media";
 
 type UploadStatus = "idle" | "uploading" | "error";
 
@@ -46,11 +48,6 @@ function createThumbnail(file: File, maxSize = 200): Promise<string> {
   });
 }
 
-const PHOTO_TYPE_OPTIONS = [
-  { label: "Digital", value: "digital" },
-  { label: "Analog", value: "analog" },
-];
-
 function formatFileSize(bytes: number): string {
   if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`;
   return `${Math.round(bytes / (1024 * 1024))} MB`;
@@ -61,20 +58,44 @@ type PhotoUploadModalProps = {
 };
 
 export default function PhotoUploadModal({ motive }: PhotoUploadModalProps) {
-  const disabled = motive === null;
   const [isOpen, setIsOpen] = useState(false);
   const [files, setFiles] = useState<SelectedFile[]>([]);
-  const [photoType, setPhotoType] = useState("digital");
+  const { data: medias = [] } = useMedias();
+  const [selectedMediaId, setSelectedMediaId] = useState<string>();
+  const mediaId =
+    selectedMediaId ?? (medias.find((m) => !m.analog) ?? medias[0])?.mediaId.id;
+  const toOption = (m: (typeof medias)[number]) => ({
+    label: m.medium,
+    value: m.mediaId.id,
+  });
+  const mediaGroups = [
+    {
+      label: "Digital",
+      options: medias.filter((m) => !m.analog).map(toOption),
+    },
+    { label: "Analog", options: medias.filter((m) => m.analog).map(toOption) },
+  ].filter((g) => g.options.length > 0);
+  const disabled = motive === null || mediaId === undefined;
   const fileInputRef = useRef<HTMLInputElement>(null);
   const filesRef = useRef(files);
   filesRef.current = files;
+  const activeUploadsRef = useRef(0);
+  const [batch, setBatch] = useState({ totalBytes: 0, completedBytes: 0 });
   const queryClient = useQueryClient();
 
   const uploadFile = useCallback(
     async (id: string) => {
-      if (!motive) return;
+      if (!motive || !mediaId) return;
       const selectedFile = filesRef.current.find((f) => f.id === id);
       if (!selectedFile || selectedFile.status === "uploading") return;
+
+      const size = selectedFile.file.size;
+      const startsNewBatch = activeUploadsRef.current === 0;
+      activeUploadsRef.current++;
+      setBatch((prev) => ({
+        totalBytes: (startsNewBatch ? 0 : prev.totalBytes) + size,
+        completedBytes: startsNewBatch ? 0 : prev.completedBytes,
+      }));
 
       setFiles((prev) =>
         prev.map((f) =>
@@ -88,7 +109,7 @@ export default function PhotoUploadModal({ motive }: PhotoUploadModalProps) {
             motiveId: motive.motiveId.id,
             date: motive.date,
             goodPicture: selectedFile.isStarred,
-            analog: photoType === "analog",
+            mediaId,
             media: selectedFile.file,
             securityLevel: motive.securityLevel.securityLevelType,
           },
@@ -102,11 +123,19 @@ export default function PhotoUploadModal({ motive }: PhotoUploadModalProps) {
           },
         );
 
+        setBatch((prev) => ({
+          ...prev,
+          completedBytes: prev.completedBytes + size,
+        }));
         setFiles((prev) => prev.filter((f) => f.id !== id));
         void queryClient.invalidateQueries({
           queryKey: ["photos", "motive", motive.motiveId.id],
         });
       } catch (error) {
+        setBatch((prev) => ({
+          ...prev,
+          totalBytes: prev.totalBytes - size,
+        }));
         setFiles((prev) =>
           prev.map((f) =>
             f.id === id ? { ...f, status: "error" as const, progress: 0 } : f,
@@ -115,9 +144,11 @@ export default function PhotoUploadModal({ motive }: PhotoUploadModalProps) {
         toast.error("Kunne ikke laste opp bildet.", {
           description: `Feilkode: ${error instanceof Error ? error.message : "Unknown error"}`,
         });
+      } finally {
+        activeUploadsRef.current--;
       }
     },
-    [motive, photoType, queryClient],
+    [motive, mediaId, queryClient],
   );
 
   const handleUploadAll = useCallback(() => {
@@ -222,11 +253,14 @@ export default function PhotoUploadModal({ motive }: PhotoUploadModalProps) {
   const hasFiles = files.length > 0;
   const uploadingFiles = files.filter((f) => f.status === "uploading");
   const isAnyUploading = uploadingFiles.length > 0;
+  const uploadingBytes = uploadingFiles.reduce(
+    (sum, f) => sum + (f.file.size * f.progress) / 100,
+    0,
+  );
   const overallProgress =
-    uploadingFiles.length > 0
+    batch.totalBytes > 0
       ? Math.round(
-          uploadingFiles.reduce((sum, f) => sum + f.progress, 0) /
-            uploadingFiles.length,
+          ((batch.completedBytes + uploadingBytes) * 100) / batch.totalBytes,
         )
       : 0;
 
@@ -254,18 +288,27 @@ export default function PhotoUploadModal({ motive }: PhotoUploadModalProps) {
         >
           <div className={styles.controlBarRow}>
             <div className={styles.controlBarLeft}>
-              <Button
-                size="sm"
-                variant="primary"
-                disabled={disabled}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleUploadAll();
-                }}
+              <Tooltip
+                content={"Velg et arrangement for å laste opp bilder."}
+                disabled={!disabled}
               >
-                {isAnyUploading ? <Spinner size={15} /> : <Upload size={15} />}
-                Last opp
-              </Button>
+                <Button
+                  size="sm"
+                  variant="primary"
+                  disabled={disabled}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleUploadAll();
+                  }}
+                >
+                  {isAnyUploading ? (
+                    <Spinner size={15} />
+                  ) : (
+                    <Upload size={15} />
+                  )}
+                  Last opp
+                </Button>
+              </Tooltip>
               <Button
                 variant="subtle"
                 onClick={(e) => {
@@ -282,9 +325,9 @@ export default function PhotoUploadModal({ motive }: PhotoUploadModalProps) {
             <div className={styles.controlBarRight}>
               <div role="presentation" onClick={(e) => e.stopPropagation()}>
                 <Select
-                  options={PHOTO_TYPE_OPTIONS}
-                  value={photoType}
-                  onValueChange={setPhotoType}
+                  groups={mediaGroups}
+                  value={mediaId}
+                  onValueChange={setSelectedMediaId}
                   className={styles.photoTypeSelect}
                 />
               </div>
@@ -414,15 +457,20 @@ function FileRow({
             className={selectedFile.isStarred ? styles.starFilled : undefined}
           />
         </IconButton>
-        <IconButton
-          aria-label="Last opp dette bildet"
-          variant="neutral"
-          size="md"
-          disabled={uploadDisabled || isUploading}
-          onClick={onUpload}
+        <Tooltip
+          content={"Velg et arrangement for å laste opp bilder."}
+          disabled={!uploadDisabled}
         >
-          {isUploading ? <Spinner size={16} /> : <Upload size={16} />}
-        </IconButton>
+          <IconButton
+            aria-label="Last opp dette bildet"
+            variant="neutral"
+            size="md"
+            disabled={uploadDisabled || isUploading}
+            onClick={onUpload}
+          >
+            {isUploading ? <Spinner size={16} /> : <Upload size={16} />}
+          </IconButton>
+        </Tooltip>
         <IconButton
           aria-label="Fjern"
           variant="subtle"
@@ -433,6 +481,12 @@ function FileRow({
           <X size={16} />
         </IconButton>
       </div>
+      {isUploading && (
+        <Progress
+          value={selectedFile.progress}
+          className={styles.fileProgress}
+        />
+      )}
     </div>
   );
 }

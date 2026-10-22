@@ -5,6 +5,7 @@ import styles from "./Checkbox.module.css";
 
 interface CheckboxProps {
   label?: string;
+  "aria-label"?: string;
   description?: string;
   checked?: boolean | "indeterminate";
   onCheckedChange?: (checked: boolean | "indeterminate") => void;
@@ -14,6 +15,7 @@ interface CheckboxProps {
 
 export function Checkbox({
   label,
+  "aria-label": ariaLabel,
   description,
   checked,
   onCheckedChange,
@@ -29,6 +31,7 @@ export function Checkbox({
     >
       <CheckboxPrimitive.Root
         id={id}
+        aria-label={ariaLabel}
         className={styles.checkbox}
         checked={checked}
         onCheckedChange={onCheckedChange}

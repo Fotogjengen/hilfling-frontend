@@ -16,6 +16,10 @@ import { QualitySelector } from "@/components/DownloadImages/QualitySelector";
 import { PhotoQuality } from "@/types";
 import * as Sentry from "@sentry/react";
 
+// the browser can trigger a popup here, we should let the files stay in memory for some time
+// so that we can wait for the popup to conclude
+const REVOKE_DELAY_MS = 60 * 1000 * 2;
+
 /** Downloads a specific photo */
 async function downloadImage(photo: PhotoDto, quality: PhotoQuality) {
   const url = quality === "prod" ? photo.imageProd! : photo.imageWeb!;
@@ -37,11 +41,11 @@ async function downloadImage(photo: PhotoDto, quality: PhotoQuality) {
   link.click();
   link.remove();
 
-  URL.revokeObjectURL(objectUrl);
+  setTimeout(() => URL.revokeObjectURL(objectUrl), REVOKE_DELAY_MS);
 }
 
 interface PhotoDownloadContext {
-  requestDownload: (photo: PhotoDto) => void;
+  requestDownload: (photos: PhotoDto[]) => void;
 }
 
 const PhotoDownloadContext = createContext<PhotoDownloadContext>(
@@ -72,12 +76,12 @@ const PhotoDownloadProvider = ({ children }: { children: React.ReactNode }) => {
     setNextButtonShouldBeDisabled(false);
   }, [selectedQuality]);
 
-  const pendingPhoto = useRef<PhotoDto | null>(null);
+  const pendingPhotos = useRef<PhotoDto[]>([]);
 
   const value = useMemo(
     () => ({
-      requestDownload: (photo: PhotoDto) => {
-        pendingPhoto.current = photo;
+      requestDownload: (photos: PhotoDto[]) => {
+        pendingPhotos.current = photos;
         setShouldShowPopup(true);
         setPopupPhase("quality");
       },
@@ -92,9 +96,9 @@ const PhotoDownloadProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const downloadPhoto = () => {
-    const photo = pendingPhoto.current;
-    pendingPhoto.current = null;
-    if (photo) {
+    const photos = pendingPhotos.current;
+    pendingPhotos.current = [];
+    for (const photo of photos) {
       downloadImage(photo, selectedQuality).catch((error) => {
         // since this does not go through axios, we need to capture an error here manually
         Sentry.captureException(error);
@@ -106,7 +110,7 @@ const PhotoDownloadProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const handleAbort = () => {
-    pendingPhoto.current = null;
+    pendingPhotos.current = [];
     setShouldShowPopup(false);
   };
 

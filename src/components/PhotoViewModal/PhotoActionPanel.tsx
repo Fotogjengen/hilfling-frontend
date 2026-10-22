@@ -76,7 +76,7 @@ function PhotoActionButtons({
   onShowMetadata,
 }: {
   selectedPhoto?: PhotoDto;
-  requestDownload: (photo: PhotoDto) => void;
+  requestDownload: (photos: PhotoDto[]) => void;
   copied: boolean;
   copy: (options: { text: string }) => void;
   onShowMetadata: () => void;
@@ -87,7 +87,7 @@ function PhotoActionButtons({
         variant="subtle"
         aria-label="Last ned bildet"
         className={styles.actionButton}
-        onClick={() => selectedPhoto && requestDownload(selectedPhoto)}
+        onClick={() => selectedPhoto && requestDownload([selectedPhoto])}
       >
         <Download />
       </IconButton>
@@ -170,7 +170,7 @@ function PhotoMetadata({
   const { user } = useAuth();
   const { data: metadata, isLoading: metadataLoading } = useMetadata(photo);
   const photographer = photo.photoGangBangerDto;
-  const album = photo.analog
+  const album = photo.media.analog
     ? photo.motive.analogAlbumDto
     : photo.motive.albumDto;
   const rows: [string, string | undefined][] = [
@@ -192,7 +192,7 @@ function PhotoMetadata({
       "Sidenummer/Bildenummer",
       String(photo.pageNumber + "/" + photo.imageNumber),
     ],
-    ["Type", photo.analog ? "Analog" : "Digital"],
+    ["Medium", photo.media.medium],
     [
       "Sikkerhetsnivå",
       user && user.securityLevel !== "ALLE"

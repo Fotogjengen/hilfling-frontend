@@ -1,12 +1,23 @@
 import { MotiveApi } from "@/utils/api/MotiveApi";
 import { MotiveCreateRequestDto, MotivePatchRequestDto } from "../../generated";
 import {
+  skipToken,
   useInfiniteQuery,
   useMutation,
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
 import { toast } from "@/components/ui/overlay/Toaster";
+
+export const motiveDetailKey = (id: string) =>
+  ["motive", "detail", id] as const;
+
+export const useMotive = (id: string | undefined) => {
+  return useQuery({
+    queryKey: motiveDetailKey(id ?? ""),
+    queryFn: id ? () => MotiveApi.getById(id) : skipToken,
+  });
+};
 
 export const useMotives = () => {
   return useInfiniteQuery({
@@ -46,7 +57,8 @@ export const useUpdateMotive = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (motive: MotivePatchRequestDto) => MotiveApi.patch(motive),
-    onSuccess: () => {
+    onSuccess: (motive) => {
+      queryClient.setQueryData(motiveDetailKey(motive.motiveId.id), motive);
       void queryClient.invalidateQueries({ queryKey: ["motives"] });
     },
     onError: (error) => {

@@ -60,3 +60,7 @@
   top: var(--size-space-100);
   right: var(--size-space-100);
 }
+
+.progress {
+  margin-top: var(--size-space-100);
+}
