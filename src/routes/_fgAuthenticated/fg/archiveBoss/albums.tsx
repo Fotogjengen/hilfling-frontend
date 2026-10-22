@@ -163,7 +163,7 @@ function AlbumsPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredAndSortedAlbums.map((album, index) => (
+                  {filteredAndSortedAlbums.map((album) => (
                     <ArchiveBossItem<AlbumDto>
                       key={album.albumId.id}
                       Type="album"

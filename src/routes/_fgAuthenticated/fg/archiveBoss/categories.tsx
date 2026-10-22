@@ -155,7 +155,7 @@ function Categories() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredAndSortedCategories.map((categories, index) => (
+                  {filteredAndSortedCategories.map((categories) => (
                     <ArchiveBossItem<CategoryDto>
                       key={categories.categoryId.id}
                       Type="category"

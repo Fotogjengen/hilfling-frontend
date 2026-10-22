@@ -1,5 +1,5 @@
 import styles from "./ArchiveBossEditAlbumSchema.module.css";
-import { AlbumPatchRequestDto, AlbumDto } from "../../../../generated";
+import { AlbumDto } from "../../../../generated";
 import { Button } from "../../ui/input/Button";
 import useAppForm from "@/contexts/FormContext";
 import { Dialog } from "@/components/ui/overlay/Dialog";

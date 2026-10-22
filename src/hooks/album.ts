@@ -1,5 +1,5 @@
 import { AlbumApi } from "@/utils/api/AlbumApi";
-import { AlbumPatchRequestDto, AlbumDto } from "../../generated";
+import { AlbumPatchRequestDto } from "../../generated";
 import { toast } from "@/components/ui/overlay/Toaster";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { AlbumCreateRequest } from "@/utils/api/AlbumApi";

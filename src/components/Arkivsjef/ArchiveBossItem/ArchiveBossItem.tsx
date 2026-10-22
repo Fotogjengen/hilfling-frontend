@@ -2,9 +2,6 @@ import { useState } from "react";
 import { Button } from "@/components/ui/input/Button";
 import styles from "./ArchiveBossItem.module.css";
 import { Pencil, Album, Trash2 } from "lucide-react";
-import { AlbumDto } from "../../../../generated";
-import { CategoryDto } from "../../../../generated";
-import { PlaceDto } from "../../../../generated";
 import { Dialog } from "@/components/ui/overlay/Dialog";
 
 export interface EditSchemaProps<T> {

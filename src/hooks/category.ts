@@ -1,7 +1,7 @@
 import { CategoryApi } from "@/utils/api/CategoryApi";
 import { toast } from "@/components/ui/overlay/Toaster";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
-import { CategoryPatchRequestDto, CategoryDto } from "../../generated";
+import { CategoryPatchRequestDto } from "../../generated";
 import type { CategoryCreateRequest } from "@/utils/api/CategoryApi";
 
 export const useCategories = () => {

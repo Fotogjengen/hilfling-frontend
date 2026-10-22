@@ -155,7 +155,7 @@ function Places() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredAndSortedAlbums.map((place, index) => (
+                  {filteredAndSortedAlbums.map((place) => (
                     <ArchiveBossItem<PlaceDto>
                       key={place.placeId.id}
                       Type="place"

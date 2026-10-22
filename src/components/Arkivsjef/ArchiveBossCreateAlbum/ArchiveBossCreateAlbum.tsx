@@ -1,9 +1,7 @@
 import styles from "./ArchiveBossCreateAlbum.module.css";
-import { AlbumPatchRequestDto, AlbumDto } from "../../../../generated";
 import { Button } from "../../ui/input/Button";
 import useAppForm from "@/contexts/FormContext";
 import { Dialog } from "@/components/ui/overlay/Dialog";
-import { useUpdateAlbum } from "@/hooks/album";
 import type { AlbumCreateRequest } from "@/utils/api/AlbumApi";
 
 interface Props {

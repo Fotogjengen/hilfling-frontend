@@ -1,5 +1,5 @@
 import styles from "./ArchiveBossEditPlaceSchema.module.css";
-import { PlaceDto, PlacePatchRequestDto } from "../../../../generated";
+import { PlaceDto } from "../../../../generated";
 import { Button } from "../../ui/input/Button";
 import useAppForm from "@/contexts/FormContext";
 import { Dialog } from "@/components/ui/overlay/Dialog";
