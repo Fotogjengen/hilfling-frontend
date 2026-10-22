@@ -88,14 +88,14 @@ function Places() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredAndSortedAlbums.map((place, index) => (
+                  {/* {filteredAndSortedAlbums.map((place, index) => (
                     <ArchiveBossItem
                       key={index}
                       text={[place.name]}
                       place_object={place}
                       type="place"
                     />
-                  ))}
+                  ))} */}
                 </tbody>
               </table>
             </ScrollArea.Viewport>

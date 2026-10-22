@@ -1,12 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, useMemo } from "react";
 import styles from "./categories.module.css";
-import { CategoryDto } from "@/../generated";
+import { CategoryDto, CategoryPatchRequestDto } from "@/../generated";
 import ArchiveBossItem from "@/components/Arkivsjef/ArchiveBossItem/ArchiveBossItem";
 import { ScrollArea } from "radix-ui";
 import { SearchField } from "@/components/ui/input/SearchField";
 import { Select } from "@/components/ui/input/Select";
-import { useCategories } from "@/hooks/category";
+import { useCategories, useDeleteCategory, useUpdateCAtegoey } from "@/hooks/category";
+import ArchiveBossEditCategorySchema from "@/components/Arkivsjef/ArchiveBossEditCategorySchema/ArchiveBossEditCategorySchema";
 
 export const Route = createFileRoute(
   "/_fgAuthenticated/fg/archiveBoss/categories",
@@ -22,17 +23,43 @@ function Categories() {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("nameAsc");
   const [categories, setCategories] = useState<CategoryDto[]>([]);
+  const [editCategoryPopUp, setEditCategoryPopUp] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   const { data, isLoading } = useCategories();
+    const deleteCategory = useDeleteCategory();
+    const patchCayetory = useUpdateCAtegoey();
 
   useEffect(() => {
     setCategories(data ?? []);
   }, [data]);
 
-  const filteredAndSortedAlbums = useMemo(() => {
+  const onDelete = (category : CategoryDto) => {
+    deleteCategory.mutate(category.categoryId.id);
+    onClose();
+  };
+  const onPatch = (category : CategoryDto) => {
+    const patch_object: CategoryPatchRequestDto = {
+      categoryId: category.categoryId,
+      name: category.name,
+    };
+    patchCayetory.mutate(patch_object);
+    onClose();
+  };
+  
+  const onClose = () =>{
+    setEditCategoryPopUp(false)
+  };
+ 
+  const onEdit = (category: CategoryDto) => {
+    setEditCategoryPopUp(true)
+    setEditingId(category.categoryId.id)
+  };
+
+  const filteredAndSortedCategories = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase();
-    const filtered = categories.filter((album) =>
-      album.name.toLowerCase().includes(normalizedSearch),
+    const filtered = categories.filter((category) =>
+      category.name.toLowerCase().includes(normalizedSearch),
     );
     return filtered.toSorted((a, b) => {
       switch (sort) {
@@ -87,12 +114,18 @@ function Categories() {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredAndSortedAlbums.map((categories, index) => (
-                    <ArchiveBossItem
-                      key={index}
-                      text={[categories.name]}
-                      category_object={categories}
-                      type="category"
+                  {filteredAndSortedCategories.map((categories, index) => (
+                    <ArchiveBossItem<CategoryDto>
+                      key={categories.categoryId.id}
+                      Type = 'category'
+                      dtoObject={categories}
+                      columns={[categories.name]}
+                      editPopUp ={(editingId === categories.categoryId.id) && editCategoryPopUp}
+                      onDelete={onDelete}
+                      onPatch={onPatch}
+                      onClose={onClose}
+                      onEdit={onEdit}
+                      EditSchema={ArchiveBossEditCategorySchema}
                     />
                   ))}
                 </tbody>

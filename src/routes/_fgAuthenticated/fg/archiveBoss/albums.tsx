@@ -34,9 +34,9 @@ function AlbumsPage() {
   useEffect(() => {
     setAlbums(data ?? []);
   }, [data]);
-  useEffect(() => {
-    console.log("changed to:", editAlbumPopUp);
-  }, [editAlbumPopUp]);
+  // useEffect(() => {
+  //   console.log("changed to:", editAlbumPopUp);
+  // }, [editAlbumPopUp]);
 
   const onDelete = (album : AlbumDto) => {
     deleteAlbum.mutate(album.albumId.id);

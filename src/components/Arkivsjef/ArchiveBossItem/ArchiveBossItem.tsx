@@ -7,13 +7,13 @@ import { CategoryDto } from "../../../../generated";
 import { PlaceDto } from "../../../../generated";
 import { Dialog } from "@/components/ui/overlay/Dialog";
 
-interface Props {
-  text: (string | undefined)[] | [];
-  type: string;
-  album_object?: AlbumDto;
-  category_object?: CategoryDto;
-  place_object?: PlaceDto;
-}
+// interface Props {
+//   text: (string | undefined)[] | [];
+//   type: string;
+//   album_object?: AlbumDto;
+//   category_object?: CategoryDto;
+//   place_object?: PlaceDto;
+// }
 export interface EditSchemaProps<T> {
   dtoObject: T;
   // editPopUp: boolean;
@@ -45,8 +45,8 @@ function ArchiveBossItem <T> ( {Type, dtoObject, columns, editPopUp, onDelete,on
   
   return (
     <tr>
-      {columns.map((item) => (
-        <td key={item}>
+      {columns.map((item, index) => (
+        <td key={index}>
           <div className={styles.album_names}>{item}</div>
         </td>
       ))}

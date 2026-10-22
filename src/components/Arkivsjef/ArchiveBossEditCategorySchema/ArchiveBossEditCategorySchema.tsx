@@ -1,30 +1,30 @@
 import styles from "./ArchiveBossEditCategorySchema.module.css";
-import { CategoryDto, CategoryPatchRequestDto } from "../../../../generated";
+import { CategoryDto } from "../../../../generated";
 import { Button } from "../../ui/input/Button";
 import useAppForm from "@/contexts/FormContext";
 import { Dialog } from "@/components/ui/overlay/Dialog";
 import { useUpdateCAtegoey } from "@/hooks/category";
 
 interface Props {
-  category: CategoryDto;
+  dtoObject: CategoryDto;
   onClose: () => void;
+  onPatch: (dtoObject: CategoryDto) => void;
 }
 
-function ArchiveBossEditCategorySchema({ category, onClose }: Props) {
+function ArchiveBossEditCategorySchema({ dtoObject, onClose, onPatch }: Props) {
   const patchCategory = useUpdateCAtegoey();
+  const category = dtoObject;
 
   const form = useAppForm({
     defaultValues: {
       name: category.name,
     },
     onSubmit: ({ value }) => {
-      console.log(value);
-
-      const patch_object: CategoryPatchRequestDto = {
+      const newCategory: CategoryDto = {
         categoryId: category.categoryId,
         name: value.name,
       };
-      patchCategory.mutate(patch_object);
+      onPatch(newCategory);
     },
   });
 
