@@ -51,6 +51,12 @@
 .sortSelect {
   min-width: 11rem;
 }
+
+.newPlaceButton {
+  width: fit-content;
+  gap: var(--size-space-200);
+  white-space: nowrap;
+}
 .iconTextButton {
   width: fit-content;
   gap: var(--size-space-200);

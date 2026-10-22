@@ -2,6 +2,7 @@ import { PlaceApi } from "@/utils/api/PlaceApi";
 import { toast } from "@/components/ui/overlay/Toaster";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { PlacePatchRequestDto } from "../../generated";
+import type { PlaceCreateRequest } from "@/utils/api/PlaceApi";
 
 export const usePlaces = () => {
   return useQuery({
@@ -41,6 +42,28 @@ export const useUpdatePlace = () => {
     },
     onError: (error) => {
       toast.error("Kunne ikke oppdatere kategori.", {
+        description: `Feilkode: ${error instanceof Error ? error.message : "Unknown error"}`,
+      });
+    },
+  });
+};
+
+export const usePostPlace = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (place: PlaceCreateRequest) => PlaceApi.post(place),
+    onSuccess: (_, albumId) => {
+      void queryClient.invalidateQueries({
+        queryKey: ["place"],
+      });
+
+      void queryClient.invalidateQueries({
+        queryKey: ["place", albumId],
+      });
+      toast.success("Sted ble opprettet.");
+    },
+    onError: (error) => {
+      toast.error("Kunne ikke opprette sted.", {
         description: `Feilkode: ${error instanceof Error ? error.message : "Unknown error"}`,
       });
     },

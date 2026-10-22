@@ -7,6 +7,11 @@ interface PaginationParams {
   pageSize?: number;
 }
 
+export type PlaceCreateRequest = Omit<
+  PlaceDto,
+  "placeId"
+>;
+
 export const PlaceApi = {
   getAll: async function (
     params?: PaginationParams,

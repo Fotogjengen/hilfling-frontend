@@ -11,13 +11,6 @@ interface Props {
   onCreate: (newAlbum: AlbumCreateRequest) => void;
 }
 
-// interface Album{
-//     name: string;
-//     description: string;
-//     analog: boolean;
-//     isDefault: boolean;
-// }
-
 function ArchiveBossCreateAlbum({onClose, onCreate }: Props) {
 
   const form = useAppForm({
