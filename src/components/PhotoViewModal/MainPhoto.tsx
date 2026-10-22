@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { ReactNode, useEffect, useRef } from "react";
+import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import { PhotoDto } from "../../../generated";
 import { EASE_OUT_EXPO } from "@/utils/animation";
 import styles from "./MainPhoto.module.css";
@@ -26,12 +27,36 @@ export function PhotoViewMainContent({
       }}
     >
       {selectedPhoto ? (
-        <img
-          src={selectedPhoto.imageWeb}
-          alt=""
-          className={styles.mainPhoto}
-          onClick={onToggleFocus}
-        />
+        <div className={styles.photoTransformViewport}>
+          <TransformWrapper
+            key={selectedPhoto.photoId.id}
+            initialScale={1}
+            fitOnInit="contain"
+            minScale={1}
+            maxScale={5}
+            wheel={{ step: 0.1 }}
+            onWheelStop={(ref) => {
+              if (ref.state.scale < ref.state.previousScale) {
+                void ref.centerView(ref.state.scale, 0);
+              }
+            }}
+            panning={{ velocityDisabled: true }}
+            doubleClick={{ disabled: true }}
+          >
+            <TransformComponent
+              wrapperStyle={{ width: "100%", height: "100%" }}
+              contentStyle={{ width: "100%", height: "100%" }}
+            >
+              <img
+                src={selectedPhoto.imageWeb}
+                alt=""
+                className={styles.mainPhoto}
+                title="Scroll to zoom, drag to move"
+                onClick={onToggleFocus}
+              />
+            </TransformComponent>
+          </TransformWrapper>
+        </div>
       ) : (
         <MainPhotoSkeleton />
       )}
