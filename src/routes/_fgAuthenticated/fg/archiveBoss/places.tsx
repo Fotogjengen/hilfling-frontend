@@ -1,12 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, useMemo } from "react";
 import styles from "./places.module.css";
-import { PlaceDto } from "@/../generated";
+import { PlaceDto, PlacePatchRequestDto } from "@/../generated";
 import ArchiveBossItem from "@/components/Arkivsjef/ArchiveBossItem/ArchiveBossItem";
 import { ScrollArea } from "radix-ui";
 import { SearchField } from "@/components/ui/input/SearchField";
 import { Select } from "@/components/ui/input/Select";
-import { usePlaces } from "@/hooks/place";
+import { usePlaces, useDeletePlace, useUpdatePlace } from "@/hooks/place";
+import ArchiveBossEditPlaceSchema from "@/components/Arkivsjef/ArchiveBossEditPlaceSchema/ArchiveBossEditPlaceSchema";
+
 
 export const Route = createFileRoute("/_fgAuthenticated/fg/archiveBoss/places")(
   {
@@ -23,12 +25,40 @@ function Places() {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("nameAsc");
   const [places, setPlaces] = useState<PlaceDto[]>([]);
+  const [editAlbumPopUp, setEditAlbumPopUp] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   const { data, isLoading } = usePlaces();
+  const deletePlace = useDeletePlace();
+  const patchPlace = useUpdatePlace();
 
   useEffect(() => {
     setPlaces(data ?? []);
   }, [data]);
+
+  const onClose = () =>{
+    setEditAlbumPopUp(false)
+  };
+
+  const onDelete = (place : PlaceDto) => {
+    deletePlace.mutate(place.placeId.id);
+  };
+
+  const onPatch = (place: PlaceDto) => {
+    const patch_object: PlacePatchRequestDto = {
+      placeId: place.placeId,
+      name: place.name,
+    };
+    patchPlace.mutate(patch_object);
+    onClose();
+  };
+
+
+
+  const onEdit = (place: PlaceDto) => {
+    setEditAlbumPopUp(true)
+    setEditingId(place.placeId.id)
+  };
 
   const filteredAndSortedAlbums = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase();
@@ -88,14 +118,20 @@ function Places() {
                   </tr>
                 </thead>
                 <tbody>
-                  {/* {filteredAndSortedAlbums.map((place, index) => (
-                    <ArchiveBossItem
-                      key={index}
-                      text={[place.name]}
-                      place_object={place}
-                      type="place"
+                  {filteredAndSortedAlbums.map((place, index) => (
+                    <ArchiveBossItem<PlaceDto>
+                      key={place.placeId.id}
+                      Type = 'place'
+                      dtoObject={place}
+                      columns={[place.name]}
+                      editPopUp ={(editingId === place.placeId.id) && editAlbumPopUp}
+                      onDelete={onDelete}
+                      onPatch={onPatch}
+                      onClose={onClose}
+                      onEdit={onEdit}
+                      EditSchema={ArchiveBossEditPlaceSchema}
                     />
-                  ))} */}
+                  ))}
                 </tbody>
               </table>
             </ScrollArea.Viewport>

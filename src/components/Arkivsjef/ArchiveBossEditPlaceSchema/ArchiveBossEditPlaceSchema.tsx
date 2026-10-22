@@ -6,25 +6,26 @@ import { Dialog } from "@/components/ui/overlay/Dialog";
 import { useUpdatePlace } from "@/hooks/place";
 
 interface Props {
-  place: PlaceDto;
+  dtoObject: PlaceDto;
   onClose: () => void;
+  onPatch: (dtoObject: PlaceDto) => void;
 }
 
-function ArchiveBossEditPlaceSchema({ place, onClose }: Props) {
+function ArchiveBossEditPlaceSchema({dtoObject, onClose, onPatch }: Props) {
   const patchPlace = useUpdatePlace();
+  const place = dtoObject;
 
   const form = useAppForm({
     defaultValues: {
       name: place.name,
     },
     onSubmit: ({ value }) => {
-      console.log(value);
 
-      const patch_object: PlacePatchRequestDto = {
+      const patch_object: PlaceDto = {
         placeId: place.placeId,
         name: value.name,
       };
-      patchPlace.mutate(patch_object);
+      onPatch(patch_object);
     },
   });
 
