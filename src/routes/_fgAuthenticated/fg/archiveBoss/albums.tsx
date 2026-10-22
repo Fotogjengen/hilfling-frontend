@@ -6,8 +6,12 @@ import ArchiveBossItem from "@/components/Arkivsjef/ArchiveBossItem/ArchiveBossI
 import { ScrollArea } from "radix-ui";
 import { SearchField } from "@/components/ui/input/SearchField";
 import { Select } from "@/components/ui/input/Select";
-import { useAlbums, useDeleteAlbum,useUpdateAlbum } from "@/hooks/album";
+import { useAlbums, useDeleteAlbum,useUpdateAlbum, usePostAlbum } from "@/hooks/album";
 import ArchiveBossAlbumSchema from "@/components/Arkivsjef/ArchiveBossEditAlbumSchema/ArchiveBossEditAlbumSchema";
+import ArchiveBossCreateAlbum from "@/components/Arkivsjef/ArchiveBossCreateAlbum/ArchiveBossCreateAlbum";
+import { Button } from "@/components/ui/input/Button";
+import { Plus} from "lucide-react";
+import type { AlbumCreateRequest } from "@/utils/api/AlbumApi";
 
 export const Route = createFileRoute("/_fgAuthenticated/fg/archiveBoss/albums")(
   {
@@ -26,17 +30,21 @@ function AlbumsPage() {
   const [albums, setAlbums] = useState<AlbumDto[]>([]);
   const [editAlbumPopUp, setEditAlbumPopUp] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [newAlbumDialog, setNewAlbumDialog] = useState(false);
 
   const {data, isLoading } = useAlbums();
   const deleteAlbum = useDeleteAlbum();
   const patchAlbum = useUpdateAlbum();
+  const postAlbum = usePostAlbum();
+
 
   useEffect(() => {
     setAlbums(data ?? []);
   }, [data]);
-  // useEffect(() => {
-  //   console.log("changed to:", editAlbumPopUp);
-  // }, [editAlbumPopUp]);
+
+  const onCreate = (newAlbum: AlbumCreateRequest) => {
+    postAlbum.mutate(newAlbum)
+  }
 
   const onDelete = (album : AlbumDto) => {
     deleteAlbum.mutate(album.albumId.id);
@@ -62,6 +70,14 @@ function AlbumsPage() {
     setEditAlbumPopUp(true)
     setEditingId(album.albumId.id)
   };
+
+  const onNewAlbumClick = () =>{
+    setNewAlbumDialog(true)
+  }
+  const onCloseAlbumDialog = () =>{
+    setNewAlbumDialog(false)
+  }
+
   const filteredAndSortedAlbums = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase();
     const filtered = albums.filter((album) =>
@@ -104,6 +120,21 @@ function AlbumsPage() {
             />
           </label>
         </div>
+      </div>
+      <div>
+          <Button
+            size="sm"
+            onClick={() => onNewAlbumClick()}
+            className={styles.newAlbumButton}
+          >
+            <Plus size={16} aria-hidden="true"/>
+            Opprett nytt album
+          </Button>
+          {newAlbumDialog &&  (
+            <ArchiveBossCreateAlbum 
+            onClose={onCloseAlbumDialog} 
+            onCreate = {onCreate} />
+          )}
       </div>
 
       {isLoading ? (

@@ -8,6 +8,11 @@ interface PaginationParams {
   pageSize?: number;
 }
 
+export type AlbumCreateRequest = Omit<
+  AlbumDto,
+  "albumId"
+>;
+
 export const AlbumApi = {
   getAll: async function (
     params?: PaginationParams,
@@ -34,7 +39,7 @@ export const AlbumApi = {
     return api.patch(`/albums`, album).then((res) => res.data);
   },
 
-  post: async function (album: any): Promise<number> {
+  post: async function (album: AlbumCreateRequest): Promise<number> {
     return api
       .post("/albums", album)
       .then((res) => res.data)

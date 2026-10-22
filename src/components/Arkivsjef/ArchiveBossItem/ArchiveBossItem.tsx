@@ -7,19 +7,10 @@ import { CategoryDto } from "../../../../generated";
 import { PlaceDto } from "../../../../generated";
 import { Dialog } from "@/components/ui/overlay/Dialog";
 
-// interface Props {
-//   text: (string | undefined)[] | [];
-//   type: string;
-//   album_object?: AlbumDto;
-//   category_object?: CategoryDto;
-//   place_object?: PlaceDto;
-// }
 export interface EditSchemaProps<T> {
   dtoObject: T;
-  // editPopUp: boolean;
   onClose: () => void;
   onPatch: (dtoObject: T) => void;
-  // onEdit(editPopup : boolean): any;
 }
 interface Temp<T> {
   Type: string;

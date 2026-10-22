@@ -56,6 +56,13 @@
   gap: var(--size-space-200);
   white-space: nowrap;
 }
+
+
+.newAlbumButton {
+  width: fit-content;
+  gap: var(--size-space-200);
+  white-space: nowrap;
+}
 .scrollArea {
   height: 500px;
   width: 100%;

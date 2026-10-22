@@ -1,7 +1,8 @@
 import { AlbumApi } from "@/utils/api/AlbumApi";
-import { AlbumPatchRequestDto } from "../../generated";
+import { AlbumPatchRequestDto, AlbumDto } from "../../generated";
 import { toast } from "@/components/ui/overlay/Toaster";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import type { AlbumCreateRequest } from "@/utils/api/AlbumApi";
 
 export const useAlbums = () => {
   return useQuery({
@@ -42,6 +43,28 @@ export const useUpdateAlbum = () => {
     },
     onError: (error) => {
       toast.error("Kunne ikke oppdatere albumet.", {
+        description: `Feilkode: ${error instanceof Error ? error.message : "Unknown error"}`,
+      });
+    },
+  });
+};
+
+export const usePostAlbum = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (album: AlbumCreateRequest) => AlbumApi.post(album),
+    onSuccess: (_, albumId) => {
+      void queryClient.invalidateQueries({
+        queryKey: ["albums"],
+      });
+
+      void queryClient.invalidateQueries({
+        queryKey: ["album", albumId],
+      });
+      toast.success("Albumet ble opprettet.");
+    },
+    onError: (error) => {
+      toast.error("Kunne ikke opprette album.", {
         description: `Feilkode: ${error instanceof Error ? error.message : "Unknown error"}`,
       });
     },

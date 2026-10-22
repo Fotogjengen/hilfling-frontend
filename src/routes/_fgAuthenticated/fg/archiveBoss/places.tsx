@@ -54,7 +54,6 @@ function Places() {
   };
 
 
-
   const onEdit = (place: PlaceDto) => {
     setEditAlbumPopUp(true)
     setEditingId(place.placeId.id)
