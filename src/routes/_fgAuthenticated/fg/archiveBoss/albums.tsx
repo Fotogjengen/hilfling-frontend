@@ -1,12 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState, useMemo } from "react";
 import styles from "./albums.module.css";
-import { AlbumDto } from "@/../generated";
+import { AlbumDto,AlbumPatchRequestDto } from "@/../generated";
 import ArchiveBossItem from "@/components/Arkivsjef/ArchiveBossItem/ArchiveBossItem";
 import { ScrollArea } from "radix-ui";
 import { SearchField } from "@/components/ui/input/SearchField";
 import { Select } from "@/components/ui/input/Select";
-import { useAlbums } from "@/hooks/album";
+import { useAlbums, useDeleteAlbum,useUpdateAlbum } from "@/hooks/album";
+import ArchiveBossAlbumSchema from "@/components/Arkivsjef/ArchiveBossEditAlbumSchema/ArchiveBossEditAlbumSchema";
 
 export const Route = createFileRoute("/_fgAuthenticated/fg/archiveBoss/albums")(
   {
@@ -23,13 +24,44 @@ function AlbumsPage() {
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("nameAsc");
   const [albums, setAlbums] = useState<AlbumDto[]>([]);
+  const [editAlbumPopUp, setEditAlbumPopUp] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
 
-  const { data, isLoading } = useAlbums();
+  const {data, isLoading } = useAlbums();
+  const deleteAlbum = useDeleteAlbum();
+  const patchAlbum = useUpdateAlbum();
 
   useEffect(() => {
     setAlbums(data ?? []);
   }, [data]);
+  useEffect(() => {
+    console.log("changed to:", editAlbumPopUp);
+  }, [editAlbumPopUp]);
 
+  const onDelete = (album : AlbumDto) => {
+    deleteAlbum.mutate(album.albumId.id);
+  };
+
+  const onPatch = (album: AlbumDto) => {
+    const patch_object: AlbumPatchRequestDto = {
+      albumId: album.albumId,
+      name: album.name,
+      description: album.description,
+      analog: album.analog,
+      isDefault: album.isDefault,
+    };
+    patchAlbum.mutate(patch_object);
+    onClose();
+  };
+
+  const onClose = () =>{
+    setEditAlbumPopUp(false)
+  };
+
+  const onEdit = (album: AlbumDto) => {
+    setEditAlbumPopUp(true)
+    setEditingId(album.albumId.id)
+  };
   const filteredAndSortedAlbums = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase();
     const filtered = albums.filter((album) =>
@@ -90,12 +122,17 @@ function AlbumsPage() {
                 </thead>
                 <tbody>
                   {filteredAndSortedAlbums.map((album, index) => (
-                    <ArchiveBossItem
-                      key={index}
-                      text={[album.name, album.description]}
-                      album_object={album}
-                      // id={album.albumId.id}
-                      type="album"
+                    <ArchiveBossItem<AlbumDto>
+                      key={album.albumId.id}
+                      Type = 'album'
+                      dtoObject={album}
+                      columns={[album.name, album.description]}
+                      editPopUp ={(editingId === album.albumId.id) && editAlbumPopUp}
+                      onDelete={onDelete}
+                      onPatch={onPatch}
+                      onClose={onClose}
+                      onEdit={onEdit}
+                      EditSchema={ArchiveBossAlbumSchema}
                     />
                   ))}
                 </tbody>

@@ -1,17 +1,10 @@
-import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/input/Button";
 import styles from "./ArchiveBossItem.module.css";
 import { Pencil, Album, Trash2 } from "lucide-react";
-import { useDeleteAlbum } from "@/hooks/album";
 import { AlbumDto } from "../../../../generated";
 import { CategoryDto } from "../../../../generated";
 import { PlaceDto } from "../../../../generated";
 
-import ArchiveBossAlbumSchema from "../ArchiveBossEditAlbumSchema/ArchiveBossEditAlbumSchema";
-import ArchiveBossEditCategorySchema from "../ArchiveBossEditCategorySchema/ArchiveBossEditCategorySchema";
-import ArchiveBossEditPlaceSchema from "../ArchiveBossEditPlaceSchema/ArchiveBossEditPlaceSchema";
-import { useDeleteCategory } from "@/hooks/category";
-import { useDeletePlace } from "@/hooks/place";
 
 interface Props {
   text: (string | undefined)[] | [];
@@ -20,93 +13,37 @@ interface Props {
   category_object?: CategoryDto;
   place_object?: PlaceDto;
 }
+export interface EditSchemaProps<T> {
+  dtoObject: T;
+  // editPopUp: boolean;
+  onClose: () => void;
+  onPatch: (dtoObject: T) => void;
+  // onEdit(editPopup : boolean): any;
+}
+interface Temp<T> {
+  Type: string;
+  dtoObject: any;
+  columns: (string | undefined)[] | [];
+  editPopUp: boolean;
+  onDelete(dtoObject : T) : any;
+  onPatch(dtoObject : T) : any;
+  onClose(): any;
+  onEdit(dtoObject : T): any;
+  EditSchema: React.ComponentType<EditSchemaProps<T>>;
+};
 
-function ArchiveBossItem({
-  text,
-  type,
-  album_object,
-  category_object,
-  place_object,
-}: Props) {
-  const deleteAlbum = useDeleteAlbum();
-  const deleteCategory = useDeleteCategory();
-  const deletePlace = useDeletePlace();
 
-  // const patchAlbum = useUpdateAlbum();
-
-  const albumItem = album_object;
-  const categoryItem = category_object;
-  const placeItem = place_object;
-
-  // const setAsDefault = (value : AlbumDto) => {
-  //       const patch_object: AlbumPatchRequestDto = {
-  //       albumId: value.albumId,
-  //       name: value.name,
-  //       description: value.description,
-  //       analog: value.analog,
-  //       isDefault: true,
-  //     };
-  //     patchAlbum.mutate(patch_object);
-  //   },
-  // };
-
-  const [objectId, setobjcetId] = useState<string>("");
-
-  const [editAlbumPopUp, setEditAlbumPopUp] = useState(false);
-  const [editPlacePopUp, setEditPlacePopUp] = useState(false);
-  const [editCategoryPopUp, setEditCategoryPopUp] = useState(false);
-
-  useEffect(() => {
-    if (type === "album" && albumItem !== undefined) {
-      setobjcetId(albumItem.albumId.id);
-    } else if (type === "category" && categoryItem !== undefined) {
-      setobjcetId(categoryItem.categoryId.id);
-    } else if (type === "place" && placeItem !== undefined) {
-      setobjcetId(placeItem.placeId.id);
-    }
-  }, [albumItem, categoryItem, placeItem]);
-
-  const albumOnClose = () => {
-    setEditAlbumPopUp(false);
-  };
-  const categoryOnClose = () => {
-    setEditCategoryPopUp(false);
-  };
-  const placeOnClose = () => {
-    setEditPlacePopUp(false);
-  };
-
-  const handleDelete = (id: string) => {
-    console.log(id);
-    if (type === "album") {
-      deleteAlbum.mutate(id);
-    } else if (type === "category") {
-      deleteCategory.mutate(id);
-    } else if (type === "place") {
-      deletePlace.mutate(id);
-    }
-  };
-
-  const handleEditClick = () => {
-    if (type === "album") {
-      setEditAlbumPopUp(true);
-    } else if (type === "category") {
-      setEditCategoryPopUp(true);
-    } else if (type === "place") {
-      setEditPlacePopUp(true);
-    }
-  };
-
+function ArchiveBossItem <T> ( {Type, dtoObject, columns, editPopUp, onDelete,onPatch, onClose, onEdit, EditSchema} : Temp<T>) {
   return (
     <tr>
-      {text.map((item) => (
+      {columns.map((item) => (
         <td key={item}>
           <div className={styles.album_names}>{item}</div>
         </td>
       ))}
       <td>
         <div className={styles.actions}>
-          {type === "album" && albumItem !== undefined && (
+          {Type === "album" && (
             <Button variant="neutral" size="sm" className={styles.deleteButton}>
               <Album size={16} aria-hidden="true" />
               Sett som standard
@@ -115,30 +52,18 @@ function ArchiveBossItem({
           <Button
             variant="neutral"
             size="sm"
-            onClick={() => handleEditClick()}
+            onClick={() => onEdit(dtoObject)}
             className={styles.editButton}
           >
-            <Pencil size={16} aria-hidden="true" />
+            <Pencil size={16} aria-hidden="true"/>
             Rediger
           </Button>
-          {editAlbumPopUp && albumItem !== undefined && (
-            <ArchiveBossAlbumSchema album={albumItem} onClose={albumOnClose} />
-          )}
-          {editCategoryPopUp && categoryItem !== undefined && (
-            <ArchiveBossEditCategorySchema
-              category={categoryItem}
-              onClose={categoryOnClose}
-            />
-          )}
-          {editPlacePopUp && placeItem !== undefined && (
-            <ArchiveBossEditPlaceSchema
-              place={placeItem}
-              onClose={placeOnClose}
-            />
+          {editPopUp &&  (
+            <EditSchema dtoObject={dtoObject} onClose={onClose} onPatch = {onPatch} />
           )}
           <Button
             size="sm"
-            onClick={() => handleDelete(objectId)}
+            onClick={() => onDelete(dtoObject)}
             className={styles.deleteButton}
           >
             <Trash2 size={16} aria-hidden="true" />

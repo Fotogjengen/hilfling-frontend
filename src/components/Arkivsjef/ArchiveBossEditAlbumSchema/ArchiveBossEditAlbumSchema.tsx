@@ -6,12 +6,14 @@ import { Dialog } from "@/components/ui/overlay/Dialog";
 import { useUpdateAlbum } from "@/hooks/album";
 
 interface Props {
-  album: AlbumDto;
+  dtoObject: AlbumDto;
   onClose: () => void;
+  onPatch: (dtoObject: AlbumDto) => void;
 }
 
-function ArchiveBossAlbumSchema({ album, onClose }: Props) {
+function ArchiveBossAlbumSchema({ dtoObject, onClose, onPatch }: Props) {
   const patchAlbum = useUpdateAlbum();
+  const album = dtoObject;
 
   const form = useAppForm({
     defaultValues: {
@@ -21,18 +23,16 @@ function ArchiveBossAlbumSchema({ album, onClose }: Props) {
     },
     onSubmit: ({ value }) => {
       console.log(value);
-
-      const patch_object: AlbumPatchRequestDto = {
+      const patchAlbum :AlbumDto = {
         albumId: album.albumId,
         name: value.name,
         description: value.description,
         analog: value.isAnalog,
-        // isDefault: album.isDefault,
+        isDefault: album.isDefault,
       };
-      patchAlbum.mutate(patch_object);
+      onPatch(patchAlbum)
     },
   });
-
   return (
     <Dialog
       open
