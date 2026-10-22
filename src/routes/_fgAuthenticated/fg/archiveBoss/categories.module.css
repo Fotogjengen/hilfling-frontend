@@ -9,7 +9,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--size-space-300);
-  margin-bottom: var(--size-space-600);
+  margin-bottom: var(--size-space-200);
 }
 
 .pageHeader h1 {
@@ -50,6 +50,21 @@
 
 .sortSelect {
   min-width: 11rem;
+}
+.categoryDatabase{
+  /* padding-bottom: var(--size-space-200); */
+  padding-top: var(--size-space-200);
+  color: var(--color-text-default-secondary);
+  font-family: var(--typography-body-font-family);
+  font-size: var(--typography-body-size-large);
+  font-weight: var(--typography-body-font-weight-regular);
+}
+
+.buttonDiv {
+  /* padding-bottom: var(--size-space-400); */
+  /* padding-top: var(--size-space-100); */
+  padding-top: var(--size-space-200);
+  padding-bottom: var(--size-space-200);
 }
 
 .newCategoryButton {

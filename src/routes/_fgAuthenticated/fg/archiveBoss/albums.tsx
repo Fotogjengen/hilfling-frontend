@@ -100,6 +100,24 @@ function AlbumsPage() {
       <header className={styles.pageHeader}>
         <h1>Album</h1>
       </header>
+      <div className={styles.albumDatabase}> 
+        Det finnes {albums.length} album i databasen 
+        </div>
+      <div className={styles.buttonDiv}>
+          <Button
+            size="sm"
+            onClick={() => onNewAlbumClick()}
+            className={styles.newAlbumButton}
+          >
+            <Plus size={16} aria-hidden="true"/>
+            Opprett nytt album
+          </Button>
+          {newAlbumDialog &&  (
+            <ArchiveBossCreateAlbum 
+            onClose={onCloseAlbumDialog} 
+            onCreate = {onCreate} />
+          )}
+      </div>
       <div className={styles.toolbar}>
         <SearchField
           value={search}
@@ -121,22 +139,10 @@ function AlbumsPage() {
           </label>
         </div>
       </div>
-      <div>
-          <Button
-            size="sm"
-            onClick={() => onNewAlbumClick()}
-            className={styles.newAlbumButton}
-          >
-            <Plus size={16} aria-hidden="true"/>
-            Opprett nytt album
-          </Button>
-          {newAlbumDialog &&  (
-            <ArchiveBossCreateAlbum 
-            onClose={onCloseAlbumDialog} 
-            onCreate = {onCreate} />
-          )}
-      </div>
-
+      <p className={styles.warningP}>
+        Vær meget forsiktig med å forandre albumnavn dersom albumet har bilder
+        liggende i seg - det ødelegger mappestrukturen til bildene.
+      </p>
       {isLoading ? (
         <p> Laster album... </p>
       ) : (

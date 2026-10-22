@@ -95,6 +95,24 @@ function Places() {
       <header className={styles.pageHeader}>
         <h1> Steder </h1>
       </header>
+        <div className={styles.PlaceDatabase}> 
+          Det finnes {places.length} steder i databasen 
+        </div>
+        <div className= {styles.buttonDiv}>
+          <Button
+                size="sm"
+                onClick={() => onNewPlaceClick()}
+                className={styles.newPlaceButton}
+              >
+                <Plus size={16} aria-hidden="true"/>
+                Opprett nytt sted
+              </Button>
+              {newPlaceDialog &&  (
+                <ArchiveBossCreatePlace 
+                onClose={onClosePlaceDialog} 
+                onCreate = {onCreate} />
+              )}
+      </div>
       <div className={styles.toolbar}>
         <SearchField
           value={search}
@@ -115,21 +133,6 @@ function Places() {
             />
           </label>
         </div>
-      </div>
-      <div>
-      <Button
-            size="sm"
-            onClick={() => onNewPlaceClick()}
-            className={styles.newPlaceButton}
-          >
-            <Plus size={16} aria-hidden="true"/>
-            Opprett nytt sted
-          </Button>
-          {newPlaceDialog &&  (
-            <ArchiveBossCreatePlace 
-            onClose={onClosePlaceDialog} 
-            onCreate = {onCreate} />
-          )}
       </div>
 
       {isLoading ? (

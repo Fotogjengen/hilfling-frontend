@@ -94,6 +94,24 @@ function Categories() {
     <div className={styles.album_page}>
       <header className={styles.pageHeader}>
         <h1>Kategori</h1>
+        <div className={styles.categoryDatabase}> 
+          Det finnes {categories.length} kategorier i databasen 
+        </div>
+        <div className={styles.buttonDiv}>
+          <Button
+            size="sm"
+            onClick={() => onNewCategoryClick()}
+            className={styles.newCategoryButton}
+          >
+            <Plus size={16} aria-hidden="true"/>
+            Opprett ny kategori
+          </Button>
+          {newCategoryDialog &&  (
+            <ArchiveBossCreateCategory 
+            onClose={onCloseCategoryDialog} 
+            onCreate = {onCreate} />
+          )}
+      </div>
       </header>
       <div className={styles.toolbar}>
         <SearchField
@@ -116,21 +134,7 @@ function Categories() {
           </label>
         </div>
       </div>
-      <div>
-          <Button
-            size="sm"
-            onClick={() => onNewCategoryClick()}
-            className={styles.newCategoryButton}
-          >
-            <Plus size={16} aria-hidden="true"/>
-            Opprett ny kategori
-          </Button>
-          {newCategoryDialog &&  (
-            <ArchiveBossCreateCategory 
-            onClose={onCloseCategoryDialog} 
-            onCreate = {onCreate} />
-          )}
-      </div>
+
 
       {isLoading ? (
         <p> Laster kategorier... </p>
