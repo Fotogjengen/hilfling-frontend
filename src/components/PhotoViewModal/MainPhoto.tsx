@@ -1,5 +1,10 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { ReactNode, TouchEvent as ReactTouchEvent, useEffect, useRef } from "react";
+import {
+  ReactNode,
+  TouchEvent as ReactTouchEvent,
+  useEffect,
+  useRef,
+} from "react";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import { PhotoDto } from "../../../generated";
 import { EASE_OUT_EXPO } from "@/utils/animation";
