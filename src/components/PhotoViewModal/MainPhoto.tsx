@@ -34,7 +34,7 @@ export function PhotoViewMainContent({
             fitOnInit="contain"
             minScale={1}
             maxScale={5}
-            wheel={{ step: 0.1 }}
+            wheel={{ step: 0.005 }}
             onWheelStop={(ref) => {
               if (ref.state.scale < ref.state.previousScale) {
                 void ref.centerView(ref.state.scale, 0);
