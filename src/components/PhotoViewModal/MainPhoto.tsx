@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { ReactNode, useEffect, useRef } from "react";
+import { ReactNode, TouchEvent as ReactTouchEvent, useEffect, useRef } from "react";
 import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
 import { PhotoDto } from "../../../generated";
 import { EASE_OUT_EXPO } from "@/utils/animation";
@@ -92,40 +92,90 @@ export function SwipeableMainPhoto({
   onNext: () => void;
   onPrevious: () => void;
 }) {
-  // direction of travel, so the new photo enters from the side swiped towards
   const prevIndex = useRef(currentIndex);
   const direction = currentIndex >= prevIndex.current ? 1 : -1;
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
+
   useEffect(() => {
     prevIndex.current = currentIndex;
-  });
+    touchStart.current = null;
+  }, [currentIndex]);
+
+  const handleTouchStart = (event: ReactTouchEvent<HTMLDivElement>) => {
+    if (event.touches.length !== 1) {
+      touchStart.current = null;
+      return;
+    }
+
+    const touch = event.touches[0];
+    touchStart.current = { x: touch.clientX, y: touch.clientY };
+  };
+
+  const handleTouchEnd = (event: ReactTouchEvent<HTMLDivElement>) => {
+    const start = touchStart.current;
+    touchStart.current = null;
+    if (!start) return;
+
+    const touch = event.changedTouches[0];
+    if (!touch) return;
+
+    const offsetX = touch.clientX - start.x;
+    const offsetY = touch.clientY - start.y;
+    if (
+      Math.abs(offsetX) < SWIPE_THRESHOLD ||
+      Math.abs(offsetX) < Math.abs(offsetY)
+    ) {
+      return;
+    }
+
+    if (offsetX < 0) {
+      onNext();
+    } else {
+      onPrevious();
+    }
+  };
 
   return (
-    <div className={styles.swipeViewport}>
+    <div
+      className={styles.swipeViewport}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      onTouchCancel={() => {
+        touchStart.current = null;
+      }}
+    >
       {selectedPhoto ? (
         <AnimatePresence initial={false} custom={direction}>
-          <motion.img
+          <motion.div
             key={selectedPhoto.photoId.id}
-            src={selectedPhoto.imageWeb}
-            alt=""
-            className={styles.swipePhoto}
+            className={styles.swipePhotoFrame}
             custom={direction}
             variants={swipeVariants}
             initial="enter"
             animate="center"
             exit="exit"
             transition={{ ease: EASE_OUT_EXPO, duration: 0.4 }}
-            drag="x"
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={0.2}
-            onDragEnd={(_, info) => {
-              const swipe = info.offset.x + info.velocity.x * 0.2;
-              if (swipe < -SWIPE_THRESHOLD) {
-                onNext();
-              } else if (swipe > SWIPE_THRESHOLD) {
-                onPrevious();
-              }
-            }}
-          />
+          >
+            <TransformWrapper
+              initialScale={1}
+              fitOnInit="contain"
+              minScale={1}
+              maxScale={5}
+              pinch={{ disabled: false, allowPanning: false }}
+              panning={{ disabled: true }}
+            >
+              <TransformComponent
+                wrapperStyle={{ width: "100%", height: "100%" }}
+                contentStyle={{ width: "100%", height: "100%" }}
+              >
+                <img
+                  src={selectedPhoto.imageWeb}
+                  alt=""
+                  className={styles.swipePhoto}
+                />
+              </TransformComponent>
+            </TransformWrapper>
+          </motion.div>
         </AnimatePresence>
       ) : (
         <MainPhotoSkeleton />
