@@ -145,8 +145,6 @@ function Categories() {
         <p> Laster kategorier... </p>
       ) : (
         <div>
-          <ScrollArea.Root className={styles.scrollArea}>
-            <ScrollArea.Viewport className={styles.scrollAreaViewport}>
               <table className={styles.table}>
                 <thead>
                   <tr>
@@ -174,11 +172,6 @@ function Categories() {
                   ))}
                 </tbody>
               </table>
-            </ScrollArea.Viewport>
-            <ScrollArea.Scrollbar orientation="vertical">
-              <ScrollArea.Thumb />
-            </ScrollArea.Scrollbar>
-          </ScrollArea.Root>
         </div>
       )}
     </div>

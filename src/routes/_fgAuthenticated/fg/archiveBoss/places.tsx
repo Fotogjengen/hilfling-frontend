@@ -145,8 +145,6 @@ function Places() {
         <p> Laster steder... </p>
       ) : (
         <div>
-          <ScrollArea.Root className={styles.scrollArea}>
-            <ScrollArea.Viewport className={styles.scrollAreaViewport}>
               <table className={styles.table}>
                 <thead>
                   <tr>
@@ -173,11 +171,6 @@ function Places() {
                   ))}
                 </tbody>
               </table>
-            </ScrollArea.Viewport>
-            <ScrollArea.Scrollbar orientation="vertical">
-              <ScrollArea.Thumb />
-            </ScrollArea.Scrollbar>
-          </ScrollArea.Root>
         </div>
       )}
     </div>
