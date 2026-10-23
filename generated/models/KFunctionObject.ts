@@ -9,8 +9,8 @@ export type KFunctionObject = {
   isInline: boolean;
   isSuspend: boolean;
   isOperator: boolean;
-  isExternal: boolean;
   isInfix: boolean;
+  isExternal: boolean;
   visibility?: KFunctionObject.visibility;
   name: string;
   typeParameters: Array<KTypeParameter>;

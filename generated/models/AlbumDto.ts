@@ -8,4 +8,5 @@ export type AlbumDto = {
   name: string;
   description?: string;
   analog: boolean;
+  isDefault: boolean;
 };

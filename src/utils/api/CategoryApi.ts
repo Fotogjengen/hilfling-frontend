@@ -1,11 +1,13 @@
 import { api } from "./api";
-import { CategoryDto } from "../../../generated";
+import { CategoryDto, CategoryPatchRequestDto } from "../../../generated";
 import { DeletedResult, PaginatedResult } from "./types";
 
 interface PaginationParams {
   page?: number;
   pageSize?: number;
 }
+
+export type CategoryCreateRequest = Omit<CategoryDto, "categoryId">;
 
 export const CategoryApi = {
   getAll: async function (
@@ -23,6 +25,11 @@ export const CategoryApi = {
   },
   deleteById: async function (id: string): Promise<DeletedResult> {
     return api.delete(`/categories/${id}`);
+  },
+  patch: async function (
+    category: CategoryPatchRequestDto,
+  ): Promise<CategoryDto> {
+    return api.patch(`/categories`, category).then((res) => res.data);
   },
 
   post: async function (category: any): Promise<number> {

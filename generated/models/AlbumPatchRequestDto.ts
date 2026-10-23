@@ -8,4 +8,5 @@ export type AlbumPatchRequestDto = {
   name: string;
   description?: string;
   analog?: boolean;
+  isDefault: boolean;
 };

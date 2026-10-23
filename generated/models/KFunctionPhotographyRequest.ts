@@ -9,8 +9,8 @@ export type KFunctionPhotographyRequest = {
   isInline: boolean;
   isSuspend: boolean;
   isOperator: boolean;
-  isExternal: boolean;
   isInfix: boolean;
+  isExternal: boolean;
   visibility?: KFunctionPhotographyRequest.visibility;
   name: string;
   typeParameters: Array<KTypeParameter>;

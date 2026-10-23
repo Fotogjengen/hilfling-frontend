@@ -1,0 +1,183 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useState, useMemo } from "react";
+import styles from "./albums.module.css";
+import { AlbumDto, AlbumPatchRequestDto } from "@/../generated";
+import ArchiveBossItem from "@/components/Arkivsjef/ArchiveBossItem/ArchiveBossItem";
+import { SearchField } from "@/components/ui/input/SearchField";
+import { Select } from "@/components/ui/input/Select";
+import {
+  useAlbums,
+  useDeleteAlbum,
+  useUpdateAlbum,
+  usePostAlbum,
+} from "@/hooks/album";
+import ArchiveBossAlbumSchema from "@/components/Arkivsjef/ArchiveBossEditAlbumSchema/ArchiveBossEditAlbumSchema";
+import ArchiveBossCreateAlbum from "@/components/Arkivsjef/ArchiveBossCreateAlbum/ArchiveBossCreateAlbum";
+import { Button } from "@/components/ui/input/Button";
+import { Plus } from "lucide-react";
+import type { AlbumCreateRequest } from "@/utils/api/AlbumApi";
+
+export const Route = createFileRoute("/_fgAuthenticated/fg/archiveBoss/albums")(
+  {
+    component: AlbumsPage,
+  },
+);
+
+const sortOptions = [
+  { label: "Navn A-Å", value: "nameAsc" },
+  { label: "Navn Å-A", value: "nameDesc" },
+];
+
+function AlbumsPage() {
+  const [search, setSearch] = useState("");
+  const [sort, setSort] = useState("nameAsc");
+  const [albums, setAlbums] = useState<AlbumDto[]>([]);
+  const [editAlbumPopUp, setEditAlbumPopUp] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [newAlbumDialog, setNewAlbumDialog] = useState(false);
+
+  const { data, isLoading } = useAlbums();
+  const deleteAlbum = useDeleteAlbum();
+  const patchAlbum = useUpdateAlbum();
+  const postAlbum = usePostAlbum();
+
+  useEffect(() => {
+    setAlbums(data ?? []);
+  }, [data]);
+
+  const onCreate = (newAlbum: AlbumCreateRequest) => {
+    postAlbum.mutate(newAlbum);
+  };
+
+  const onDelete = (album: AlbumDto) => {
+    deleteAlbum.mutate(album.albumId.id);
+  };
+
+  const onPatch = (album: AlbumDto) => {
+    const patch_object: AlbumPatchRequestDto = {
+      albumId: album.albumId,
+      name: album.name,
+      description: album.description,
+      analog: album.analog,
+      isDefault: album.isDefault,
+    };
+    patchAlbum.mutate(patch_object);
+    onClose();
+  };
+
+  const onClose = () => {
+    setEditAlbumPopUp(false);
+  };
+
+  const onEdit = (album: AlbumDto) => {
+    setEditAlbumPopUp(true);
+    setEditingId(album.albumId.id);
+  };
+
+  const onNewAlbumClick = () => {
+    setNewAlbumDialog(true);
+  };
+  const onCloseAlbumDialog = () => {
+    setNewAlbumDialog(false);
+  };
+
+  const filteredAndSortedAlbums = useMemo(() => {
+    const normalizedSearch = search.trim().toLowerCase();
+    const filtered = albums.filter((album) =>
+      album.name.toLowerCase().includes(normalizedSearch),
+    );
+    return filtered.toSorted((a, b) => {
+      switch (sort) {
+        case "nameAsc":
+          return a.name.localeCompare(b.name);
+        case "nameDesc":
+          return b.name.localeCompare(a.name);
+        default:
+          return 0;
+      }
+    });
+  }, [albums, sort, search]);
+
+  return (
+    <div className={styles.album_page}>
+      <header className={styles.pageHeader}>
+        <h1>Album</h1>
+      </header>
+      <div className={styles.albumDatabase}>
+        Det finnes {albums.length} album i databasen
+      </div>
+      <div className={styles.buttonDiv}>
+        <Button
+          size="sm"
+          onClick={() => onNewAlbumClick()}
+          className={styles.newAlbumButton}
+        >
+          <Plus size={16} aria-hidden="true" />
+          Opprett nytt album
+        </Button>
+        {newAlbumDialog && (
+          <ArchiveBossCreateAlbum
+            onClose={onCloseAlbumDialog}
+            onCreate={onCreate}
+          />
+        )}
+      </div>
+      <div className={styles.toolbar}>
+        <SearchField
+          value={search}
+          onChange={(event) => setSearch(event.target.value)}
+          onClear={() => setSearch("")}
+          placeholder="Sok etter albumnavn"
+          aria-label="Sok etter albumnavn"
+          className={styles.search}
+        />
+        <div className={styles.controls}>
+          <label className={styles.sortControl}>
+            <span> Sorter </span>
+            <Select
+              options={sortOptions}
+              value={sort}
+              onValueChange={setSort}
+              className={styles.sortSelect}
+            />
+          </label>
+        </div>
+      </div>
+      <p className={styles.warningP}>
+        Vær meget forsiktig med å forandre albumnavn dersom albumet har bilder
+        liggende i seg - det ødelegger mappestrukturen til bildene.
+      </p>
+      {isLoading ? (
+        <p> Laster album... </p>
+      ) : (
+        <div>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th> Album </th>
+                <th> Beskrivelse </th>
+                <th> Handlinger </th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredAndSortedAlbums.map((album) => (
+                <ArchiveBossItem<AlbumDto>
+                  key={album.albumId.id}
+                  Type="album"
+                  dtoObject={album}
+                  columns={[album.name, album.description]}
+                  editPopUp={editingId === album.albumId.id && editAlbumPopUp}
+                  onDelete={onDelete}
+                  onPatch={onPatch}
+                  onClose={onClose}
+                  onEdit={onEdit}
+                  EditSchema={ArchiveBossAlbumSchema}
+                />
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+}
