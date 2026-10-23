@@ -145,33 +145,32 @@ function Categories() {
         <p> Laster kategorier... </p>
       ) : (
         <div>
-              <table className={styles.table}>
-                <thead>
-                  <tr>
-                    <th> Kategorier </th>
-                    <th> Handlinger </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredAndSortedCategories.map((categories) => (
-                    <ArchiveBossItem<CategoryDto>
-                      key={categories.categoryId.id}
-                      Type="category"
-                      dtoObject={categories}
-                      columns={[categories.name]}
-                      editPopUp={
-                        editingId === categories.categoryId.id &&
-                        editCategoryPopUp
-                      }
-                      onDelete={onDelete}
-                      onPatch={onPatch}
-                      onClose={onClose}
-                      onEdit={onEdit}
-                      EditSchema={ArchiveBossEditCategorySchema}
-                    />
-                  ))}
-                </tbody>
-              </table>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th> Kategorier </th>
+                <th> Handlinger </th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredAndSortedCategories.map((categories) => (
+                <ArchiveBossItem<CategoryDto>
+                  key={categories.categoryId.id}
+                  Type="category"
+                  dtoObject={categories}
+                  columns={[categories.name]}
+                  editPopUp={
+                    editingId === categories.categoryId.id && editCategoryPopUp
+                  }
+                  onDelete={onDelete}
+                  onPatch={onPatch}
+                  onClose={onClose}
+                  onEdit={onEdit}
+                  EditSchema={ArchiveBossEditCategorySchema}
+                />
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
     </div>

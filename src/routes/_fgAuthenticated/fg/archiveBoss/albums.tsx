@@ -152,33 +152,31 @@ function AlbumsPage() {
         <p> Laster album... </p>
       ) : (
         <div>
-              <table className={styles.table}>
-                <thead>
-                  <tr>
-                    <th> Album </th>
-                    <th> Beskrivelse </th>
-                    <th> Handlinger </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredAndSortedAlbums.map((album) => (
-                    <ArchiveBossItem<AlbumDto>
-                      key={album.albumId.id}
-                      Type="album"
-                      dtoObject={album}
-                      columns={[album.name, album.description]}
-                      editPopUp={
-                        editingId === album.albumId.id && editAlbumPopUp
-                      }
-                      onDelete={onDelete}
-                      onPatch={onPatch}
-                      onClose={onClose}
-                      onEdit={onEdit}
-                      EditSchema={ArchiveBossAlbumSchema}
-                    />
-                  ))}
-                </tbody>
-              </table>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th> Album </th>
+                <th> Beskrivelse </th>
+                <th> Handlinger </th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredAndSortedAlbums.map((album) => (
+                <ArchiveBossItem<AlbumDto>
+                  key={album.albumId.id}
+                  Type="album"
+                  dtoObject={album}
+                  columns={[album.name, album.description]}
+                  editPopUp={editingId === album.albumId.id && editAlbumPopUp}
+                  onDelete={onDelete}
+                  onPatch={onPatch}
+                  onClose={onClose}
+                  onEdit={onEdit}
+                  EditSchema={ArchiveBossAlbumSchema}
+                />
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
     </div>

@@ -145,32 +145,30 @@ function Places() {
         <p> Laster steder... </p>
       ) : (
         <div>
-              <table className={styles.table}>
-                <thead>
-                  <tr>
-                    <th> Steder </th>
-                    <th> Handlinger </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredAndSortedAlbums.map((place) => (
-                    <ArchiveBossItem<PlaceDto>
-                      key={place.placeId.id}
-                      Type="place"
-                      dtoObject={place}
-                      columns={[place.name]}
-                      editPopUp={
-                        editingId === place.placeId.id && editAlbumPopUp
-                      }
-                      onDelete={onDelete}
-                      onPatch={onPatch}
-                      onClose={onClose}
-                      onEdit={onEdit}
-                      EditSchema={ArchiveBossEditPlaceSchema}
-                    />
-                  ))}
-                </tbody>
-              </table>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th> Steder </th>
+                <th> Handlinger </th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredAndSortedAlbums.map((place) => (
+                <ArchiveBossItem<PlaceDto>
+                  key={place.placeId.id}
+                  Type="place"
+                  dtoObject={place}
+                  columns={[place.name]}
+                  editPopUp={editingId === place.placeId.id && editAlbumPopUp}
+                  onDelete={onDelete}
+                  onPatch={onPatch}
+                  onClose={onClose}
+                  onEdit={onEdit}
+                  EditSchema={ArchiveBossEditPlaceSchema}
+                />
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
     </div>
