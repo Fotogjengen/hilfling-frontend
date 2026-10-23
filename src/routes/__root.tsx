@@ -12,6 +12,7 @@ import {
 import styles from "./__root.module.css";
 import { AuthState } from "../contexts/AuthProvider";
 import { Toaster } from "@/components/ui/overlay/Toaster";
+import { ConfirmDialogHost } from "@/components/ui/overlay/ConfirmDialog";
 import { z } from "zod";
 import PhotoViewModal from "@/components/PhotoViewModal/PhotoViewModal";
 import { photoViewModalOptions } from "@/types";
@@ -62,7 +63,9 @@ function RootComponent() {
   );
 
   const isFullPage = useRouterState({
-    select: (s) => s.location.pathname.endsWith("/upload"),
+    select: (s) =>
+      s.location.pathname.endsWith("/upload") ||
+      s.matches.some((m) => m.routeId === "/_fgAuthenticated/fg/archiveBoss"),
   });
 
   return (
@@ -86,6 +89,7 @@ function RootComponent() {
         )}
       </AdBannerContext.Provider>
       <Toaster />
+      <ConfirmDialogHost />
       {photoViewModal && (
         <PhotoViewModal
           options={photoViewModal}

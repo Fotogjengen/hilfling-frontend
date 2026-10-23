@@ -18,8 +18,12 @@ import { Route as OmOssIndexRouteImport } from './routes/om-oss/index'
 import { Route as OmOssBestillingRouteImport } from './routes/om-oss/bestilling'
 import { Route as OmOssBrukAvBilderRouteImport } from './routes/om-oss/bruk-av-bilder'
 import { Route as FgAuthenticatedFgIndexRouteImport } from './routes/_fgAuthenticated/fg/index'
+import { Route as FgAuthenticatedFgArchiveBossRouteRouteImport } from './routes/_fgAuthenticated/fg/archiveBoss/route'
 import { Route as FgAuthenticatedFgUploadRouteImport } from './routes/_fgAuthenticated/fg/upload'
 import { Route as FgAuthenticatedFgArchiveBossIndexRouteImport } from './routes/_fgAuthenticated/fg/archiveBoss/index'
+import { Route as FgAuthenticatedFgArchiveBossAlbumsRouteImport } from './routes/_fgAuthenticated/fg/archiveBoss/albums'
+import { Route as FgAuthenticatedFgArchiveBossCategoriesRouteImport } from './routes/_fgAuthenticated/fg/archiveBoss/categories'
+import { Route as FgAuthenticatedFgArchiveBossPlacesRouteImport } from './routes/_fgAuthenticated/fg/archiveBoss/places'
 import { Route as FgAuthenticatedFgGang_bangersIndexRouteImport } from './routes/_fgAuthenticated/fg/gang_bangers/index'
 import { Route as FgAuthenticatedFgProjectsIndexRouteImport } from './routes/_fgAuthenticated/fg/projects/index'
 import { Route as FgAuthenticatedFgArchiveBossEditUserUserIdRouteImport } from './routes/_fgAuthenticated/fg/archiveBoss/editUser.$userId'
@@ -72,6 +76,12 @@ const FgAuthenticatedFgIndexRoute = FgAuthenticatedFgIndexRouteImport.update({
   path: '/fg/',
   getParentRoute: () => FgAuthenticatedRouteRoute,
 } as any)
+const FgAuthenticatedFgArchiveBossRouteRoute =
+  FgAuthenticatedFgArchiveBossRouteRouteImport.update({
+    id: '/fg/archiveBoss',
+    path: '/fg/archiveBoss',
+    getParentRoute: () => FgAuthenticatedRouteRoute,
+  } as any)
 const FgAuthenticatedFgUploadRoute = FgAuthenticatedFgUploadRouteImport.update({
   id: '/fg/upload',
   path: '/fg/upload',
@@ -79,9 +89,27 @@ const FgAuthenticatedFgUploadRoute = FgAuthenticatedFgUploadRouteImport.update({
 } as any)
 const FgAuthenticatedFgArchiveBossIndexRoute =
   FgAuthenticatedFgArchiveBossIndexRouteImport.update({
-    id: '/fg/archiveBoss/',
-    path: '/fg/archiveBoss/',
-    getParentRoute: () => FgAuthenticatedRouteRoute,
+    id: '/',
+    path: '/',
+    getParentRoute: () => FgAuthenticatedFgArchiveBossRouteRoute,
+  } as any)
+const FgAuthenticatedFgArchiveBossAlbumsRoute =
+  FgAuthenticatedFgArchiveBossAlbumsRouteImport.update({
+    id: '/albums',
+    path: '/albums',
+    getParentRoute: () => FgAuthenticatedFgArchiveBossRouteRoute,
+  } as any)
+const FgAuthenticatedFgArchiveBossCategoriesRoute =
+  FgAuthenticatedFgArchiveBossCategoriesRouteImport.update({
+    id: '/categories',
+    path: '/categories',
+    getParentRoute: () => FgAuthenticatedFgArchiveBossRouteRoute,
+  } as any)
+const FgAuthenticatedFgArchiveBossPlacesRoute =
+  FgAuthenticatedFgArchiveBossPlacesRouteImport.update({
+    id: '/places',
+    path: '/places',
+    getParentRoute: () => FgAuthenticatedFgArchiveBossRouteRoute,
   } as any)
 const FgAuthenticatedFgGang_bangersIndexRoute =
   FgAuthenticatedFgGang_bangersIndexRouteImport.update({
@@ -97,9 +125,9 @@ const FgAuthenticatedFgProjectsIndexRoute =
   } as any)
 const FgAuthenticatedFgArchiveBossEditUserUserIdRoute =
   FgAuthenticatedFgArchiveBossEditUserUserIdRouteImport.update({
-    id: '/fg/archiveBoss/editUser/$userId',
-    path: '/fg/archiveBoss/editUser/$userId',
-    getParentRoute: () => FgAuthenticatedRouteRoute,
+    id: '/editUser/$userId',
+    path: '/editUser/$userId',
+    getParentRoute: () => FgAuthenticatedFgArchiveBossRouteRoute,
   } as any)
 const FgAuthenticatedFgProjectsKull26IndexRoute =
   FgAuthenticatedFgProjectsKull26IndexRouteImport.update({
@@ -134,8 +162,12 @@ export interface FileRoutesByFullPath {
   '/om-oss/bestilling': typeof OmOssBestillingRoute
   '/om-oss/bruk-av-bilder': typeof OmOssBrukAvBilderRoute
   '/om-oss/': typeof OmOssIndexRoute
+  '/fg/archiveBoss': typeof FgAuthenticatedFgArchiveBossRouteRouteWithChildren
   '/fg/upload': typeof FgAuthenticatedFgUploadRoute
   '/fg/': typeof FgAuthenticatedFgIndexRoute
+  '/fg/archiveBoss/albums': typeof FgAuthenticatedFgArchiveBossAlbumsRoute
+  '/fg/archiveBoss/categories': typeof FgAuthenticatedFgArchiveBossCategoriesRoute
+  '/fg/archiveBoss/places': typeof FgAuthenticatedFgArchiveBossPlacesRoute
   '/fg/archiveBoss/': typeof FgAuthenticatedFgArchiveBossIndexRoute
   '/fg/gang_bangers/': typeof FgAuthenticatedFgGang_bangersIndexRoute
   '/fg/projects/': typeof FgAuthenticatedFgProjectsIndexRoute
@@ -154,6 +186,9 @@ export interface FileRoutesByTo {
   '/om-oss': typeof OmOssIndexRoute
   '/fg/upload': typeof FgAuthenticatedFgUploadRoute
   '/fg': typeof FgAuthenticatedFgIndexRoute
+  '/fg/archiveBoss/albums': typeof FgAuthenticatedFgArchiveBossAlbumsRoute
+  '/fg/archiveBoss/categories': typeof FgAuthenticatedFgArchiveBossCategoriesRoute
+  '/fg/archiveBoss/places': typeof FgAuthenticatedFgArchiveBossPlacesRoute
   '/fg/archiveBoss': typeof FgAuthenticatedFgArchiveBossIndexRoute
   '/fg/gang_bangers': typeof FgAuthenticatedFgGang_bangersIndexRoute
   '/fg/projects': typeof FgAuthenticatedFgProjectsIndexRoute
@@ -173,8 +208,12 @@ export interface FileRoutesById {
   '/om-oss/bestilling': typeof OmOssBestillingRoute
   '/om-oss/bruk-av-bilder': typeof OmOssBrukAvBilderRoute
   '/om-oss/': typeof OmOssIndexRoute
+  '/_fgAuthenticated/fg/archiveBoss': typeof FgAuthenticatedFgArchiveBossRouteRouteWithChildren
   '/_fgAuthenticated/fg/upload': typeof FgAuthenticatedFgUploadRoute
   '/_fgAuthenticated/fg/': typeof FgAuthenticatedFgIndexRoute
+  '/_fgAuthenticated/fg/archiveBoss/albums': typeof FgAuthenticatedFgArchiveBossAlbumsRoute
+  '/_fgAuthenticated/fg/archiveBoss/categories': typeof FgAuthenticatedFgArchiveBossCategoriesRoute
+  '/_fgAuthenticated/fg/archiveBoss/places': typeof FgAuthenticatedFgArchiveBossPlacesRoute
   '/_fgAuthenticated/fg/archiveBoss/': typeof FgAuthenticatedFgArchiveBossIndexRoute
   '/_fgAuthenticated/fg/gang_bangers/': typeof FgAuthenticatedFgGang_bangersIndexRoute
   '/_fgAuthenticated/fg/projects/': typeof FgAuthenticatedFgProjectsIndexRoute
@@ -194,8 +233,12 @@ export interface FileRouteTypes {
     | '/om-oss/bestilling'
     | '/om-oss/bruk-av-bilder'
     | '/om-oss/'
+    | '/fg/archiveBoss'
     | '/fg/upload'
     | '/fg/'
+    | '/fg/archiveBoss/albums'
+    | '/fg/archiveBoss/categories'
+    | '/fg/archiveBoss/places'
     | '/fg/archiveBoss/'
     | '/fg/gang_bangers/'
     | '/fg/projects/'
@@ -214,6 +257,9 @@ export interface FileRouteTypes {
     | '/om-oss'
     | '/fg/upload'
     | '/fg'
+    | '/fg/archiveBoss/albums'
+    | '/fg/archiveBoss/categories'
+    | '/fg/archiveBoss/places'
     | '/fg/archiveBoss'
     | '/fg/gang_bangers'
     | '/fg/projects'
@@ -232,8 +278,12 @@ export interface FileRouteTypes {
     | '/om-oss/bestilling'
     | '/om-oss/bruk-av-bilder'
     | '/om-oss/'
+    | '/_fgAuthenticated/fg/archiveBoss'
     | '/_fgAuthenticated/fg/upload'
     | '/_fgAuthenticated/fg/'
+    | '/_fgAuthenticated/fg/archiveBoss/albums'
+    | '/_fgAuthenticated/fg/archiveBoss/categories'
+    | '/_fgAuthenticated/fg/archiveBoss/places'
     | '/_fgAuthenticated/fg/archiveBoss/'
     | '/_fgAuthenticated/fg/gang_bangers/'
     | '/_fgAuthenticated/fg/projects/'
@@ -317,6 +367,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FgAuthenticatedFgIndexRouteImport
       parentRoute: typeof FgAuthenticatedRouteRoute
     }
+    '/_fgAuthenticated/fg/archiveBoss': {
+      id: '/_fgAuthenticated/fg/archiveBoss'
+      path: '/fg/archiveBoss'
+      fullPath: '/fg/archiveBoss'
+      preLoaderRoute: typeof FgAuthenticatedFgArchiveBossRouteRouteImport
+      parentRoute: typeof FgAuthenticatedRouteRoute
+    }
     '/_fgAuthenticated/fg/upload': {
       id: '/_fgAuthenticated/fg/upload'
       path: '/fg/upload'
@@ -326,10 +383,31 @@ declare module '@tanstack/react-router' {
     }
     '/_fgAuthenticated/fg/archiveBoss/': {
       id: '/_fgAuthenticated/fg/archiveBoss/'
-      path: '/fg/archiveBoss'
+      path: '/'
       fullPath: '/fg/archiveBoss/'
       preLoaderRoute: typeof FgAuthenticatedFgArchiveBossIndexRouteImport
-      parentRoute: typeof FgAuthenticatedRouteRoute
+      parentRoute: typeof FgAuthenticatedFgArchiveBossRouteRoute
+    }
+    '/_fgAuthenticated/fg/archiveBoss/albums': {
+      id: '/_fgAuthenticated/fg/archiveBoss/albums'
+      path: '/albums'
+      fullPath: '/fg/archiveBoss/albums'
+      preLoaderRoute: typeof FgAuthenticatedFgArchiveBossAlbumsRouteImport
+      parentRoute: typeof FgAuthenticatedFgArchiveBossRouteRoute
+    }
+    '/_fgAuthenticated/fg/archiveBoss/categories': {
+      id: '/_fgAuthenticated/fg/archiveBoss/categories'
+      path: '/categories'
+      fullPath: '/fg/archiveBoss/categories'
+      preLoaderRoute: typeof FgAuthenticatedFgArchiveBossCategoriesRouteImport
+      parentRoute: typeof FgAuthenticatedFgArchiveBossRouteRoute
+    }
+    '/_fgAuthenticated/fg/archiveBoss/places': {
+      id: '/_fgAuthenticated/fg/archiveBoss/places'
+      path: '/places'
+      fullPath: '/fg/archiveBoss/places'
+      preLoaderRoute: typeof FgAuthenticatedFgArchiveBossPlacesRouteImport
+      parentRoute: typeof FgAuthenticatedFgArchiveBossRouteRoute
     }
     '/_fgAuthenticated/fg/gang_bangers/': {
       id: '/_fgAuthenticated/fg/gang_bangers/'
@@ -347,10 +425,10 @@ declare module '@tanstack/react-router' {
     }
     '/_fgAuthenticated/fg/archiveBoss/editUser/$userId': {
       id: '/_fgAuthenticated/fg/archiveBoss/editUser/$userId'
-      path: '/fg/archiveBoss/editUser/$userId'
+      path: '/editUser/$userId'
       fullPath: '/fg/archiveBoss/editUser/$userId'
       preLoaderRoute: typeof FgAuthenticatedFgArchiveBossEditUserUserIdRouteImport
-      parentRoute: typeof FgAuthenticatedRouteRoute
+      parentRoute: typeof FgAuthenticatedFgArchiveBossRouteRoute
     }
     '/_fgAuthenticated/fg/projects/kull26/': {
       id: '/_fgAuthenticated/fg/projects/kull26/'
@@ -383,13 +461,39 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface FgAuthenticatedFgArchiveBossRouteRouteChildren {
+  FgAuthenticatedFgArchiveBossAlbumsRoute: typeof FgAuthenticatedFgArchiveBossAlbumsRoute
+  FgAuthenticatedFgArchiveBossCategoriesRoute: typeof FgAuthenticatedFgArchiveBossCategoriesRoute
+  FgAuthenticatedFgArchiveBossPlacesRoute: typeof FgAuthenticatedFgArchiveBossPlacesRoute
+  FgAuthenticatedFgArchiveBossIndexRoute: typeof FgAuthenticatedFgArchiveBossIndexRoute
+  FgAuthenticatedFgArchiveBossEditUserUserIdRoute: typeof FgAuthenticatedFgArchiveBossEditUserUserIdRoute
+}
+
+const FgAuthenticatedFgArchiveBossRouteRouteChildren: FgAuthenticatedFgArchiveBossRouteRouteChildren =
+  {
+    FgAuthenticatedFgArchiveBossAlbumsRoute:
+      FgAuthenticatedFgArchiveBossAlbumsRoute,
+    FgAuthenticatedFgArchiveBossCategoriesRoute:
+      FgAuthenticatedFgArchiveBossCategoriesRoute,
+    FgAuthenticatedFgArchiveBossPlacesRoute:
+      FgAuthenticatedFgArchiveBossPlacesRoute,
+    FgAuthenticatedFgArchiveBossIndexRoute:
+      FgAuthenticatedFgArchiveBossIndexRoute,
+    FgAuthenticatedFgArchiveBossEditUserUserIdRoute:
+      FgAuthenticatedFgArchiveBossEditUserUserIdRoute,
+  }
+
+const FgAuthenticatedFgArchiveBossRouteRouteWithChildren =
+  FgAuthenticatedFgArchiveBossRouteRoute._addFileChildren(
+    FgAuthenticatedFgArchiveBossRouteRouteChildren,
+  )
+
 interface FgAuthenticatedRouteRouteChildren {
+  FgAuthenticatedFgArchiveBossRouteRoute: typeof FgAuthenticatedFgArchiveBossRouteRouteWithChildren
   FgAuthenticatedFgUploadRoute: typeof FgAuthenticatedFgUploadRoute
   FgAuthenticatedFgIndexRoute: typeof FgAuthenticatedFgIndexRoute
-  FgAuthenticatedFgArchiveBossIndexRoute: typeof FgAuthenticatedFgArchiveBossIndexRoute
   FgAuthenticatedFgGang_bangersIndexRoute: typeof FgAuthenticatedFgGang_bangersIndexRoute
   FgAuthenticatedFgProjectsIndexRoute: typeof FgAuthenticatedFgProjectsIndexRoute
-  FgAuthenticatedFgArchiveBossEditUserUserIdRoute: typeof FgAuthenticatedFgArchiveBossEditUserUserIdRoute
   FgAuthenticatedFgProjectsKull26FirstgameRoute: typeof FgAuthenticatedFgProjectsKull26FirstgameRoute
   FgAuthenticatedFgProjectsKull26SecondgameRoute: typeof FgAuthenticatedFgProjectsKull26SecondgameRoute
   FgAuthenticatedFgProjectsKull26ThirdgameRoute: typeof FgAuthenticatedFgProjectsKull26ThirdgameRoute
@@ -397,15 +501,13 @@ interface FgAuthenticatedRouteRouteChildren {
 }
 
 const FgAuthenticatedRouteRouteChildren: FgAuthenticatedRouteRouteChildren = {
+  FgAuthenticatedFgArchiveBossRouteRoute:
+    FgAuthenticatedFgArchiveBossRouteRouteWithChildren,
   FgAuthenticatedFgUploadRoute: FgAuthenticatedFgUploadRoute,
   FgAuthenticatedFgIndexRoute: FgAuthenticatedFgIndexRoute,
-  FgAuthenticatedFgArchiveBossIndexRoute:
-    FgAuthenticatedFgArchiveBossIndexRoute,
   FgAuthenticatedFgGang_bangersIndexRoute:
     FgAuthenticatedFgGang_bangersIndexRoute,
   FgAuthenticatedFgProjectsIndexRoute: FgAuthenticatedFgProjectsIndexRoute,
-  FgAuthenticatedFgArchiveBossEditUserUserIdRoute:
-    FgAuthenticatedFgArchiveBossEditUserUserIdRoute,
   FgAuthenticatedFgProjectsKull26FirstgameRoute:
     FgAuthenticatedFgProjectsKull26FirstgameRoute,
   FgAuthenticatedFgProjectsKull26SecondgameRoute:

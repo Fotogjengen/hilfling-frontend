@@ -1,11 +1,14 @@
 import { api } from "./api";
 import { AlbumDto } from "../../../generated";
 import { DeletedResult, PaginatedResult } from "./types";
+import { AlbumPatchRequestDto } from "../../../generated";
 
 interface PaginationParams {
   page?: number;
   pageSize?: number;
 }
+
+export type AlbumCreateRequest = Omit<AlbumDto, "albumId">;
 
 export const AlbumApi = {
   getAll: async function (
@@ -29,8 +32,11 @@ export const AlbumApi = {
   deleteById: async function (id: string): Promise<DeletedResult> {
     return api.delete(`/albums/${id}`);
   },
+  patch: async function (album: AlbumPatchRequestDto): Promise<AlbumDto> {
+    return api.patch(`/albums`, album).then((res) => res.data);
+  },
 
-  post: async function (album: any): Promise<number> {
+  post: async function (album: AlbumCreateRequest): Promise<number> {
     return api
       .post("/albums", album)
       .then((res) => res.data)

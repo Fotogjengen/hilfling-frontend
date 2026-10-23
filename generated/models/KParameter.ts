@@ -5,11 +5,11 @@
 import type { KType } from "./KType";
 export type KParameter = {
   isVararg: boolean;
-  isOptional: boolean;
-  kind: KParameter.kind;
   name?: string;
   type: KType;
   index: number;
+  kind: KParameter.kind;
+  isOptional: boolean;
   annotations: Array<any>;
 };
 export namespace KParameter {

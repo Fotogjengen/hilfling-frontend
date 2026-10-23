@@ -25,6 +25,14 @@
   font-weight: var(--typography-body-font-weight-strong);
 }
 
+.table.borderless td {
+  border-bottom: none;
+}
+
+.table.borderless tbody tr:hover {
+  background-color: transparent;
+}
+
 .sortButton {
   display: inline-flex;
   align-items: center;

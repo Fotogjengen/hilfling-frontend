@@ -8,6 +8,7 @@ import { useUpdateGoodPicture } from "@/hooks/photo";
 type UploadedPhotoProps = {
   photo: PhotoDto;
   motiveId: string;
+  onOpen: () => void;
 };
 
 export function UploadedPhotoSkeleton() {
@@ -28,7 +29,7 @@ export function UploadedPhotoSkeleton() {
   );
 }
 
-export function UploadedPhoto({ photo, motiveId }: UploadedPhotoProps) {
+export function UploadedPhoto({ photo, motiveId, onOpen }: UploadedPhotoProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const { mutate: updateGoodPicture } = useUpdateGoodPicture(motiveId);
 
@@ -40,6 +41,7 @@ export function UploadedPhoto({ photo, motiveId }: UploadedPhotoProps) {
           src={photo.imageThumb}
           alt="Opplastet bilde"
           onLoad={() => setIsLoaded(true)}
+          onClick={onOpen}
         />
       </div>
       <div className={styles.actions}>

@@ -4,11 +4,16 @@ import { Plus, Trash2 } from "lucide-react";
 import type { PhotoGangBangerDto } from "@/../generated";
 import { Button } from "@/components/ui/input/Button";
 import { Select } from "@/components/ui/input/Select";
+import { SemesterPicker } from "@/components/ui/input/SemesterPicker";
 import { Dialog } from "@/components/ui/overlay/Dialog";
 import { toast } from "@/components/ui/overlay/Toaster";
 import { useReplacePhotoGangBangerPositions } from "@/hooks/photoGangBangers";
 import { PositionApi } from "@/utils/api/PositionApi";
-import { createSemesterOptions, semesterSortValue } from "@/utils/semester";
+import {
+  isValidSemester,
+  normalizeSemester,
+  semesterSortValue,
+} from "@/utils/semester";
 import styles from "./EditPositionsDialog.module.css";
 import { Link } from "@tanstack/react-router";
 
@@ -23,8 +28,6 @@ interface PositionRow {
   semesterStart: string;
   semesterEnd: string;
 }
-
-const ONGOING_POSITION_VALUE = "pågående";
 
 function toPositionRows(user: PhotoGangBangerDto): PositionRow[] {
   return [...user.positions]
@@ -54,14 +57,23 @@ function getRowErrors(rows: PositionRow[]): Record<string, string> {
       errors[row.key] = "Velg startsemester";
       return;
     }
+    if (!isValidSemester(row.semesterStart)) {
+      errors[row.key] = "Ugyldig startsemester (format: V25 eller H25)";
+      return;
+    }
+    if (row.semesterEnd && !isValidSemester(row.semesterEnd)) {
+      errors[row.key] = "Ugyldig sluttsemester (format: V25 eller H25)";
+      return;
+    }
     if (
       row.semesterEnd &&
-      semesterSortValue(row.semesterEnd) < semesterSortValue(row.semesterStart)
+      semesterSortValue(normalizeSemester(row.semesterEnd)) <
+        semesterSortValue(normalizeSemester(row.semesterStart))
     ) {
       errors[row.key] = "Sluttsemester kan ikke være før startsemester";
       return;
     }
-    const assignment = `${row.positionId}-${row.semesterStart}`;
+    const assignment = `${row.positionId}-${normalizeSemester(row.semesterStart)}`;
     if (seen.has(assignment)) {
       errors[row.key] = "Verv og startsemester er allerede i listen";
       return;
@@ -90,15 +102,6 @@ export function EditPositionsDialog({
       PositionApi.getAll().then((response) => response.data.currentList),
   });
 
-  const semesterExtras = user.positions.flatMap((position) => [
-    position.semesterStart.value,
-    position.semesterEnd?.value ?? "",
-  ]);
-  const semesterOptions = createSemesterOptions(semesterExtras);
-  const endSemesterOptions = [
-    { label: "d.d.", value: ONGOING_POSITION_VALUE },
-    ...semesterOptions,
-  ];
   const positionOptions = positions.map((position) => ({
     label: position.title,
     value: position.positionId.id,
@@ -236,28 +239,21 @@ export function EditPositionsDialog({
                 </div>
                 <div className={styles.positionSemesters}>
                   <span className={styles.positionSemesterLabel}>Fra</span>
-                  <Select
-                    options={semesterOptions}
+                  <SemesterPicker
                     value={row.semesterStart}
-                    onValueChange={(semesterStart) =>
+                    onChange={(semesterStart: string) =>
                       updatePositionRow(row.key, { semesterStart })
                     }
-                    placeholder="Velg semester"
-                    ariaLabel="Startsemester"
+                    placeholder="f.eks. V25"
                   />
                   <span className={styles.positionSemesterLabel}>Til</span>
-                  <Select
-                    options={endSemesterOptions}
-                    value={row.semesterEnd || ONGOING_POSITION_VALUE}
-                    onValueChange={(semesterEnd) =>
-                      updatePositionRow(row.key, {
-                        semesterEnd:
-                          semesterEnd === ONGOING_POSITION_VALUE
-                            ? ""
-                            : semesterEnd,
-                      })
+                  <SemesterPicker
+                    value={row.semesterEnd}
+                    onChange={(semesterEnd: string) =>
+                      updatePositionRow(row.key, { semesterEnd })
                     }
-                    ariaLabel="Sluttsemester"
+                    placeholder="f.eks. H25"
+                    allowEmpty
                   />
                 </div>
                 {rowErrors[row.key] && (

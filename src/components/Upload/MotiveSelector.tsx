@@ -39,8 +39,12 @@ export default function MotiveSelector({
     isFetchingNextPage,
   } = isSearching ? searchQuery : motivesQuery;
 
+  const motives = data?.pages.flatMap((page) => page.currentList) ?? [];
+  const selectedId = value?.motiveId.id;
+  const isSelectedLoaded = motives.some((m) => m.motiveId.id === selectedId);
+
   useEffect(() => {
-    if (!value || !listRef.current) return;
+    if (!selectedId || !listRef.current) return;
     const container = listRef.current;
 
     const scrollToSelected = (behavior: ScrollBehavior) => {
@@ -54,7 +58,19 @@ export default function MotiveSelector({
     const observer = new ResizeObserver(() => scrollToSelected("instant"));
     observer.observe(container);
     return () => observer.disconnect();
-  }, [value?.motiveId.id]);
+  }, [selectedId, isSelectedLoaded]);
+
+  useEffect(() => {
+    if (!selectedId || isSearching || isSelectedLoaded) return;
+    if (hasNextPage && !isFetchingNextPage) void fetchNextPage();
+  }, [
+    selectedId,
+    isSearching,
+    isSelectedLoaded,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  ]);
 
   useEffect(() => {
     if (!isCreatingNew || !listRef.current) return;
@@ -66,8 +82,6 @@ export default function MotiveSelector({
   useEffect(() => {
     if (inView && hasNextPage && !isFetchingNextPage) void fetchNextPage();
   }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
-
-  const motives = data?.pages.flatMap((page) => page.currentList) ?? [];
 
   return (
     <div className={styles.wrapper}>

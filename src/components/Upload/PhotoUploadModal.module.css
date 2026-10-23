@@ -74,7 +74,7 @@
 }
 
 .fileList {
-  padding: var(--size-space-400);
+  padding: var(--size-space-400) 0;
   border-top: var(--size-stroke-border) solid
     var(--color-border-default-default);
   max-height: 60vh;
@@ -83,10 +83,26 @@
 }
 
 .fileRow {
+  position: relative;
+  isolation: isolate;
   display: flex;
   align-items: center;
   gap: var(--size-space-300);
-  padding: var(--size-space-300) var(--size-space-300) var(--size-space-300) 0;
+  padding: var(--size-space-300) var(--size-space-400);
+}
+
+.fileRow .fileProgress {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  height: auto;
+  border-radius: 0;
+  background-color: transparent;
+  pointer-events: none;
+}
+
+.fileRow .fileProgress > * {
+  opacity: 0.15;
 }
 
 .thumbnail {
@@ -134,7 +150,7 @@
 .divider {
   border: none;
   border-top: 1px solid var(--color-border-default-default);
-  margin: 0;
+  margin: 0 var(--size-space-400);
 }
 
 .dropOverlay {
