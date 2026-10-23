@@ -1,25 +1,26 @@
 import { NavigationMenu } from "radix-ui";
 import styles from "./ArchiveBossSidebar.module.css";
 import { Link } from "@tanstack/react-router";
+import { NavigationMenuLink } from "@/components/ui/navigation/NavigationMenu";
 
 function ArchiveBossSidebar() {
   return (
     <NavigationMenu.Root orientation="vertical" className={styles.Root}>
       <NavigationMenu.List className={styles.MenuList}>
-        <NavigationMenu.Item className={styles.titleWrapper}>
-          <NavigationMenu.Link className={styles.Trigger} asChild>
+        <NavigationMenu.Item>
+          <NavigationMenuLink asChild>
             <Link to="/fg/archiveBoss/albums">Album</Link>
-          </NavigationMenu.Link>
+          </NavigationMenuLink>
         </NavigationMenu.Item>
-        <NavigationMenu.Item className={styles.titleWrapper}>
-          <NavigationMenu.Link className={styles.Trigger} asChild>
+        <NavigationMenu.Item>
+          <NavigationMenuLink asChild>
             <Link to="/fg/archiveBoss/categories">Kategori</Link>
-          </NavigationMenu.Link>
+          </NavigationMenuLink>
         </NavigationMenu.Item>
-        <NavigationMenu.Item className={styles.titleWrapper}>
-          <NavigationMenu.Link className={styles.Trigger} asChild>
+        <NavigationMenu.Item>
+          <NavigationMenuLink asChild>
             <Link to="/fg/archiveBoss/places">Steder</Link>
-          </NavigationMenu.Link>
+          </NavigationMenuLink>
         </NavigationMenu.Item>
         <NavigationMenu.Indicator className={styles.Indicator} />
       </NavigationMenu.List>
