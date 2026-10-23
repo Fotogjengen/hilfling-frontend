@@ -3,7 +3,6 @@ import { useEffect, useState, useMemo } from "react";
 import styles from "./places.module.css";
 import { PlaceDto, PlacePatchRequestDto } from "@/../generated";
 import ArchiveBossItem from "@/components/Arkivsjef/ArchiveBossItem/ArchiveBossItem";
-import { ScrollArea } from "radix-ui";
 import { SearchField } from "@/components/ui/input/SearchField";
 import { Select } from "@/components/ui/input/Select";
 import {
