@@ -18,9 +18,9 @@
 
 .photoTransformViewport {
   position: absolute;
-  top: 88px;
+  top: calc(2 * var(--size-icon-button-medium));
   right: var(--size-space-400);
-  bottom: calc(5rem + var(--size-space-400));
+  bottom: calc(var(--size-space-1600) + 2 * var(--size-space-400));
   left: var(--size-space-400);
   min-width: 0;
   min-height: 0;
