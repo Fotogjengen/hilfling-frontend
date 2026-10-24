@@ -18,10 +18,12 @@ export function MainPhotoSkeleton() {
 export function PhotoViewMainContent({
   selectedPhoto,
   onToggleFocus,
+  onHideSidebar,
   children,
 }: {
   selectedPhoto?: PhotoDto;
   onToggleFocus: () => void;
+  onHideSidebar: () => void;
   children?: ReactNode;
 }) {
   return (
@@ -50,15 +52,21 @@ export function PhotoViewMainContent({
           >
             <TransformComponent
               wrapperStyle={{ width: "100%", height: "100%" }}
-              contentStyle={{ width: "100%", height: "100%" }}
+              contentStyle={{
+                width: "100%",
+                height: "100%",
+                position: "relative",
+              }}
+              wrapperProps={{ onClick: onHideSidebar }}
             >
-              <img
-                src={selectedPhoto.imageWeb}
-                alt=""
-                className={styles.mainPhoto}
-                title="Scroll to zoom, drag to move"
-                onClick={onToggleFocus}
-              />
+              <div className={styles.mainPhotoFrame}>
+                <img
+                  src={selectedPhoto.imageWeb}
+                  alt=""
+                  className={styles.mainPhoto}
+                  title="Scroll to zoom, drag to move"
+                />
+              </div>
             </TransformComponent>
           </TransformWrapper>
         </div>
