@@ -1,6 +1,12 @@
 import { api } from "./api";
-import { PositionDto } from "../../../generated";
+import {
+  Permission,
+  PositionDto,
+  PositionPatchRequestDto,
+} from "../../../generated";
 import { DeletedResult, PaginatedResult } from "./types";
+
+export type PositionCreateRequest = Omit<PositionDto, "positionId">;
 
 export const PositionApi = {
   getAll: async function (): Promise<PaginatedResult<PositionDto>> {
@@ -9,11 +15,23 @@ export const PositionApi = {
   deleteById: async function (id: string): Promise<DeletedResult> {
     return api.delete(`/positions/${id}`);
   },
-
-  post: async function (postion: any): Promise<number> {
+  patch: async function (
+    position: PositionPatchRequestDto,
+  ): Promise<PositionDto> {
+    return api.patch("/positions", position).then((res) => res.data);
+  },
+  post: async function (position: PositionCreateRequest): Promise<number> {
+    return api.post("/positions", position).then((res) => res.data);
+  },
+  getPermissions: async function (id: string): Promise<Permission[]> {
+    return api.get(`/positions/${id}/permissions`).then((res) => res.data);
+  },
+  putPermissions: async function (
+    id: string,
+    permissions: Permission[],
+  ): Promise<Permission[]> {
     return api
-      .post("/positions", postion)
-      .then((res) => res.data)
-      .catch((e) => console.log(e));
+      .put(`/positions/${id}/permissions`, permissions)
+      .then((res) => res.data);
   },
 };

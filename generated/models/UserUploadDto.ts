@@ -7,8 +7,8 @@ import type { SecurityLevelDto } from "./SecurityLevelDto";
 import type { UserUploadId } from "./UserUploadId";
 export type UserUploadDto = {
   userUploadId: UserUploadId;
-  securityLevel?: SecurityLevelDto;
-  link?: string;
+  securityLevel?: SecurityLevelDto | null;
+  link?: string | null;
   photoGangBangerDto: PhotoGangBangerDto;
   dateUploaded: string;
 };

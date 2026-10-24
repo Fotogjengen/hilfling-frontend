@@ -54,6 +54,7 @@ export type { PagePlaceDto } from "./models/PagePlaceDto";
 export type { PagePositionDto } from "./models/PagePositionDto";
 export type { PagePurchaseOrderDto } from "./models/PagePurchaseOrderDto";
 export type { PageUserUploadDto } from "./models/PageUserUploadDto";
+export { Permission } from "./models/Permission";
 export type { PhotoDto } from "./models/PhotoDto";
 export type { PhotoFinalizeRequestDto } from "./models/PhotoFinalizeRequestDto";
 export type { PhotoGangBangerDto } from "./models/PhotoGangBangerDto";

@@ -7,10 +7,10 @@ import type { SecurityLevelDto } from "./SecurityLevelDto";
 export type ExternalUserDto = {
   externalUserId: ExternalUserId;
   username: string;
-  password?: string;
-  email?: string;
-  fullName?: string;
-  securityLevel?: SecurityLevelDto;
-  description?: string;
+  password?: string | null;
+  email?: string | null;
+  fullName?: string | null;
+  securityLevel?: SecurityLevelDto | null;
+  description?: string | null;
   isActive: boolean;
 };

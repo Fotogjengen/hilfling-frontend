@@ -8,8 +8,8 @@ import type { SecurityLevelDto } from "./SecurityLevelDto";
 export type MotiveDefaultsDto = {
   eventOwnerDto: EventOwnerDto;
   securityLevel: SecurityLevelDto;
-  albumDto?: AlbumDto;
-  analogAlbumDto?: AlbumDto;
+  albumDto?: AlbumDto | null;
+  analogAlbumDto?: AlbumDto | null;
   dateCreated: string;
   date: string;
 };

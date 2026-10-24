@@ -7,5 +7,5 @@ import type { SemesterStart } from "./SemesterStart";
 export type PhotoGangBangerPositionRequestDto = {
   positionId: PositionId;
   semesterStart: SemesterStart;
-  semesterEnd?: SemesterStart;
+  semesterEnd?: SemesterStart | null;
 };
