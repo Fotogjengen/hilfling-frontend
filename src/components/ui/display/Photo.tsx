@@ -19,9 +19,9 @@ function srcFor(photo: PhotoDto, quality: PhotoQuality): string | undefined {
     case "thumb":
       return photo.imageThumb;
     case "full":
-      return photo.imageProd;
+      return photo.imageProd ?? undefined;
     default:
-      return photo.imageWeb;
+      return photo.imageWeb ?? undefined;
   }
 }
 

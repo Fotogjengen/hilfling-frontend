@@ -137,7 +137,7 @@ export default function EventCard({ motive, size = "large" }: EventCardProps) {
               className={`${styles.photo} ${orientation ? styles[orientation] : styles.hidePhoto}`}
             >
               <img
-                src={photo.imageWeb}
+                src={photo.imageWeb ?? undefined}
                 alt={`Bilde fra ${motive.title}`}
                 onLoad={(e) => {
                   record(

@@ -27,7 +27,7 @@ export function PhotoViewMainContent({
     >
       {selectedPhoto ? (
         <img
-          src={selectedPhoto.imageWeb}
+          src={selectedPhoto.imageWeb ?? undefined}
           alt=""
           className={styles.mainPhoto}
           onClick={onToggleFocus}
@@ -80,7 +80,7 @@ export function SwipeableMainPhoto({
         <AnimatePresence initial={false} custom={direction}>
           <motion.img
             key={selectedPhoto.photoId.id}
-            src={selectedPhoto.imageWeb}
+            src={selectedPhoto.imageWeb ?? undefined}
             alt=""
             className={styles.swipePhoto}
             custom={direction}
