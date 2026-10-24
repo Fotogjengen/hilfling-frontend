@@ -61,8 +61,7 @@ function GangBangers() {
       {
         accessorKey: "name",
         header: "Navn",
-        sortFn: (a, b) =>
-          a.original.name.localeCompare(b.original.name, "nb"),
+        sortFn: (a, b) => a.original.name.localeCompare(b.original.name, "nb"),
         cell: ({ row }) => (
           <div className={styles.userCell}>
             <ProfileImage

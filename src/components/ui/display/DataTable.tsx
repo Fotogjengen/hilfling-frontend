@@ -1,5 +1,10 @@
 import { ReactNode } from "react";
-import { flexRender, type RowData, type StockFeatures, type Table } from "@tanstack/react-table";
+import {
+  flexRender,
+  type RowData,
+  type StockFeatures,
+  type Table,
+} from "@tanstack/react-table";
 import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 import styles from "./DataTable.module.css";
 
