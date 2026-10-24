@@ -224,7 +224,7 @@ export default function PhotoTable({
   });
 
   const table = useTable({
-    features: stockFeatures,
+    features,
     data: visiblePhotos,
     columns,
     getRowId: (photo) => photo.photoId.id,
