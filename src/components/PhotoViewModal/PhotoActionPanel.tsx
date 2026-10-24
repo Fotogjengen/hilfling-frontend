@@ -1,9 +1,10 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { Check, Download, Info, Link, X } from "lucide-react";
+import { Check, Download, Image as ImageIcon, Info, Link, X } from "lucide-react";
 import { Link as RouterLink } from "@tanstack/react-router";
 import { PhotoDto } from "../../../generated";
 import { IconButton } from "@/components/ui/input/IconButton";
+import { Tooltip } from "@/components/ui/overlay/Tooltip";
 import { useCopyToClipboard } from "@/hooks/clipboard";
 import { usePhotoDownload } from "@/contexts/PhotoDownloadProvider";
 import { useAuth } from "@/contexts/AuthProvider";
@@ -14,12 +15,19 @@ import { useMetadata } from "@/hooks/metadata";
 // Download, copy link and metadata buttons
 export function PhotoActionPanel({
   selectedPhoto,
+  showProdPicture,
+  onToggleProdPicture,
 }: {
   selectedPhoto?: PhotoDto;
+  showProdPicture: boolean;
+  onToggleProdPicture: () => void;
 }) {
   const [showMetadata, setShowMetadata] = useState(false);
   const { copied, copy } = useCopyToClipboard();
   const { requestDownload } = usePhotoDownload();
+  const { isAuthenticated, user } = useAuth();
+  const canViewProdPicture =
+    isAuthenticated && user?.securityLevel === "FG" && !!selectedPhoto?.imageProd;
 
   return (
     <motion.div
@@ -56,6 +64,9 @@ export function PhotoActionPanel({
           >
             <PhotoActionButtons
               selectedPhoto={selectedPhoto}
+              canViewProdPicture={canViewProdPicture}
+              showProdPicture={showProdPicture}
+              onToggleProdPicture={onToggleProdPicture}
               requestDownload={requestDownload}
               copied={copied}
               copy={copy}
@@ -70,12 +81,18 @@ export function PhotoActionPanel({
 
 function PhotoActionButtons({
   selectedPhoto,
+  canViewProdPicture,
+  showProdPicture,
+  onToggleProdPicture,
   requestDownload,
   copied,
   copy,
   onShowMetadata,
 }: {
   selectedPhoto?: PhotoDto;
+  canViewProdPicture: boolean;
+  showProdPicture: boolean;
+  onToggleProdPicture: () => void;
   requestDownload: (photos: PhotoDto[]) => void;
   copied: boolean;
   copy: (options: { text: string }) => void;
@@ -83,6 +100,21 @@ function PhotoActionButtons({
 }) {
   return (
     <>
+      {canViewProdPicture && (
+        <Tooltip content={showProdPicture ? "Web" : "Prod"}>
+          <IconButton
+            variant={showProdPicture ? "primary" : "subtle"}
+            aria-label={
+              showProdPicture ? "Vis web-kvalitet" : "Vis prod-kvalitet"
+            }
+            aria-pressed={showProdPicture}
+            className={styles.actionButton}
+            onClick={onToggleProdPicture}
+          >
+            <ImageIcon />
+          </IconButton>
+        </Tooltip>
+      )}
       <IconButton
         variant="subtle"
         aria-label="Last ned bildet"

@@ -17,11 +17,13 @@ export function MainPhotoSkeleton() {
 // Main photo display area for desktop
 export function PhotoViewMainContent({
   selectedPhoto,
+  showProdPicture,
   onToggleFocus,
   onHideSidebar,
   children,
 }: {
   selectedPhoto?: PhotoDto;
+  showProdPicture: boolean;
   onToggleFocus: () => void;
   onHideSidebar: () => void;
   children?: ReactNode;
@@ -61,7 +63,11 @@ export function PhotoViewMainContent({
             >
               <div className={styles.mainPhotoFrame}>
                 <img
-                  src={selectedPhoto.imageWeb}
+                  src={
+                    showProdPicture
+                      ? (selectedPhoto.imageProd ?? selectedPhoto.imageWeb)
+                      : selectedPhoto.imageWeb
+                  }
                   alt=""
                   className={styles.mainPhoto}
                   title="Scroll to zoom, drag to move"
@@ -96,11 +102,13 @@ const swipeVariants = {
 // Swipeable main photo area for mobile
 export function SwipeableMainPhoto({
   selectedPhoto,
+  showProdPicture,
   currentIndex,
   onNext,
   onPrevious,
 }: {
   selectedPhoto?: PhotoDto;
+  showProdPicture: boolean;
   currentIndex: number;
   onNext: () => void;
   onPrevious: () => void;
@@ -182,7 +190,11 @@ export function SwipeableMainPhoto({
                 contentStyle={{ width: "100%", height: "100%" }}
               >
                 <img
-                  src={selectedPhoto.imageWeb}
+                  src={
+                    showProdPicture
+                      ? (selectedPhoto.imageProd ?? selectedPhoto.imageWeb)
+                      : selectedPhoto.imageWeb
+                  }
                   alt=""
                   className={styles.swipePhoto}
                 />

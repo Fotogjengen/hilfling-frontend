@@ -74,6 +74,7 @@ export function PhotoGalleryBody({
   const { selectedPhoto, setSelectedPhoto, currentIndex, goNext, goPrevious } =
     usePhotoSelection(photos, initialPhotoId, onSelectedPhotoChange);
   const [isFocused, setIsFocused] = useState(false);
+  const [showProdPicture, setShowProdPicture] = useState(false);
   const { isInactive } = useInactivity({ inactiveDelayMs: 1000 });
   const hideUI = isFocused && isInactive;
   const isMobile = useIsMobile();
@@ -101,12 +102,19 @@ export function PhotoGalleryBody({
           <div className={styles.mobileContent}>
             <SwipeableMainPhoto
               selectedPhoto={selectedPhoto}
+              showProdPicture={showProdPicture}
               currentIndex={currentIndex}
               onNext={goNext}
               onPrevious={goPrevious}
             />
             <div className={styles.mobileBottomActions}>
-              <PhotoActionPanel selectedPhoto={selectedPhoto} />
+              <PhotoActionPanel
+                selectedPhoto={selectedPhoto}
+                showProdPicture={showProdPicture}
+                onToggleProdPicture={() =>
+                  setShowProdPicture((showingProd) => !showingProd)
+                }
+              />
               {showMotiveLink && selectedPhoto && (
                 <MotiveLink photo={selectedPhoto} />
               )}
@@ -145,6 +153,7 @@ export function PhotoGalleryBody({
           />
           <PhotoViewMainContent
             selectedPhoto={selectedPhoto}
+            showProdPicture={showProdPicture}
             onToggleFocus={() => setIsFocused((f) => !f)}
             onHideSidebar={() => setIsFocused(true)}
           >
@@ -153,7 +162,13 @@ export function PhotoGalleryBody({
               animateOnMount={false}
               className={actionStyles.actionPanelAnchor}
             >
-              <PhotoActionPanel selectedPhoto={selectedPhoto} />
+              <PhotoActionPanel
+                selectedPhoto={selectedPhoto}
+                showProdPicture={showProdPicture}
+                onToggleProdPicture={() =>
+                  setShowProdPicture((showingProd) => !showingProd)
+                }
+              />
             </FadeInOut>
             <FadeInOut
               show={!isFocused}
