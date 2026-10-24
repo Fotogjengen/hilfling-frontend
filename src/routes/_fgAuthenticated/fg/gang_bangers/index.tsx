@@ -1,10 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import {
-  getCoreRowModel,
-  getFilteredRowModel,
-  getSortedRowModel,
-  useReactTable,
+  createFilteredRowModel,
+  createSortedRowModel,
+  useTable,
+  tableFeatures,
+  stockFeatures,
+  sortFns,
+  type StockFeatures,
   type ColumnDef,
   type RowSelectionState,
 } from "@tanstack/react-table";
@@ -53,13 +56,12 @@ function GangBangers() {
     return user?.permissions.includes("USER_MANAGE");
   }, [user]);
 
-  const columns = useMemo<ColumnDef<PhotoGangBangerDto>[]>(
+  const columns = useMemo<ColumnDef<StockFeatures, PhotoGangBangerDto>[]>(
     () => [
       {
         accessorKey: "name",
         header: "Navn",
-        sortingFn: (a, b) =>
-          a.original.name.localeCompare(b.original.name, "nb"),
+        sortFn: (a, b) => a.original.name.localeCompare(b.original.name, "nb"),
         cell: ({ row }) => (
           <div className={styles.userCell}>
             <ProfileImage
@@ -153,7 +155,7 @@ function GangBangers() {
                   </DropdownMenu>
                 </div>
               ),
-            } satisfies ColumnDef<PhotoGangBangerDto>,
+            } satisfies ColumnDef<StockFeatures, PhotoGangBangerDto>,
           ]
         : []),
       {
@@ -165,7 +167,15 @@ function GangBangers() {
     [canEditUsers],
   );
 
-  const table = useReactTable({
+  const features = tableFeatures({
+    ...stockFeatures,
+    filteredRowModel: createFilteredRowModel(),
+    sortedRowModel: createSortedRowModel(),
+    sortFns,
+  });
+
+  const table = useTable({
+    features,
     data: users,
     columns,
     getRowId: (user) => user.photoGangBangerId.id,
@@ -183,9 +193,6 @@ function GangBangers() {
     getColumnCanGlobalFilter: (column) => column.id === "name",
     globalFilterFn: (row, _columnId, value: string) =>
       getSearchText(row.original).includes(value.trim().toLowerCase()),
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getSortedRowModel: getSortedRowModel(),
   });
 
   return (
