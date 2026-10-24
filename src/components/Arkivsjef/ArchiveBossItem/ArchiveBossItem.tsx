@@ -19,6 +19,7 @@ interface Temp<T> {
   onClose(): any;
   onEdit(dtoObject: T): any;
   EditSchema: React.ComponentType<EditSchemaProps<T>>;
+  onDefault(dtoObject: T): any;
 }
 
 function ArchiveBossItem<T>({
@@ -31,7 +32,8 @@ function ArchiveBossItem<T>({
   onClose,
   onEdit,
   EditSchema,
-}: Temp<T>) {
+  onDefault,
+}: Temp<T>) {;
   const [deleteWarning, setDeleteWarning] = useState<boolean>(false);
 
   const handleDeleteClick = () => {
@@ -51,7 +53,11 @@ function ArchiveBossItem<T>({
       <td>
         <div className={styles.actions}>
           {Type === "album" && (
-            <Button variant="neutral" size="sm" className={styles.deleteButton}>
+            <Button variant="neutral" 
+            size="sm" 
+            className={styles.deleteButton}
+            onClick={() => onDefault(dtoObject)}
+            >
               <Album size={16} aria-hidden="true" />
               Sett som standard
             </Button>

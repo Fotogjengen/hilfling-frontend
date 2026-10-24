@@ -10,6 +10,7 @@ import {
   useDeleteAlbum,
   useUpdateAlbum,
   usePostAlbum,
+  useSetDefault,
 } from "@/hooks/album";
 import ArchiveBossAlbumSchema from "@/components/Arkivsjef/ArchiveBossEditAlbumSchema/ArchiveBossEditAlbumSchema";
 import ArchiveBossCreateAlbum from "@/components/Arkivsjef/ArchiveBossCreateAlbum/ArchiveBossCreateAlbum";
@@ -40,6 +41,7 @@ function AlbumsPage() {
   const deleteAlbum = useDeleteAlbum();
   const patchAlbum = useUpdateAlbum();
   const postAlbum = usePostAlbum();
+  const setDefault = useSetDefault();
 
   useEffect(() => {
     setAlbums(data ?? []);
@@ -80,6 +82,10 @@ function AlbumsPage() {
   const onCloseAlbumDialog = () => {
     setNewAlbumDialog(false);
   };
+
+  const onSetDefault = (album: AlbumDto) => {
+    setDefault.mutate(album.albumId.id)
+  }
 
   const filteredAndSortedAlbums = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase();
@@ -172,6 +178,7 @@ function AlbumsPage() {
                   onClose={onClose}
                   onEdit={onEdit}
                   EditSchema={ArchiveBossAlbumSchema}
+                  onDefault={onSetDefault}
                 />
               ))}
             </tbody>

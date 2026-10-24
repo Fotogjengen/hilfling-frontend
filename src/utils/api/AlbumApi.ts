@@ -1,5 +1,5 @@
 import { api } from "./api";
-import { AlbumDto } from "../../../generated";
+import { AlbumDto, AlbumId } from "../../../generated";
 import { DeletedResult, PaginatedResult } from "./types";
 import { AlbumPatchRequestDto } from "../../../generated";
 
@@ -39,7 +39,13 @@ export const AlbumApi = {
   post: async function (album: AlbumCreateRequest): Promise<number> {
     return api
       .post("/albums", album)
-      .then((res) => res.data)
-      .catch((e) => console.log(e));
+      .then((res) => res.data);
   },
+
+  setDefault: async function (albumId : String): Promise<AlbumDto>{
+    return api
+      .put(`albums/${albumId}/default`)
+      .then((res) => res.data);
+  },
+
 };
