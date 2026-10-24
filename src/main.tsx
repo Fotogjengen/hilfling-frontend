@@ -1,12 +1,7 @@
 import { StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider } from "@tanstack/react-router";
-import {
-  MutationCache,
-  QueryCache,
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import "./index.css";
 import { router } from "./router";
@@ -14,51 +9,8 @@ import AuthProvider, { useAuth } from "./contexts/AuthProvider";
 import PhotoDownloadProvider from "./contexts/PhotoDownloadProvider";
 import { ThemeProvider } from "@/components/ThemeProvider/ThemeProvider";
 import { isAxiosError } from "axios";
-import * as Sentry from "@sentry/react";
-
-Sentry.init({
-  dsn: "https://e914ff2a103391d81503f40753b9c50b@sentry.klve.no/2",
-  enabled: import.meta.env.PROD, // disabled in dev
-  environment: import.meta.env.MODE,
-  release:
-    typeof __SENTRY_RELEASE__ !== "undefined" ? __SENTRY_RELEASE__ : undefined,
-  dataCollection: {
-    // To disable sending user data and HTTP bodies, uncomment the lines below. For more info visit:
-    // https://docs.sentry.io/platforms/javascript/guides/react/configuration/options/#dataCollection
-    // userInfo: false,
-    // httpBodies: []
-  },
-  integrations: [
-    Sentry.browserTracingIntegration(),
-    Sentry.replayIntegration(),
-  ],
-  // Tracing
-  tracesSampleRate: 1.0, //  Capture 100% of the transactions
-  // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
-  tracePropagationTargets: ["localhost", /^https:\/\/arim-fg\.samfundet\.no/],
-  // Session Replay
-  replaysSessionSampleRate: 0.1, // This sets the sample rate at 10%. You may want to change it to 100% while in development and then sample at a lower rate in production.
-  replaysOnErrorSampleRate: 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
-});
-
-// Report non-axios errors to Sentry
-const shouldReportToSentry = (error: unknown) => !isAxiosError(error);
 
 const queryClient = new QueryClient({
-  queryCache: new QueryCache({
-    onError: (error) => {
-      if (shouldReportToSentry(error)) {
-        Sentry.captureException(error);
-      }
-    },
-  }),
-  mutationCache: new MutationCache({
-    onError: (error) => {
-      if (shouldReportToSentry(error)) {
-        Sentry.captureException(error);
-      }
-    },
-  }),
   defaultOptions: {
     queries: {
       retry: (failureCount, error) => {
