@@ -16,7 +16,7 @@ export type MotiveDto = {
   eventOwnerDto: EventOwnerDto;
   placeDto: PlaceDto;
   securityLevel: SecurityLevelDto;
-  albumDto?: AlbumDto;
-  analogAlbumDto?: AlbumDto;
-  dateCreated?: string;
+  albumDto?: AlbumDto | null;
+  analogAlbumDto?: AlbumDto | null;
+  dateCreated?: string | null;
 };

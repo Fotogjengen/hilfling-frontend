@@ -24,6 +24,7 @@ import { Route as FgAuthenticatedFgArchiveBossIndexRouteImport } from './routes/
 import { Route as FgAuthenticatedFgArchiveBossAlbumsRouteImport } from './routes/_fgAuthenticated/fg/archiveBoss/albums'
 import { Route as FgAuthenticatedFgArchiveBossCategoriesRouteImport } from './routes/_fgAuthenticated/fg/archiveBoss/categories'
 import { Route as FgAuthenticatedFgArchiveBossPlacesRouteImport } from './routes/_fgAuthenticated/fg/archiveBoss/places'
+import { Route as FgAuthenticatedFgArchiveBossPositionsRouteImport } from './routes/_fgAuthenticated/fg/archiveBoss/positions'
 import { Route as FgAuthenticatedFgGang_bangersIndexRouteImport } from './routes/_fgAuthenticated/fg/gang_bangers/index'
 import { Route as FgAuthenticatedFgProjectsIndexRouteImport } from './routes/_fgAuthenticated/fg/projects/index'
 import { Route as FgAuthenticatedFgArchiveBossEditUserUserIdRouteImport } from './routes/_fgAuthenticated/fg/archiveBoss/editUser.$userId'
@@ -111,6 +112,12 @@ const FgAuthenticatedFgArchiveBossPlacesRoute =
     path: '/places',
     getParentRoute: () => FgAuthenticatedFgArchiveBossRouteRoute,
   } as any)
+const FgAuthenticatedFgArchiveBossPositionsRoute =
+  FgAuthenticatedFgArchiveBossPositionsRouteImport.update({
+    id: '/positions',
+    path: '/positions',
+    getParentRoute: () => FgAuthenticatedFgArchiveBossRouteRoute,
+  } as any)
 const FgAuthenticatedFgGang_bangersIndexRoute =
   FgAuthenticatedFgGang_bangersIndexRouteImport.update({
     id: '/fg/gang_bangers/',
@@ -168,6 +175,7 @@ export interface FileRoutesByFullPath {
   '/fg/archiveBoss/albums': typeof FgAuthenticatedFgArchiveBossAlbumsRoute
   '/fg/archiveBoss/categories': typeof FgAuthenticatedFgArchiveBossCategoriesRoute
   '/fg/archiveBoss/places': typeof FgAuthenticatedFgArchiveBossPlacesRoute
+  '/fg/archiveBoss/positions': typeof FgAuthenticatedFgArchiveBossPositionsRoute
   '/fg/archiveBoss/': typeof FgAuthenticatedFgArchiveBossIndexRoute
   '/fg/gang_bangers/': typeof FgAuthenticatedFgGang_bangersIndexRoute
   '/fg/projects/': typeof FgAuthenticatedFgProjectsIndexRoute
@@ -189,6 +197,7 @@ export interface FileRoutesByTo {
   '/fg/archiveBoss/albums': typeof FgAuthenticatedFgArchiveBossAlbumsRoute
   '/fg/archiveBoss/categories': typeof FgAuthenticatedFgArchiveBossCategoriesRoute
   '/fg/archiveBoss/places': typeof FgAuthenticatedFgArchiveBossPlacesRoute
+  '/fg/archiveBoss/positions': typeof FgAuthenticatedFgArchiveBossPositionsRoute
   '/fg/archiveBoss': typeof FgAuthenticatedFgArchiveBossIndexRoute
   '/fg/gang_bangers': typeof FgAuthenticatedFgGang_bangersIndexRoute
   '/fg/projects': typeof FgAuthenticatedFgProjectsIndexRoute
@@ -214,6 +223,7 @@ export interface FileRoutesById {
   '/_fgAuthenticated/fg/archiveBoss/albums': typeof FgAuthenticatedFgArchiveBossAlbumsRoute
   '/_fgAuthenticated/fg/archiveBoss/categories': typeof FgAuthenticatedFgArchiveBossCategoriesRoute
   '/_fgAuthenticated/fg/archiveBoss/places': typeof FgAuthenticatedFgArchiveBossPlacesRoute
+  '/_fgAuthenticated/fg/archiveBoss/positions': typeof FgAuthenticatedFgArchiveBossPositionsRoute
   '/_fgAuthenticated/fg/archiveBoss/': typeof FgAuthenticatedFgArchiveBossIndexRoute
   '/_fgAuthenticated/fg/gang_bangers/': typeof FgAuthenticatedFgGang_bangersIndexRoute
   '/_fgAuthenticated/fg/projects/': typeof FgAuthenticatedFgProjectsIndexRoute
@@ -239,6 +249,7 @@ export interface FileRouteTypes {
     | '/fg/archiveBoss/albums'
     | '/fg/archiveBoss/categories'
     | '/fg/archiveBoss/places'
+    | '/fg/archiveBoss/positions'
     | '/fg/archiveBoss/'
     | '/fg/gang_bangers/'
     | '/fg/projects/'
@@ -260,6 +271,7 @@ export interface FileRouteTypes {
     | '/fg/archiveBoss/albums'
     | '/fg/archiveBoss/categories'
     | '/fg/archiveBoss/places'
+    | '/fg/archiveBoss/positions'
     | '/fg/archiveBoss'
     | '/fg/gang_bangers'
     | '/fg/projects'
@@ -284,6 +296,7 @@ export interface FileRouteTypes {
     | '/_fgAuthenticated/fg/archiveBoss/albums'
     | '/_fgAuthenticated/fg/archiveBoss/categories'
     | '/_fgAuthenticated/fg/archiveBoss/places'
+    | '/_fgAuthenticated/fg/archiveBoss/positions'
     | '/_fgAuthenticated/fg/archiveBoss/'
     | '/_fgAuthenticated/fg/gang_bangers/'
     | '/_fgAuthenticated/fg/projects/'
@@ -409,6 +422,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FgAuthenticatedFgArchiveBossPlacesRouteImport
       parentRoute: typeof FgAuthenticatedFgArchiveBossRouteRoute
     }
+    '/_fgAuthenticated/fg/archiveBoss/positions': {
+      id: '/_fgAuthenticated/fg/archiveBoss/positions'
+      path: '/positions'
+      fullPath: '/fg/archiveBoss/positions'
+      preLoaderRoute: typeof FgAuthenticatedFgArchiveBossPositionsRouteImport
+      parentRoute: typeof FgAuthenticatedFgArchiveBossRouteRoute
+    }
     '/_fgAuthenticated/fg/gang_bangers/': {
       id: '/_fgAuthenticated/fg/gang_bangers/'
       path: '/fg/gang_bangers'
@@ -465,6 +485,7 @@ interface FgAuthenticatedFgArchiveBossRouteRouteChildren {
   FgAuthenticatedFgArchiveBossAlbumsRoute: typeof FgAuthenticatedFgArchiveBossAlbumsRoute
   FgAuthenticatedFgArchiveBossCategoriesRoute: typeof FgAuthenticatedFgArchiveBossCategoriesRoute
   FgAuthenticatedFgArchiveBossPlacesRoute: typeof FgAuthenticatedFgArchiveBossPlacesRoute
+  FgAuthenticatedFgArchiveBossPositionsRoute: typeof FgAuthenticatedFgArchiveBossPositionsRoute
   FgAuthenticatedFgArchiveBossIndexRoute: typeof FgAuthenticatedFgArchiveBossIndexRoute
   FgAuthenticatedFgArchiveBossEditUserUserIdRoute: typeof FgAuthenticatedFgArchiveBossEditUserUserIdRoute
 }
@@ -477,6 +498,8 @@ const FgAuthenticatedFgArchiveBossRouteRouteChildren: FgAuthenticatedFgArchiveBo
       FgAuthenticatedFgArchiveBossCategoriesRoute,
     FgAuthenticatedFgArchiveBossPlacesRoute:
       FgAuthenticatedFgArchiveBossPlacesRoute,
+    FgAuthenticatedFgArchiveBossPositionsRoute:
+      FgAuthenticatedFgArchiveBossPositionsRoute,
     FgAuthenticatedFgArchiveBossIndexRoute:
       FgAuthenticatedFgArchiveBossIndexRoute,
     FgAuthenticatedFgArchiveBossEditUserUserIdRoute:

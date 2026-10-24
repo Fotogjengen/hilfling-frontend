@@ -5,5 +5,5 @@
 import type { PlaceId } from "./PlaceId";
 export type PlacePatchRequestDto = {
   placeId: PlaceId;
-  name?: string;
+  name?: string | null;
 };

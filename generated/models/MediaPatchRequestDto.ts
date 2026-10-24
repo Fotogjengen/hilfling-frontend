@@ -5,6 +5,6 @@
 import type { MediaId } from "./MediaId";
 export type MediaPatchRequestDto = {
   mediaId: MediaId;
-  medium?: string;
-  analog?: boolean;
+  medium?: string | null;
+  analog?: boolean | null;
 };
