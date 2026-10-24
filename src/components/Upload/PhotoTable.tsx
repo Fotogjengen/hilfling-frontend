@@ -189,12 +189,12 @@ export default function PhotoTable({
             size="sm"
             onClick={() =>
               confirmDialog.error("Slett bilde?", {
-                  description: "Bildet slettes permanent. Dette kan ikke angres.",
-                  confirmLabel: "Slett",
-                  onConfirm: () =>
-                    mode === "edit"
-                      ? deletePhoto(row.original.photoId.id)
-                      : removePhoto(row.original.photoId.id)
+                description: "Bildet slettes permanent. Dette kan ikke angres.",
+                confirmLabel: "Slett",
+                onConfirm: () =>
+                  mode === "edit"
+                    ? deletePhoto(row.original.photoId.id)
+                    : removePhoto(row.original.photoId.id),
               })
             }
           >
