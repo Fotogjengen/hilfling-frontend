@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useDeferredValue, useMemo, useState } from "react";
 import {
   getCoreRowModel,
   getFilteredRowModel,
@@ -24,7 +24,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/overlay/DropdownMenu";
-import { usePhotoGangBangers } from "@/hooks/photoGangBangers";
+import {
+  useDeletePhotoGangBanger,
+  usePhotoGangBangers,
+} from "@/hooks/photoGangBangers";
 import { semesterSortValue } from "@/utils/semester";
 import styles from "./gangBangers.module.css";
 import { useAuth } from "@/contexts/AuthProvider";
@@ -47,7 +50,16 @@ function GangBangers() {
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const { data, isLoading, isError } = usePhotoGangBangers();
   const users = data?.currentList ?? emptyUsers;
+  const deferredSearch = useDeferredValue(search);
+  const searchTextById = useMemo(
+    () =>
+      new Map(
+        users.map((user) => [user.photoGangBangerId.id, getSearchText(user)]),
+      ),
+    [users],
+  );
   const { user } = useAuth();
+  const { mutate: deletePhotoGangBanger } = useDeletePhotoGangBanger();
 
   const canEditUsers = useMemo(() => {
     return user?.permissions.includes("USER_MANAGE");
@@ -145,7 +157,13 @@ function GangBangers() {
                         <Tags size={16} aria-hidden="true" />
                         Oppdater verv
                       </DropdownMenuItem>
-                      <DropdownMenuItem disabled>
+                      <DropdownMenuItem
+                        onSelect={() => {
+                          deletePhotoGangBanger(
+                            row.original.photoGangBangerId.id,
+                          );
+                        }}
+                      >
                         <Trash2 size={16} aria-hidden="true" />
                         Slett
                       </DropdownMenuItem>
@@ -171,7 +189,7 @@ function GangBangers() {
     getRowId: (user) => user.photoGangBangerId.id,
     state: {
       rowSelection,
-      globalFilter: search,
+      globalFilter: deferredSearch,
     },
     initialState: {
       columnVisibility: { semester: false },
@@ -182,7 +200,7 @@ function GangBangers() {
     // Search the combined user fields once per row, including position emails.
     getColumnCanGlobalFilter: (column) => column.id === "name",
     globalFilterFn: (row, _columnId, value: string) =>
-      getSearchText(row.original).includes(value.trim().toLowerCase()),
+      (searchTextById.get(row.id) ?? "").includes(value.trim().toLowerCase()),
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getSortedRowModel: getSortedRowModel(),
