@@ -1,8 +1,11 @@
 import { useMemo } from "react";
 import {
-  getCoreRowModel,
-  getSortedRowModel,
-  useReactTable,
+  createSortedRowModel,
+  createFilteredRowModel,
+  useTable,
+  stockFeatures,
+  tableFeatures,
+  type StockFeatures,
   type ColumnDef,
   type Table,
 } from "@tanstack/react-table";
@@ -32,7 +35,7 @@ function getFileName(photo: PhotoDto) {
   return lastSegment ? decodeURIComponent(lastSegment) : "-";
 }
 
-function getHeaderCheckedState(table: Table<PhotoDto>) {
+function getHeaderCheckedState(table: Table<StockFeatures, PhotoDto>) {
   if (table.getIsAllRowsSelected()) return true;
   return table.getIsSomeRowsSelected() ? "indeterminate" : false;
 }
@@ -89,7 +92,7 @@ export default function PhotoTable({
     [photos, deletedPhotoIds],
   );
 
-  const columns = useMemo<ColumnDef<PhotoDto>[]>(
+  const columns = useMemo<ColumnDef<StockFeatures, PhotoDto>[]>(
     () => [
       ...(mode === "select"
         ? [
@@ -113,7 +116,7 @@ export default function PhotoTable({
                   }
                 />
               ),
-            } satisfies ColumnDef<PhotoDto>,
+            } satisfies ColumnDef<StockFeatures, PhotoDto>,
           ]
         : []),
       {
@@ -214,14 +217,19 @@ export default function PhotoTable({
     ],
   );
 
-  const table = useReactTable({
+  const features = tableFeatures({
+    ...stockFeatures,
+    filteredRowModel: createFilteredRowModel(),
+    sortedRowModel: createSortedRowModel(),
+  });
+
+  const table = useTable({
+    features,
     data: visiblePhotos,
     columns,
     getRowId: (photo) => photo.photoId.id,
     state: { rowSelection },
     onRowSelectionChange: setRowSelection,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
   });
 
   return (
