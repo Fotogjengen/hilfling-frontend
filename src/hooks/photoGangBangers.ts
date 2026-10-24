@@ -75,8 +75,10 @@ export const useDeletePhotoGangBanger = () => {
         description: error instanceof Error ? error.message : "Ukjent feil",
       });
     },
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["photoGangBangers"] }),
+    onSuccess: () => {
+      toast.success("Fotogjengeren ble slettet");
+      void queryClient.invalidateQueries({ queryKey: ["photoGangBangers"] });
+    },
   });
 };
 
