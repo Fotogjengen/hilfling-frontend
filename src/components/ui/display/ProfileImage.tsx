@@ -24,6 +24,8 @@ export function ProfileImage({
     <img
       src={src}
       alt={alt}
+      loading="lazy"
+      decoding="async"
       onError={() => setErrored(true)}
       className={styles.image}
     />
