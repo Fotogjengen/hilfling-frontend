@@ -14,7 +14,6 @@ import { CreditAcknowledgement } from "@/components/DownloadImages/CreditAcknowl
 import { Button } from "@/components/ui/input/Button";
 import { QualitySelector } from "@/components/DownloadImages/QualitySelector";
 import { PhotoQuality } from "@/types";
-import * as Sentry from "@sentry/react";
 
 // the browser can trigger a popup here, we should let the files stay in memory for some time
 // so that we can wait for the popup to conclude
@@ -100,8 +99,6 @@ const PhotoDownloadProvider = ({ children }: { children: React.ReactNode }) => {
     pendingPhotos.current = [];
     for (const photo of photos) {
       downloadImage(photo, selectedQuality).catch((error) => {
-        // since this does not go through axios, we need to capture an error here manually
-        Sentry.captureException(error);
         toast.error("Kunne ikke laste ned bildet", {
           description: `Noe gikk galt. Feilkode: ${error}`,
         });
