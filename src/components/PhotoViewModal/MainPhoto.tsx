@@ -64,9 +64,9 @@ export function PhotoViewMainContent({
               <div className={styles.mainPhotoFrame}>
                 <img
                   src={
-                    showProdPicture
+                    (showProdPicture
                       ? (selectedPhoto.imageProd ?? selectedPhoto.imageWeb)
-                      : selectedPhoto.imageWeb
+                      : selectedPhoto.imageWeb) ?? undefined
                   }
                   alt=""
                   className={styles.mainPhoto}
@@ -191,9 +191,9 @@ export function SwipeableMainPhoto({
               >
                 <img
                   src={
-                    showProdPicture
+                    (showProdPicture
                       ? (selectedPhoto.imageProd ?? selectedPhoto.imageWeb)
-                      : selectedPhoto.imageWeb
+                      : selectedPhoto.imageWeb) ?? undefined
                   }
                   alt=""
                   className={styles.swipePhoto}
