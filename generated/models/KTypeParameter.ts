@@ -4,10 +4,10 @@
 /* eslint-disable */
 import type { KType } from "./KType";
 export type KTypeParameter = {
-  isReified: boolean;
   variance: KTypeParameter.variance;
-  name: string;
+  isReified: boolean;
   upperBounds: Array<KType>;
+  name: string;
 };
 export namespace KTypeParameter {
   export enum variance {

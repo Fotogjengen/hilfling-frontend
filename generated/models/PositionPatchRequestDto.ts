@@ -6,6 +6,6 @@ import type { Email } from "./Email";
 import type { PositionId } from "./PositionId";
 export type PositionPatchRequestDto = {
   positionId: PositionId;
-  title?: string;
-  email?: Email;
+  title?: string | null;
+  email?: Email | null;
 };

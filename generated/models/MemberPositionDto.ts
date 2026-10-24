@@ -8,8 +8,8 @@ import type { SemesterStart } from "./SemesterStart";
 export type MemberPositionDto = {
   positionId: PositionId;
   title: string;
-  email: Email;
+  email?: Email | null;
   semesterStart: SemesterStart;
   isActive: boolean;
-  semesterEnd?: SemesterStart;
+  semesterEnd?: SemesterStart | null;
 };

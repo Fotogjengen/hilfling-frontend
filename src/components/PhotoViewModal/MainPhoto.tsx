@@ -53,7 +53,7 @@ export function PhotoViewMainContent({
               contentStyle={{ width: "100%", height: "100%" }}
             >
               <img
-                src={selectedPhoto.imageWeb}
+                src={selectedPhoto.imageWeb ?? undefined}
                 alt=""
                 className={styles.mainPhoto}
                 title="Scroll to zoom, drag to move"
@@ -174,7 +174,7 @@ export function SwipeableMainPhoto({
                 contentStyle={{ width: "100%", height: "100%" }}
               >
                 <img
-                  src={selectedPhoto.imageWeb}
+                  src={selectedPhoto.imageWeb ?? undefined}
                   alt=""
                   className={styles.swipePhoto}
                 />

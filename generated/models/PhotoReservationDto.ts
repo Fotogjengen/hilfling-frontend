@@ -9,5 +9,5 @@ export type PhotoReservationDto = {
   pageNumber: number;
   imageNumber: number;
   reservedAt: string;
-  album?: AlbumDto;
+  album?: AlbumDto | null;
 };

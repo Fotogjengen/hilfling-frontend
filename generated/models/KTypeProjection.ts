@@ -5,7 +5,7 @@
 import type { KType } from "./KType";
 export type KTypeProjection = {
   variance?: KTypeProjection.variance;
-  type?: KType;
+  type?: KType | null;
 };
 export namespace KTypeProjection {
   export enum variance {
