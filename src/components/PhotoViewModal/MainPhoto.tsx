@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import {
+  PointerEvent as ReactPointerEvent,
   ReactNode,
   TouchEvent as ReactTouchEvent,
   useEffect,
@@ -19,15 +20,43 @@ export function PhotoViewMainContent({
   selectedPhoto,
   showProdPicture,
   onToggleFocus,
-  onHideSidebar,
+  onToggleSidebar,
   children,
 }: {
   selectedPhoto?: PhotoDto;
   showProdPicture: boolean;
   onToggleFocus: () => void;
-  onHideSidebar: () => void;
+  onToggleSidebar: () => void;
   children?: ReactNode;
 }) {
+  const pointerStart = useRef<{ x: number; y: number } | null>(null);
+  const didDrag = useRef(false);
+
+  const handlePointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
+    pointerStart.current = { x: event.clientX, y: event.clientY };
+    didDrag.current = false;
+  };
+
+  const handlePointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const start = pointerStart.current;
+    if (!start) return;
+
+    if (
+      Math.hypot(event.clientX - start.x, event.clientY - start.y) > 5
+    ) {
+      didDrag.current = true;
+    }
+  };
+
+  const handleClick = () => {
+    if (didDrag.current) {
+      didDrag.current = false;
+      return;
+    }
+
+    onToggleSidebar();
+  };
+
   return (
     <div
       className={styles.mainContentWrapper}
@@ -42,7 +71,7 @@ export function PhotoViewMainContent({
             initialScale={1}
             fitOnInit="contain"
             minScale={1}
-            maxScale={5}
+            maxScale={5}  
             wheel={{ step: 0.005 }}
             onWheelStop={(ref) => {
               if (ref.state.scale <= 1) {
@@ -59,7 +88,18 @@ export function PhotoViewMainContent({
                 height: "100%",
                 position: "relative",
               }}
-              wrapperProps={{ onClick: onHideSidebar }}
+              wrapperProps={{
+                onPointerDown: handlePointerDown,
+                onPointerMove: handlePointerMove,
+                onPointerUp: () => {
+                  pointerStart.current = null;
+                },
+                onPointerCancel: () => {
+                  pointerStart.current = null;
+                  didDrag.current = false;
+                },
+                onClick: handleClick,
+              }}
             >
               <div className={styles.mainPhotoFrame}>
                 <img

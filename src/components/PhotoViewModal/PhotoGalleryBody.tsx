@@ -155,7 +155,7 @@ export function PhotoGalleryBody({
             selectedPhoto={selectedPhoto}
             showProdPicture={showProdPicture}
             onToggleFocus={() => setIsFocused((f) => !f)}
-            onHideSidebar={() => setIsFocused(true)}
+            onToggleSidebar={() => setIsFocused((focused) => !focused)}
           >
             <FadeInOut
               show={!isFocused}
