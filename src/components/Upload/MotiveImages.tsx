@@ -137,6 +137,7 @@ function MotiveImagesBody({
     return (
       <PhotoTable
         photos={photos}
+        motiveId={motive.motiveId.id}
         tableState={tableState}
         onOpenPhoto={openPhoto}
       />

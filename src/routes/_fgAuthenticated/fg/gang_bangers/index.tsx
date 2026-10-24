@@ -286,6 +286,10 @@ function EmailAddresses({ user }: { user: PhotoGangBangerDto }) {
   );
 }
 
+function formatSemester(semester: string) {
+  return semester.replace(/^([VH])20(\d{2})$/, "$1$2");
+}
+
 function Positions({ user }: { user: PhotoGangBangerDto }) {
   const positions = [...user.positions].sort((a, b) => {
     if (a.isActive !== b.isActive) {
@@ -315,8 +319,10 @@ function Positions({ user }: { user: PhotoGangBangerDto }) {
         >
           <span>{position.title}</span>
           <span className={styles.positionSemesters}>
-            {position.semesterStart.value}
-            {position.semesterEnd ? `–${position.semesterEnd.value}` : "–d.d."}
+            {formatSemester(position.semesterStart.value)}
+            {position.semesterEnd
+              ? `–${formatSemester(position.semesterEnd.value)}`
+              : "–d.d."}
           </span>
         </li>
       ))}

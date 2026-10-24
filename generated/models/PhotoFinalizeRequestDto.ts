@@ -8,10 +8,10 @@ export type PhotoFinalizeRequestDto = {
   securityLevel: string;
   pageNumber: number;
   imageNumber: number;
-  imageProd?: string;
+  imageProd?: string | null;
   imageWeb: string;
   imageThumb: string;
   motiveId: string;
-  gangId?: string;
+  gangId?: string | null;
   dateTaken: string;
 };

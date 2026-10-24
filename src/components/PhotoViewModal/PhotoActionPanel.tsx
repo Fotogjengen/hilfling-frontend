@@ -186,7 +186,9 @@ function PhotoMetadata({
     ["Fotograf", photographer.name],
     [
       "Album",
-      album && [album.name, album.description].filter(Boolean).join(" - "),
+      album
+        ? [album.name, album.description].filter(Boolean).join(" - ")
+        : undefined,
     ],
     [
       "Sidenummer/Bildenummer",

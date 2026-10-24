@@ -6,6 +6,6 @@ export type PhotoUploadRequestDto = {
   goodPicture: boolean;
   mediaId: string;
   motiveId: string;
-  gangId?: string;
+  gangId?: string | null;
   dateTaken: string;
 };

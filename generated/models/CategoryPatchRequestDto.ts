@@ -5,5 +5,5 @@
 import type { CategoryId } from "./CategoryId";
 export type CategoryPatchRequestDto = {
   categoryId: CategoryId;
-  name?: string;
+  name?: string | null;
 };
