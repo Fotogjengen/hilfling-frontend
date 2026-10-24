@@ -24,7 +24,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/overlay/DropdownMenu";
-import { usePhotoGangBangers } from "@/hooks/photoGangBangers";
+import {
+  useDeletePhotoGangBanger,
+  usePhotoGangBangers,
+} from "@/hooks/photoGangBangers";
 import { semesterSortValue } from "@/utils/semester";
 import styles from "./gangBangers.module.css";
 import { useAuth } from "@/contexts/AuthProvider";
@@ -48,6 +51,7 @@ function GangBangers() {
   const { data, isLoading, isError } = usePhotoGangBangers();
   const users = data?.currentList ?? emptyUsers;
   const { user } = useAuth();
+  const { mutate: deletePhotoGangBanger } = useDeletePhotoGangBanger();
 
   const canEditUsers = useMemo(() => {
     return user?.permissions.includes("USER_MANAGE");
@@ -145,7 +149,13 @@ function GangBangers() {
                         <Tags size={16} aria-hidden="true" />
                         Oppdater verv
                       </DropdownMenuItem>
-                      <DropdownMenuItem disabled>
+                      <DropdownMenuItem
+                        onSelect={() => {
+                          deletePhotoGangBanger(
+                            row.original.photoGangBangerId.id,
+                          );
+                        }}
+                      >
                         <Trash2 size={16} aria-hidden="true" />
                         Slett
                       </DropdownMenuItem>
