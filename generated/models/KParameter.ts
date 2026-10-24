@@ -5,16 +5,17 @@
 import type { KType } from "./KType";
 export type KParameter = {
   isVararg: boolean;
-  name?: string;
-  type: KType;
-  index: number;
   kind: KParameter.kind;
   isOptional: boolean;
+  name?: string | null;
+  type: KType;
+  index: number;
   annotations: Array<any>;
 };
 export namespace KParameter {
   export enum kind {
     INSTANCE = "INSTANCE",
+    CONTEXT = "CONTEXT",
     EXTENSION_RECEIVER = "EXTENSION_RECEIVER",
     VALUE = "VALUE",
   }

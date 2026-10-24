@@ -13,12 +13,12 @@ export type PhotoDto = {
   goodPicture: boolean;
   imageNumber: number;
   pageNumber: number;
-  imageProd?: string;
-  imageWeb?: string;
+  imageProd?: string | null;
+  imageWeb?: string | null;
   imageThumb: string;
   motive: MotiveDto;
   media: MediaDto;
-  gang?: GangDto;
+  gang?: GangDto | null;
   photoGangBangerDto: PhotoGangBangerDto;
   dateUploaded: string;
   securityLevel: SecurityLevelDto;

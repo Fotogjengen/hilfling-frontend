@@ -14,6 +14,6 @@ export type MotiveCreateRequestDto = {
   eventOwnerDto: EventOwnerDto;
   placeDto: PlaceDto;
   securityLevel: SecurityLevelDto;
-  albumDto?: AlbumDto;
-  analogAlbumDto?: AlbumDto;
+  albumDto?: AlbumDto | null;
+  analogAlbumDto?: AlbumDto | null;
 };

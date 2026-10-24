@@ -6,7 +6,7 @@ import type { AlbumId } from "./AlbumId";
 export type AlbumPatchRequestDto = {
   albumId: AlbumId;
   name: string;
-  description?: string;
-  analog?: boolean;
+  description?: string | null;
+  analog?: boolean | null;
   isDefault: boolean;
 };

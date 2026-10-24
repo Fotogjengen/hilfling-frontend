@@ -94,7 +94,7 @@ export function PhotoViewBottomStrip({
         >
           <img
             onClick={() => onSelectPhoto(photo)}
-            src={photo.imageWeb}
+            src={photo.imageWeb ?? undefined}
             alt=""
             loading="lazy"
             decoding="async"

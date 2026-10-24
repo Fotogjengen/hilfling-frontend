@@ -155,7 +155,6 @@ function Places() {
               {filteredAndSortedAlbums.map((place) => (
                 <ArchiveBossItem<PlaceDto>
                   key={place.placeId.id}
-                  Type="place"
                   dtoObject={place}
                   columns={[place.name]}
                   editPopUp={editingId === place.placeId.id && editAlbumPopUp}

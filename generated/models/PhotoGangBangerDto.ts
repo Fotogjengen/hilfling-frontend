@@ -12,11 +12,11 @@ export type PhotoGangBangerDto = {
   isActive: boolean;
   isPang: boolean;
   name: string;
-  foodPreference?: string;
-  birthday?: string;
+  foodPreference?: string | null;
+  birthday?: string | null;
   username: string;
   email: string;
   phoneNumber: string;
   positions: Array<MemberPositionDto>;
-  profilePicture?: UserUploadDto;
+  profilePicture?: UserUploadDto | null;
 };
