@@ -1,7 +1,8 @@
 import js from "@eslint/js";
 import globals from "globals";
-import reactPlugin from "eslint-plugin-react";
-import importPlugin from "eslint-plugin-import";
+import stylistic from "@stylistic/eslint-plugin";
+import reactPlugin from "eslint-plugin-react-x";
+import importPlugin from "eslint-plugin-import-x";
 import prettier from "eslint-config-prettier";
 import { defineConfig } from "eslint/config";
 import tseslint from "typescript-eslint";
@@ -19,7 +20,7 @@ export default defineConfig([
   js.configs.recommended,
   ...tseslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
-  reactPlugin.configs.flat.recommended,
+  reactPlugin.configs.recommended,
   prettier,
   {
     languageOptions: {
@@ -30,24 +31,19 @@ export default defineConfig([
       },
     },
     plugins: {
-      import: importPlugin,
+      "import-x": importPlugin,
+      "@stylistic": stylistic,
     },
     settings: {
-      react: {
-        version: "detect",
-      },
-      "import/resolver": {
+      "import-x/resolver": {
         typescript: {
           project: "./tsconfig.json",
         },
       },
     },
     rules: {
-      "react/prop-types": "off",
-      "react/react-in-jsx-scope": "off",
-      "react/jsx-uses-react": "off",
-      "react/self-closing-comp": "error",
-      "import/no-unresolved": "error",
+      "@stylistic/jsx-self-closing-comp": "error",
+      "import-x/no-unresolved": "error",
       "@typescript-eslint/unbound-method": "off",
       "@typescript-eslint/no-unsafe-assignment": "off",
       "@typescript-eslint/ban-types": "off",
