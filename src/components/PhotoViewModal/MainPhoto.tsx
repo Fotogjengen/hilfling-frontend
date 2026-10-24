@@ -153,8 +153,6 @@ export function SwipeableMainPhoto({
         <AnimatePresence initial={false} custom={direction}>
           <motion.div
             key={selectedPhoto.photoId.id}
-            src={selectedPhoto.imageWeb ?? undefined}
-            alt=""
             className={styles.swipePhotoFrame}
             custom={direction}
             variants={swipeVariants}
@@ -176,7 +174,7 @@ export function SwipeableMainPhoto({
                 contentStyle={{ width: "100%", height: "100%" }}
               >
                 <img
-                  src={selectedPhoto.imageWeb}
+                  src={selectedPhoto.imageWeb ?? undefined}
                   alt=""
                   className={styles.swipePhoto}
                 />
