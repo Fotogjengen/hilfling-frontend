@@ -41,9 +41,7 @@ export function PhotoViewMainContent({
     const start = pointerStart.current;
     if (!start) return;
 
-    if (
-      Math.hypot(event.clientX - start.x, event.clientY - start.y) > 5
-    ) {
+    if (Math.hypot(event.clientX - start.x, event.clientY - start.y) > 5) {
       didDrag.current = true;
     }
   };
@@ -71,7 +69,7 @@ export function PhotoViewMainContent({
             initialScale={1}
             fitOnInit="contain"
             minScale={1}
-            maxScale={5}  
+            maxScale={5}
             wheel={{ step: 0.005 }}
             onWheelStop={(ref) => {
               if (ref.state.scale <= 1) {
