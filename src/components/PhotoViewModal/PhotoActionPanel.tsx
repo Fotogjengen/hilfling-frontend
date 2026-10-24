@@ -1,6 +1,13 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { Check, Download, Image as ImageIcon, Info, Link, X } from "lucide-react";
+import {
+  Check,
+  Download,
+  Image as ImageIcon,
+  Info,
+  Link,
+  X,
+} from "lucide-react";
 import { Link as RouterLink } from "@tanstack/react-router";
 import { PhotoDto } from "../../../generated";
 import { IconButton } from "@/components/ui/input/IconButton";
@@ -27,7 +34,9 @@ export function PhotoActionPanel({
   const { requestDownload } = usePhotoDownload();
   const { isAuthenticated, user } = useAuth();
   const canViewProdPicture =
-    isAuthenticated && user?.securityLevel === "FG" && !!selectedPhoto?.imageProd;
+    isAuthenticated &&
+    user?.securityLevel === "FG" &&
+    !!selectedPhoto?.imageProd;
 
   return (
     <motion.div
