@@ -17,6 +17,7 @@ import { Select } from "../ui/input/Select";
 import { useMedias } from "@/hooks/media";
 import { useDeletePhoto } from "@/hooks/photo";
 import { PhotoTableState } from "./usePhotoTableState";
+import { confirmDialog } from "../ui/overlay/ConfirmDialog";
 import styles from "./PhotoTable.module.css";
 
 type PhotoTableProps = {
@@ -187,9 +188,14 @@ export default function PhotoTable({
             variant="subtle-danger"
             size="sm"
             onClick={() =>
-              mode === "edit"
-                ? deletePhoto(row.original.photoId.id)
-                : removePhoto(row.original.photoId.id)
+              confirmDialog.error("Slett bilde?", {
+                  description: "Bildet slettes permanent. Dette kan ikke angres.",
+                  confirmLabel: "Slett",
+                  onConfirm: () =>
+                    mode === "edit"
+                      ? deletePhoto(row.original.photoId.id)
+                      : removePhoto(row.original.photoId.id)
+              })
             }
           >
             <Trash2 size={16} aria-hidden="true" />
