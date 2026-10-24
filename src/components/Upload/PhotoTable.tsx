@@ -15,11 +15,13 @@ import { Checkbox } from "../ui/input/Checkbox";
 import { IconButton } from "../ui/input/IconButton";
 import { Select } from "../ui/input/Select";
 import { useMedias } from "@/hooks/media";
+import { useDeletePhoto } from "@/hooks/photo";
 import { PhotoTableState } from "./usePhotoTableState";
 import styles from "./PhotoTable.module.css";
 
 type PhotoTableProps = {
   photos: PhotoDto[];
+  motiveId: string;
   tableState: PhotoTableState;
   onOpenPhoto: (photoId: string) => void;
 };
@@ -46,6 +48,7 @@ function FavoriteStar({ isFavorite }: { isFavorite: boolean }) {
 
 export default function PhotoTable({
   photos,
+  motiveId,
   tableState,
   onOpenPhoto,
 }: PhotoTableProps) {
@@ -61,6 +64,7 @@ export default function PhotoTable({
     deletePhoto,
   } = tableState;
 
+  const { mutate: removePhoto } = useDeletePhoto(motiveId);
   const { data: medias = [] } = useMedias();
   const mediaGroups = useMemo(() => {
     const toOption = (media: MediaDto) => ({
@@ -176,25 +180,32 @@ export default function PhotoTable({
           );
         },
       },
-      ...(mode === "edit"
-        ? [
-            {
-              id: "delete",
-              cell: ({ row }) => (
-                <Button
-                  variant="subtle-danger"
-                  size="sm"
-                  onClick={() => deletePhoto(row.original.photoId.id)}
-                >
-                  <Trash2 size={16} aria-hidden="true" />
-                  Slett
-                </Button>
-              ),
-            } satisfies ColumnDef<PhotoDto>,
-          ]
-        : []),
+      {
+        id: "delete",
+        cell: ({ row }) => (
+          <Button
+            variant="subtle-danger"
+            size="sm"
+            onClick={() =>
+              mode === "edit"
+                ? deletePhoto(row.original.photoId.id)
+                : removePhoto(row.original.photoId.id)
+            }
+          >
+            <Trash2 size={16} aria-hidden="true" />
+            Slett
+          </Button>
+        ),
+      },
     ],
-    [mode, pendingGoodPictures, pendingMedias, mediaGroups, onOpenPhoto],
+    [
+      mode,
+      pendingGoodPictures,
+      pendingMedias,
+      mediaGroups,
+      onOpenPhoto,
+      removePhoto,
+    ],
   );
 
   const table = useReactTable({
