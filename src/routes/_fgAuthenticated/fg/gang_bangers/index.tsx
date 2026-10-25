@@ -54,13 +54,6 @@ function GangBangers() {
   const { data, isLoading, isError } = usePhotoGangBangers();
   const users = data?.currentList ?? emptyUsers;
   const deferredSearch = useDeferredValue(search);
-  const searchTextById = useMemo(
-    () =>
-      new Map(
-        users.map((user) => [user.photoGangBangerId.id, getSearchText(user)]),
-      ),
-    [users],
-  );
   const { user } = useAuth();
   const { mutate: deletePhotoGangBanger } = useDeletePhotoGangBanger();
 
