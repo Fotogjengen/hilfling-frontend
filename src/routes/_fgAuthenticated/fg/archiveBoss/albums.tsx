@@ -186,7 +186,7 @@ function AlbumsPage() {
                   actions={
             <Button variant="neutral" 
             size="sm" 
-            className={styles.deleteButton}
+            className={styles.editButton}
             onClick={() => onSetDefault(album)}
             disabled={album.isDefault}
             >
