@@ -57,6 +57,7 @@ function ArchiveBossItem<T>({
             size="sm" 
             className={styles.deleteButton}
             onClick={() => onDefault(dtoObject)}
+            disabled={dtoObject.isDefault}
             >
               <Album size={16} aria-hidden="true" />
               Sett som standard
