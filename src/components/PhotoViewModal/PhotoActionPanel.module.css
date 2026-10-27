@@ -36,12 +36,12 @@
 
 .prodPictureButton {
   width: calc(
-    var(--size-icon-button-medium) + 2 * var(--size-space-200) +
-      2 * var(--size-stroke-border)
+    var(--size-icon-button-medium) + 2 * var(--size-space-200) + 2 *
+      var(--size-stroke-border)
   );
   height: calc(
-    var(--size-icon-button-medium) + 2 * var(--size-space-200) +
-      2 * var(--size-stroke-border)
+    var(--size-icon-button-medium) + 2 * var(--size-space-200) + 2 *
+      var(--size-stroke-border)
   );
   background-color: var(--color-background-transparent-default);
   border-color: var(--color-border-transparent-default-photo-modal);
