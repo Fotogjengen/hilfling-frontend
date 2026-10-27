@@ -45,7 +45,10 @@ export function PhotoActionPanel({
             }
             aria-pressed={showProdPicture}
             className={`${styles.actionButton} ${styles.prodPictureButton} ${showProdPicture ? styles.prodPictureActive : ""}`}
-            onClick={onToggleProdPicture}
+            onClick={(event) => {
+              onToggleProdPicture();
+              if (event.detail > 0) event.currentTarget.blur();
+            }}
           >
             <ImageIcon />
           </IconButton>

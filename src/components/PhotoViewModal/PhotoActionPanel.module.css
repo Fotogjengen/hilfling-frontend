@@ -53,6 +53,11 @@
   border-color: var(--color-border-default-default);
 }
 
+.prodPictureButton:focus,
+.prodPictureButton:focus-visible {
+  outline: none;
+}
+
 .prodPictureActive {
   background-color: var(--color-background-brand-default);
   border-color: var(--color-border-brand-default);
