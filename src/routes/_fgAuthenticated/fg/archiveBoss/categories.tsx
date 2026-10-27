@@ -157,7 +157,6 @@ function Categories() {
               {filteredAndSortedCategories.map((categories) => (
                 <ArchiveBossItem<CategoryDto>
                   key={categories.categoryId.id}
-                  Type="category"
                   dtoObject={categories}
                   columns={[categories.name]}
                   editPopUp={

@@ -6,11 +6,11 @@ import type { KParameter } from "./KParameter";
 import type { KType } from "./KType";
 import type { KTypeParameter } from "./KTypeParameter";
 export type KFunctionObject = {
-  isInline: boolean;
-  isSuspend: boolean;
+  isExternal: boolean;
   isOperator: boolean;
   isInfix: boolean;
-  isExternal: boolean;
+  isSuspend: boolean;
+  isInline: boolean;
   visibility?: KFunctionObject.visibility;
   name: string;
   typeParameters: Array<KTypeParameter>;

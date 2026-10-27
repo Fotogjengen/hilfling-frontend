@@ -1,8 +1,11 @@
 import { useMemo } from "react";
 import {
-  getCoreRowModel,
-  getSortedRowModel,
-  useReactTable,
+  createSortedRowModel,
+  createFilteredRowModel,
+  useTable,
+  stockFeatures,
+  tableFeatures,
+  type StockFeatures,
   type ColumnDef,
   type Table,
 } from "@tanstack/react-table";
@@ -15,11 +18,14 @@ import { Checkbox } from "../ui/input/Checkbox";
 import { IconButton } from "../ui/input/IconButton";
 import { Select } from "../ui/input/Select";
 import { useMedias } from "@/hooks/media";
+import { useDeletePhoto } from "@/hooks/photo";
 import { PhotoTableState } from "./usePhotoTableState";
+import { confirmDialog } from "../ui/overlay/ConfirmDialog";
 import styles from "./PhotoTable.module.css";
 
 type PhotoTableProps = {
   photos: PhotoDto[];
+  motiveId: string;
   tableState: PhotoTableState;
   onOpenPhoto: (photoId: string) => void;
 };
@@ -29,7 +35,7 @@ function getFileName(photo: PhotoDto) {
   return lastSegment ? decodeURIComponent(lastSegment) : "-";
 }
 
-function getHeaderCheckedState(table: Table<PhotoDto>) {
+function getHeaderCheckedState(table: Table<StockFeatures, PhotoDto>) {
   if (table.getIsAllRowsSelected()) return true;
   return table.getIsSomeRowsSelected() ? "indeterminate" : false;
 }
@@ -46,6 +52,7 @@ function FavoriteStar({ isFavorite }: { isFavorite: boolean }) {
 
 export default function PhotoTable({
   photos,
+  motiveId,
   tableState,
   onOpenPhoto,
 }: PhotoTableProps) {
@@ -61,6 +68,7 @@ export default function PhotoTable({
     deletePhoto,
   } = tableState;
 
+  const { mutate: removePhoto } = useDeletePhoto(motiveId);
   const { data: medias = [] } = useMedias();
   const mediaGroups = useMemo(() => {
     const toOption = (media: MediaDto) => ({
@@ -84,7 +92,7 @@ export default function PhotoTable({
     [photos, deletedPhotoIds],
   );
 
-  const columns = useMemo<ColumnDef<PhotoDto>[]>(
+  const columns = useMemo<ColumnDef<StockFeatures, PhotoDto>[]>(
     () => [
       ...(mode === "select"
         ? [
@@ -108,7 +116,7 @@ export default function PhotoTable({
                   }
                 />
               ),
-            } satisfies ColumnDef<PhotoDto>,
+            } satisfies ColumnDef<StockFeatures, PhotoDto>,
           ]
         : []),
       {
@@ -176,35 +184,52 @@ export default function PhotoTable({
           );
         },
       },
-      ...(mode === "edit"
-        ? [
-            {
-              id: "delete",
-              cell: ({ row }) => (
-                <Button
-                  variant="subtle-danger"
-                  size="sm"
-                  onClick={() => deletePhoto(row.original.photoId.id)}
-                >
-                  <Trash2 size={16} aria-hidden="true" />
-                  Slett
-                </Button>
-              ),
-            } satisfies ColumnDef<PhotoDto>,
-          ]
-        : []),
+      {
+        id: "delete",
+        cell: ({ row }) => (
+          <Button
+            variant="subtle-danger"
+            size="sm"
+            onClick={() =>
+              confirmDialog.error("Slett bilde?", {
+                description: "Bildet slettes permanent. Dette kan ikke angres.",
+                confirmLabel: "Slett",
+                onConfirm: () =>
+                  mode === "edit"
+                    ? deletePhoto(row.original.photoId.id)
+                    : removePhoto(row.original.photoId.id),
+              })
+            }
+          >
+            <Trash2 size={16} aria-hidden="true" />
+            Slett
+          </Button>
+        ),
+      },
     ],
-    [mode, pendingGoodPictures, pendingMedias, mediaGroups, onOpenPhoto],
+    [
+      mode,
+      pendingGoodPictures,
+      pendingMedias,
+      mediaGroups,
+      onOpenPhoto,
+      removePhoto,
+    ],
   );
 
-  const table = useReactTable({
+  const features = tableFeatures({
+    ...stockFeatures,
+    filteredRowModel: createFilteredRowModel(),
+    sortedRowModel: createSortedRowModel(),
+  });
+
+  const table = useTable({
+    features,
     data: visiblePhotos,
     columns,
     getRowId: (photo) => photo.photoId.id,
     state: { rowSelection },
     onRowSelectionChange: setRowSelection,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
   });
 
   return (

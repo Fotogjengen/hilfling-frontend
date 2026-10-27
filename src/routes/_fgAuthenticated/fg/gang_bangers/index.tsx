@@ -1,10 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useDeferredValue, useMemo, useState } from "react";
 import {
-  getCoreRowModel,
-  getFilteredRowModel,
-  getSortedRowModel,
-  useReactTable,
+  createFilteredRowModel,
+  createSortedRowModel,
+  useTable,
+  tableFeatures,
+  stockFeatures,
+  sortFns,
+  type StockFeatures,
   type ColumnDef,
   type RowSelectionState,
 } from "@tanstack/react-table";
@@ -24,7 +27,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/overlay/DropdownMenu";
-import { usePhotoGangBangers } from "@/hooks/photoGangBangers";
+import {
+  useDeletePhotoGangBanger,
+  usePhotoGangBangers,
+} from "@/hooks/photoGangBangers";
 import { semesterSortValue } from "@/utils/semester";
 import styles from "./gangBangers.module.css";
 import { useAuth } from "@/contexts/AuthProvider";
@@ -47,19 +53,20 @@ function GangBangers() {
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const { data, isLoading, isError } = usePhotoGangBangers();
   const users = data?.currentList ?? emptyUsers;
+  const deferredSearch = useDeferredValue(search);
   const { user } = useAuth();
+  const { mutate: deletePhotoGangBanger } = useDeletePhotoGangBanger();
 
   const canEditUsers = useMemo(() => {
     return user?.permissions.includes("USER_MANAGE");
   }, [user]);
 
-  const columns = useMemo<ColumnDef<PhotoGangBangerDto>[]>(
+  const columns = useMemo<ColumnDef<StockFeatures, PhotoGangBangerDto>[]>(
     () => [
       {
         accessorKey: "name",
         header: "Navn",
-        sortingFn: (a, b) =>
-          a.original.name.localeCompare(b.original.name, "nb"),
+        sortFn: (a, b) => a.original.name.localeCompare(b.original.name, "nb"),
         cell: ({ row }) => (
           <div className={styles.userCell}>
             <ProfileImage
@@ -145,7 +152,13 @@ function GangBangers() {
                         <Tags size={16} aria-hidden="true" />
                         Oppdater verv
                       </DropdownMenuItem>
-                      <DropdownMenuItem disabled>
+                      <DropdownMenuItem
+                        onSelect={() => {
+                          deletePhotoGangBanger(
+                            row.original.photoGangBangerId.id,
+                          );
+                        }}
+                      >
                         <Trash2 size={16} aria-hidden="true" />
                         Slett
                       </DropdownMenuItem>
@@ -153,7 +166,7 @@ function GangBangers() {
                   </DropdownMenu>
                 </div>
               ),
-            } satisfies ColumnDef<PhotoGangBangerDto>,
+            } satisfies ColumnDef<StockFeatures, PhotoGangBangerDto>,
           ]
         : []),
       {
@@ -165,13 +178,21 @@ function GangBangers() {
     [canEditUsers],
   );
 
-  const table = useReactTable({
+  const features = tableFeatures({
+    ...stockFeatures,
+    filteredRowModel: createFilteredRowModel(),
+    sortedRowModel: createSortedRowModel(),
+    sortFns,
+  });
+
+  const table = useTable({
+    features,
     data: users,
     columns,
     getRowId: (user) => user.photoGangBangerId.id,
     state: {
       rowSelection,
-      globalFilter: search,
+      globalFilter: deferredSearch,
     },
     initialState: {
       columnVisibility: { semester: false },
@@ -183,9 +204,6 @@ function GangBangers() {
     getColumnCanGlobalFilter: (column) => column.id === "name",
     globalFilterFn: (row, _columnId, value: string) =>
       getSearchText(row.original).includes(value.trim().toLowerCase()),
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getSortedRowModel: getSortedRowModel(),
   });
 
   return (
@@ -279,6 +297,10 @@ function EmailAddresses({ user }: { user: PhotoGangBangerDto }) {
   );
 }
 
+function formatSemester(semester: string) {
+  return semester.replace(/^([VH])20(\d{2})$/, "$1$2");
+}
+
 function Positions({ user }: { user: PhotoGangBangerDto }) {
   const positions = [...user.positions].sort((a, b) => {
     if (a.isActive !== b.isActive) {
@@ -308,8 +330,10 @@ function Positions({ user }: { user: PhotoGangBangerDto }) {
         >
           <span>{position.title}</span>
           <span className={styles.positionSemesters}>
-            {position.semesterStart.value}
-            {position.semesterEnd ? `–${position.semesterEnd.value}` : "–d.d."}
+            {formatSemester(position.semesterStart.value)}
+            {position.semesterEnd
+              ? `–${formatSemester(position.semesterEnd.value)}`
+              : "–d.d."}
           </span>
         </li>
       ))}

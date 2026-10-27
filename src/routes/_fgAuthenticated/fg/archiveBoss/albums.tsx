@@ -16,7 +16,7 @@ import {
 import ArchiveBossAlbumSchema from "@/components/Arkivsjef/ArchiveBossEditAlbumSchema/ArchiveBossEditAlbumSchema";
 import ArchiveBossCreateAlbum from "@/components/Arkivsjef/ArchiveBossCreateAlbum/ArchiveBossCreateAlbum";
 import { Button } from "@/components/ui/input/Button";
-import { Plus } from "lucide-react";
+import { Album, Plus } from "lucide-react";
 import type { AlbumCreateRequest } from "@/utils/api/AlbumApi";
 
 export const Route = createFileRoute("/_fgAuthenticated/fg/archiveBoss/albums")(
@@ -175,7 +175,6 @@ function AlbumsPage() {
               {filteredAndSortedAlbums.map((album) => (
                 <ArchiveBossItem<AlbumDto>
                   key={album.albumId.id}
-                  Type="album"
                   dtoObject={album}
                   columns={[album.name, album.description]}
                   editPopUp={editingId === album.albumId.id && editAlbumPopUp}
@@ -184,7 +183,17 @@ function AlbumsPage() {
                   onClose={onClose}
                   onEdit={onEdit}
                   EditSchema={ArchiveBossAlbumSchema}
-                  onDefault={onSetDefault}
+                  actions={
+            <Button variant="neutral" 
+            size="sm" 
+            className={styles.deleteButton}
+            onClick={() => onSetDefault(album)}
+            disabled={album.isDefault}
+            >
+              <Album size={16} aria-hidden="true" />
+              Sett som standard
+            </Button>
+                  }
                 />
               ))}
             </tbody>

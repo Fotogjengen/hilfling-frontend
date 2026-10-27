@@ -5,5 +5,5 @@
 import type { GangId } from "./GangId";
 export type GangPatchRequestDto = {
   gangId: GangId;
-  name?: string;
+  name?: string | null;
 };

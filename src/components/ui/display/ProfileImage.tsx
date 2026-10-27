@@ -3,7 +3,7 @@ import { User } from "lucide-react";
 import styles from "./ProfileImage.module.css";
 
 interface ProfileImageProps {
-  src?: string;
+  src?: string | null;
   alt: string;
   size?: number;
   onClick?: () => void;
@@ -24,6 +24,8 @@ export function ProfileImage({
     <img
       src={src}
       alt={alt}
+      loading="lazy"
+      decoding="async"
       onError={() => setErrored(true)}
       className={styles.image}
     />

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/input/Button";
 import styles from "./ArchiveBossItem.module.css";
-import { Pencil, Album, Trash2 } from "lucide-react";
+import { Pencil, Trash2 } from "lucide-react";
 import { Dialog } from "@/components/ui/overlay/Dialog";
 
 export interface EditSchemaProps<T> {
@@ -10,20 +10,19 @@ export interface EditSchemaProps<T> {
   onPatch: (dtoObject: T) => void;
 }
 interface Temp<T> {
-  Type: string;
   dtoObject: any;
-  columns: (string | undefined)[] | [];
+  columns: React.ReactNode[];
   editPopUp: boolean;
   onDelete(dtoObject: T): any;
   onPatch(dtoObject: T): any;
   onClose(): any;
   onEdit(dtoObject: T): any;
   EditSchema: React.ComponentType<EditSchemaProps<T>>;
-  onDefault(dtoObject: T): any;
+  actions?: React.ReactNode;
+  deleteWarningMessage?: React.ReactNode;
 }
 
 function ArchiveBossItem<T>({
-  Type,
   dtoObject,
   columns,
   editPopUp,
@@ -32,8 +31,9 @@ function ArchiveBossItem<T>({
   onClose,
   onEdit,
   EditSchema,
-  onDefault,
-}: Temp<T>) {;
+  actions,
+  deleteWarningMessage = "Er du sikker på at du vil slette dette?",
+}: Temp<T>) {
   const [deleteWarning, setDeleteWarning] = useState<boolean>(false);
 
   const handleDeleteClick = () => {
@@ -52,17 +52,7 @@ function ArchiveBossItem<T>({
       ))}
       <td>
         <div className={styles.actions}>
-          {Type === "album" && (
-            <Button variant="neutral" 
-            size="sm" 
-            className={styles.deleteButton}
-            onClick={() => onDefault(dtoObject)}
-            disabled={dtoObject.isDefault}
-            >
-              <Album size={16} aria-hidden="true" />
-              Sett som standard
-            </Button>
-          )}
+          {actions}
           <Button
             variant="neutral"
             size="sm"
@@ -97,7 +87,7 @@ function ArchiveBossItem<T>({
                 </Button>
               }
             >
-              <div> Er du sikker på at du vil slette dette? </div>
+              <div>{deleteWarningMessage}</div>
             </Dialog>
           )}
           <Button
