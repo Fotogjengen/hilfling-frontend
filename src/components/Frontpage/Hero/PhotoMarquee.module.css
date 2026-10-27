@@ -1,7 +1,7 @@
 .marquee {
   --track-gap: 10px;
   --tile-gap: 10px;
-  --tile-photo-height: 15rem;
+  --tile-photo-height: 18rem;
   --tile-photo-hover-scale: 1.1;
   --tile-label-font-size: 1rem;
   --tile-label-line-height: 1.2rem;

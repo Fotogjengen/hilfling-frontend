@@ -1,0 +1,16 @@
+.container {
+  --logo-font-size: 6.5rem;
+
+  display: inline;
+  font-family: Satoshi, Roboto, Futura, "Trebuchet MS", Arial, sans-serif;
+  font-weight: 500;
+  font-size: var(--logo-font-size);
+
+  .inlineLogo {
+    padding: 0 0.04em;
+    display: inline-block;
+    width: 0.6em;
+    height: 0.6em;
+    vertical-align: -0.06em;
+  }
+}
