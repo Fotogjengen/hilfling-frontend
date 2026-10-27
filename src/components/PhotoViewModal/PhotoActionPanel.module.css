@@ -5,6 +5,12 @@
   display: flex;
 }
 
+.actionPanelGroup {
+  display: flex;
+  align-items: center;
+  gap: var(--size-space-200);
+}
+
 .actionPanel {
   background-color: var(--color-background-transparent-default);
   border-color: var(--color-border-transparent-default-photo-modal);
@@ -26,6 +32,34 @@
 
 .actionButton {
   color: var(--color-text-transparent-on-transparent);
+}
+
+.prodPictureButton {
+  width: calc(
+    var(--size-icon-button-medium) + 2 * var(--size-space-200) +
+      2 * var(--size-stroke-border)
+  );
+  height: calc(
+    var(--size-icon-button-medium) + 2 * var(--size-space-200) +
+      2 * var(--size-stroke-border)
+  );
+  background-color: var(--color-background-transparent-default);
+  border-color: var(--color-border-transparent-default-photo-modal);
+  border-width: var(--size-stroke-border);
+  border-style: solid;
+}
+
+.prodPictureButton:hover {
+  border-color: var(--color-border-default-default);
+}
+
+.prodPictureActive {
+  background-color: var(--color-background-brand-default);
+  border-color: var(--color-border-brand-default);
+}
+
+.prodPictureActive:hover {
+  background-color: var(--color-background-brand-hover);
 }
 
 .actionButtonRow .actionButton {
@@ -166,6 +200,11 @@
     height: 28px;
     min-width: 28px;
     padding: 4px;
+  }
+
+  .prodPictureButton {
+    width: calc(28px + 12px + 2 * var(--size-stroke-border));
+    height: calc(28px + 12px + 2 * var(--size-stroke-border));
   }
 
   .actionButtonRow .actionButton:has(.copyLabel) {

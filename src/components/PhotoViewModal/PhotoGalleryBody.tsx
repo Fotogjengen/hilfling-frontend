@@ -23,7 +23,12 @@ function usePhotoSelection(
   initialPhotoId: string,
   onSelectedPhotoChange?: (photo: PhotoDto) => void,
 ) {
-  const [selectedPhoto, setSelectedPhoto] = useState<PhotoDto | undefined>();
+  const [selectedPhotoId, setSelectedPhotoId] = useState(initialPhotoId);
+  const selectedPhoto = photos.find(
+    (photo) => photo.photoId.id === selectedPhotoId,
+  );
+  const setSelectedPhoto = (photo: PhotoDto) =>
+    setSelectedPhotoId(photo.photoId.id);
 
   const currentIndex = selectedPhoto
     ? photos.findIndex((p) => p.photoId.id === selectedPhoto.photoId.id)
@@ -40,12 +45,6 @@ function usePhotoSelection(
       setSelectedPhoto(photos[currentIndex - 1]);
     }
   };
-
-  // select the initial photo once the list it lives on has loaded
-  useEffect(() => {
-    if (selectedPhoto || photos.length === 0) return;
-    setSelectedPhoto(photos.find((p) => p.photoId.id === initialPhotoId));
-  }, [photos, initialPhotoId, selectedPhoto]);
 
   useEffect(() => {
     if (selectedPhoto) onSelectedPhotoChange?.(selectedPhoto);
