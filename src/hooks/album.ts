@@ -71,7 +71,7 @@ export const usePostAlbum = () => {
   });
 };
 
-export const useSetDefault = () => {
+export const useSetDefaultAlbum = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (albumId: string) => AlbumApi.setDefault(albumId),
@@ -90,5 +90,12 @@ export const useSetDefault = () => {
         description: `Feilkode: ${error instanceof Error ? error.message : "Unknown error"}`,
       });
     },
+  });
+};
+
+export const useDefaultAlbum = () => {
+  return useQuery({
+    queryKey: ["album", "default"],
+    queryFn: () => AlbumApi.findDefault(),
   });
 };
