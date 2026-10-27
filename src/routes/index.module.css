@@ -2,6 +2,11 @@
   display: flex;
   flex-direction: column;
   gap: var(--size-space-400);
+
+  /* Alle direkte barn som ikke er hero-en */
+  > :not(:first-child) {
+    margin: 0 2rem;
+  }
 }
 
 .logoWrapper {
