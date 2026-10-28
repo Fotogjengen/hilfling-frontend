@@ -1,9 +1,17 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { Check, Download, Info, Link, X } from "lucide-react";
+import {
+  Check,
+  Download,
+  Image as ImageIcon,
+  Info,
+  Link,
+  X,
+} from "lucide-react";
 import { Link as RouterLink } from "@tanstack/react-router";
 import { PhotoDto } from "../../../generated";
 import { IconButton } from "@/components/ui/input/IconButton";
+import { Tooltip } from "@/components/ui/overlay/Tooltip";
 import { useCopyToClipboard } from "@/hooks/clipboard";
 import { usePhotoDownload } from "@/contexts/PhotoDownloadProvider";
 import { useAuth } from "@/contexts/AuthProvider";
@@ -14,57 +22,82 @@ import { useMetadata } from "@/hooks/metadata";
 // Download, copy link and metadata buttons
 export function PhotoActionPanel({
   selectedPhoto,
+  showProdPicture,
+  onToggleProdPicture,
 }: {
   selectedPhoto?: PhotoDto;
+  showProdPicture: boolean;
+  onToggleProdPicture: () => void;
 }) {
   const [showMetadata, setShowMetadata] = useState(false);
   const { copied, copy } = useCopyToClipboard();
   const { requestDownload } = usePhotoDownload();
+  const canViewProdPicture = selectedPhoto?.imageProd != null;
 
   return (
-    <motion.div
-      layout
-      className={`${styles.actionPanel} ${showMetadata ? styles.actionPanelExpanded : ""}`}
-      initial={false}
-      animate={{ borderRadius: showMetadata ? 16 : 30 }}
-      transition={{ ease: EASE_OUT_EXPO, duration: 0.4 }}
-    >
-      <AnimatePresence mode="popLayout" initial={false}>
-        {showMetadata && selectedPhoto ? (
-          <motion.div
-            key="metadata"
-            layout
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
+    <div className={styles.actionPanelGroup}>
+      {canViewProdPicture && !showMetadata && (
+        <Tooltip content={showProdPicture ? "Web" : "Prod"}>
+          <IconButton
+            variant="subtle"
+            aria-label={
+              showProdPicture ? "Vis web-kvalitet" : "Vis prod-kvalitet"
+            }
+            aria-pressed={showProdPicture}
+            className={`${styles.actionButton} ${styles.prodPictureButton} ${showProdPicture ? styles.prodPictureActive : ""}`}
+            onClick={(event) => {
+              onToggleProdPicture();
+              if (event.detail > 0) event.currentTarget.blur();
+            }}
           >
-            <PhotoMetadata
-              photo={selectedPhoto}
-              onClose={() => setShowMetadata(false)}
-            />
-          </motion.div>
-        ) : (
-          <motion.div
-            key="buttons"
-            layout
-            className={styles.actionButtonRow}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-          >
-            <PhotoActionButtons
-              selectedPhoto={selectedPhoto}
-              requestDownload={requestDownload}
-              copied={copied}
-              copy={copy}
-              onShowMetadata={() => setShowMetadata(true)}
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
+            <ImageIcon />
+          </IconButton>
+        </Tooltip>
+      )}
+      <motion.div
+        layout
+        className={`${styles.actionPanel} ${showMetadata ? styles.actionPanelExpanded : ""}`}
+        initial={false}
+        animate={{ borderRadius: showMetadata ? 16 : 30 }}
+        transition={{ ease: EASE_OUT_EXPO, duration: 0.4 }}
+      >
+        <AnimatePresence mode="popLayout" initial={false}>
+          {showMetadata && selectedPhoto ? (
+            <motion.div
+              key="metadata"
+              layout
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <PhotoMetadata
+                photo={selectedPhoto}
+                onClose={() => setShowMetadata(false)}
+              />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="buttons"
+              layout
+              className={styles.actionButtonRow}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              <PhotoActionButtons
+                selectedPhoto={selectedPhoto}
+                requestDownload={requestDownload}
+                copied={copied}
+                copy={copy}
+                onShowMetadata={() => setShowMetadata(true)}
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    </div>
   );
 }
 

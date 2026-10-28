@@ -23,7 +23,12 @@ function usePhotoSelection(
   initialPhotoId: string,
   onSelectedPhotoChange?: (photo: PhotoDto) => void,
 ) {
-  const [selectedPhoto, setSelectedPhoto] = useState<PhotoDto | undefined>();
+  const [selectedPhotoId, setSelectedPhotoId] = useState(initialPhotoId);
+  const selectedPhoto = photos.find(
+    (photo) => photo.photoId.id === selectedPhotoId,
+  );
+  const setSelectedPhoto = (photo: PhotoDto) =>
+    setSelectedPhotoId(photo.photoId.id);
 
   const currentIndex = selectedPhoto
     ? photos.findIndex((p) => p.photoId.id === selectedPhoto.photoId.id)
@@ -40,12 +45,6 @@ function usePhotoSelection(
       setSelectedPhoto(photos[currentIndex - 1]);
     }
   };
-
-  // select the initial photo once the list it lives on has loaded
-  useEffect(() => {
-    if (selectedPhoto || photos.length === 0) return;
-    setSelectedPhoto(photos.find((p) => p.photoId.id === initialPhotoId));
-  }, [photos, initialPhotoId, selectedPhoto]);
 
   useEffect(() => {
     if (selectedPhoto) onSelectedPhotoChange?.(selectedPhoto);
@@ -74,6 +73,7 @@ export function PhotoGalleryBody({
   const { selectedPhoto, setSelectedPhoto, currentIndex, goNext, goPrevious } =
     usePhotoSelection(photos, initialPhotoId, onSelectedPhotoChange);
   const [isFocused, setIsFocused] = useState(false);
+  const [showProdPicture, setShowProdPicture] = useState(false);
   const { isInactive } = useInactivity({ inactiveDelayMs: 1000 });
   const hideUI = isFocused && isInactive;
   const isMobile = useIsMobile();
@@ -101,12 +101,19 @@ export function PhotoGalleryBody({
           <div className={styles.mobileContent}>
             <SwipeableMainPhoto
               selectedPhoto={selectedPhoto}
+              showProdPicture={showProdPicture}
               currentIndex={currentIndex}
               onNext={goNext}
               onPrevious={goPrevious}
             />
             <div className={styles.mobileBottomActions}>
-              <PhotoActionPanel selectedPhoto={selectedPhoto} />
+              <PhotoActionPanel
+                selectedPhoto={selectedPhoto}
+                showProdPicture={showProdPicture}
+                onToggleProdPicture={() =>
+                  setShowProdPicture((showingProd) => !showingProd)
+                }
+              />
               {showMotiveLink && selectedPhoto && (
                 <MotiveLink photo={selectedPhoto} />
               )}
@@ -145,14 +152,22 @@ export function PhotoGalleryBody({
           />
           <PhotoViewMainContent
             selectedPhoto={selectedPhoto}
+            showProdPicture={showProdPicture}
             onToggleFocus={() => setIsFocused((f) => !f)}
+            onToggleSidebar={() => setIsFocused((focused) => !focused)}
           >
             <FadeInOut
               show={!isFocused}
               animateOnMount={false}
               className={actionStyles.actionPanelAnchor}
             >
-              <PhotoActionPanel selectedPhoto={selectedPhoto} />
+              <PhotoActionPanel
+                selectedPhoto={selectedPhoto}
+                showProdPicture={showProdPicture}
+                onToggleProdPicture={() =>
+                  setShowProdPicture((showingProd) => !showingProd)
+                }
+              />
             </FadeInOut>
             <FadeInOut
               show={!isFocused}
