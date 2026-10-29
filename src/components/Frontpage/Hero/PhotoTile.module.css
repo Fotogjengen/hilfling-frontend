@@ -6,7 +6,6 @@
   align-items: end;
   gap: var(--tile-gap);
   flex: none;
-  cursor: pointer;
 
   .photoFrame {
     position: relative;
