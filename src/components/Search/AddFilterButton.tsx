@@ -201,12 +201,11 @@ function FilterSubmenu({
           item.name.toLowerCase().includes(search.toLowerCase()),
         )
       : items
-    )
-      ?.slice()
-      .sort(
-        (a, b) =>
-          Number(selectedIds.has(b.id)) - Number(selectedIds.has(a.id)),
-      );
+  )
+    ?.slice()
+    .sort(
+      (a, b) => Number(selectedIds.has(b.id)) - Number(selectedIds.has(a.id)),
+    );
 
   return (
     <DropdownMenuSub>
