@@ -216,7 +216,7 @@ function PhotoMetadata({
     ["Sted", photo.motive.placeDto.name],
     ["Kategori", photo.motive.categoryDto.name],
     ["Arrangør", photo.motive.eventOwnerDto.name],
-    ["Fotograf", photographer.name],
+    ["Fotograf", photographer?.name],
     [
       "Album",
       album

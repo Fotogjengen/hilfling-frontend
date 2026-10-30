@@ -19,7 +19,7 @@ export type PhotoDto = {
   motive: MotiveDto;
   media: MediaDto;
   gang?: GangDto | null;
-  photoGangBangerDto: PhotoGangBangerDto;
+  photoGangBangerDto?: PhotoGangBangerDto | null;
   dateUploaded: string;
   securityLevel: SecurityLevelDto;
 };
