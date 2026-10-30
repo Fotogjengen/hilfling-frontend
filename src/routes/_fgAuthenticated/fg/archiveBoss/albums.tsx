@@ -43,7 +43,7 @@ function AlbumsPage() {
   const patchAlbum = useUpdateAlbum();
   const postAlbum = usePostAlbum();
   const setDefault = useSetDefaultAlbum();
-  const findDefault = useDefaultAlbum()
+  const findDefault = useDefaultAlbum();
 
   useEffect(() => {
     setAlbums(data ?? []);
@@ -86,12 +86,12 @@ function AlbumsPage() {
   };
 
   const onSetDefault = (album: AlbumDto) => {
-    const currentDefault = findDefault.data
-    console.log('Current default', currentDefault)
-    setDefault.mutate(album.albumId.id)
-    const newDefault = findDefault.data
-    console.log('New default', newDefault)
-  }
+    const currentDefault = findDefault.data;
+    console.log("Current default", currentDefault);
+    setDefault.mutate(album.albumId.id);
+    const newDefault = findDefault.data;
+    console.log("New default", newDefault);
+  };
 
   const filteredAndSortedAlbums = useMemo(() => {
     const normalizedSearch = search.trim().toLowerCase();
@@ -184,15 +184,16 @@ function AlbumsPage() {
                   onEdit={onEdit}
                   EditSchema={ArchiveBossAlbumSchema}
                   actions={
-            <Button variant="neutral" 
-            size="sm" 
-            className={styles.editButton}
-            onClick={() => onSetDefault(album)}
-            disabled={album.isDefault}
-            >
-              <Album size={16} aria-hidden="true" />
-              Sett som standard
-            </Button>
+                    <Button
+                      variant="neutral"
+                      size="sm"
+                      className={styles.editButton}
+                      onClick={() => onSetDefault(album)}
+                      disabled={album.isDefault}
+                    >
+                      <Album size={16} aria-hidden="true" />
+                      Sett som standard
+                    </Button>
                   }
                 />
               ))}

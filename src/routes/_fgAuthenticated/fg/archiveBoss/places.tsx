@@ -70,8 +70,8 @@ function Places() {
     setEditingId(place.placeId.id);
   };
   const onSetDefault = (place: PlaceDto) => {
-    console.log("this is just a placeholder.", place.name)
-  }
+    console.log("this is just a placeholder.", place.name);
+  };
   const onNewPlaceClick = () => {
     setNewPlaceDialog(true);
   };

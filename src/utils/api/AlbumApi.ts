@@ -37,20 +37,13 @@ export const AlbumApi = {
   },
 
   post: async function (album: AlbumCreateRequest): Promise<number> {
-    return api
-      .post("/albums", album)
-      .then((res) => res.data);
+    return api.post("/albums", album).then((res) => res.data);
   },
 
-  setDefault: async function (albumId : String): Promise<AlbumDto>{
-    return api
-      .put(`albums/${albumId}/default`)
-      .then((res) => res.data);
+  setDefault: async function (albumId: String): Promise<AlbumDto> {
+    return api.put(`albums/${albumId}/default`).then((res) => res.data);
   },
-  findDefault: async function (): Promise<AlbumDto>{
-    return api
-      .get(`albums/default`)
-      .then((res) => res.data);
+  findDefault: async function (): Promise<AlbumDto> {
+    return api.get(`albums/default`).then((res) => res.data);
   },
-
 };

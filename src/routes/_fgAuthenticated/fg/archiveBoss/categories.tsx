@@ -70,8 +70,8 @@ function Categories() {
     setEditingId(category.categoryId.id);
   };
   const onSetDefault = (category: CategoryDto) => {
-    console.log("this is just a placeholder.", category.name)
-  }
+    console.log("this is just a placeholder.", category.name);
+  };
   const onNewCategoryClick = () => {
     setNewCategoryDialog(true);
   };
