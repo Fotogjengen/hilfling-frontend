@@ -1,5 +1,5 @@
 import { api } from "./api";
-import { AlbumDto, AlbumId } from "../../../generated";
+import { AlbumDto } from "../../../generated";
 import { DeletedResult, PaginatedResult } from "./types";
 import { AlbumPatchRequestDto } from "../../../generated";
 
@@ -40,7 +40,7 @@ export const AlbumApi = {
     return api.post("/albums", album).then((res) => res.data);
   },
 
-  setDefault: async function (albumId: String): Promise<AlbumDto> {
+  setDefault: async function (albumId: string): Promise<AlbumDto> {
     return api.put(`albums/${albumId}/default`).then((res) => res.data);
   },
   findDefault: async function (): Promise<AlbumDto> {
