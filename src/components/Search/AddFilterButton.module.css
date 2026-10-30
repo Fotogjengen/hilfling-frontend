@@ -44,10 +44,13 @@
   display: flex;
   flex-direction: column;
   gap: var(--size-space-400);
+  max-height: 20rem;
+  overflow-y: auto;
 }
 
 .filterMenu {
-  min-width: 20rem;
+  width: 20rem;
+  max-width: calc(100vw - 2rem);
 }
 
 .filterMenuHeader {
@@ -58,6 +61,8 @@
   display: flex;
   align-items: center;
   gap: var(--size-space-300);
+  min-width: 0;
+  flex: 1;
 }
 
 .triggerIcon {
@@ -68,6 +73,8 @@
 .triggerText {
   display: flex;
   flex-direction: column;
+  min-width: 0;
+  flex: 1;
 }
 
 .triggerName {
@@ -77,6 +84,9 @@
 .triggerSummary {
   font-size: var(--typography-size-100);
   color: var(--color-text-default-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .dateFields {
