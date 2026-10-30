@@ -65,7 +65,6 @@ function Places() {
     patchPlace.mutate(patch_object);
     onClose();
   };
-
   const onEdit = (place: PlaceDto) => {
     setEditAlbumPopUp(true);
     setEditingId(place.placeId.id);

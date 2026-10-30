@@ -10,6 +10,8 @@ import {
   useDeleteAlbum,
   useUpdateAlbum,
   usePostAlbum,
+  useSetDefaultAlbum,
+  useDefaultAlbum,
 } from "@/hooks/album";
 import ArchiveBossAlbumSchema from "@/components/Arkivsjef/ArchiveBossEditAlbumSchema/ArchiveBossEditAlbumSchema";
 import ArchiveBossCreateAlbum from "@/components/Arkivsjef/ArchiveBossCreateAlbum/ArchiveBossCreateAlbum";
@@ -40,6 +42,8 @@ function AlbumsPage() {
   const deleteAlbum = useDeleteAlbum();
   const patchAlbum = useUpdateAlbum();
   const postAlbum = usePostAlbum();
+  const setDefault = useSetDefaultAlbum();
+  const findDefault = useDefaultAlbum();
 
   useEffect(() => {
     setAlbums(data ?? []);
@@ -79,6 +83,14 @@ function AlbumsPage() {
   };
   const onCloseAlbumDialog = () => {
     setNewAlbumDialog(false);
+  };
+
+  const onSetDefault = (album: AlbumDto) => {
+    const currentDefault = findDefault.data;
+    console.log("Current default", currentDefault);
+    setDefault.mutate(album.albumId.id);
+    const newDefault = findDefault.data;
+    console.log("New default", newDefault);
   };
 
   const filteredAndSortedAlbums = useMemo(() => {
@@ -175,7 +187,9 @@ function AlbumsPage() {
                     <Button
                       variant="neutral"
                       size="sm"
-                      className={styles.iconTextButton}
+                      className={styles.editButton}
+                      onClick={() => onSetDefault(album)}
+                      disabled={album.isDefault}
                     >
                       <Album size={16} aria-hidden="true" />
                       Sett som standard

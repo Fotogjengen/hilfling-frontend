@@ -69,7 +69,6 @@ function Categories() {
     setEditCategoryPopUp(true);
     setEditingId(category.categoryId.id);
   };
-
   const onNewCategoryClick = () => {
     setNewCategoryDialog(true);
   };
