@@ -69,9 +69,6 @@ function Places() {
     setEditAlbumPopUp(true);
     setEditingId(place.placeId.id);
   };
-  const onSetDefault = (place: PlaceDto) => {
-    console.log("this is just a placeholder.", place.name);
-  };
   const onNewPlaceClick = () => {
     setNewPlaceDialog(true);
   };
@@ -165,7 +162,6 @@ function Places() {
                   onClose={onClose}
                   onEdit={onEdit}
                   EditSchema={ArchiveBossEditPlaceSchema}
-                  onDefault={onSetDefault}
                 />
               ))}
             </tbody>

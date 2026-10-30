@@ -69,9 +69,6 @@ function Categories() {
     setEditCategoryPopUp(true);
     setEditingId(category.categoryId.id);
   };
-  const onSetDefault = (category: CategoryDto) => {
-    console.log("this is just a placeholder.", category.name);
-  };
   const onNewCategoryClick = () => {
     setNewCategoryDialog(true);
   };
@@ -167,7 +164,6 @@ function Categories() {
                   onClose={onClose}
                   onEdit={onEdit}
                   EditSchema={ArchiveBossEditCategorySchema}
-                  onDefault={onSetDefault}
                 />
               ))}
             </tbody>
