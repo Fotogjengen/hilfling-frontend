@@ -13,6 +13,8 @@ export default function PhotoMarquee() {
   const trackRef = useRef<HTMLDivElement>(null);
   const [shuffledPhotos] = useState(() => shuffle(photos));
 
+  // BUG: en bug nå er at denne ikke oppdateres hvis skjerm-bredden endrer seg etter render
+  // Kan legge til en resize observer, men lets be real, hvem endrer bredden på skjermen sin IMENS de bruker en nettside...
   useMarqueeDuration(trackRef, SCROLL_SPEED_PX_PER_SECOND);
   useMarqueeHover(trackRef, HOVER_SPEED_EASE_SECONDS);
 

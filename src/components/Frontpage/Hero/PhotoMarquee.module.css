@@ -1,10 +1,10 @@
 .marquee {
   --track-gap: 10px;
   --tile-gap: 10px;
-  --tile-photo-height: 18rem;
+  --tile-photo-height: 12rem;
   --tile-photo-hover-scale: 1.1;
-  --tile-label-font-size: 1rem;
-  --tile-label-line-height: 1.2rem;
+  --tile-label-font-size: 0.875rem;
+  --tile-label-line-height: 1rem;
 
   --max-tile-height: calc(
     var(--tile-photo-height) * var(--tile-photo-hover-scale) + var(--tile-gap) +
@@ -24,6 +24,14 @@
     gap: var(--track-gap);
     animation: photoTrackScroll var(--photo-track-duration, 100s) linear
       infinite;
+  }
+}
+
+@media (min-width: 768px) {
+  .marquee {
+    --tile-photo-height: 18rem;
+    --tile-label-font-size: 1rem;
+    --tile-label-line-height: 1.2rem;
   }
 }
 

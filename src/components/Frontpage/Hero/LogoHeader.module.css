@@ -1,5 +1,5 @@
 .container {
-  --logo-font-size: 6.5rem;
+  --logo-font-size: 3.5rem;
 
   /* Satoshi fonten har litt spacing på venstre side av F-en, så legg til litt negativ margin så den er på linje med teksten under */
   margin-left: -0.06em;
@@ -13,5 +13,11 @@
     width: 0.6em;
     height: 0.6em;
     vertical-align: -0.06em;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    --logo-font-size: 6.5rem;
   }
 }
