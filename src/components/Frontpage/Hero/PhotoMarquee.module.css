@@ -6,6 +6,12 @@
   --tile-label-font-size: 0.875rem;
   --tile-label-line-height: 1rem;
 
+  @media (min-width: 768px) {
+    --tile-photo-height: 18rem;
+    --tile-label-font-size: 1rem;
+    --tile-label-line-height: 1.2rem;
+  }
+
   --max-tile-height: calc(
     var(--tile-photo-height) * var(--tile-photo-hover-scale) + var(--tile-gap) +
       var(--tile-label-line-height)
@@ -24,14 +30,6 @@
     gap: var(--track-gap);
     animation: photoTrackScroll var(--photo-track-duration, 100s) linear
       infinite;
-  }
-}
-
-@media (min-width: 768px) {
-  .marquee {
-    --tile-photo-height: 18rem;
-    --tile-label-font-size: 1rem;
-    --tile-label-line-height: 1.2rem;
   }
 }
 

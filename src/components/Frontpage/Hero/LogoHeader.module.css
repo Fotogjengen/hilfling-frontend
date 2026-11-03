@@ -7,17 +7,15 @@
   font-weight: 500;
   font-size: var(--logo-font-size);
 
+  @media (min-width: 768px) {
+    --logo-font-size: 6.5rem;
+  }
+
   .inlineLogo {
     padding: 0 0.04em;
     display: inline-block;
     width: 0.6em;
     height: 0.6em;
     vertical-align: -0.06em;
-  }
-}
-
-@media (min-width: 768px) {
-  .container {
-    --logo-font-size: 6.5rem;
   }
 }
