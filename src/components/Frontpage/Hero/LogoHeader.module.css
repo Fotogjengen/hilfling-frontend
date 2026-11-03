@@ -1,7 +1,8 @@
 .container {
   --logo-font-size: 6.5rem;
 
-  display: inline;
+  /* Satoshi fonten har litt spacing på venstre side av F-en, så legg til litt negativ margin så den er på linje med teksten under */
+  margin-left: -0.06em;
   font-family: Satoshi, Roboto, Futura, "Trebuchet MS", Arial, sans-serif;
   font-weight: 500;
   font-size: var(--logo-font-size);
