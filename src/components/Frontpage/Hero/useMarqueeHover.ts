@@ -4,7 +4,7 @@ const easingFunc = (t: number) => t * (1.5 - 0.5 * t);
 
 /**
  * Starter og stopper scroll-animasjonen
- * til marquee-en smoothly på hover
+ * til marquee-en smoothly når et bilde hovres over
  */
 export default function useMarqueeHover(
   trackRef: RefObject<HTMLElement | null>,
@@ -52,18 +52,21 @@ export default function useMarqueeHover(
       }
     };
 
-    const onOver = () => setPlayState(false);
-    const onOut = () => setPlayState(true);
+    const hoverTargets = track.querySelectorAll<HTMLElement>(
+      "[data-marquee-hover-target]",
+    );
+    const onEnter = () => setPlayState(false);
+    const onLeave = () => setPlayState(true);
 
-    for (const el of track.children) {
-      el.addEventListener("pointerover", onOver);
-      el.addEventListener("pointerout", onOut);
+    for (const el of hoverTargets) {
+      el.addEventListener("pointerenter", onEnter);
+      el.addEventListener("pointerleave", onLeave);
     }
 
     return () => {
-      for (const el of track.children) {
-        el.removeEventListener("pointerover", onOver);
-        el.removeEventListener("pointerout", onOut);
+      for (const el of hoverTargets) {
+        el.removeEventListener("pointerenter", onEnter);
+        el.removeEventListener("pointerleave", onLeave);
       }
       if (raf !== null) cancelAnimationFrame(raf);
       anim.updatePlaybackRate(1);

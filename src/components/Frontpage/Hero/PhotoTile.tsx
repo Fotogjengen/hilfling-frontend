@@ -18,7 +18,10 @@ export default function PhotoTile({
 }: Props) {
   return (
     <div className={style.tile}>
-      <div className={cx(style.photoFrame, style[orientation])}>
+      <div
+        className={cx(style.photoFrame, style[orientation])}
+        data-marquee-hover-target
+      >
         <img src={url} alt={description ?? title} className={style.photo} />
         <div className={style.photoOverlay}>
           <strong>{title}</strong>
