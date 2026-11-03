@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useDeferredValue, useMemo, useState } from "react";
 import {
   createFilteredRowModel,
   createSortedRowModel,
@@ -27,7 +27,10 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/overlay/DropdownMenu";
-import { usePhotoGangBangers } from "@/hooks/photoGangBangers";
+import {
+  useDeletePhotoGangBanger,
+  usePhotoGangBangers,
+} from "@/hooks/photoGangBangers";
 import { semesterSortValue } from "@/utils/semester";
 import styles from "./gangBangers.module.css";
 import { useAuth } from "@/contexts/AuthProvider";
@@ -50,7 +53,9 @@ function GangBangers() {
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const { data, isLoading, isError } = usePhotoGangBangers();
   const users = data?.currentList ?? emptyUsers;
+  const deferredSearch = useDeferredValue(search);
   const { user } = useAuth();
+  const { mutate: deletePhotoGangBanger } = useDeletePhotoGangBanger();
 
   const canEditUsers = useMemo(() => {
     return user?.permissions.includes("USER_MANAGE");
@@ -147,7 +152,13 @@ function GangBangers() {
                         <Tags size={16} aria-hidden="true" />
                         Oppdater verv
                       </DropdownMenuItem>
-                      <DropdownMenuItem disabled>
+                      <DropdownMenuItem
+                        onSelect={() => {
+                          deletePhotoGangBanger(
+                            row.original.photoGangBangerId.id,
+                          );
+                        }}
+                      >
                         <Trash2 size={16} aria-hidden="true" />
                         Slett
                       </DropdownMenuItem>
@@ -181,7 +192,7 @@ function GangBangers() {
     getRowId: (user) => user.photoGangBangerId.id,
     state: {
       rowSelection,
-      globalFilter: search,
+      globalFilter: deferredSearch,
     },
     initialState: {
       columnVisibility: { semester: false },

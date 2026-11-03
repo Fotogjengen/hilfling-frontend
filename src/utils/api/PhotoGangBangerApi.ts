@@ -61,4 +61,7 @@ export const PhotoGangBangerApi = {
       .put<PhotoGangBangerDto>("/photo_gang_bangers/positions", request)
       .then((res) => res.data);
   },
+  delete: async function (id: string): Promise<void> {
+    return api.delete(`/photo_gang_bangers/${id}`);
+  },
 };

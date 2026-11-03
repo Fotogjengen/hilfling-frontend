@@ -65,6 +65,23 @@ export const useCreatePhotoGangBanger = () => {
   });
 };
 
+export const useDeletePhotoGangBanger = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (id: string) => PhotoGangBangerApi.delete(id),
+    onError: (error) => {
+      toast.error("Kunne ikke slette fotogjengeren", {
+        description: error instanceof Error ? error.message : "Ukjent feil",
+      });
+    },
+    onSuccess: () => {
+      toast.success("Fotogjengeren ble slettet");
+      void queryClient.invalidateQueries({ queryKey: ["photoGangBangers"] });
+    },
+  });
+};
+
 export const useReplacePhotoGangBangerPositions = () => {
   const queryClient = useQueryClient();
 
