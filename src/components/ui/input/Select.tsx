@@ -91,7 +91,7 @@ export function Select({
             position="popper"
             sideOffset={4}
           >
-            <SelectPrimitive.Viewport>
+            <SelectPrimitive.Viewport className={styles.viewport}>
               {options.map((option) => (
                 <SelectItem key={option.value} option={option} />
               ))}
