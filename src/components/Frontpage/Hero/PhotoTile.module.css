@@ -47,7 +47,12 @@
       gap: 4px;
       padding: 12px;
       color: white;
-      background: rgba(0, 0, 0, 0.4);
+      background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.7) 0%,
+        rgba(0, 0, 0, 0.35) 35%,
+        transparent 75%
+      );
       opacity: 0;
       pointer-events: none;
       transition: opacity 0.2s;
