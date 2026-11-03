@@ -5,7 +5,28 @@
   justify-content: center;
   align-items: start;
   gap: 40px;
-  background-color: var(--color-brand-700);
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 42%,
+      rgba(35, 7, 9, 0.24) 100%
+    ),
+    radial-gradient(
+      ellipse 36rem 24rem at 18% 12%,
+      rgba(255, 140, 120, 0.14),
+      transparent 72%
+    ),
+    radial-gradient(
+      ellipse 32rem 28rem at 82% 60%,
+      rgba(255, 255, 255, 0.06),
+      transparent 70%
+    ),
+    linear-gradient(
+      125deg,
+      var(--color-brand-800),
+      var(--color-brand-700) 55%,
+      #751720
+    );
 
   color: var(--color-white-1000);
 
