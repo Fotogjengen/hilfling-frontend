@@ -109,7 +109,7 @@ function Medias() {
           className={styles.newMediaButton}
         >
           <Plus size={16} aria-hidden="true" />
-          Opprett nytt sted
+          Opprett nytt medium
         </Button>
         {newMediaDialog && (
           <ArchiveBossCreateMedia
