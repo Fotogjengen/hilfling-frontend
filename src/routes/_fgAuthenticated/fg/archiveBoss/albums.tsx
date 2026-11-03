@@ -86,11 +86,7 @@ function AlbumsPage() {
   };
 
   const onSetDefault = (album: AlbumDto) => {
-    const currentDefault = findDefault.data;
-    console.log("Current default", currentDefault);
     setDefault.mutate(album.albumId.id);
-    const newDefault = findDefault.data;
-    console.log("New default", newDefault);
   };
 
   const filteredAndSortedAlbums = useMemo(() => {
