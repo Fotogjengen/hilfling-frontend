@@ -97,7 +97,7 @@ function Medias() {
   return (
     <div className={styles.album_page}>
       <header className={styles.pageHeader}>
-        <h1> Steder </h1>
+        <h1> Medium </h1>
       </header>
       <div className={styles.MediaDatabase}>
         Det finnes {Medias.length} medium i databasen
@@ -141,13 +141,13 @@ function Medias() {
       </div>
 
       {isLoading ? (
-        <p> Laster steder... </p>
+        <p> Laster medium... </p>
       ) : (
         <div>
           <table className={styles.table}>
             <thead>
               <tr>
-                <th> Steder </th>
+                <th> Medium </th>
                 <th> Handlinger </th>
               </tr>
             </thead>
