@@ -11,7 +11,6 @@ import {
   useUpdateAlbum,
   usePostAlbum,
   useSetDefaultAlbum,
-  useDefaultAlbum,
 } from "@/hooks/album";
 import ArchiveBossAlbumSchema from "@/components/Arkivsjef/ArchiveBossEditAlbumSchema/ArchiveBossEditAlbumSchema";
 import ArchiveBossCreateAlbum from "@/components/Arkivsjef/ArchiveBossCreateAlbum/ArchiveBossCreateAlbum";
