@@ -4,7 +4,6 @@ import useAppForm from "@/contexts/FormContext";
 import { Dialog } from "@/components/ui/overlay/Dialog";
 import type { MediaCreateRequest } from "@/utils/api/MediaApi";
 
-
 interface Props {
   onClose: () => void;
   onCreate: (newMedia: MediaCreateRequest) => void;
@@ -49,17 +48,16 @@ function ArchiveBossCreateMedia({ onClose, onCreate }: Props) {
           void form.handleSubmit();
         }}
       >
-      <div className={styles.list_item}>
+        <div className={styles.list_item}>
           <form.AppField name="media">
             {(field) => <field.TextInput label="Stedsnavn" autoFocus />}
           </form.AppField>
-      </div>
+        </div>
         <div className={styles.list_item}>
           <form.AppField name="analog">
             {(field) => <field.Checkbox label="analog" />}
           </form.AppField>
         </div>
-
       </form>
     </Dialog>
   );

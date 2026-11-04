@@ -27,7 +27,7 @@ function ArchiveBossSidebar() {
             <Link to="/fg/archiveBoss/positions">Verv</Link>
           </NavigationMenuLink>
         </NavigationMenu.Item>
-         <NavigationMenu.Item>
+        <NavigationMenu.Item>
           <NavigationMenuLink asChild>
             <Link to="/fg/archiveBoss/medium">Medium</Link>
           </NavigationMenuLink>
