@@ -1,28 +1,13 @@
 import { api } from "./api";
 import { AlbumDto } from "../../../generated";
-import { DeletedResult, PaginatedResult } from "./types";
+import { DeletedResult } from "./types";
 import { AlbumPatchRequestDto } from "../../../generated";
-
-interface PaginationParams {
-  page?: number;
-  pageSize?: number;
-}
 
 export type AlbumCreateRequest = Omit<AlbumDto, "albumId">;
 
 export const AlbumApi = {
-  getAll: async function (
-    params?: PaginationParams,
-  ): Promise<PaginatedResult<AlbumDto>> {
-    const searchParams = new URLSearchParams();
-    if (params?.page !== undefined)
-      searchParams.set("page", params.page.toString());
-    if (params?.pageSize !== undefined)
-      searchParams.set("pageSize", params.pageSize.toString());
-
-    return api.get(
-      `/albums${searchParams.toString() ? `?${searchParams}` : ""}`,
-    );
+  getAll: async function (): Promise<AlbumDto[]> {
+    return api.get("/albums").then((res) => res.data);
   },
 
   getById: async function (id: string): Promise<AlbumDto> {
