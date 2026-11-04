@@ -17,7 +17,7 @@ interface PhotoProps extends Omit<ImgHTMLAttributes<HTMLImageElement>, "src"> {
 function srcFor(photo: PhotoDto, quality: PhotoQuality): string | undefined {
   switch (quality) {
     case "thumb":
-      return photo.imageThumb;
+      return photo.imageThumb ?? undefined;
     case "full":
       return photo.imageProd ?? undefined;
     default:

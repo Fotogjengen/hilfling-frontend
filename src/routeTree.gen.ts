@@ -23,6 +23,7 @@ import { Route as FgAuthenticatedFgUploadRouteImport } from './routes/_fgAuthent
 import { Route as FgAuthenticatedFgArchiveBossIndexRouteImport } from './routes/_fgAuthenticated/fg/archiveBoss/index'
 import { Route as FgAuthenticatedFgArchiveBossAlbumsRouteImport } from './routes/_fgAuthenticated/fg/archiveBoss/albums'
 import { Route as FgAuthenticatedFgArchiveBossCategoriesRouteImport } from './routes/_fgAuthenticated/fg/archiveBoss/categories'
+import { Route as FgAuthenticatedFgArchiveBossExternalUsersRouteImport } from './routes/_fgAuthenticated/fg/archiveBoss/externalUsers'
 import { Route as FgAuthenticatedFgArchiveBossPlacesRouteImport } from './routes/_fgAuthenticated/fg/archiveBoss/places'
 import { Route as FgAuthenticatedFgArchiveBossPositionsRouteImport } from './routes/_fgAuthenticated/fg/archiveBoss/positions'
 import { Route as FgAuthenticatedFgGang_bangersIndexRouteImport } from './routes/_fgAuthenticated/fg/gang_bangers/index'
@@ -106,6 +107,12 @@ const FgAuthenticatedFgArchiveBossCategoriesRoute =
     path: '/categories',
     getParentRoute: () => FgAuthenticatedFgArchiveBossRouteRoute,
   } as any)
+const FgAuthenticatedFgArchiveBossExternalUsersRoute =
+  FgAuthenticatedFgArchiveBossExternalUsersRouteImport.update({
+    id: '/externalUsers',
+    path: '/externalUsers',
+    getParentRoute: () => FgAuthenticatedFgArchiveBossRouteRoute,
+  } as any)
 const FgAuthenticatedFgArchiveBossPlacesRoute =
   FgAuthenticatedFgArchiveBossPlacesRouteImport.update({
     id: '/places',
@@ -174,6 +181,7 @@ export interface FileRoutesByFullPath {
   '/fg/': typeof FgAuthenticatedFgIndexRoute
   '/fg/archiveBoss/albums': typeof FgAuthenticatedFgArchiveBossAlbumsRoute
   '/fg/archiveBoss/categories': typeof FgAuthenticatedFgArchiveBossCategoriesRoute
+  '/fg/archiveBoss/externalUsers': typeof FgAuthenticatedFgArchiveBossExternalUsersRoute
   '/fg/archiveBoss/places': typeof FgAuthenticatedFgArchiveBossPlacesRoute
   '/fg/archiveBoss/positions': typeof FgAuthenticatedFgArchiveBossPositionsRoute
   '/fg/archiveBoss/': typeof FgAuthenticatedFgArchiveBossIndexRoute
@@ -196,6 +204,7 @@ export interface FileRoutesByTo {
   '/fg': typeof FgAuthenticatedFgIndexRoute
   '/fg/archiveBoss/albums': typeof FgAuthenticatedFgArchiveBossAlbumsRoute
   '/fg/archiveBoss/categories': typeof FgAuthenticatedFgArchiveBossCategoriesRoute
+  '/fg/archiveBoss/externalUsers': typeof FgAuthenticatedFgArchiveBossExternalUsersRoute
   '/fg/archiveBoss/places': typeof FgAuthenticatedFgArchiveBossPlacesRoute
   '/fg/archiveBoss/positions': typeof FgAuthenticatedFgArchiveBossPositionsRoute
   '/fg/archiveBoss': typeof FgAuthenticatedFgArchiveBossIndexRoute
@@ -222,6 +231,7 @@ export interface FileRoutesById {
   '/_fgAuthenticated/fg/': typeof FgAuthenticatedFgIndexRoute
   '/_fgAuthenticated/fg/archiveBoss/albums': typeof FgAuthenticatedFgArchiveBossAlbumsRoute
   '/_fgAuthenticated/fg/archiveBoss/categories': typeof FgAuthenticatedFgArchiveBossCategoriesRoute
+  '/_fgAuthenticated/fg/archiveBoss/externalUsers': typeof FgAuthenticatedFgArchiveBossExternalUsersRoute
   '/_fgAuthenticated/fg/archiveBoss/places': typeof FgAuthenticatedFgArchiveBossPlacesRoute
   '/_fgAuthenticated/fg/archiveBoss/positions': typeof FgAuthenticatedFgArchiveBossPositionsRoute
   '/_fgAuthenticated/fg/archiveBoss/': typeof FgAuthenticatedFgArchiveBossIndexRoute
@@ -248,6 +258,7 @@ export interface FileRouteTypes {
     | '/fg/'
     | '/fg/archiveBoss/albums'
     | '/fg/archiveBoss/categories'
+    | '/fg/archiveBoss/externalUsers'
     | '/fg/archiveBoss/places'
     | '/fg/archiveBoss/positions'
     | '/fg/archiveBoss/'
@@ -270,6 +281,7 @@ export interface FileRouteTypes {
     | '/fg'
     | '/fg/archiveBoss/albums'
     | '/fg/archiveBoss/categories'
+    | '/fg/archiveBoss/externalUsers'
     | '/fg/archiveBoss/places'
     | '/fg/archiveBoss/positions'
     | '/fg/archiveBoss'
@@ -295,6 +307,7 @@ export interface FileRouteTypes {
     | '/_fgAuthenticated/fg/'
     | '/_fgAuthenticated/fg/archiveBoss/albums'
     | '/_fgAuthenticated/fg/archiveBoss/categories'
+    | '/_fgAuthenticated/fg/archiveBoss/externalUsers'
     | '/_fgAuthenticated/fg/archiveBoss/places'
     | '/_fgAuthenticated/fg/archiveBoss/positions'
     | '/_fgAuthenticated/fg/archiveBoss/'
@@ -415,6 +428,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FgAuthenticatedFgArchiveBossCategoriesRouteImport
       parentRoute: typeof FgAuthenticatedFgArchiveBossRouteRoute
     }
+    '/_fgAuthenticated/fg/archiveBoss/externalUsers': {
+      id: '/_fgAuthenticated/fg/archiveBoss/externalUsers'
+      path: '/externalUsers'
+      fullPath: '/fg/archiveBoss/externalUsers'
+      preLoaderRoute: typeof FgAuthenticatedFgArchiveBossExternalUsersRouteImport
+      parentRoute: typeof FgAuthenticatedFgArchiveBossRouteRoute
+    }
     '/_fgAuthenticated/fg/archiveBoss/places': {
       id: '/_fgAuthenticated/fg/archiveBoss/places'
       path: '/places'
@@ -484,6 +504,7 @@ declare module '@tanstack/react-router' {
 interface FgAuthenticatedFgArchiveBossRouteRouteChildren {
   FgAuthenticatedFgArchiveBossAlbumsRoute: typeof FgAuthenticatedFgArchiveBossAlbumsRoute
   FgAuthenticatedFgArchiveBossCategoriesRoute: typeof FgAuthenticatedFgArchiveBossCategoriesRoute
+  FgAuthenticatedFgArchiveBossExternalUsersRoute: typeof FgAuthenticatedFgArchiveBossExternalUsersRoute
   FgAuthenticatedFgArchiveBossPlacesRoute: typeof FgAuthenticatedFgArchiveBossPlacesRoute
   FgAuthenticatedFgArchiveBossPositionsRoute: typeof FgAuthenticatedFgArchiveBossPositionsRoute
   FgAuthenticatedFgArchiveBossIndexRoute: typeof FgAuthenticatedFgArchiveBossIndexRoute
@@ -496,6 +517,8 @@ const FgAuthenticatedFgArchiveBossRouteRouteChildren: FgAuthenticatedFgArchiveBo
       FgAuthenticatedFgArchiveBossAlbumsRoute,
     FgAuthenticatedFgArchiveBossCategoriesRoute:
       FgAuthenticatedFgArchiveBossCategoriesRoute,
+    FgAuthenticatedFgArchiveBossExternalUsersRoute:
+      FgAuthenticatedFgArchiveBossExternalUsersRoute,
     FgAuthenticatedFgArchiveBossPlacesRoute:
       FgAuthenticatedFgArchiveBossPlacesRoute,
     FgAuthenticatedFgArchiveBossPositionsRoute:

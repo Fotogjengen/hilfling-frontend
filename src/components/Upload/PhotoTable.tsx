@@ -31,7 +31,7 @@ type PhotoTableProps = {
 };
 
 function getFileName(photo: PhotoDto) {
-  const lastSegment = photo.imageThumb.split("?")[0].split("/").pop();
+  const lastSegment = photo.imageThumb?.split("?")[0].split("/").pop();
   return lastSegment ? decodeURIComponent(lastSegment) : "-";
 }
 
@@ -125,7 +125,7 @@ export default function PhotoTable({
         cell: ({ row }) => (
           <img
             className={styles.thumbnail}
-            src={row.original.imageThumb}
+            src={row.original.imageThumb ?? undefined}
             alt="Opplastet bilde"
             onClick={() => onOpenPhoto(row.original.photoId.id)}
           />
