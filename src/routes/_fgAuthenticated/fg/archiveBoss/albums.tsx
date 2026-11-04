@@ -43,7 +43,6 @@ function AlbumsPage() {
   const patchAlbum = useUpdateAlbum();
   const postAlbum = usePostAlbum();
   const setDefault = useSetDefaultAlbum();
-  const findDefault = useDefaultAlbum();
 
   useEffect(() => {
     setAlbums(data ?? []);
