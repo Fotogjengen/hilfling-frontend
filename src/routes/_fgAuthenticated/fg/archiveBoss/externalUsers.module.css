@@ -73,7 +73,6 @@
   white-space: nowrap;
 }
 
-
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -81,8 +80,6 @@
   font-family: var(--typography-body-font-family);
   font-size: var(--typography-body-size-medium);
 }
-
-
 
 .table th,
 .table td {
