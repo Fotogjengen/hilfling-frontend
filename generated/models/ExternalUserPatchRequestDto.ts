@@ -7,7 +7,6 @@ import type { SecurityLevelDto } from "./SecurityLevelDto";
 export type ExternalUserPatchRequestDto = {
   externalUserId: ExternalUserId;
   username?: string | null;
-  password?: string | null;
   email?: string | null;
   fullName?: string | null;
   securityLevel?: SecurityLevelDto | null;

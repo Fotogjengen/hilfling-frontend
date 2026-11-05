@@ -15,11 +15,11 @@ export type PhotoDto = {
   pageNumber: number;
   imageProd?: string | null;
   imageWeb?: string | null;
-  imageThumb: string;
+  imageThumb?: string | null;
   motive: MotiveDto;
   media: MediaDto;
   gang?: GangDto | null;
-  photoGangBangerDto: PhotoGangBangerDto;
+  photoGangBangerDto?: PhotoGangBangerDto | null;
   dateUploaded: string;
   securityLevel: SecurityLevelDto;
 };

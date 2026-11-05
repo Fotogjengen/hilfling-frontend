@@ -20,6 +20,9 @@ export const useMetadata = (photo: PhotoDto, quality?: PhotoQuality) => {
   const getPhotoUrl = (photo: PhotoDto, quality?: PhotoQuality) => {
     switch (quality || "prod") {
       case "thumb":
+        if (!photo.imageThumb) {
+          throw new Error("The user does not have access to imageThumb");
+        }
         return photo.imageThumb;
       case "web":
         if (!photo.imageWeb) {

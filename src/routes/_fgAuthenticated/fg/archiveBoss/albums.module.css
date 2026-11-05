@@ -134,3 +134,10 @@
 .table tbody tr:hover {
   background-color: var(--color-background-default-default-hover);
 }
+
+.editButton,
+.deleteButton {
+  width: fit-content;
+  gap: var(--size-space-200);
+  white-space: nowrap;
+}

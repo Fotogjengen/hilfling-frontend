@@ -27,6 +27,11 @@ function ArchiveBossSidebar() {
             <Link to="/fg/archiveBoss/positions">Verv</Link>
           </NavigationMenuLink>
         </NavigationMenu.Item>
+        <NavigationMenu.Item>
+          <NavigationMenuLink asChild>
+            <Link to="/fg/archiveBoss/externalUsers">Eksterne brukere</Link>
+          </NavigationMenuLink>
+        </NavigationMenu.Item>
         <NavigationMenu.Indicator className={styles.Indicator} />
       </NavigationMenu.List>
       <div>

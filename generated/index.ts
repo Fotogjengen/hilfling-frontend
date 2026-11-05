@@ -15,6 +15,7 @@ export type { EventOwnerId } from "./models/EventOwnerId";
 export type { ExternalLoginRequest } from "./models/ExternalLoginRequest";
 export type { ExternalUserDto } from "./models/ExternalUserDto";
 export type { ExternalUserId } from "./models/ExternalUserId";
+export type { ExternalUserPasswordResetRequestDto } from "./models/ExternalUserPasswordResetRequestDto";
 export type { ExternalUserPatchRequestDto } from "./models/ExternalUserPatchRequestDto";
 export { FilterSuggestionDto } from "./models/FilterSuggestionDto";
 export type { FilterSuggestionsResponseDto } from "./models/FilterSuggestionsResponseDto";
