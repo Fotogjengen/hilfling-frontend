@@ -7,7 +7,7 @@ import type { AlbumCreateRequest } from "@/utils/api/AlbumApi";
 export const useAlbums = () => {
   return useQuery({
     queryKey: ["albums"],
-    queryFn: () => AlbumApi.getAll().then((res) => res.data.currentList),
+    queryFn: () => AlbumApi.getAll(),
   });
 };
 
