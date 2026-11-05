@@ -43,7 +43,4 @@ export const AlbumApi = {
   setDefault: async function (albumId: string): Promise<AlbumDto> {
     return api.put(`albums/${albumId}/default`).then((res) => res.data);
   },
-  findDefault: async function (): Promise<AlbumDto> {
-    return api.get(`albums/default`).then((res) => res.data);
-  },
 };
