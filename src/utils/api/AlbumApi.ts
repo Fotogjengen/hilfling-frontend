@@ -37,9 +37,10 @@ export const AlbumApi = {
   },
 
   post: async function (album: AlbumCreateRequest): Promise<number> {
-    return api
-      .post("/albums", album)
-      .then((res) => res.data)
-      .catch((e) => console.log(e));
+    return api.post("/albums", album).then((res) => res.data);
+  },
+
+  setDefault: async function (albumId: string): Promise<AlbumDto> {
+    return api.put(`albums/${albumId}/default`).then((res) => res.data);
   },
 };
