@@ -2,30 +2,20 @@ import style from "./PhotoTile.module.css";
 
 type Props = {
   url: string;
-  label: string;
-  title: string;
-  description?: string;
+  description: string;
+  year: string;
 };
 
-export default function PhotoTile({
-  url,
-  label,
-  title,
-  description,
-}: Props) {
+export default function PhotoTile({ url, description, year }: Props) {
   return (
     <div className={style.tile}>
-      <div
-        className={style.photoFrame}
-        data-marquee-hover-target
-      >
-        <img src={url} alt={description ?? title} className={style.photo} />
+      <div className={style.photoFrame} data-marquee-hover-target>
+        <img src={url} alt={description} className={style.photo} />
         <div className={style.photoOverlay}>
-          <strong>{title}</strong>
-          {description}
+          <span className={style.photoDescription}>{description}</span>
         </div>
       </div>
-      <span className={style.label}>{label}</span>
+      <span className={style.label}>{year}</span>
     </div>
   );
 }

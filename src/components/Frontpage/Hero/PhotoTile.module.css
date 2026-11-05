@@ -48,6 +48,12 @@
       pointer-events: none;
       transition: opacity 0.2s;
     }
+
+    .photoDescription {
+      font-weight: 400;
+      line-height: 1.25;
+      text-wrap: balance;
+    }
   }
 
   .label {
