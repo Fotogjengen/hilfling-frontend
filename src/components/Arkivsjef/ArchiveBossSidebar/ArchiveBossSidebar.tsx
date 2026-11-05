@@ -35,7 +35,7 @@ function ArchiveBossSidebar() {
         <NavigationMenu.Item>
           <NavigationMenuLink asChild>
             <Link to="/fg/archiveBoss/externalUsers">Eksterne brukere</Link>
-        </NavigationMenuLink>
+          </NavigationMenuLink>
         </NavigationMenu.Item>
         <NavigationMenu.Indicator className={styles.Indicator} />
       </NavigationMenu.List>
