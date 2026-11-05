@@ -5,17 +5,8 @@
 
   /* Alle direkte barn som ikke er hero-en */
   > :not(:first-child) {
-    margin: 0 2rem;
+    margin-inline: var(--size-space-800);
   }
-}
-
-.logoWrapper {
-  position: absolute;
-  top: 1.5rem;
-  left: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
 }
 
 .photoWallWrapper {
