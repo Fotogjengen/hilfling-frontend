@@ -7,6 +7,8 @@ interface PaginationParams {
   pageSize?: number;
 }
 
+export type MediaCreateRequest = Omit<MediaDto, "mediaId">;
+
 export const MediaApi = {
   getAll: async function (
     params?: PaginationParams,
