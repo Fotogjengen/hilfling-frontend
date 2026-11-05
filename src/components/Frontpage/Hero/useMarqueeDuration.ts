@@ -26,9 +26,9 @@ export default function useMarqueeDuration(
     };
 
     const images = Array.from(track.querySelectorAll("img"));
-    void Promise.all(images.map((image) => image.decode().catch(() => {}))).then(
-      measure,
-    );
+    void Promise.all(
+      images.map((image) => image.decode().catch(() => {})),
+    ).then(measure);
 
     return () => {
       cancelled = true;
