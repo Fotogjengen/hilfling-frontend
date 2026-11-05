@@ -40,7 +40,7 @@
     padding-left: 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.2rem;
     justify-content: space-between;
     align-items: start;
 
@@ -49,8 +49,12 @@
     }
 
     .textBody {
-      max-width: 80%;
+      max-width: 70%;
       font-size: 1rem;
+
+      @media (min-width: 768px) {
+        font-size: 1.2rem;
+      }
     }
   }
 }
