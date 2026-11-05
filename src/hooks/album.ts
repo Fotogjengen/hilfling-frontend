@@ -70,3 +70,25 @@ export const usePostAlbum = () => {
     },
   });
 };
+
+export const useSetDefaultAlbum = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (albumId: string) => AlbumApi.setDefault(albumId),
+    onSuccess: (_, albumId) => {
+      void queryClient.invalidateQueries({
+        queryKey: ["albums"],
+      });
+
+      void queryClient.invalidateQueries({
+        queryKey: ["album", albumId],
+      });
+      toast.success("Albummet ble satt som standard.");
+    },
+    onError: (error) => {
+      toast.error("Kunne ikke sette album som standard.", {
+        description: `Feilkode: ${error instanceof Error ? error.message : "Unknown error"}`,
+      });
+    },
+  });
+};
