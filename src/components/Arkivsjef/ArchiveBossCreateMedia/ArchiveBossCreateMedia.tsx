@@ -17,7 +17,6 @@ function ArchiveBossCreateMedia({ onClose, onCreate }: Props) {
     },
 
     onSubmit: ({ value }) => {
-      console.log("hei");
       const newMedia: MediaCreateRequest = {
         medium: value.media,
         analog: value.analog,
