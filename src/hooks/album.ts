@@ -92,10 +92,3 @@ export const useSetDefaultAlbum = () => {
     },
   });
 };
-
-export const useDefaultAlbum = () => {
-  return useQuery({
-    queryKey: ["album", "default"],
-    queryFn: () => AlbumApi.findDefault(),
-  });
-};
