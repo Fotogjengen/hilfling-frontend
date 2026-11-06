@@ -17,7 +17,7 @@
   display: flex;
   align-items: center;
   border-bottom: 1px solid var(--color-border-default-default);
-  padding: var(--size-space-200) var(--size-space-400);
+  padding: var(--size-space-100) var(--size-space-400);
   background-color: var(--color-background-default-default);
 }
 
