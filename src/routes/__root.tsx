@@ -65,8 +65,7 @@ function RootComponent() {
   const isFullPage = useRouterState({
     select: (s) =>
       s.location.pathname.endsWith("/upload") ||
-      s.matches.some((m) => m.routeId === "/_fgAuthenticated/fg/archiveBoss") ||
-      s.location.pathname == "/",
+      s.matches.some((m) => m.routeId === "/_fgAuthenticated/fg/archiveBoss"),
   });
 
   return (
