@@ -40,12 +40,12 @@ type Photo = {
 const photos: Photo[] = [
   {
     url: ukeKomite1935,
-    description: "Uka 35 komiteen",
+    description: "UKA 35 komiteen",
     year: 1935,
   },
   {
     url: billettkoUka1935,
-    description: "Billettkø under Uka 35",
+    description: "Billettkø under UKA 35",
     year: 1935,
   },
   {
