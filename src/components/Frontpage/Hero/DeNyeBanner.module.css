@@ -1,0 +1,60 @@
+.hero {
+  padding: 5rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  gap: 2rem;
+
+  @media (min-width: 768px) {
+    padding: 4rem 0;
+    gap: 2.5rem;
+  }
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      transparent 42%,
+      rgba(35, 7, 9, 0.24) 100%
+    ),
+    radial-gradient(
+      ellipse 36rem 24rem at 18% 12%,
+      rgba(255, 140, 120, 0.14),
+      transparent 72%
+    ),
+    radial-gradient(
+      ellipse 32rem 28rem at 82% 60%,
+      rgba(255, 255, 255, 0.06),
+      transparent 70%
+    ),
+    linear-gradient(
+      125deg,
+      var(--color-brand-800),
+      var(--color-brand-700) 55%,
+      #751720
+    );
+
+  color: var(--color-white-1000);
+
+  .textContainer {
+    padding-left: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    justify-content: space-between;
+    align-items: start;
+
+    @media (min-width: 768px) {
+      padding-left: 5rem;
+    }
+
+    .textBody {
+      max-width: 70%;
+      font-size: 1rem;
+
+      @media (min-width: 768px) {
+        font-size: 1.2rem;
+      }
+    }
+  }
+}
