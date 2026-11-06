@@ -8,7 +8,7 @@ export default function DeNyeBanner() {
       <div className={style.textContainer}>
         <LogoHeader />
         <span className={style.textBody}>
-          Bilder av alt som skjer på Samfundet, Uka og ISFiT siden 1965
+          Bilder av alt som skjer på Samfundet, UKA og ISFiT siden 1958
         </span>
       </div>
       <PhotoMarquee />
