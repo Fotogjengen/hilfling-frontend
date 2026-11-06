@@ -62,6 +62,7 @@
 
 .content {
   width: var(--radix-select-trigger-width);
+  max-height: min(20rem, var(--radix-select-content-available-height));
   background-color: var(--color-background-default-default);
   border-radius: var(--size-radius-200);
   border: var(--size-stroke-border) solid var(--color-border-default-default);
@@ -69,6 +70,10 @@
     var(--color-black-200);
   overflow: hidden;
   z-index: 210;
+}
+
+.content .viewport {
+  scrollbar-width: thin;
 }
 
 .item {

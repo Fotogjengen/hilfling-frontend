@@ -7,6 +7,7 @@ interface FormTextInputProps {
   hint?: string;
   placeholder?: string;
   autoFocus?: boolean;
+  type?: "text" | "password" | "email";
 }
 
 export function FormTextInput({
@@ -14,12 +15,14 @@ export function FormTextInput({
   hint,
   placeholder,
   autoFocus,
+  type,
 }: FormTextInputProps) {
   const field = useFieldContext<string>();
 
   return (
     <TextInput
       name={field.name}
+      type={type}
       label={label}
       hint={hint}
       placeholder={placeholder}

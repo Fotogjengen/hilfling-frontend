@@ -35,7 +35,8 @@ export function PhotoGangBangerHelpDialog({
           </span>
           <div className={styles.stepContent}>
             <span className={styles.stepTitle}>
-              Be gjengsjef legge deg til som FG bruker
+              Be gjengsjef om å legge deg til som FG-er i noe lister (gjengsjef
+              vet hva dette betyr)
             </span>
             <p className={styles.stepText}>
               Dette er det andre og nest viktigste steget.
@@ -49,8 +50,11 @@ export function PhotoGangBangerHelpDialog({
           <div className={styles.stepContent}>
             <span className={styles.stepTitle}>Logg deg ut og inn igjen</span>
             <p className={styles.stepText}>
-              Etter gjengsjef har lagt deg til som FGer, må du logge deg ut og
-              inn igjen. Da skal du ha alle tilgangene du trenger :)
+              Når du er lagt inn, logger du deg ut og inn igjen. Da blir du
+              automatisk registrert som fotogjenger og får alle tilgangene du
+              trenger :) Alternativt kan gjengsjef manuelt legge deg til som
+              fotogjenger på fotogjenger-siden, men dette trenger man normalt
+              ikke å gjøre.
             </p>
           </div>
         </li>

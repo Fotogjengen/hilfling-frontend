@@ -11,14 +11,27 @@ export default function useMarqueeDuration(
     const track = trackRef.current;
     if (!track) return;
 
-    const trackWidth = track.getBoundingClientRect().width;
-    const gap = Number.parseFloat(getComputedStyle(track).columnGap) || 0;
-    const distance = trackWidth / 2 + gap / 2;
+    let cancelled = false;
+    const measure = () => {
+      if (cancelled) return;
+      const trackWidth = track.getBoundingClientRect().width;
+      const gap = Number.parseFloat(getComputedStyle(track).columnGap) || 0;
+      const distance = trackWidth / 2 + gap / 2;
 
-    track.style.setProperty("--photo-track-offset", `${-distance}px`);
-    track.style.setProperty(
-      "--photo-track-duration",
-      `${distance / speedPxPerSecond}s`,
-    );
+      track.style.setProperty("--photo-track-offset", `${-distance}px`);
+      track.style.setProperty(
+        "--photo-track-duration",
+        `${distance / speedPxPerSecond}s`,
+      );
+    };
+
+    const images = Array.from(track.querySelectorAll("img"));
+    void Promise.all(
+      images.map((image) => image.decode().catch(() => {})),
+    ).then(measure);
+
+    return () => {
+      cancelled = true;
+    };
   }, [trackRef, speedPxPerSecond]);
 }

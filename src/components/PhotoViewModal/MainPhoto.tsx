@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
 import {
+  PointerEvent as ReactPointerEvent,
   ReactNode,
   TouchEvent as ReactTouchEvent,
   useEffect,
@@ -17,13 +18,43 @@ export function MainPhotoSkeleton() {
 // Main photo display area for desktop
 export function PhotoViewMainContent({
   selectedPhoto,
+  showProdPicture,
   onToggleFocus,
+  onToggleSidebar,
   children,
 }: {
   selectedPhoto?: PhotoDto;
+  showProdPicture: boolean;
   onToggleFocus: () => void;
+  onToggleSidebar: () => void;
   children?: ReactNode;
 }) {
+  const pointerStart = useRef<{ x: number; y: number } | null>(null);
+  const didDrag = useRef(false);
+
+  const handlePointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
+    pointerStart.current = { x: event.clientX, y: event.clientY };
+    didDrag.current = false;
+  };
+
+  const handlePointerMove = (event: ReactPointerEvent<HTMLDivElement>) => {
+    const start = pointerStart.current;
+    if (!start) return;
+
+    if (Math.hypot(event.clientX - start.x, event.clientY - start.y) > 5) {
+      didDrag.current = true;
+    }
+  };
+
+  const handleClick = () => {
+    if (didDrag.current) {
+      didDrag.current = false;
+      return;
+    }
+
+    onToggleSidebar();
+  };
+
   return (
     <div
       className={styles.mainContentWrapper}
@@ -50,15 +81,36 @@ export function PhotoViewMainContent({
           >
             <TransformComponent
               wrapperStyle={{ width: "100%", height: "100%" }}
-              contentStyle={{ width: "100%", height: "100%" }}
+              contentStyle={{
+                width: "100%",
+                height: "100%",
+                position: "relative",
+              }}
+              wrapperProps={{
+                onPointerDown: handlePointerDown,
+                onPointerMove: handlePointerMove,
+                onPointerUp: () => {
+                  pointerStart.current = null;
+                },
+                onPointerCancel: () => {
+                  pointerStart.current = null;
+                  didDrag.current = false;
+                },
+                onClick: handleClick,
+              }}
             >
-              <img
-                src={selectedPhoto.imageWeb ?? undefined}
-                alt=""
-                className={styles.mainPhoto}
-                title="Scroll to zoom, drag to move"
-                onClick={onToggleFocus}
-              />
+              <div className={styles.mainPhotoFrame}>
+                <img
+                  src={
+                    (showProdPicture
+                      ? (selectedPhoto.imageProd ?? selectedPhoto.imageWeb)
+                      : selectedPhoto.imageWeb) ?? undefined
+                  }
+                  alt=""
+                  className={styles.mainPhoto}
+                  title="Scroll to zoom, drag to move"
+                />
+              </div>
             </TransformComponent>
           </TransformWrapper>
         </div>
@@ -88,11 +140,13 @@ const swipeVariants = {
 // Swipeable main photo area for mobile
 export function SwipeableMainPhoto({
   selectedPhoto,
+  showProdPicture,
   currentIndex,
   onNext,
   onPrevious,
 }: {
   selectedPhoto?: PhotoDto;
+  showProdPicture: boolean;
   currentIndex: number;
   onNext: () => void;
   onPrevious: () => void;
@@ -174,7 +228,11 @@ export function SwipeableMainPhoto({
                 contentStyle={{ width: "100%", height: "100%" }}
               >
                 <img
-                  src={selectedPhoto.imageWeb ?? undefined}
+                  src={
+                    (showProdPicture
+                      ? (selectedPhoto.imageProd ?? selectedPhoto.imageWeb)
+                      : selectedPhoto.imageWeb) ?? undefined
+                  }
                   alt=""
                   className={styles.swipePhoto}
                 />

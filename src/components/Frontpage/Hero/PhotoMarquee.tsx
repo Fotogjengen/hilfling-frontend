@@ -24,9 +24,8 @@ export default function PhotoMarquee() {
         {[...shuffledPhotos, ...shuffledPhotos].map((photo, i) => (
           <PhotoTile
             url={photo.url}
-            label={photo.year.toString()}
-            title={photo.title}
             description={photo.description}
+            year={photo.year.toString()}
             key={i}
           />
         ))}

@@ -38,7 +38,7 @@ export function UploadedPhoto({ photo, motiveId, onOpen }: UploadedPhotoProps) {
       <div className={`${styles.imageWrapper} ${!isLoaded ? "skeleton" : ""}`}>
         <img
           className={`${styles.image} ${!isLoaded ? styles.imageLoading : ""}`}
-          src={photo.imageThumb}
+          src={photo.imageThumb ?? undefined}
           alt="Opplastet bilde"
           onLoad={() => setIsLoaded(true)}
           onClick={onOpen}
