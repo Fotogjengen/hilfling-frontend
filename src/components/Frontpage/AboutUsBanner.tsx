@@ -9,8 +9,10 @@ export default function AboutUsBanner() {
         link={{ to: "/om-oss" }}
         linkLabel="Les mer"
       />
-      Her skal det stå en kjapp intro om fotogjengen, at du kan booke oss, kjøpe
-      bilder og gjene et kos bilde av oss
+      Fotogjengen ble opprettet 7. oktober 1958, men vi har likevel dokumentert
+      samfundets historie helt tilbake til 1910. Annet enn å fotografere hva som
+      skjer på huset gjennomfører vi også eksterne fotooppdrag og bildesalg, i
+      tillegg til å tilby tjenester som plotting av bilder.
     </div>
   );
 }
