@@ -7,7 +7,7 @@
   --tile-label-line-height: 1rem;
 
   @media (min-width: 768px) {
-    --tile-photo-height: 18rem;
+    --tile-photo-height: 16rem;
     --tile-label-font-size: 1rem;
     --tile-label-line-height: 1.2rem;
   }
