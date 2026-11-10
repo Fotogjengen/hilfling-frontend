@@ -14,6 +14,7 @@ import { CreditAcknowledgement } from "@/components/DownloadImages/CreditAcknowl
 import { Button } from "@/components/ui/input/Button";
 import { QualitySelector } from "@/components/DownloadImages/QualitySelector";
 import { PhotoQuality } from "@/types";
+import { PhotoApi } from "@/utils/api/PhotoApi";
 
 // the browser can trigger a popup here, we should let the files stay in memory for some time
 // so that we can wait for the popup to conclude
@@ -64,16 +65,13 @@ const PhotoDownloadProvider = ({ children }: { children: React.ReactNode }) => {
   const [selectedQuality, setSelectedQuality] = useState<PhotoQuality>(
     isAuthenticated ? "prod" : "web",
   );
-  const [nextButtonShouldBeDisabled, setNextButtonShouldBeDisabled] =
-    useState(false);
+
+  const nextButtonShouldBeDisabled =
+    selectedQuality === "prod" && !isAuthenticated;
 
   useEffect(() => {
-    if (selectedQuality === "prod" && isAuthenticated === false) {
-      setNextButtonShouldBeDisabled(true);
-      return;
-    }
-    setNextButtonShouldBeDisabled(false);
-  }, [selectedQuality]);
+    setSelectedQuality(isAuthenticated ? "prod" : "web");
+  }, [isAuthenticated]);
 
   const pendingPhotos = useRef<PhotoDto[]>([]);
 
@@ -88,21 +86,40 @@ const PhotoDownloadProvider = ({ children }: { children: React.ReactNode }) => {
     [creditAccepted],
   );
 
-  const handleCreditAccept = () => {
+  const handleCreditAccept = async () => {
     setCreditAccepted(true);
+    await downloadPhoto();
     setShouldShowPopup(false);
-    downloadPhoto();
   };
 
-  const downloadPhoto = () => {
+  const downloadPhoto = async () => {
     const photos = pendingPhotos.current;
     pendingPhotos.current = [];
+
     for (const photo of photos) {
-      downloadImage(photo, selectedQuality).catch((error) => {
+      try {
+        let currentPhoto = photo;
+
+        if (selectedQuality === "prod" && !photo.imageProd) {
+          const updatedPhotos = await PhotoApi.getAllByMotiveId(
+            photo.motive.motiveId.id,
+          );
+
+          currentPhoto =
+            updatedPhotos.find((p) => p.photoId.id === photo.photoId.id) ??
+            photo;
+        }
+
+        if (selectedQuality === "prod" && !currentPhoto.imageProd) {
+          throw new Error("Prod-bildet er fortsatt ikke tilgjengelig");
+        }
+
+        await downloadImage(currentPhoto, selectedQuality);
+      } catch (error) {
         toast.error("Kunne ikke laste ned bildet", {
-          description: `Noe gikk galt. Feilkode: ${error}`,
+          description: String(error),
         });
-      });
+      }
     }
   };
 
@@ -111,18 +128,18 @@ const PhotoDownloadProvider = ({ children }: { children: React.ReactNode }) => {
     setShouldShowPopup(false);
   };
 
-  const handleNextStep = () => {
+  const handleNextStep = async () => {
     if (popupPhase === "quality") {
       if (!creditAccepted) {
         setPopupPhase("credit");
       } else {
+        await downloadPhoto();
         setShouldShowPopup(false);
-        downloadPhoto();
       }
       return;
     }
 
-    handleCreditAccept();
+    await handleCreditAccept();
   };
 
   return (
@@ -138,7 +155,7 @@ const PhotoDownloadProvider = ({ children }: { children: React.ReactNode }) => {
           actions={
             <Button
               disabled={nextButtonShouldBeDisabled}
-              onClick={() => handleNextStep()}
+              onClick={() => void handleNextStep()}
             >
               Last ned
             </Button>
