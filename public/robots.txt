@@ -1,9 +1,16 @@
 User-agent: *
 Allow: /$
-Allow: /search$
+Allow: /search
 Allow: /motive/
 Allow: /om-oss
 Allow: /assets/
 Allow: /favicon.ico
+
+# Data the public pages fetch while rendering
+Allow: /api/motives
+Allow: /api/photos
+Allow: /api/photo_gang_bangers/active
+Allow: /api/photo_gang_bangers/inactive_pangs
+
 Disallow: /media
 Disallow: /
