@@ -1,15 +1,22 @@
 import { AnimatePresence, motion } from "framer-motion";
 import {
+  MouseEvent as ReactMouseEvent,
   PointerEvent as ReactPointerEvent,
   ReactNode,
   TouchEvent as ReactTouchEvent,
   useEffect,
   useRef,
 } from "react";
-import { TransformComponent, TransformWrapper } from "react-zoom-pan-pinch";
+import {
+  ReactZoomPanPinchRef,
+  TransformComponent,
+  TransformWrapper,
+} from "react-zoom-pan-pinch";
 import { PhotoDto } from "../../../generated";
 import { EASE_OUT_EXPO } from "@/utils/animation";
 import styles from "./MainPhoto.module.css";
+
+const DOUBLE_CLICK_DELAY_MS = 200;
 
 export function MainPhotoSkeleton() {
   return <div className={`${styles.mainPhotoSkeleton} skeleton`} />;
@@ -31,6 +38,21 @@ export function PhotoViewMainContent({
 }) {
   const pointerStart = useRef<{ x: number; y: number } | null>(null);
   const didDrag = useRef(false);
+  const clickTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastClickAt = useRef<number | null>(null);
+  const transformRef = useRef<ReactZoomPanPinchRef | null>(null);
+
+  const cancelPendingClick = () => {
+    if (clickTimer.current !== null) {
+      clearTimeout(clickTimer.current);
+      clickTimer.current = null;
+    }
+    lastClickAt.current = null;
+  };
+
+  useEffect(() => {
+    return () => cancelPendingClick();
+  }, [selectedPhoto?.photoId.id]);
 
   const handlePointerDown = (event: ReactPointerEvent<HTMLDivElement>) => {
     pointerStart.current = { x: event.clientX, y: event.clientY };
@@ -46,13 +68,38 @@ export function PhotoViewMainContent({
     }
   };
 
-  const handleClick = () => {
+  const handleClick = (event: ReactMouseEvent<HTMLDivElement>) => {
     if (didDrag.current) {
+      cancelPendingClick();
       didDrag.current = false;
       return;
     }
 
-    onToggleSidebar();
+    const previousClickAt = lastClickAt.current;
+    cancelPendingClick();
+    if (previousClickAt !== null) {
+      if (event.timeStamp - previousClickAt < DOUBLE_CLICK_DELAY_MS) {
+        const transform = transformRef.current;
+        if (transform) {
+          if (transform.state.scale > 1.001) {
+            void transform.resetTransform(0);
+          } else {
+            void transform.zoomToPoint(3, event.clientX, event.clientY, 0);
+          }
+        }
+        return;
+      }
+
+      // A busy event loop may deliver this click before the expired timer.
+      onToggleSidebar();
+    }
+
+    lastClickAt.current = event.timeStamp;
+    clickTimer.current = setTimeout(() => {
+      clickTimer.current = null;
+      lastClickAt.current = null;
+      onToggleSidebar();
+    }, DOUBLE_CLICK_DELAY_MS);
   };
 
   return (
@@ -65,6 +112,7 @@ export function PhotoViewMainContent({
       {selectedPhoto ? (
         <div className={styles.photoTransformViewport}>
           <TransformWrapper
+            ref={transformRef}
             key={selectedPhoto.photoId.id}
             initialScale={1}
             fitOnInit="contain"
