@@ -4,6 +4,7 @@ import {
 } from "@/utils/api/PhotoGangBangerApi";
 import { UserUploadApi } from "@/utils/api/UserUploadApi";
 import type {
+  PhotoGangBangerOnboardingRequestDto,
   PhotoGangBangerPatchRequestDto,
   PhotoGangBangerPositionsPutRequestDto,
 } from "@/../generated";
@@ -47,6 +48,18 @@ export const useUpdatePhotoGangBanger = () => {
   return useMutation({
     mutationFn: (photoGangBanger: PhotoGangBangerPatchRequestDto) =>
       PhotoGangBangerApi.patch(photoGangBanger),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: ["photoGangBangers"] });
+    },
+  });
+};
+
+export const useCompleteOnboarding = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (request: PhotoGangBangerOnboardingRequestDto) =>
+      PhotoGangBangerApi.completeOnboarding(request),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: ["photoGangBangers"] });
     },

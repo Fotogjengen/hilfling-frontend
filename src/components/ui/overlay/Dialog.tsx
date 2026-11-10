@@ -9,6 +9,7 @@ interface DialogProps {
   title?: ReactNode;
   children?: ReactNode;
   actions?: ReactNode;
+  dismissible?: boolean;
 }
 
 export function Dialog({
@@ -17,25 +18,32 @@ export function Dialog({
   title,
   children,
   actions,
+  dismissible = true,
 }: DialogProps) {
   return (
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
       <DialogPrimitive.Portal>
         <DialogPrimitive.Overlay className={styles.overlay} />
-        <DialogPrimitive.Content className={styles.content}>
+        <DialogPrimitive.Content
+          className={styles.content}
+          onEscapeKeyDown={(e) => !dismissible && e.preventDefault()}
+          onInteractOutside={(e) => !dismissible && e.preventDefault()}
+        >
           <div className={styles.header}>
             {title && (
               <DialogPrimitive.Title className={styles.title}>
                 {title}
               </DialogPrimitive.Title>
             )}
-            <DialogPrimitive.Close
-              type="button"
-              className={styles.close}
-              aria-label="Lukk dialog"
-            >
-              <X size={16} aria-hidden="true" />
-            </DialogPrimitive.Close>
+            {dismissible && (
+              <DialogPrimitive.Close
+                type="button"
+                className={styles.close}
+                aria-label="Lukk dialog"
+              >
+                <X size={16} aria-hidden="true" />
+              </DialogPrimitive.Close>
+            )}
           </div>
           <div className={styles.body}>{children}</div>
           {actions && <div className={styles.actions}>{actions}</div>}

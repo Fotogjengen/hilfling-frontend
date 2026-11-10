@@ -1,0 +1,32 @@
+.form {
+  padding-top: var(--size-space-200);
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: var(--size-space-400);
+  animation: stepFadeIn 200ms ease;
+}
+
+.intro {
+  margin: 0;
+}
+
+.statusFields {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--size-space-600);
+}
+
+@keyframes stepFadeIn {
+  from {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .step {
+    animation: none;
+  }
+}

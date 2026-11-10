@@ -1,6 +1,7 @@
 import { api } from "./api";
 import {
   PhotoGangBangerDto,
+  PhotoGangBangerOnboardingRequestDto,
   PhotoGangBangerPatchRequestDto,
   PhotoGangBangerPositionsPutRequestDto,
 } from "../../../generated";
@@ -8,7 +9,7 @@ import { PaginatedResultData } from "./types";
 
 export type PhotoGangBangerCreateRequest = Omit<
   PhotoGangBangerDto,
-  "photoGangBangerId"
+  "photoGangBangerId" | "isOnboarded"
 >;
 
 export const PhotoGangBangerApi = {
@@ -47,6 +48,13 @@ export const PhotoGangBangerApi = {
   ): Promise<PhotoGangBangerDto> {
     return api
       .patch<PhotoGangBangerDto>("/photo_gang_bangers", photoGangBanger)
+      .then((res) => res.data);
+  },
+  completeOnboarding: async function (
+    request: PhotoGangBangerOnboardingRequestDto,
+  ): Promise<PhotoGangBangerDto> {
+    return api
+      .put<PhotoGangBangerDto>("/photo_gang_bangers/me/onboarding", request)
       .then((res) => res.data);
   },
   post: async function (user: PhotoGangBangerCreateRequest): Promise<number> {
