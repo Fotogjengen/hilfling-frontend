@@ -16,6 +16,7 @@ import { ConfirmDialogHost } from "@/components/ui/overlay/ConfirmDialog";
 import { z } from "zod";
 import PhotoViewModal from "@/components/PhotoViewModal/PhotoViewModal";
 import { photoViewModalOptions } from "@/types";
+import { OnboardingDialogHost } from "@/components/PhotoGangBangers/OnboardingDialog";
 
 interface RouterContext {
   auth: AuthState;
@@ -90,6 +91,7 @@ function RootComponent() {
       </AdBannerContext.Provider>
       <Toaster />
       <ConfirmDialogHost />
+      <OnboardingDialogHost />
       {photoViewModal && (
         <PhotoViewModal
           options={photoViewModal}

@@ -19,4 +19,5 @@ export type PhotoGangBangerDto = {
   phoneNumber: string;
   positions: Array<MemberPositionDto>;
   profilePicture?: UserUploadDto | null;
+  isOnboarded: boolean;
 };

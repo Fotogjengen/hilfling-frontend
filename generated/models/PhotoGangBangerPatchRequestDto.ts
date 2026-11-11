@@ -17,4 +17,5 @@ export type PhotoGangBangerPatchRequestDto = {
   email?: string | null;
   phoneNumber?: string | null;
   profilePictureId?: UserUploadId | null;
+  isOnboarded?: boolean | null;
 };

@@ -28,10 +28,10 @@ const phoneNumberRegex = /^[49]\d{7}$/;
 
 function generateAvailableSemesters() {
   const currentYear = new Date().getFullYear();
-  return [currentYear - 1, currentYear, currentYear + 1].flatMap((year) => [
-    `V${year}`,
-    `H${year}`,
-  ]);
+  return [currentYear - 1, currentYear, currentYear + 1].flatMap((year) => {
+    const twoDigit = String(year).slice(-2);
+    return [`V${twoDigit}`, `H${twoDigit}`];
+  });
 }
 
 const availableSemesters = generateAvailableSemesters();

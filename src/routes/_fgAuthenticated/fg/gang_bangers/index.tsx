@@ -171,7 +171,7 @@ function GangBangers() {
         : []),
       {
         id: "semester",
-        accessorFn: getSemesterSortValue,
+        accessorFn: (user) => semesterSortValue(user.semesterStart.value),
         sortingFn: "basic",
       },
     ],
@@ -366,19 +366,4 @@ function getSearchText(user: PhotoGangBangerDto) {
   ]
     .join(" ")
     .toLowerCase();
-}
-
-function getSemesterSortValue(user: PhotoGangBangerDto) {
-  const semester = user.semesterStart.value.trim().toUpperCase();
-  const match = semester.match(/^([VH])(\d{2}|\d{4})$/);
-
-  if (!match) {
-    const timestamp = new Date(semester).getTime();
-    return Number.isNaN(timestamp) ? 0 : timestamp;
-  }
-
-  const year = Number(match[2].length === 2 ? `20${match[2]}` : match[2]);
-  const halfYear = match[1] === "H" ? 1 : 0;
-
-  return year * 2 + halfYear;
 }
