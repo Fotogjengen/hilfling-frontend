@@ -13,10 +13,7 @@ const DJANGO = "http://localhost:8888";
 function itkAuthChallengeProxy(): PluginOption {
   const challenge = (res: http.ServerResponse) => {
     res.statusCode = 401;
-    res.setHeader(
-      "WWW-Authenticate",
-      'Basic realm="foto.samfundet.no"',
-    );
+    res.setHeader("WWW-Authenticate", 'Basic realm="foto.samfundet.no"');
     res.end();
   };
 
