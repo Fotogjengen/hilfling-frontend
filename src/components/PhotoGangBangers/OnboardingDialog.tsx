@@ -146,7 +146,7 @@ function OnboardingDialog({ user }: { user: PhotoGangBangerDto }) {
             </form.AppField>
 
             <form.AppField name="birthday">
-              {(field) => <field.DatePicker label="Bursdag" />}
+              {(field) => <field.DatePicker label="Bursdag (valgfritt)" />}
             </form.AppField>
           </div>
         ) : (
@@ -166,7 +166,7 @@ function OnboardingDialog({ user }: { user: PhotoGangBangerDto }) {
             </form.AppField>
 
             <form.AppField name="foodPreference">
-              {(field) => <field.TextInput label="Matpreferanse" />}
+              {(field) => <field.TextInput label="Matpreferanse (valgfritt)" />}
             </form.AppField>
 
             <div className={styles.statusFields}>

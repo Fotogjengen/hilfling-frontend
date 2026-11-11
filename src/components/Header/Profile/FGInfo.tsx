@@ -84,6 +84,7 @@ export function FGInfo({
 
 const schema = z.object({
   name: z.string().trim().min(1, "Navn er obligatorisk"),
+  phoneNumber: z.string().regex(/^[49]\d{7}$/, "Ugyldig telefonnummer"),
   birthday: z.union([z.date(), z.undefined()]),
   foodPreference: z.string(),
 });
@@ -126,6 +127,7 @@ function FGEditForm({
   const form = useAppForm({
     defaultValues: {
       name: user.name ?? "",
+      phoneNumber: user.phoneNumber ?? "",
       birthday: parsedBirthday,
       foodPreference: user.foodPreference ?? "",
     },
@@ -143,6 +145,7 @@ function FGEditForm({
         await updateUser.mutateAsync({
           photoGangBangerId: user.photoGangBangerId,
           name: value.name.trim(),
+          phoneNumber: value.phoneNumber,
           birthday: value.birthday
             ? format(value.birthday, "yyyy-MM-dd")
             : undefined,
@@ -198,9 +201,18 @@ function FGEditForm({
         {(field) => <field.TextInput label="Navn" />}
       </form.AppField>
 
-      <form.AppField name="birthday">
-        {(field) => <field.DatePicker label="Bursdag" />}
-      </form.AppField>
+      <div className={styles.fieldRow}>
+        <form.AppField
+          name="phoneNumber"
+          validators={{ onChange: schema.shape.phoneNumber }}
+        >
+          {(field) => <field.TextInput label="Telefonnummer" />}
+        </form.AppField>
+
+        <form.AppField name="birthday">
+          {(field) => <field.DatePicker label="Bursdag" />}
+        </form.AppField>
+      </div>
 
       <form.AppField name="foodPreference">
         {(field) => <field.TextInput label="Matpreferanser" />}
