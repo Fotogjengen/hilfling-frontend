@@ -15,7 +15,7 @@ function itkAuthChallengeProxy(): PluginOption {
     res.statusCode = 401;
     res.setHeader(
       "WWW-Authenticate",
-      'Basic realm="Samfundet", charset="UTF-8"',
+      'Basic realm="foto.samfundet.no"',
     );
     res.end();
   };
@@ -35,18 +35,25 @@ function itkAuthChallengeProxy(): PluginOption {
           return;
         }
 
-        if (req.method !== "POST") {
-          res.statusCode = 200;
-          res.end();
-          return;
-        }
-
         if (isClearingCredentials(authHeader)) {
           challenge(res);
           return;
         }
 
         next();
+      });
+
+      // ITK's own /login accepts the dummy credentials
+      server.middlewares.use("/login", (req, res) => {
+        const authHeader = req.headers.authorization;
+
+        if (!authHeader || !isClearingCredentials(authHeader)) {
+          challenge(res);
+          return;
+        }
+
+        res.statusCode = 200;
+        res.end();
       });
     },
   };

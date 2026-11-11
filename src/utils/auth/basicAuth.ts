@@ -4,6 +4,7 @@
  */
 export function clearBasicAuthCredentials(): void {
   const xhr = new XMLHttpRequest();
-  xhr.open("GET", "/api/auth/login", true, "logme", "out");
+  const url = `${window.location.origin}/login?t=${Date.now()}`;
+  xhr.open("GET", url, true, "logme", "out");
   xhr.send();
 }
