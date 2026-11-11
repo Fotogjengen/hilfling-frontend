@@ -6,6 +6,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { zipSync, Zippable } from "fflate";
 import { PhotoDto } from "../../generated";
 import { useAuth } from "@/contexts/AuthProvider";
 import { toast } from "@/components/ui/overlay/Toaster";
@@ -19,10 +20,9 @@ import { PhotoQuality } from "@/types";
 // so that we can wait for the popup to conclude
 const REVOKE_DELAY_MS = 60 * 1000 * 2;
 
-/** Downloads a specific photo */
-async function downloadImage(photo: PhotoDto, quality: PhotoQuality) {
-  const url = quality === "prod" ? photo.imageProd! : photo.imageWeb!;
-  if (!url) return;
+async function fetchPhoto(photo: PhotoDto, quality: PhotoQuality) {
+  const url = quality === "prod" ? photo.imageProd : photo.imageWeb;
+  if (!url) return null;
 
   const fileName = url.split("/").pop() || `${photo.imageNumber}.jpg`;
 
@@ -30,7 +30,10 @@ async function downloadImage(photo: PhotoDto, quality: PhotoQuality) {
   if (!response.ok) {
     throw new Error(`Kunne ikke laste ned bildet (HTTP ${response.status})`);
   }
-  const blob = await response.blob();
+  return { fileName, blob: await response.blob() };
+}
+
+function saveBlob(blob: Blob, fileName: string) {
   const objectUrl = URL.createObjectURL(blob);
 
   const link = document.createElement("a");
@@ -41,6 +44,75 @@ async function downloadImage(photo: PhotoDto, quality: PhotoQuality) {
   link.remove();
 
   setTimeout(() => URL.revokeObjectURL(objectUrl), REVOKE_DELAY_MS);
+}
+
+// named after the motive when all photos belong to the same one
+function zipFileName(photos: PhotoDto[]) {
+  const titles = new Set(photos.map((photo) => photo.motive.title));
+  const [title] = titles;
+  const name =
+    titles.size === 1
+      ? title
+          .replace(/[\\/:*?"<>|]/g, "")
+          .replace(/\s+/g, " ")
+          .trim()
+      : "";
+  return `${name || "fg-bilder"}.zip`;
+}
+
+/** Downloads a single photo directly, or several photos bundled in a zip */
+async function downloadPhotos(photos: PhotoDto[], quality: PhotoQuality) {
+  const title =
+    photos.length > 1
+      ? `Zipper og laster ned ${photos.length} bilder`
+      : "Laster ned bilde";
+  const progressOptions = (done: number) => ({
+    description: `${done} av ${photos.length}`,
+    value: (done / photos.length) * 100,
+  });
+  const toastId = toast.progress(title, progressOptions(0));
+
+  try {
+    let done = 0;
+    const fetched = await Promise.all(
+      photos.map(async (photo) => {
+        const file = await fetchPhoto(photo, quality);
+        done += 1;
+        toast.progress(title, { id: toastId, ...progressOptions(done) });
+        return file;
+      }),
+    );
+    await saveFiles(
+      fetched.filter((file) => file !== null),
+      zipFileName(photos),
+    );
+  } finally {
+    toast.dismiss(toastId);
+  }
+}
+
+async function saveFiles(
+  files: { fileName: string; blob: Blob }[],
+  zipName: string,
+) {
+  if (files.length === 0) return;
+
+  if (files.length === 1) {
+    saveBlob(files[0].blob, files[0].fileName);
+    return;
+  }
+
+  const buffers = await Promise.all(
+    files.map((file) => file.blob.arrayBuffer()),
+  );
+  const entries: Zippable = {};
+  files.forEach((file, index) => {
+    entries[file.fileName] = new Uint8Array(buffers[index]);
+  });
+
+  // images are already compressed, so we only store them
+  const zipped = zipSync(entries, { level: 0 });
+  saveBlob(new Blob([zipped], { type: "application/zip" }), zipName);
 }
 
 interface PhotoDownloadContext {
@@ -97,13 +169,14 @@ const PhotoDownloadProvider = ({ children }: { children: React.ReactNode }) => {
   const downloadPhoto = () => {
     const photos = pendingPhotos.current;
     pendingPhotos.current = [];
-    for (const photo of photos) {
-      downloadImage(photo, selectedQuality).catch((error) => {
-        toast.error("Kunne ikke laste ned bildet", {
-          description: `Noe gikk galt. Feilkode: ${error}`,
-        });
-      });
-    }
+    downloadPhotos(photos, selectedQuality).catch((error) => {
+      toast.error(
+        photos.length > 1
+          ? "Kunne ikke laste ned bildene"
+          : "Kunne ikke laste ned bildet",
+        { description: `Noe gikk galt. Feilkode: ${error}` },
+      );
+    });
   };
 
   const handleAbort = () => {
